@@ -1,0 +1,193 @@
+
+// ** Transactions Data for populating Transactions collection
+{
+  "transactions":[
+    {
+      "amount": 8.43,
+      "category_name": "Daily expenses",
+      "category_id": "0001",
+      "creation_date": "Fri Nov 17 2023 12:47:58 GMT-0500",
+      "transaction_date": "November 17, 2023",
+      "month_year": "November 2023",
+      "transaction_id": "ab7a35d0-eead-4c5c-a943-bb50918a94e4",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 7.43,
+      "category_name": "Daily expenses",
+      "category_id": "0001",
+      "creation_date": "Fri Oct 20 2023 12:47:58 GMT-0500",
+      "transaction_date": "October 20, 2023",
+      "month_year": "October 2023",
+      "transaction_id": "61c2f185-4df7-4089-bdfc-565c2b6d0f91",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 32.98,
+      "category_name": "Gas",
+      "category_id": "0002",
+      "creation_date": "Fri Nov 17 2023 12:47:58 GMT-0500",
+      "transaction_date": "November 17, 2023",
+      "month_year": "November 2023",
+      "transaction_id": "5f095ac6-678a-443e-9360-781ae49e87fb",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 30,
+      "category_name": "Gas",
+      "category_id": "0002",
+      "creation_date": "Fri Oct 20 2023 12:47:58 GMT-0500",
+      "transaction_date": "October 20, 2023",
+      "month_year": "October 2023",
+      "transaction_id": "9c946a13-c1de-486b-b17f-92d15c8c7636",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 15.65,
+      "category_name": "Fast food",
+      "category_id": "0003",
+      "creation_date": "Fri Nov 17 2023 12:47:58 GMT-0500",
+      "transaction_date": "November 17, 2023",
+      "month_year": "November 2023",
+      "transaction_id": "38df519f-e969-4d4c-a8c6-621d590722b6",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 17.65,
+      "category_name": "Fast food",
+      "category_id": "0003",
+      "creation_date": "Fri Oct 20 2023 12:47:58 GMT-0500",
+      "transaction_date": "October 20, 2023",
+      "month_year": "October 2023",
+      "transaction_id": "62839eb4-c75e-4083-bf29-5df67dc358b1",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 56,
+      "category_name": "Supermarkets",
+      "category_id": "0004",
+      "creation_date": "Fri Nov 17 2023 12:47:58 GMT-0500",
+      "transaction_date": "November 17, 2023",
+      "month_year": "November 2023",
+      "transaction_id": "3b7e1739-6d2e-4eb2-a261-91380d54bc70",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 125.65,
+      "category_name": "Supermarkets",
+      "category_id": "0004",
+      "creation_date": "Fri Oct 20 2023 12:47:58 GMT-0500",
+      "transaction_date": "October 20, 2023",
+      "month_year": "October 2023",
+      "transaction_id": "a3ecf9cd-542f-44f7-b988-a83115f8e634",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 40,
+      "category_name": "Family allowance",
+      "category_id": "0005",
+      "creation_date": "Fri Nov 17 2023 12:47:58 GMT-0500",
+      "transaction_date": "November 17, 2023",
+      "month_year": "November 2023",
+      "transaction_id": "86d89ec2-148f-4fe9-8f5a-c607849b42d8",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 55,
+      "category_name": "Unexpected and Services",
+      "category_id": "0006",
+      "creation_date": "Fri Nov 17 2023 12:47:58 GMT-0500",
+      "transaction_date": "November 17, 2023",
+      "month_year": "November 2023",
+      "transaction_id": "b5f51066-fbf2-4860-ab08-5929e51a67a6",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 92,
+      "category_name": "Car services",
+      "category_id": "0007",
+      "creation_date": "Fri Nov 17 2023 12:47:58 GMT-0500",
+      "transaction_date": "November 17, 2023",
+      "month_year": "November 2023",
+      "transaction_id": "34a7b245-9d89-4e39-b17d-bddecc84ec68",
+      "user_id": "BDG_0001"
+    },
+    {
+      "amount": 160,
+      "category_name": "Car services",
+      "category_id": "0007",
+      "creation_date": "Fri Oct 20 2023 12:47:58 GMT-0500",
+      "transaction_date": "October 20, 2023",
+      "month_year": "October 2023",
+      "transaction_id": "4c9c9df4-0c39-4616-a8ee-b2226a28a779",
+      "user_id": "BDG_0001"
+    }
+]        
+}
+
+// ** category Data Structure for populating Category Data Collection
+{
+    "user_id": "BDG_0001",
+    "category_data_id": "21304bc5-170b-49c4-b771-4c2e479ba6c3",
+    "creation_date": "Wed Nov 15 2023 12:47:58 GMT-0500",
+    "month_year": "November 2023",
+    "category_data_docs": [
+      {
+        "limit_amount": 420,
+        "amount_avail": 420,
+        "amount_spent": 0,
+        "category_id": "0001",
+        "category_name": "Daily expenses",
+        "updated": false
+      },
+      {
+        "limit_amount": 420,
+        "amount_avail": 420,
+        "amount_spent": 0,
+        "category_id": "0002",
+        "category_name": "Gas",
+        "updated": false
+      },
+      {
+        "limit_amount": 420,
+        "amount_avail": 420,
+        "amount_spent": 0,
+        "category_id": "0003",
+        "category_name": "Fast Food",
+        "updated": false
+      },
+      {
+        "limit_amount": 420,
+        "amount_avail": 420,
+        "amount_spent": 0,
+        "category_id": "0004",
+        "category_name": "Supermarkets",
+        "updated": false
+      },
+      {
+        "limit_amount": 420,
+        "amount_avail": 420,
+        "amount_spent": 0,
+        "category_id": "0005",
+        "category_name": "Family allowance",
+        "updated": false
+      },
+      {
+        "limit_amount": 420,
+        "amount_avail": 420,
+        "amount_spent": 0,
+        "category_id": "0006",
+        "category_name": "Unexpected services",
+        "updated": false
+      },
+      {
+        "limit_amount": 420,
+        "amount_avail": 420,
+        "amount_spent": 0,
+        "category_id": "0007",
+        "category_name": "Car services",
+        "updated": false
+      }
+    ]
+  }
+
