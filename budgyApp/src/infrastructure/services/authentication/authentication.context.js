@@ -11,15 +11,6 @@ import "firebase/firestore";
 import { doc, onSnapshot } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAJOX6KidOi_hORsStV4-6RhmYMMkMUhyI",
-  authDomain: "budgy-bd9b1.firebaseapp.com",
-  projectId: "budgy-bd9b1",
-  storageBucket: "budgy-bd9b1.appspot.com",
-  messagingSenderId: "281121534822",
-  appId: "1:281121534822:web:4495759dd1f39ec9da4ea7",
-};
-
 const app = firebase.initializeApp(firebaseConfig);
 // const app = initializeApp(firebaseConfig); // initializing firebase application
 // const auth = getAuth(app);
