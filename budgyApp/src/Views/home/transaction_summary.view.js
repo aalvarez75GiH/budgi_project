@@ -55,69 +55,6 @@ export const TransactionSummaryView = ({ navigation }) => {
   // );
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
-  // const listenForNewChangesAtDB = () => {
-  //   let newData;
-  //   const collectionRef = db.collection("transactions");
-
-  //   collectionRef.onSnapshot((snapshot) => {
-  //     snapshot.docChanges().forEach(async (change) => {
-  //       if (change.type === "added" && change.oldIndex === -1) {
-  //         newData = change.doc.data();
-  //         console.log("NEW TRANSACTION IS:", newData);
-  //         if (newData) {
-  //           try {
-  //             const transactionsAndAmount =
-  //               await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
-  //                 user_id,
-  //                 month_year
-  //               );
-
-  //             const { transactions, total_amount } = transactionsAndAmount;
-
-  //             setTransactionsByMonthYear(transactions);
-  //             setTransactionsTotalAmount(total_amount);
-  //           } catch (error) {
-  //             console.log(error);
-  //           }
-  //         }
-  //       }
-  //     });
-  //     // setNewTransaction(newData);
-  //   });
-  // };
-  // const listenForNewChangesAtDB = () => {
-  //   const currentTime = new Date();
-
-  //   let newData;
-  //   const collectionRef = db.collection("transactions");
-
-  //   collectionRef
-  //     .where("timeStamp", ">", currentTime)
-  //     .onSnapshot((snapshot) => {
-  //       snapshot.docChanges().forEach(async (change) => {
-  //         if (change.type === "added") {
-  //           newData = change.doc.data();
-  //           console.log("NEW TRANSACTION IS:", newData);
-  //           // if (newData) {
-  //           //   try {
-  //           //     const transactionsAndAmount =
-  //           //       await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
-  //           //         user_id,
-  //           //         month_year
-  //           //       );
-
-  //           //     const { transactions, total_amount } = transactionsAndAmount;
-
-  //           //     setTransactionsByMonthYear(transactions);
-  //           //     setTransactionsTotalAmount(total_amount);
-  //           //   } catch (error) {
-  //           //     console.log(error);
-  //           //   }
-  //           // }
-  //         }
-  //       });
-  //     });
-  // };
   const listenForNewChangesAtDB = () => {
     // let newData;
     const collectionRef = db.collection("transactions");
