@@ -111,43 +111,6 @@ export const TransactionSummaryView = ({ navigation }) => {
     }, 3000);
   };
 
-  // const registeringTransaction = async () => {
-  //   setIsLoading(true);
-  //   const transactionInfoForRequestWithTS = {
-  //     ...transactionInfoForRequest,
-  //     timeStamp: Date.now(),
-  //   };
-  //   console.log(
-  //     "TRANSACTION INFO FOR REQ WITH TS:",
-  //     JSON.stringify(transactionInfoForRequestWithTS, null, 2)
-  //   );
-  //   setTimeout(async () => {
-  //     try {
-  //       const response = await registerTransactionRequest(
-  //         transactionInfoForRequestWithTS
-  //       );
-
-  //       const transactionsAndAmount =
-  //         await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
-  //           user_id,
-  //           month_year
-  //         );
-  //       console.log(
-  //         "NEW TRANSACTIONS AND AMOUNT",
-  //         JSON.stringify(transactionsAndAmount, null, 2)
-  //       );
-  //       const { transactions, total_amount } = transactionsAndAmount;
-  //       setTransactionsByMonthYear(transactions);
-  //       setTransactionsTotalAmount(total_amount);
-  //       response ? setIsLoading(false) : setIsLoading(true);
-  //       response ? setIsConfirmed(true) : setIsConfirmed(false);
-  //       navigation.navigate("Transaction_confirmation");
-  //     } catch (error) {
-  //       console.log("THERE WAS AN ERROR:", error);
-  //     }
-  //   }, 3000);
-  // };
-
   const cancellingTransaction = () => {
     cleaningState();
     navigation.reset({
