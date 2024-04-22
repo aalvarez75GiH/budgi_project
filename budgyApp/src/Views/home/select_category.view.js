@@ -25,7 +25,10 @@ export const SelectCategoryView = ({ navigation }) => {
     fixingANumberToTwoDecimals,
   } = useContext(TransactionsContext);
   const { amount } = transactionInfoForRequest;
-
+  // console.log(
+  //   "TRANSACTION INFO FOR REQUEST AT SELECT CATEGORY VIEW:",
+  //   JSON.stringify(transactionInfoForRequest, null, 2)
+  // );
   // ********** Date operations context consumption **********
   const { system_date, expenseDate } = useContext(DateOperationsContext);
 
@@ -47,10 +50,10 @@ export const SelectCategoryView = ({ navigation }) => {
   //**** HERE WE SET THE CATEGORY SELECTED AND SET TRANSACTION INFO FOR REQUEST WITH INFO NEEDED ****
   const selectingCategory = (item) => {
     const { category_id, category_name, short_name, icon_name } = item;
-    console.log("ITEM NAME AT SELECTING CATEGORY :", item.category_name);
+    // console.log("ITEM NAME AT SELECTING CATEGORY :", item.category_name);
     selectedItem === category_id;
     setSelectedItem(item.category_id);
-    console.log("SELECTED ITEM:", selectedItem);
+    // console.log("SELECTED ITEM:", selectedItem);
     setTransactionInfoForRequest({
       ...transactionInfoForRequest,
       category_name: category_name,
@@ -65,7 +68,7 @@ export const SelectCategoryView = ({ navigation }) => {
   const renderItem = ({ item }) => {
     const { category_id } = item;
     const isSelected = selectedItem === category_id;
-    console.log("ITEM AT RENDER ITEM:", item);
+    // console.log("ITEM AT RENDER ITEM:", item);
     return (
       <RegularCategoryTile
         category_name={item.category_name}

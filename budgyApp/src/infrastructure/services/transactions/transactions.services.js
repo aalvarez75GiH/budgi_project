@@ -52,6 +52,7 @@ export const getTransactionsAndTotalAmountRequestOrderedByTimeStamp = async (
   user_id,
   month_year
 ) => {
+  console.log("GET TRANSACTIONS REQUEST...");
   console.log("USER_ID AT SERVICES:", user_id);
   console.log("MONTH YEAR:", month_year);
   const { transactionEndPoint } = environment;
@@ -69,11 +70,9 @@ export const getTransactionsAndTotalAmountRequestOrderedByTimeStamp = async (
       return error;
     });
 };
+
 export const getTransactionsAndTotalAmountRequest_ByUser_ByCat_ByMonthyear_OrderedByTimeStamp =
   async (user_id, category_id, month_year) => {
-    console.log("USER_ID AT SERVICES:", user_id);
-    console.log("MONTH YEAR:", month_year);
-    console.log("CATEGORY ID AT SERVICES:", category_id);
     const { transactionEndPoint } = environment;
     // console.log(transactionEndPoint);
     return await axios

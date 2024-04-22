@@ -17,8 +17,7 @@ import { TransactionsContext } from "../../infrastructure/services/transactions/
 export const Home = ({ navigation }) => {
   // ******** NumPad context consumption *************
   const { number } = useContext(NumPadContext);
-  console.log("NUMPAD NUMBER AT HOME:", number);
-  console.log("NUMPAD NUMBER AT HOME:", typeof number);
+
   const {
     transactionInfoForRequest,
     setTransactionInfoForRequest,

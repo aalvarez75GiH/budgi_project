@@ -1,7 +1,6 @@
 import React from "react";
 
 import { View, StyleSheet, ActivityIndicator } from "react-native";
-
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../optimized.spacer.component";
 

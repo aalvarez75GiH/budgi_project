@@ -23,11 +23,14 @@ export const CategoryListContextProvider = ({ children }) => {
         //   "CATEGORY LIST AT CONTEXT:",
         //   JSON.stringify(category_list.data, null, 2)
         // );
-        setCategoryList(category_list.data);
-        category_list ? setIsLoading(false) : setIsLoading(true);
+        category_list
+          ? setCategoryList(category_list.data)
+          : console.log("THERE MUST BE AN ERROR FETCHING CATEGORY LIST...");
         // }, 5000);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, []);

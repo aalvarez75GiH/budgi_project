@@ -3,6 +3,8 @@ import React from "react";
 import { SvgClickableContainer } from "../containers/svg_clickable_container";
 // import { useSVGComponent } from "../../util/default_icons.hook";
 import { useSVGComponent } from "../../util/system_icons.hook";
+
+
 export const SVG_Clickable_Component = ({
   icon_width,
   icon_height,

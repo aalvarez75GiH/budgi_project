@@ -13,45 +13,85 @@ import { DateOperationsContext } from "../../infrastructure/services/date_operat
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const CalendarView = ({ navigation, route }) => {
-  const [selected, setSelected] = useState(null);
-  const { setButton1Pressed, setButton2Pressed } = route.params;
-
-  //   ****** Date operations context consumption ************
   const { packingExpenseDateForDifferentDay, system_date } = useContext(
     DateOperationsContext
   );
 
+  const [selected, setSelected] = useState(null);
+  const { setButton1Pressed, setButton2Pressed } = route.params;
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [timeStamp, setTimeStamp] = useState(null);
+
+  //   ****** Date operations context consumption ************
+  // console.log("SYSTEM DATE AT NEW CALENDAR:", system_date);
+  // console.log("SELECTED  AT NEW CALENDAR:", selected);
+  // console.log("SELECTED DATE TIME STAMP:", selectedDate.getTime());
+  // console.log("TIME STAMP::", timeStamp);
+
   //   ****** Transactions context consumption ************
-  const { setTransactionInfoForRequest, transactionInfoForRequest } =
-    useContext(TransactionsContext);
+  const {
+    setTransactionInfoForRequest,
+    transactionInfoForRequest,
+    transactionsByMonthYear,
+  } = useContext(TransactionsContext);
+
+  console.log("SELECTED DATE DATE AT NEW CALENDAR:", selectedDate);
 
   const onDateChange = (date) => {
+    setSelected(date);
     const { expenseDate, month_year } = packingExpenseDateForDifferentDay(date);
-    console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
+    // setSelectedDate(date);
+    // const randomTime = Math.floor(Math.random() * 86400000);
+    // console.log("RANDOM TIME:", randomTime);
+    // const selectedDateTime = selectedDate ? new Date(selectedDate) : new Date();
+    // const selectedDateTimeStamp = selectedDateTime.getTime();
+    // const selectedDateTimeStamp = selectedDateTime.getTime() + randomTime;
+    // console.log("TIME STAMP OF SELECTED DATE TIME:", selectedDateTimeStamp);
+    // setTimeStamp(selectedDateTimeStamp);
+    const last_transactionWithSameExpenseDate = transactionsByMonthYear.find(
+      (element) => element.transaction_date === expenseDate
+    );
+    const timeStampForDifferentDayTransaction =
+      last_transactionWithSameExpenseDate.timeStamp + 1000;
 
     setTransactionInfoForRequest({
       ...transactionInfoForRequest,
       creation_date: system_date,
       transaction_date: expenseDate,
       month_year: month_year,
+      timeStamp: timeStampForDifferentDayTransaction
+        ? timeStampForDifferentDayTransaction
+        : Date.now(),
     });
-    setSelected(date);
   };
+  // const onDateChange = (date) => {
+  //   const { expenseDate, month_year } = packingExpenseDateForDifferentDay(date);
+  //   console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
+  //   setTransactionInfoForRequest({
+  //     ...transactionInfoForRequest,
+  //     creation_date: system_date,
+  //     transaction_date: expenseDate,
+  //     month_year: month_year,
+  //   });
+  //   setSelected(date);
+  // };
 
-  const backHeaderAction = () => {
+  function backHeaderAction() {
     const { expenseDate, month_year } =
       packingExpenseDateForDifferentDay(system_date);
-    console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
     setTransactionInfoForRequest({
       ...transactionInfoForRequest,
       creation_date: system_date,
       transaction_date: expenseDate,
       month_year: month_year,
+      timeStamp: Date.now(),
     });
     setButton1Pressed(true);
     setButton2Pressed(false);
     navigation.goBack();
-  };
+  }
+
   const comingBackToSummary = () => {
     setButton1Pressed(false);
     setButton2Pressed(true);

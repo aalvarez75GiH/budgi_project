@@ -11,7 +11,6 @@ import {
 } from "./confirmation_component.styles";
 import { Spacer } from "../../optimized.spacer.component";
 import { CheckIconComponent } from "../../check_icon_component";
-
 import { SVGComponent } from "../../image_components/svg.component";
 
 export const ConfirmationInfoComponent = ({

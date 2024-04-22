@@ -38,7 +38,7 @@ export const MyTransactionsView = ({ navigation }) => {
   const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
     []
   );
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [isLoadingByCat, setIsLoadingByCat] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -58,11 +58,9 @@ export const MyTransactionsView = ({ navigation }) => {
   //   ****** Consumption from Authentication Context ************
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
-  console.log("USER_ID:", user_id);
-  console.log("MONTH YEAR:", month_year);
 
   //   ****** Consumption from Transactions Context ************
-  const { transactionsByMonthYear, total_amount } =
+  const { transactionsByMonthYear, total_amount, isLoading, setIsLoading } =
     useContext(TransactionsContext);
 
   useEffect(() => {
@@ -109,10 +107,6 @@ export const MyTransactionsView = ({ navigation }) => {
     category_id,
     month_year
   ) => {
-    // console.log("USER_ID AT TRANSACTIONS CONTEXT:", user_id);
-    console.log("CATEGORY ID AT TRANSACTIONS CONTEXT:", category_id);
-    // console.log("MONTH YEAR AT TRANSACTIONS CONTEXT:", month_year);
-
     setIsPressed(false);
     setIsLoadingByCat(true);
     setTimeout(() => {
@@ -138,10 +132,10 @@ export const MyTransactionsView = ({ navigation }) => {
               amount: a.amount + b.amount,
             })
           );
-          console.log(
-            "TRANSACTIONS TOTAL AMOUNT:",
-            JSON.stringify(transactions_amount, null, 2)
-          );
+          // console.log(
+          //   "TRANSACTIONS TOTAL AMOUNT:",
+          //   JSON.stringify(transactions_amount, null, 2)
+          // );
           setTotalAmountToRender(transactions_amount.amount);
         } else {
           console.log("THERE ARE NO TRANSACTIONS FOR THAT CATEGORY...");

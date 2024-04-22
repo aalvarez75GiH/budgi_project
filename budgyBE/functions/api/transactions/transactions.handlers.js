@@ -24,6 +24,7 @@ module.exports.receivingAndPreparingTransactionInfoFromRequest = (req) => {
       short_name: req.body.short_name,
       icon_name: req.body.icon_name,
       timeStamp: req.body.timeStamp,
+      description: req.body.description,
     };
     return transaction;
   }
@@ -42,6 +43,7 @@ module.exports.receivingAndPreparingTransactionInfoFromRequest = (req) => {
       short_name: req.body.short_name,
       icon_name: req.body.icon_name,
       timeStamp: req.body.timeStamp,
+      description: req.body.description,
     };
     return transaction;
   }
@@ -64,8 +66,8 @@ const updatingMostRecentTransactionToFalse = async (transaction_created) => {
       if (transaction.transaction_id !== transaction_id) {
         console.log("ITS DIFFERENT...");
         transaction.most_recent = false;
+        await transactionsController.updateTransaction(transaction);
       }
-      await transactionsController.updateTransaction(transaction);
     });
   } catch (error) {}
 };

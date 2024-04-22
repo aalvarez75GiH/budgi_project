@@ -5,6 +5,7 @@ import { NumPadContext } from "../numPad/numPad.context";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "./transactions.services";
+import { registerTransactionRequest } from "./transactions.services";
 
 export const TransactionContextProvider = ({ children }) => {
   const { month_year } = useContext(DateOperationsContext);
@@ -25,6 +26,7 @@ export const TransactionContextProvider = ({ children }) => {
     icon_name: "",
     short_name: "",
     timeStamp: 0,
+    description: "",
   };
 
   const [transactionInfoForRequest, setTransactionInfoForRequest] = useState(
@@ -59,84 +61,20 @@ export const TransactionContextProvider = ({ children }) => {
         //   "TRANSACTION REQUEST COMING:",
         //   JSON.stringify(total_amount, null, 2)
         // );
-        setTransactionsByMonthYear(transactions);
-        setTransactionsTotalAmount(total_amount);
-        transactionsByMonthYear ? setIsLoading(false) : setIsLoading(true);
+
+        if (transactionsAndAmount) {
+          setTransactionsTotalAmount(total_amount);
+          setTransactionsByMonthYear(transactions);
+          // setIsLoading(false);
+        }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
       // test(db);
     })();
   }, []);
-
-  const makingATransactionsAndTotalAmountRequestOrderedByTimeStampAfterAnotherTransaction =
-    async (user_id, month_year) => {
-      try {
-        setIsLoading(true);
-        const transactionsAndAmount =
-          await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
-            user_id,
-            month_year
-          );
-
-        // console.log(
-        //   "TRANSACTIONS AND AMOUNT:",
-        //   JSON.stringify(transactionsAndAmount, null, 2)
-        // );
-        const { transactions, total_amount } = transactionsAndAmount;
-        // console.log(
-        //   "TRANSACTION REQUEST COMING:",
-        //   JSON.stringify(transactions, null, 2)
-        // );
-        // console.log(
-        //   "TRANSACTION REQUEST COMING:",
-        //   JSON.stringify(total_amount, null, 2)
-        // );
-        setTransactionsByMonthYear(transactions);
-        setTransactionsTotalAmount(total_amount);
-        transactionsByMonthYear ? setIsLoading(false) : setIsLoading(true);
-      } catch (error) {
-        console.log(error);
-      }
-      // test(db);
-    };
-  // const test = () => {
-  //   let newData;
-  //   const collectionRef = db.collection("transactions");
-  //   collectionRef.onSnapshot((snapshot) => {
-  //     snapshot.docChanges().forEach((change) => {
-  //       if (change.type === "added") {
-  //         newData = change.doc.data();
-  //         console.log("NEW TRANSACTION IS:", newData);
-  //       }
-  //     });
-  //     // setNewTransaction(newData);
-  //   });
-  // };
-
-  // let newData;
-  // const collectionRef = db.collection("transactions");
-  // collectionRef.onSnapshot((snapshot) => {
-  //   snapshot.docChanges().forEach((change) => {
-  //     if (change.type === "added") {
-  //       newData = change.doc.data();
-  //       console.log("NEW TRANSACTION IS:", newData);
-  //     }
-  //   });
-  //   // setNewTransaction(newData);
-  // });
-
-  const preparingTransactionsByUserId_by_monthYear = (
-    user_id,
-    category_id,
-    month_year
-  ) => {
-    console.log("USER_ID AT TRANSACTIONS CONTEXT:", user_id);
-    console.log("CATEGORY ID AT TRANSACTIONS CONTEXT:", category_id);
-    console.log("MONTH YEAR AT TRANSACTIONS CONTEXT:", month_year);
-  };
-
-  // ******************** Work in progress ************************
 
   const cleaningState = () => {
     setNumber("0");
@@ -165,12 +103,12 @@ export const TransactionContextProvider = ({ children }) => {
         fixingANumberToTwoDecimals,
         fixingANumberToTwoDecimalsAndString,
         isLoading,
+        setIsLoading,
         transactionsByMonthYear,
         total_amount,
-        preparingTransactionsByUserId_by_monthYear,
         setTransactionsByMonthYear,
         setTransactionsTotalAmount,
-        makingATransactionsAndTotalAmountRequestOrderedByTimeStampAfterAnotherTransaction,
+        // registeringTransaction,
       }}
     >
       {children}

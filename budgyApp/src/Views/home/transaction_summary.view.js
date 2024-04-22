@@ -32,6 +32,8 @@ export const TransactionSummaryView = ({ navigation }) => {
     fixingANumberToTwoDecimalsAndString,
     setTransactionsByMonthYear,
     setTransactionsTotalAmount,
+    // isLoading,
+    // registeringTransaction,
   } = useContext(TransactionsContext);
 
   const { amount } = transactionInfoForRequest;
@@ -42,17 +44,13 @@ export const TransactionSummaryView = ({ navigation }) => {
   const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
 
-  // ****** Here we are parsing amount to integer for request to transaction end point
-  const {
-    transaction_date,
-    short_name,
-    makingATransactionsAndTotalAmountRequestOrderedByTimeStampAfterAnotherTransaction,
-  } = transactionInfoForRequest;
+  const { transaction_date, short_name } = transactionInfoForRequest;
 
   // console.log(
   //   "TRANSACTION INFO AT SUMMARY:",
   //   JSON.stringify(transactionInfoForRequest, null, 2)
   // );
+  // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
   const listenForNewChangesAtDB = () => {
@@ -70,6 +68,10 @@ export const TransactionSummaryView = ({ navigation }) => {
                   user_id,
                   month_year
                 );
+              console.log(
+                "TRANSACTIONS AND AMOUNT AFTER LISTENER LISTENED:",
+                JSON.stringify(transactionsAndAmount, null, 2)
+              );
 
               const { transactions, total_amount } = transactionsAndAmount;
 
@@ -84,6 +86,36 @@ export const TransactionSummaryView = ({ navigation }) => {
     });
   };
 
+  // const registeringTransaction = async () => {
+  //   setIsLoading(true);
+
+  //   console.log(
+  //     "TRANSACTION INFO FOR REQ WITH TS FROM CALENDAR:",
+  //     JSON.stringify(transactionInfoForRequest, null, 2)
+  //   );
+  //   const transactionInfoForRequestWithTS = {
+  //     ...transactionInfoForRequest,
+  //     timeStamp:
+  //       transactionInfoForRequest.timeStamp === 0
+  //         ? Date.now()
+  //         : transactionInfoForRequest.timeStamp,
+  //   };
+  //   setTimeout(async () => {
+  //     try {
+  //       const response = await registerTransactionRequest(
+  //         transactionInfoForRequestWithTS
+  //       );
+
+  //       response ? setIsLoading(false) : setIsLoading(true);
+  //       response ? setIsConfirmed(true) : setIsConfirmed(false);
+  //       response ? listenForNewChangesAtDB() : null;
+
+  //       navigation.navigate("Transaction_confirmation");
+  //     } catch (error) {
+  //       console.log("THERE WAS AN ERROR:", error);
+  //     }
+  //   }, 3000);
+  // };
   const registeringTransaction = async () => {
     setIsLoading(true);
     const transactionInfoForRequestWithTS = {
@@ -99,11 +131,10 @@ export const TransactionSummaryView = ({ navigation }) => {
         const response = await registerTransactionRequest(
           transactionInfoForRequestWithTS
         );
-
+        // console.log("RESPONSE:", JSON.stringify(response, null, 2));
         response ? setIsLoading(false) : setIsLoading(true);
         response ? setIsConfirmed(true) : setIsConfirmed(false);
         response ? listenForNewChangesAtDB() : null;
-
         navigation.navigate("Transaction_confirmation");
       } catch (error) {
         console.log("THERE WAS AN ERROR:", error);
@@ -130,7 +161,7 @@ export const TransactionSummaryView = ({ navigation }) => {
 
   const backHeaderAction = () => {
     const { expenseDate } = packingExpenseDateForDifferentDay(system_date);
-    console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
+    // console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
     setTransactionInfoForRequest({
       ...transactionInfoForRequest,
       creation_date: system_date,
@@ -143,7 +174,7 @@ export const TransactionSummaryView = ({ navigation }) => {
 
   const settingTodayTransactionDate = () => {
     const { expenseDate } = packingExpenseDateForDifferentDay(system_date);
-    console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
+    // console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
     setTransactionInfoForRequest({
       ...transactionInfoForRequest,
       creation_date: system_date,
@@ -151,6 +182,15 @@ export const TransactionSummaryView = ({ navigation }) => {
     });
     setButton1Pressed(true);
     setButton2Pressed(false);
+  };
+
+  const CTA_Button_Action = async () => {
+    const transaction_confirmed = registeringTransaction();
+    // console.log("TRANSACTION CONFIRMED:", transaction_confirmed);
+    // transaction_confirmed ? listenForNewChangesAtDB() : null;
+    transaction_confirmed
+      ? navigation.navigate("Transaction_confirmation")
+      : null;
   };
 
   return (
