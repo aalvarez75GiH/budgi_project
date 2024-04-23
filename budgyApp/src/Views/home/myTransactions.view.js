@@ -200,6 +200,7 @@ export const MyTransactionsView = ({ navigation }) => {
       flexibility={1}
       justify={"center"}
       isBordered={false}
+      alignment={"center"}
     >
       <IsLoadingContainer
         size="large"
@@ -225,6 +226,7 @@ export const MyTransactionsView = ({ navigation }) => {
         flexibility={0.15}
         justify={"flex-start"}
         isBordered={false}
+        alignment={"center"}
       >
         <ControlledContainer width={"60%"} height={"35%"} direction={"column"}>
           <Spacer position="left" size="large">
@@ -271,6 +273,7 @@ export const MyTransactionsView = ({ navigation }) => {
         flexibility={0.16}
         justify={"flex-start"}
         isBordered={false}
+        alignment={"center"}
       >
         <CircularTextOptionComponent
           caption="All"

@@ -6,7 +6,7 @@ export const FlexibleContainer = Styled(View)`
     flex-direction: ${(props) => props.direction};
     background-color: ${(props) => props.color};
     justify-content: ${(props) => props.justify};
-    align-items: center;
+    align-items: ${(props) => props.alignment || "center"};
     border: ${(props) => (props.isBordered ? "2px solid #000000" : "none")};
     
 `;

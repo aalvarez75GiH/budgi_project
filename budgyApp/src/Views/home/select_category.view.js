@@ -83,6 +83,9 @@ export const SelectCategoryView = ({ navigation }) => {
       />
     );
   };
+  const goingBack = () => {
+    navigation.goBack();
+  };
 
   return (
     <SafeArea background_color={"#FFFFFF"}>
@@ -108,6 +111,8 @@ export const SelectCategoryView = ({ navigation }) => {
             caption="Select category"
             direction={"row"}
             color={theme.colors.bg.p_FFFFFF}
+            flexibility={0.5}
+            action={goingBack}
             // color={"#FAD"}
           />
           <FlexibleContainer

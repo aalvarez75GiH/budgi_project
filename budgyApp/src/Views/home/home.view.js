@@ -55,6 +55,7 @@ export const Home = ({ navigation }) => {
         // color={"red"}
         flexibility={0.8}
         justify={"center"}
+        alignment={"center"}
       >
         <HomeDisplayComponent number={number} />
       </FlexibleContainer>
@@ -65,6 +66,7 @@ export const Home = ({ navigation }) => {
         // color={"lightblue"}
         flexibility={2}
         justify={"center"}
+        alignment={"center"}
       >
         <NumPadComponent />
       </FlexibleContainer>
@@ -74,6 +76,7 @@ export const Home = ({ navigation }) => {
         // color={"brown"}
         flexibility={0.6}
         justify={"center"}
+        alignment={"center"}
       >
         {number === "0" ? (
           <TextContainer>

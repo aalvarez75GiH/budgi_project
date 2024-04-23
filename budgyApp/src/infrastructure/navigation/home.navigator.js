@@ -9,6 +9,7 @@ import { TransactionSummaryView } from "../../Views/home/transaction_summary.vie
 import { AccountAndThingsView } from "../../Views/home/account_and_things.view";
 import { MyTransactionsView } from "../../Views/home/myTransactions.view";
 import { CalendarView } from "../../Views/home/calendar.view";
+import { AddDescriptionView } from "../../Views/home/add_description.view";
 // import { HowMonthIsGoingView } from "../../Views/home/how_your_month_goes";
 
 const HomeStack = createNativeStackNavigator();
@@ -52,6 +53,13 @@ export const HomeNavigator = () => {
       <HomeStack.Screen
         name="Calendar_view"
         component={CalendarView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+
+      <HomeStack.Screen
+        name="AddDescription_view"
+        component={AddDescriptionView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

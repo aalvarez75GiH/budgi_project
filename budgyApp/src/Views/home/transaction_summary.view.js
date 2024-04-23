@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+// import { Text } from "react-native";
 
 import { SafeArea } from "../../global_components/safe-area.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
@@ -16,6 +17,11 @@ import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "../../in
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
+import { Text } from "../../infrastructure/typography/text.component";
+import { FormInput } from "../../global_components/inputs/form_input";
+import { ControlledContainer } from "../../global_components/containers/controlled_container";
+import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
+import { TextForDescription } from "../../global_components/special text components/text_for_descriptions";
 
 export const TransactionSummaryView = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,12 +50,13 @@ export const TransactionSummaryView = ({ navigation }) => {
   const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
 
-  const { transaction_date, short_name } = transactionInfoForRequest;
+  const { transaction_date, short_name, description } =
+    transactionInfoForRequest;
 
-  // console.log(
-  //   "TRANSACTION INFO AT SUMMARY:",
-  //   JSON.stringify(transactionInfoForRequest, null, 2)
-  // );
+  console.log(
+    "TRANSACTION INFO AT SUMMARY:",
+    JSON.stringify(transactionInfoForRequest, null, 2)
+  );
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
@@ -86,36 +93,6 @@ export const TransactionSummaryView = ({ navigation }) => {
     });
   };
 
-  // const registeringTransaction = async () => {
-  //   setIsLoading(true);
-
-  //   console.log(
-  //     "TRANSACTION INFO FOR REQ WITH TS FROM CALENDAR:",
-  //     JSON.stringify(transactionInfoForRequest, null, 2)
-  //   );
-  //   const transactionInfoForRequestWithTS = {
-  //     ...transactionInfoForRequest,
-  //     timeStamp:
-  //       transactionInfoForRequest.timeStamp === 0
-  //         ? Date.now()
-  //         : transactionInfoForRequest.timeStamp,
-  //   };
-  //   setTimeout(async () => {
-  //     try {
-  //       const response = await registerTransactionRequest(
-  //         transactionInfoForRequestWithTS
-  //       );
-
-  //       response ? setIsLoading(false) : setIsLoading(true);
-  //       response ? setIsConfirmed(true) : setIsConfirmed(false);
-  //       response ? listenForNewChangesAtDB() : null;
-
-  //       navigation.navigate("Transaction_confirmation");
-  //     } catch (error) {
-  //       console.log("THERE WAS AN ERROR:", error);
-  //     }
-  //   }, 3000);
-  // };
   const registeringTransaction = async () => {
     setIsLoading(true);
     const transactionInfoForRequestWithTS = {
@@ -159,6 +136,10 @@ export const TransactionSummaryView = ({ navigation }) => {
     setButton2Pressed(true);
   };
 
+  const movingForwardToAddDescription = () => {
+    navigation.navigate("AddDescription_view");
+  };
+
   const backHeaderAction = () => {
     const { expenseDate } = packingExpenseDateForDifferentDay(system_date);
     // console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
@@ -182,15 +163,6 @@ export const TransactionSummaryView = ({ navigation }) => {
     });
     setButton1Pressed(true);
     setButton2Pressed(false);
-  };
-
-  const CTA_Button_Action = async () => {
-    const transaction_confirmed = registeringTransaction();
-    // console.log("TRANSACTION CONFIRMED:", transaction_confirmed);
-    // transaction_confirmed ? listenForNewChangesAtDB() : null;
-    transaction_confirmed
-      ? navigation.navigate("Transaction_confirmation")
-      : null;
   };
 
   return (
@@ -237,9 +209,42 @@ export const TransactionSummaryView = ({ navigation }) => {
             short_name={short_name}
           />
           <Spacer position="top" size="extraLarge" />
-          <Spacer position="top" size="extraLarge" />
-          <Spacer position="top" size="extraLarge" />
-          <LinkButton caption="Cancel" action={cancellingTransaction} />
+
+          {description ? (
+            <>
+              <ControlledContainer
+                width={"100%"}
+                height={"50px"}
+                justify="center"
+                alignment="flex-start"
+                // color="red"
+              >
+                <Spacer position="left" size="extraLarge">
+                  <Text text_variant="cta_dark_caption_16">Description:</Text>
+                </Spacer>
+              </ControlledContainer>
+              <ClickableControlledContainer
+                width={"85%"}
+                height={"150px"}
+                justify="flex-start"
+                alignment="flex-start"
+                action={movingForwardToAddDescription}
+                // color={theme.colors.bg.e_F4F4F4}
+                onPress={movingForwardToAddDescription}
+              >
+                <TextForDescription size={16}>{description}</TextForDescription>
+              </ClickableControlledContainer>
+            </>
+          ) : (
+            <>
+              <Spacer position="top" size="extraLarge" />
+              <Spacer position="top" size="extraLarge" />
+              <LinkButton
+                caption="Add a description (optional)"
+                action={movingForwardToAddDescription}
+              />
+            </>
+          )}
         </FlexibleContainer>
         <FlexibleContainer
           direction={"row"}

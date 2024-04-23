@@ -80,6 +80,11 @@ font-family: ${theme.fonts.bold};
 font-size: ${theme.fontSizes.text_24};
 color: ${theme.colors.neutrals.p_B7B7B7};
 `;
+const grey_bold_caption_16 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_16};
+color: ${theme.colors.neutrals.p_B7B7B7};
+`;
 
 const regular_caption_16 = (theme) => `
 font-family: ${theme.fonts.regular};
@@ -158,6 +163,7 @@ const variants = {
   bold_caption_12,
   grey_bold_caption_24,
   disable_caption_16,
+  grey_bold_caption_16,
 };
 
 export const Text = styled.Text`

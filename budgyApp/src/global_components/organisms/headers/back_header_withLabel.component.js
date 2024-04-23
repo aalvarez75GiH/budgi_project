@@ -8,19 +8,19 @@ import { FlexibleContainer } from "../../containers/flexible_container";
 export const BackHeaderWithLabelComponent = ({
   navigation,
   caption,
+  direction,
   color,
+  flexibility,
+  action,
 }) => {
-  const goingBack = () => {
-    navigation.goBack();
-  };
   return (
     <FlexibleContainer
       color={color}
-      direction="row"
-      flexibility={0.5}
+      direction={direction}
+      flexibility={flexibility}
       justify={"center"}
     >
-      <RNPIconButton action={goingBack} icon="arrow-left" width={"20%"} />
+      <RNPIconButton action={action} icon="arrow-left" width={"20%"} />
       <HeaderLabelContainer width={"75%"} marginLeft={"15%"}>
         <Text text_variant="headers_label">{caption}</Text>
       </HeaderLabelContainer>
