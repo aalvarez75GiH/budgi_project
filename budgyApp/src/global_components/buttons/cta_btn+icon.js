@@ -18,6 +18,7 @@ export const RegularCTAButtonPlusIcon = ({
   height,
   borderRadius,
   text_variant,
+  icon_align,
 }) => {
   return (
     <CTAButtonPlusIcon
@@ -37,6 +38,7 @@ export const RegularCTAButtonPlusIcon = ({
             icon="chevron-right"
             width={"0%"}
             color={theme.colors.brand.primary}
+            align={icon_align}
           />
         </CTAButtonPlusIconRNPContainer>
       </CTAButtonPlusIconContainer>

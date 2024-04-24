@@ -148,6 +148,20 @@ export const MyTransactionsView = ({ navigation }) => {
     }, 200);
   };
 
+  const test = (item) => {
+    const { amount, short_name, transaction_date, description } = item;
+    console.log("AMOUNT:", amount);
+    console.log("SHORT NAME:", short_name);
+    console.log("EXPENSE DATE:", transaction_date);
+    console.log("DESCRIPTION:", description);
+    navigation.navigate("Transaction_details_view", {
+      amount,
+      short_name,
+      transaction_date,
+      description,
+    });
+  };
+
   //   *************** it does render transactions
   const renderItem = ({ item }) => {
     return (
@@ -160,6 +174,7 @@ export const MyTransactionsView = ({ navigation }) => {
         transaction_date={item.transaction_date}
         most_recent={item.most_recent}
         short_name={item.short_name}
+        action={() => test(item)}
       />
     );
   };

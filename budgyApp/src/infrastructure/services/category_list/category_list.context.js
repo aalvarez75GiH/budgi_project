@@ -17,16 +17,11 @@ export const CategoryListContextProvider = ({ children }) => {
     (async () => {
       setIsLoading(true);
       try {
-        // setTimeout(async () => {
         const category_list = await getCategoryList_By_UserID_Request(user_id);
-        // console.log(
-        //   "CATEGORY LIST AT CONTEXT:",
-        //   JSON.stringify(category_list.data, null, 2)
-        // );
+
         category_list
           ? setCategoryList(category_list.data)
           : console.log("THERE MUST BE AN ERROR FETCHING CATEGORY LIST...");
-        // }, 5000);
       } catch (error) {
         console.log(error);
       } finally {

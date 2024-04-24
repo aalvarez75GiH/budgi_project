@@ -38,11 +38,11 @@ export default function App() {
         <AuthenticationContextProvider>
           <DateOperationsContextProvider>
             <NumPadContextProvider>
-              <CategoryListContextProvider>
-                <TransactionContextProvider>
+              <TransactionContextProvider>
+                <CategoryListContextProvider>
                   <Navigation />
-                </TransactionContextProvider>
-              </CategoryListContextProvider>
+                </CategoryListContextProvider>
+              </TransactionContextProvider>
             </NumPadContextProvider>
           </DateOperationsContextProvider>
         </AuthenticationContextProvider>

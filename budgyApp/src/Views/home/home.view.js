@@ -94,6 +94,7 @@ export const Home = ({ navigation }) => {
             action={movingToSelectCategory}
             text_variant="cta_dark_caption"
             top_position={640}
+            icon_align={"center"}
           />
         )}
       </FlexibleContainer>

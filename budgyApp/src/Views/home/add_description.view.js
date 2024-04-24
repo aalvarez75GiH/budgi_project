@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
+import { Platform } from "react-native";
 import { theme } from "../../infrastructure/theme";
+
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { SafeArea } from "../../global_components/safe-area.component";
@@ -8,6 +10,7 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { BackHeaderWithLabelComponentButton } from "../../global_components/organisms/headers/back_header+label+done.component";
+import { LinkButton } from "../../global_components/buttons/link_button";
 
 export const AddDescriptionView = ({ navigation }) => {
   const { transactionInfoForRequest, setTransactionInfoForRequest } =
@@ -61,11 +64,12 @@ export const AddDescriptionView = ({ navigation }) => {
           direction={"row"}
           color={theme.colors.bg.p_FFFFFF}
           // color={"red"}
-          flexibility={0.7}
+          flexibility={Platform.OS === "ios" ? 1.2 : 1.2}
           arrow_left_action={goingBack}
           done_button_action={goingBack}
           isDoneActive={isDoneActive}
           description={description}
+          align="flex-start"
         />
         <FlexibleContainer
           direction={"column"}
@@ -86,7 +90,10 @@ export const AddDescriptionView = ({ navigation }) => {
             activeOutlineColor={"#B7B7B7"}
             font_size={theme.fontSizes.text_16}
             border_radius={"30px"}
-            theme={{ roundness: 10 }} // try this }} />
+            theme={{
+              roundness: 10,
+              colors: { onSurfaceVariant: theme.colors.text.t_898989 },
+            }} // try this }} />
             onChangeText={(value) => onChangeText(value)}
             value={description}
           />
@@ -95,21 +102,16 @@ export const AddDescriptionView = ({ navigation }) => {
           direction={"row"}
           color={theme.colors.bg.p_FFFFFF}
           // color={"brown"}
-          flexibility={4.5}
+          flexibility={Platform.OS === "ios" ? 7.5 : 2.5}
           justify={"center"}
           alignment={"flex-start"}
         >
-          <Spacer position="top" size="xxl" />
-          <Spacer position="top" size="xxl" />
+          {/* <Spacer position="top" size="xxl" /> */}
+          {/* <Spacer position="top" size="xxl" /> */}
           {description.length !== 0 ? (
-            <RegularCTAButton
-              caption="Clear"
-              width={310}
-              height={50}
-              color={theme.colors.buttons.e_F4F4F4}
-              borderRadius={0}
+            <LinkButton
+              caption="Clear description"
               action={cleaningDescription}
-              text_variant="cta_dark_caption_16"
             />
           ) : null}
         </FlexibleContainer>

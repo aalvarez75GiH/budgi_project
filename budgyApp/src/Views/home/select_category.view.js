@@ -113,6 +113,7 @@ export const SelectCategoryView = ({ navigation }) => {
             color={theme.colors.bg.p_FFFFFF}
             flexibility={0.5}
             action={goingBack}
+            align="flex-end"
             // color={"#FAD"}
           />
           <FlexibleContainer

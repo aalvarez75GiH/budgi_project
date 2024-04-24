@@ -12,7 +12,6 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 import { theme } from "../../infrastructure/theme";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
-import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "../../infrastructure/services/transactions/transactions.services";
 
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
@@ -23,11 +22,10 @@ import { ControlledContainer } from "../../global_components/containers/controll
 import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
 import { TextForDescription } from "../../global_components/special text components/text_for_descriptions";
 
-export const TransactionSummaryView = ({ navigation }) => {
+export const TransactionDetailsView = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [button1Pressed, setButton1Pressed] = useState(true);
-  const [button2Pressed, setButton2Pressed] = useState(false);
 
+  const { amount, short_name, transaction_date, description } = route.params;
   //   ***** Transactions context consumption
   const {
     isConfirmed,
@@ -42,7 +40,7 @@ export const TransactionSummaryView = ({ navigation }) => {
     // registeringTransaction,
   } = useContext(TransactionsContext);
 
-  const { amount } = transactionInfoForRequest;
+  //   const { amount } = transactionInfoForRequest;
   const { packingExpenseDateForDifferentDay, system_date, month_year } =
     useContext(DateOperationsContext);
 
@@ -50,8 +48,8 @@ export const TransactionSummaryView = ({ navigation }) => {
   const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
 
-  const { transaction_date, short_name, description } =
-    transactionInfoForRequest;
+  //   const { transaction_date, short_name, description } =
+  //     transactionInfoForRequest;
 
   console.log(
     "TRANSACTION INFO AT SUMMARY:",
@@ -60,96 +58,38 @@ export const TransactionSummaryView = ({ navigation }) => {
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
-  const listenForNewChangesAtDB = () => {
-    // let newData;
-    const collectionRef = db.collection("transactions");
-    collectionRef.onSnapshot((snapshot) => {
-      snapshot.docChanges().forEach(async (change) => {
-        if (change.type === "added") {
-          const newData = change.doc.data();
-          console.log("NEW TRANSACTION IS:", newData);
-          if (newData) {
-            try {
-              const transactionsAndAmount =
-                await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
-                  user_id,
-                  month_year
-                );
-              console.log(
-                "TRANSACTIONS AND AMOUNT AFTER LISTENER LISTENED:",
-                JSON.stringify(transactionsAndAmount, null, 2)
-              );
+  //   const updateTransaction = async () => {
+  //     setIsLoading(true);
+  //     const transactionInfoForRequestWithTS = {
+  //       ...transactionInfoForRequest,
+  //       timeStamp: Date.now(),
+  //     };
+  //     console.log(
+  //       "TRANSACTION INFO FOR REQ WITH TS:",
+  //       JSON.stringify(transactionInfoForRequestWithTS, null, 2)
+  //     );
+  //     setTimeout(async () => {
+  //       try {
+  //         const response = await registerTransactionRequest(
+  //           transactionInfoForRequestWithTS
+  //         );
+  //         // console.log("RESPONSE:", JSON.stringify(response, null, 2));
+  //         response ? setIsLoading(false) : setIsLoading(true);
+  //         response ? setIsConfirmed(true) : setIsConfirmed(false);
+  //         response ? listenForNewChangesAtDB() : null;
+  //         navigation.navigate("Transaction_confirmation");
+  //       } catch (error) {
+  //         console.log("THERE WAS AN ERROR:", error);
+  //       }
+  //     }, 3000);
+  //   };
 
-              const { transactions, total_amount } = transactionsAndAmount;
+  //   const movingForwardToEditAmountView = () => {
 
-              setTransactionsByMonthYear(transactions);
-              setTransactionsTotalAmount(total_amount);
-            } catch (error) {
-              console.log(error);
-            }
-          }
-        }
-      });
-    });
-  };
-
-  const registeringTransaction = async () => {
-    setIsLoading(true);
-    const transactionInfoForRequestWithTS = {
-      ...transactionInfoForRequest,
-      timeStamp: Date.now(),
-    };
-    console.log(
-      "TRANSACTION INFO FOR REQ WITH TS:",
-      JSON.stringify(transactionInfoForRequestWithTS, null, 2)
-    );
-    setTimeout(async () => {
-      try {
-        const response = await registerTransactionRequest(
-          transactionInfoForRequestWithTS
-        );
-        // console.log("RESPONSE:", JSON.stringify(response, null, 2));
-        response ? setIsLoading(false) : setIsLoading(true);
-        response ? setIsConfirmed(true) : setIsConfirmed(false);
-        response ? listenForNewChangesAtDB() : null;
-        navigation.navigate("Transaction_confirmation");
-      } catch (error) {
-        console.log("THERE WAS AN ERROR:", error);
-      }
-    }, 3000);
-  };
-
-  const cancellingTransaction = () => {
-    cleaningState();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Home" }],
-    });
-  };
-
-  const movingForwardToCalendar = () => {
-    navigation.navigate("Calendar_view", {
-      setButton1Pressed,
-      setButton2Pressed,
-    });
-    setButton1Pressed(false);
-    setButton2Pressed(true);
-  };
-
-  const movingForwardToAddDescription = () => {
-    navigation.navigate("AddDescription_view");
-  };
+  //   };
 
   const backHeaderAction = () => {
     const { expenseDate } = packingExpenseDateForDifferentDay(system_date);
-    // console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
-      creation_date: system_date,
-      transaction_date: expenseDate,
-    });
-    setButton1Pressed(true);
-    setButton2Pressed(false);
     navigation.goBack();
   };
 
@@ -178,20 +118,7 @@ export const TransactionSummaryView = ({ navigation }) => {
           action={backHeaderAction}
           align="center"
         />
-        <FlexibleContainer
-          direction={"column"}
-          color={theme.colors.bg.p_FFFFFF}
-          // color={"red"}
-          flexibility={1}
-          justify={"center"}
-        >
-          <OptionsButtonsComponent
-            action={settingTodayTransactionDate}
-            action2={movingForwardToCalendar}
-            button1Pressed={button1Pressed}
-            button2Pressed={button2Pressed}
-          />
-        </FlexibleContainer>
+
         <FlexibleContainer
           direction={"column"}
           justify={"flex-start"}
@@ -204,7 +131,7 @@ export const TransactionSummaryView = ({ navigation }) => {
           <ConfirmationInfoComponent
             width={200}
             height={140}
-            isConfirmed={isConfirmed}
+            isConfirmed={false}
             amount={stringedAmount}
             transaction_date={transaction_date}
             short_name={short_name}
@@ -229,23 +156,14 @@ export const TransactionSummaryView = ({ navigation }) => {
                 height={"150px"}
                 justify="flex-start"
                 alignment="flex-start"
-                action={movingForwardToAddDescription}
+                action={() => null}
                 // color={theme.colors.bg.e_F4F4F4}
-                onPress={movingForwardToAddDescription}
+                onPress={() => null}
               >
                 <TextForDescription size={16}>{description}</TextForDescription>
               </ClickableControlledContainer>
             </>
-          ) : (
-            <>
-              <Spacer position="top" size="extraLarge" />
-              <Spacer position="top" size="extraLarge" />
-              <LinkButton
-                caption="Add a description (optional)"
-                action={movingForwardToAddDescription}
-              />
-            </>
-          )}
+          ) : null}
         </FlexibleContainer>
         <FlexibleContainer
           direction={"row"}
@@ -256,16 +174,8 @@ export const TransactionSummaryView = ({ navigation }) => {
         >
           <Spacer position="top" size="xxl" />
           <Spacer position="top" size="xxl" />
-          <RegularCTAButton
-            caption="Confirm"
-            width={310}
-            height={50}
-            color={theme.colors.buttons.p_FC9827}
-            borderRadius={50}
-            action={registeringTransaction}
-            text_variant="cta_dark_caption"
-            isLoading={isLoading}
-          />
+
+          <LinkButton caption="Edit" action={() => null} />
         </FlexibleContainer>
       </GeneralFlexContainer>
     </SafeArea>

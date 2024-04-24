@@ -12,6 +12,7 @@ export const BackHeaderWithLabelComponent = ({
   color,
   flexibility,
   action,
+  align,
 }) => {
   return (
     <FlexibleContainer
@@ -20,7 +21,12 @@ export const BackHeaderWithLabelComponent = ({
       flexibility={flexibility}
       justify={"center"}
     >
-      <RNPIconButton action={action} icon="arrow-left" width={"20%"} />
+      <RNPIconButton
+        action={action}
+        icon="arrow-left"
+        width={"20%"}
+        align={align}
+      />
       <HeaderLabelContainer width={"75%"} marginLeft={"15%"}>
         <Text text_variant="headers_label">{caption}</Text>
       </HeaderLabelContainer>

@@ -8,7 +8,7 @@ import {
 
 export const HeaderLabelContainer = Styled(View)`
   width: ${(props) => props.width};
-  height: 100px;
+  height: 75px;
   /* background-color: ${theme.colors.neutrals.q_E5E5E5}; */
   justify-content: center;
   align-items: right;

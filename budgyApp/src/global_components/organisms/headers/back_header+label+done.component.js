@@ -17,7 +17,7 @@ export const BackHeaderWithLabelComponentButton = ({
   arrow_left_action,
   done_button_action,
   isDoneActive,
-  description,
+  align,
 }) => {
   return (
     <FlexibleContainer
@@ -25,11 +25,13 @@ export const BackHeaderWithLabelComponentButton = ({
       direction={direction}
       flexibility={flexibility}
       justify={"center"}
+      //   color="red"
     >
       <RNPIconButton
         action={arrow_left_action}
         icon="arrow-left"
         width={"20%"}
+        align={align}
       />
       <HeaderLabelContainer width={"50%"} marginLeft={"5%"}>
         <Text text_variant="headers_label">{caption}</Text>

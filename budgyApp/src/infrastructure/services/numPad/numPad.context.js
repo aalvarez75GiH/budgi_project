@@ -1,11 +1,11 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useContext } from "react";
+// import { TransactionsContext } from "../transactions/transactions.context";
+// import { CategoryListContext } from "../category_list/category_list.context";
+
 export const NumPadContext = createContext();
 
 export const NumPadContextProvider = ({ children }) => {
   const [number, setNumber] = useState("0");
-
-  // console.log("NUMBER TYPE AT NUMPAD CONTEXT:", typeof number);
-
   const clean = () => {
     setNumber("0");
   };

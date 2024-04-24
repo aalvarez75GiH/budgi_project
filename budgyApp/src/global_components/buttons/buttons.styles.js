@@ -72,9 +72,9 @@ export const RNPIconBtn = Styled(IconButton)``;
 export const RNPIconButtonContainer = Styled(View)`
   width:${(props) => props.width};
   height: 50px;
-  /* background-color: red; */
+  /* background-color: blue; */
   justify-content: center;
-  align_items: center;
+  align_items: ${(props) => props.align};
   
 `;
 
