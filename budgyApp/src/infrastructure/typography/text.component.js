@@ -141,6 +141,12 @@ font-size: ${theme.fontSizes.text_16};
 color: ${theme.colors.text.disabled};
 `;
 
+const bold_caption_32 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_32};
+color: ${theme.colors.text.p_142223C};
+`;
+
 const variants = {
   numPad_display,
   cta_dark_caption,

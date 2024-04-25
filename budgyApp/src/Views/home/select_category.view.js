@@ -25,10 +25,10 @@ export const SelectCategoryView = ({ navigation }) => {
     fixingANumberToTwoDecimals,
   } = useContext(TransactionsContext);
   const { amount } = transactionInfoForRequest;
-  // console.log(
-  //   "TRANSACTION INFO FOR REQUEST AT SELECT CATEGORY VIEW:",
-  //   JSON.stringify(transactionInfoForRequest, null, 2)
-  // );
+  console.log(
+    "TRANSACTION INFO FOR REQUEST AT SELECT CATEGORY VIEW:",
+    JSON.stringify(transactionInfoForRequest, null, 2)
+  );
   // ********** Date operations context consumption **********
   const { system_date, expenseDate } = useContext(DateOperationsContext);
 

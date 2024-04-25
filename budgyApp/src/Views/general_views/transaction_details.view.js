@@ -2,12 +2,10 @@ import React, { useState, useContext, useEffect } from "react";
 // import { Text } from "react-native";
 
 import { SafeArea } from "../../global_components/safe-area.component";
-import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { BackHeaderComponent } from "../../global_components/organisms/headers/back_header.component";
 import { OptionsButtonsComponent } from "../../global_components/buttons/optionsButtons.component";
 import { ConfirmationInfoComponent } from "../../global_components/organisms/confirmations/transaction_confirmation.component";
 import { LinkButton } from "../../global_components/buttons/link_button";
-import { registerTransactionRequest } from "../../infrastructure/services/transactions/transactions.services";
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { theme } from "../../infrastructure/theme";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
@@ -17,92 +15,23 @@ import { AuthenticationContext } from "../../infrastructure/services/authenticat
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { Text } from "../../infrastructure/typography/text.component";
-import { FormInput } from "../../global_components/inputs/form_input";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
 import { TextForDescription } from "../../global_components/special text components/text_for_descriptions";
 
 export const TransactionDetailsView = ({ navigation, route }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { item } = route.params;
+  const { amount, transaction_date, short_name, description } = item;
 
-  const { amount, short_name, transaction_date, description } = route.params;
   //   ***** Transactions context consumption
-  const {
-    isConfirmed,
-    setIsConfirmed,
-    cleaningState,
-    transactionInfoForRequest,
-    setTransactionInfoForRequest,
-    fixingANumberToTwoDecimalsAndString,
-    setTransactionsByMonthYear,
-    setTransactionsTotalAmount,
-    // isLoading,
-    // registeringTransaction,
-  } = useContext(TransactionsContext);
+  const { fixingANumberToTwoDecimalsAndString } =
+    useContext(TransactionsContext);
 
-  //   const { amount } = transactionInfoForRequest;
-  const { packingExpenseDateForDifferentDay, system_date, month_year } =
-    useContext(DateOperationsContext);
-
-  //   ***** Authentication context consumption
-  const { user, db } = useContext(AuthenticationContext);
-  const { user_id } = user;
-
-  //   const { transaction_date, short_name, description } =
-  //     transactionInfoForRequest;
-
-  console.log(
-    "TRANSACTION INFO AT SUMMARY:",
-    JSON.stringify(transactionInfoForRequest, null, 2)
-  );
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
-  //   const updateTransaction = async () => {
-  //     setIsLoading(true);
-  //     const transactionInfoForRequestWithTS = {
-  //       ...transactionInfoForRequest,
-  //       timeStamp: Date.now(),
-  //     };
-  //     console.log(
-  //       "TRANSACTION INFO FOR REQ WITH TS:",
-  //       JSON.stringify(transactionInfoForRequestWithTS, null, 2)
-  //     );
-  //     setTimeout(async () => {
-  //       try {
-  //         const response = await registerTransactionRequest(
-  //           transactionInfoForRequestWithTS
-  //         );
-  //         // console.log("RESPONSE:", JSON.stringify(response, null, 2));
-  //         response ? setIsLoading(false) : setIsLoading(true);
-  //         response ? setIsConfirmed(true) : setIsConfirmed(false);
-  //         response ? listenForNewChangesAtDB() : null;
-  //         navigation.navigate("Transaction_confirmation");
-  //       } catch (error) {
-  //         console.log("THERE WAS AN ERROR:", error);
-  //       }
-  //     }, 3000);
-  //   };
-
-  //   const movingForwardToEditAmountView = () => {
-
-  //   };
-
   const backHeaderAction = () => {
-    const { expenseDate } = packingExpenseDateForDifferentDay(system_date);
     navigation.goBack();
-  };
-
-  const settingTodayTransactionDate = () => {
-    const { expenseDate } = packingExpenseDateForDifferentDay(system_date);
-    // console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
-      creation_date: system_date,
-      transaction_date: expenseDate,
-    });
-    setButton1Pressed(true);
-    setButton2Pressed(false);
   };
 
   return (
@@ -175,7 +104,14 @@ export const TransactionDetailsView = ({ navigation, route }) => {
           <Spacer position="top" size="xxl" />
           <Spacer position="top" size="xxl" />
 
-          <LinkButton caption="Edit" action={() => null} />
+          <LinkButton
+            caption="Edit"
+            action={() => {
+              navigation.navigate("Enter_amount_view", {
+                item,
+              });
+            }}
+          />
         </FlexibleContainer>
       </GeneralFlexContainer>
     </SafeArea>
