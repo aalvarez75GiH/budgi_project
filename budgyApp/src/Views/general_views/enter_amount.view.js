@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Platform } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { SafeArea } from "../../global_components/safe-area.component";
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
@@ -14,6 +15,8 @@ import { Text } from "../../infrastructure/typography/text.component";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { AmountFormInput } from "../../global_components/inputs/amount_formInput";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
+import { SVGComponent } from "../../global_components/image_components/svg.component";
+import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
 
 export const EnterAmountView = ({ navigation, route }) => {
   const { fixingANumberToTwoDecimalsAndString } =
@@ -73,31 +76,29 @@ export const EnterAmountView = ({ navigation, route }) => {
     }
     setAmountToSet("$" + formattedValue);
   };
-  {
-    /* <BackHeaderWithLabelComponentButton
-          navigation={navigation}
-          caption="Add a description"
-          direction={"row"}
-          color={theme.colors.bg.p_FFFFFF}
-          // color={"red"}
-          flexibility={Platform.OS === "ios" ? 1.2 : 1.2}
-          arrow_left_action={goingBack}
-          done_button_action={goingBack}
-          isDoneActive={isDoneActive}
-          description={description}
-          align="flex-start"
-        /> */
-  }
+
+  const clearingText = () => {
+    setAmountToSet("");
+  };
+
   return (
     <SafeArea background_color={"#FFFFFF"}>
       <GeneralFlexContainer>
         <BackHeaderWithLabelAndCancelButton
           caption=""
           direction={"row"}
-          // color={theme.colors.bg.p_FFFFFF}
+          color={theme.colors.bg.p_FFFFFF}
           flexibility={0.08}
           arrow_left_action={() => navigation.goBack()}
-          cancel_button_action={() => navigation.goBack()}
+          cancel_button_action={
+            () =>
+              // navigation.reset({
+              //   index: 1,
+              //   routes: [{ name: "My transactions" }],
+              // })
+              navigation.popToTop()
+            // navigation.navigate("My transactions")
+          }
           align={"center"}
           // color={"#FAA"}
         />
@@ -105,7 +106,7 @@ export const EnterAmountView = ({ navigation, route }) => {
           direction={"column"}
           color={theme.colors.bg.p_FFFFFF}
           // color={"brown"}
-          flexibility={Platform.OS === "ios" ? 0.25 : 0.4}
+          flexibility={Platform.OS === "ios" ? 0.25 : 0.3}
           justify={"center"}
         >
           <Spacer position="top" size="xxl" />
@@ -124,37 +125,71 @@ export const EnterAmountView = ({ navigation, route }) => {
             height={"50%"}
             justify="center"
             alignment="center"
+            direction="row"
             // color="lightblue"
           >
-            <AmountFormInput
-              width={Platform.OS === "ios" ? "80%" : "85%"}
-              height={"50px"}
-              color={theme.colors.bg.p_FFFFFF}
-              mode="flat"
-              placeholder={"$0.00"}
-              font_size={theme.fontSizes.text_32}
-              onChangeText={(value) => formatCurrency(value)}
-              value={amountToSet}
-              style={{
-                fontFamily: theme.fonts.bold,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              underlineColor={theme.colors.neutrals.p_B7B7B7}
-              activeUnderlineColor={theme.colors.neutrals.p_B7B7B7}
-              keyboardType="number-pad"
-              onFocus={() => setAmountToSet(`${amountToSet}`)}
-              textBreakStrategy="simple"
-            />
+            <ControlledContainer
+              width={"80%"}
+              height={"50%"}
+              justify="center"
+              alignment="center"
+              direction="row"
+            >
+              <Spacer position="left" size="xxl" />
+              <Spacer position="left" size="medium" />
+              <AmountFormInput
+                width={Platform.OS === "ios" ? "75%" : "75%"}
+                height={"50px"}
+                color={theme.colors.bg.p_FFFFFF}
+                mode="flat"
+                placeholder={"$0"}
+                font_size={theme.fontSizes.text_32}
+                onChangeText={(value) => formatCurrency(value)}
+                value={amountToSet}
+                style={{
+                  fontFamily: theme.fonts.bold,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderBottomWidth: 0.3,
+                  borderBottomColor: theme.colors.neutrals.p_B7B7B7,
+                }}
+                underlineColor={theme.colors.neutrals.p_B7B7B7}
+                activeUnderlineColor={theme.colors.neutrals.p_B7B7B7}
+                keyboardType="number-pad"
+                onFocus={() => setAmountToSet(`${amountToSet}`)}
+                textBreakStrategy="simple"
+              />
+              <ClickableControlledContainer
+                width={"17%"}
+                height={"80%"}
+                justify="center"
+                alignment="center"
+                direction="row"
+                // color="red"
+                onPress={clearingText}
+              >
+                <SVGComponent
+                  icon_width={30}
+                  icon_height={30}
+                  position={"static"}
+                  left={"0%"}
+                  top={"0%"}
+                  justify={"center"}
+                  icon_name={"ClearTextIcon"}
+                  icon_color={theme.colors.neutrals.s_898989}
+                />
+              </ClickableControlledContainer>
+            </ControlledContainer>
           </ControlledContainer>
         </FlexibleContainer>
-
         <FlexibleContainer
-          direction={"row"}
+          direction={"column"}
           color={theme.colors.bg.p_FFFFFF}
           // color={"lightblue"}
-          flexibility={0.5}
-          justify={"center"}
+          // flexibility={0.6}
+          flexibility={Platform.OS === "ios" ? 0.33 : 0.55}
+          justify={"flex-end"}
+          alignment={"center"}
         >
           {amountToSet.length > 0 ? (
             <RegularCTAButton
@@ -167,6 +202,7 @@ export const EnterAmountView = ({ navigation, route }) => {
               text_variant="cta_dark_caption"
             />
           ) : null}
+          <Spacer position="top" size="large" />
         </FlexibleContainer>
       </GeneralFlexContainer>
     </SafeArea>

@@ -18,6 +18,7 @@ import CheckIcon from "../../assets/icons/svgs/ok_success_icon.svg";
 import TransactionsIcon from "../../assets/icons/svgs/receipt_icon.svg";
 import MoneyIcon from "../../assets/icons/svgs/wallet_icon.svg";
 import PreferencesIcon from "../../assets/icons/svgs/preferences_icon2.svg";
+import clearTextIcon from "../../assets/icons/svgs/delete_discard_icon.svg";
 // import CategoryByUser from "../../../../assets/icons/svgs/users_group_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
@@ -89,6 +90,10 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "PreferencesIcon",
       icon: PreferencesIcon,
+    },
+    {
+      icon_name: "ClearTextIcon",
+      icon: clearTextIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";

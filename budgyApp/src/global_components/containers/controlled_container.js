@@ -8,4 +8,5 @@ background-color: ${(props) => props.color};
 justify-content: ${(props) => props.justify};
 align-items: ${(props) => props.alignment};
 flex-direction: ${(props) => props.direction};
+
 `;
