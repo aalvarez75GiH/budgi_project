@@ -163,7 +163,7 @@ export const CalendarView = ({ navigation, route }) => {
             color={theme.colors.buttons.p_FC9827}
             borderRadius={50}
             action={comingBackToSummary}
-            text_variant="cta_dark_caption"
+            text_variant="bold_text_20"
             //   isLoading={isLoading}
           />
         ) : null}

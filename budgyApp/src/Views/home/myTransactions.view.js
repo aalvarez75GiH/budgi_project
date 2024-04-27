@@ -243,7 +243,8 @@ export const MyTransactionsView = ({ navigation }) => {
       >
         <ControlledContainer width={"60%"} height={"35%"} direction={"column"}>
           <Spacer position="left" size="large">
-            <Text text_variant="dark_bold_caption_20">
+            <Text text_variant="bold_text_20">
+              {/* <Text text_variant="bold_text_20"> */}
               Total: ${totalAmountToRender.toFixed(2)}
             </Text>
           </Spacer>
@@ -254,7 +255,7 @@ export const MyTransactionsView = ({ navigation }) => {
                 <CheckIconComponent icon_width={20} icon_height={20} />
               </Spacer>
             </Spacer>
-            <Text text_variant="bold_caption_12">Most updated transaction</Text>
+            <Text text_variant="bold_text_12">Most updated transaction</Text>
           </ControlledContainer>
         </ControlledContainer>
         <Spacer position="left" size="medium">

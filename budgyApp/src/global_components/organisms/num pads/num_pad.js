@@ -14,21 +14,21 @@ export const NumPadComponent = () => {
       <NumPadContainer>
         <Row>
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"1"}
             wide={false}
             action={assemblingNumber}
           />
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"2"}
             wide={false}
             action={assemblingNumber}
           />
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"3"}
             wide={false}
@@ -37,21 +37,21 @@ export const NumPadComponent = () => {
         </Row>
         <Row>
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"4"}
             wide={false}
             action={assemblingNumber}
           />
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"5"}
             wide={false}
             action={assemblingNumber}
           />
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"6"}
             wide={false}
@@ -60,21 +60,21 @@ export const NumPadComponent = () => {
         </Row>
         <Row>
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"7"}
             wide={false}
             action={assemblingNumber}
           />
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"8"}
             wide={false}
             action={assemblingNumber}
           />
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"9"}
             wide={false}
@@ -83,21 +83,21 @@ export const NumPadComponent = () => {
         </Row>
         <Row>
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"clr"}
             wide={false}
             action={() => clean()}
           />
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"0"}
             wide={false}
             action={assemblingNumber}
           />
           <NumPadButton
-            text_variant={"numPad_light_caption"}
+            text_variant={"white_bold_text_24"}
             color={theme.colors.buttons.e2_5B6477}
             caption={"."}
             wide={false}

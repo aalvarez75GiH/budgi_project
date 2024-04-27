@@ -25,11 +25,7 @@ export const OptionButton = ({
       isActive={isActive}
     >
       <OptionButtonTextIconContainer>
-        <Text
-          text_variant={
-            isActive ? "cta_light_caption_16" : "cta_dark_caption_16"
-          }
-        >
+        <Text text_variant={isActive ? "white_bold_text_16" : "bold_text_16"}>
           {caption}
         </Text>
         {isActive && (

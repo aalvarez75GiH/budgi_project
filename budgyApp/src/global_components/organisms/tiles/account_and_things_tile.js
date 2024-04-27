@@ -50,7 +50,7 @@ export const AccountAndThingsTile = ({
       )}
 
       <TileLabelContainer width={"70%"} height={"90px"}>
-        <Text text_variant="Category_Tile_Caption">{caption}</Text>
+        <Text text_variant="bold_text_16">{caption}</Text>
       </TileLabelContainer>
       <TileIconContainer>
         {active_icon && (

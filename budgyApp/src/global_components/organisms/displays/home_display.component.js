@@ -18,7 +18,10 @@ export const HomeDisplayComponent = ({ number }) => {
 
   return (
     <HomeDisplayContainer>
-      <Text text_variant="numPad_display" style={{ textAlign: "center" }}>
+      <Text
+        text_variant="white_regular_text_96"
+        style={{ textAlign: "center" }}
+      >
         {formatCurrency(number)}
       </Text>
     </HomeDisplayContainer>

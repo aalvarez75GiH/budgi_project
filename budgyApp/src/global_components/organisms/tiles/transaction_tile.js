@@ -57,14 +57,14 @@ export const TransactionTile = ({
       )}
 
       <TileLabelContainer width={"50%"} height={"70px"}>
-        <Text text_variant="Category_Tile_Caption">{short_name}</Text>
-        <Text text_variant="transaction_date">{transaction_date}</Text>
+        <Text text_variant="bold_text_16">{short_name}</Text>
+        <Text text_variant="neutral_bold_text_14">{transaction_date}</Text>
       </TileLabelContainer>
       <TileIconContainer>
         {most_recent && <CheckIconComponent icon_width={20} icon_height={20} />}
       </TileIconContainer>
       <TileAmountMoneyContainer>
-        <Text text_variant="Category_Tile_Caption">${amount.toFixed(2)}</Text>
+        <Text text_variant="bold_text_16">${amount.toFixed(2)}</Text>
       </TileAmountMoneyContainer>
     </TilesContainer>
   );

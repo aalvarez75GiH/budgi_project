@@ -10,177 +10,123 @@ const defaultTextStyles = (theme) => `
   margin-bottom: 0px;
   `;
 
-//   ********* Buttons Text Style *****************
-
-const cta_dark_caption_16 = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_16};
-color: ${theme.colors.text.p_142223C};
-`;
-
-const cta_light_caption_16 = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_16};
-color: ${theme.colors.text.s_FFFFFF};
-`;
-const cta_dark_caption = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_20};
-color: ${theme.colors.text.p_142223C};
-
-`;
-const cta_light_caption = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_20};
-color: ${theme.colors.text.s_FFFFFF};
-`;
-
-const numPad_light_caption = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_24};
-color: ${theme.colors.text.s_FFFFFF};
-`;
-
-const numPad_dark_caption = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_24};
-color: ${theme.colors.text.p_142223C};
-`;
-//   ************************************************
-
-//   ********* Display Style *****************
-const numPad_display = (theme) => `
-font-size: ${theme.fontSizes.text_96};
+// ********* 96  ********************
+const white_regular_text_96 = (theme) => `
 font-family: ${theme.fonts.regular};
+font-size: ${theme.fontSizes.text_96};
 color: ${theme.colors.text.s_FFFFFF}
 `;
-//   ************************************************
+// ********* 32  ********************
 
-// ********* Flow Text Style ************************
-const gold_flow_text = (theme) => `
+const bold_text_32 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_32};
+color: ${theme.colors.text.p_142223C};
+`;
+// ********* 24  ********************
+
+const bold_text_24 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_24};
+color: ${theme.colors.text.p_142223C};
+`;
+
+const white_bold_text_24 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_24};
+color: ${theme.colors.text.s_FFFFFF};
+`;
+
+// ********* 20  ********************
+
+const bold_text_20 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_20};
+color: ${theme.colors.text.p_142223C};
+`;
+
+const white_bold_text_20 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_20};
+color: ${theme.colors.text.s_FFFFFF};
+`;
+
+const regular_text_20 = (theme) => `
+font-family: ${theme.fonts.regular};
+font-size: ${theme.fontSizes.text_20};
+color: ${theme.colors.text.p_142223C};
+`;
+
+// ********* 16  ********************
+
+const bold_text_16 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_16};
+color: ${theme.colors.text.p_142223C};
+`;
+
+const white_bold_text_16 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_16};
+color: ${theme.colors.text.s_FFFFFF};
+`;
+
+const regular_text_16 = (theme) => `
+font-family: ${theme.fonts.regular};
+font-size: ${theme.fontSizes.text_16};
+color: ${theme.colors.text.p_142223C};
+`;
+
+const neutral_bold_text_16 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_16};
+color: ${theme.colors.neutrals.p_B7B7B7};
+`;
+
+// ********* 14  ********************
+
+const gold_bold_text_14 = (theme) => `
 font-size: ${theme.fontSizes.text_14};
 font-family: ${theme.fonts.bold};
 color: ${theme.colors.ui.t_FC9827}
 `;
 
-//   ************************************************
+const neutral_bold_text_14 = (theme) => `
+ font-family: ${theme.fonts.regular};
+ font-size: ${theme.fontSizes.text_14};
+ color: ${theme.colors.buttons.e2_5B6477};
+ `;
 
-const dark_bold_caption_20 = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_20};
-color: ${theme.colors.text.p_142223C};
-`;
-const dark_bold_caption_24 = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_24};
-color: ${theme.colors.text.p_142223C};
-`;
-const grey_bold_caption_24 = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_24};
-color: ${theme.colors.neutrals.p_B7B7B7};
-`;
-const grey_bold_caption_16 = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_16};
-color: ${theme.colors.neutrals.p_B7B7B7};
-`;
+// ********* 12  ********************
 
-const regular_caption_16 = (theme) => `
-font-family: ${theme.fonts.regular};
-font-size: ${theme.fontSizes.text_16};
-color: ${theme.colors.text.p_142223C};
-
-`;
-const regular_caption_20 = (theme) => `
-font-family: ${theme.fonts.regular};
-font-size: ${theme.fontSizes.text_20};
-color: ${theme.colors.text.p_142223C};
-
-`;
-const headers_label = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_20};
-color: ${theme.colors.text.p_142223C};
-
-`;
-
-const Category_Tile_Caption = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_16};
-color: ${theme.colors.text.p_142223C};
-
-`;
-
-const Link_button = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_16};
-color: ${theme.colors.text.p_142223C};
-
-`;
-const Link_button_regular = (theme) => `
-font-family: ${theme.fonts.regular};
-font-size: ${theme.fontSizes.text_16};
-color: ${theme.colors.text.p_142223C};
-`;
-
-const transaction_date = (theme) => `
-font-family: ${theme.fonts.regular};
-font-size: ${theme.fontSizes.text_14};
-color: ${theme.colors.buttons.e2_5B6477};
-`;
-const bold_caption_12 = (theme) => `
+const bold_text_12 = (theme) => `
 font-family: ${theme.fonts.bold};
 font-size: ${theme.fontSizes.text_12};
 color: ${theme.colors.text.p_142223C};
 `;
 
-const disable_caption_16 = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_16};
-color: ${theme.colors.text.disabled};
-`;
-
-const bold_caption_32 = (theme) => `
-font-family: ${theme.fonts.bold};
-font-size: ${theme.fontSizes.text_32};
-color: ${theme.colors.text.p_142223C};
-`;
-
 const variants = {
-  numPad_display,
-  cta_dark_caption,
-  cta_light_caption,
-  numPad_light_caption,
-  numPad_dark_caption,
   defaultTextStyles,
-  gold_flow_text,
-  headers_label,
-  dark_bold_caption_20,
-  Category_Tile_Caption,
-  cta_dark_caption_16,
-  cta_light_caption_16,
-  regular_caption_16,
-  Link_button,
-  Link_button_regular,
-  dark_bold_caption_24,
-  regular_caption_20,
-  transaction_date,
-  bold_caption_12,
-  grey_bold_caption_24,
-  disable_caption_16,
-  grey_bold_caption_16,
+  white_regular_text_96,
+  bold_text_32,
+  bold_text_24,
+  white_bold_text_24,
+  bold_text_20,
+  bold_text_16,
+  regular_text_20,
+  regular_text_16,
+  white_bold_text_20,
+  white_bold_text_16,
+  neutral_bold_text_16,
+  gold_bold_text_14,
+  neutral_bold_text_14,
+  bold_text_12,
 };
 
 export const Text = styled.Text`
   ${({ theme }) => defaultTextStyles(theme)}
   ${({ text_variant, theme }) => variants[text_variant](theme)}
 `;
-// export const UnderlinedText = styled(Text)`
-//   ${({ theme }) => defaultTextStyles(theme)}
-//   ${({ text_variant, theme }) => variants[text_variant](theme)}
-// underline: underline
-// `;
 
 Text.defaultProps = {
   text_variant: "defaultTextStyles",

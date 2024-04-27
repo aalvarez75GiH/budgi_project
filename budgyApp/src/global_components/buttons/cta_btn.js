@@ -32,7 +32,7 @@ export const RegularCTAButton = ({
     >
       {isLoading ? (
         <ActivityIndicator
-          color={text_variant === "cta_dark_caption" ? p_142223C : s_FFFFFF}
+          color={text_variant === "bold_text_20" ? p_142223C : s_FFFFFF}
         />
       ) : (
         <Text text_variant={text_variant}>{caption}</Text>

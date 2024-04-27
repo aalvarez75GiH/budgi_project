@@ -21,7 +21,7 @@ export const EmptyInfoAlert = ({
       alignment={alignment}
       color={color}
     >
-      <Text text_variant="disable_caption_16">{caption}</Text>
+      <Text text_variant="neutral_bold_text_16">{caption}</Text>
     </ControlledContainer>
   );
 };

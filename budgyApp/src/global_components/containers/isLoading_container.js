@@ -10,7 +10,7 @@ export const IsLoadingContainer = ({ size, color, caption }) => {
       <ActivityIndicator size={size} color={color} />
       <Spacer position="top" size="large" />
       <View>
-        <Text text_variant="cta_dark_caption_16">{caption}</Text>
+        <Text text_variant="bold_text_16">{caption}</Text>
       </View>
     </View>
   );

@@ -80,7 +80,7 @@ export const Home = ({ navigation }) => {
       >
         {number === "0" ? (
           <TextContainer>
-            <Text text_variant="gold_flow_text">
+            <Text text_variant="gold_bold_text_14">
               Use numb pad to enter transaction
             </Text>
           </TextContainer>
@@ -92,7 +92,7 @@ export const Home = ({ navigation }) => {
             color={theme.colors.buttons.p_FC9827}
             borderRadius={50}
             action={movingToSelectCategory}
-            text_variant="cta_dark_caption"
+            text_variant="bold_text_20"
             top_position={640}
             icon_align={"center"}
           />

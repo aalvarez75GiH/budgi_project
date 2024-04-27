@@ -46,7 +46,7 @@ export const AccountAndThingsView = ({ navigation }) => {
       >
         <Spacer position="left" size="large" />
         <View>
-          <Text text_variant="dark_bold_caption_24">Account</Text>
+          <Text text_variant="bold_text_24">Account</Text>
         </View>
       </FlexibleContainer>
       {/* ********* */}
@@ -93,9 +93,7 @@ export const AccountAndThingsView = ({ navigation }) => {
       >
         <Spacer position="left" size="large" />
         <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-          <Text text_variant="dark_bold_caption_24">
-            Things of your interest
-          </Text>
+          <Text text_variant="bold_text_24">Things of your interest</Text>
         </GeneralFlexContainer>
       </FlexibleContainer>
       {/* ********* */}

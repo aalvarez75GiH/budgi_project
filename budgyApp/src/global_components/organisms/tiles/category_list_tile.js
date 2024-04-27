@@ -52,7 +52,7 @@ export const RegularCategoryTile = ({
       )}
 
       <TileLabelContainer width={"70%"} height={"90px"}>
-        <Text text_variant="Category_Tile_Caption">{category_name}</Text>
+        <Text text_variant="bold_text_16">{category_name}</Text>
       </TileLabelContainer>
       <TileIconContainer>
         {isSelected && <CheckIconComponent icon_width={20} icon_height={20} />}

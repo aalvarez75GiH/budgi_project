@@ -34,7 +34,7 @@ export const ConfirmationInfoComponent = ({
             top={"0%"}
             justify={"center"}
           />
-          <Text text_variant="cta_dark_caption">Transaction info:</Text>
+          <Text text_variant="bold_text_20">Transaction info:</Text>
         </ConfirmationTitleContainer>
       </Spacer>
       <Spacer />
@@ -43,10 +43,10 @@ export const ConfirmationInfoComponent = ({
       <Spacer position="left" size="large">
         <ConfirmationTextContainer color={"#E5E5E5"}>
           <Text1Container>
-            <Text text_variant="cta_dark_caption_16">Amount:</Text>
+            <Text text_variant="bold_text_16">Amount:</Text>
           </Text1Container>
           <Text2Container>
-            <Text text_variant="regular_caption_16">${amount.toString()}</Text>
+            <Text text_variant="regular_text_16">${amount.toString()}</Text>
           </Text2Container>
         </ConfirmationTextContainer>
       </Spacer>
@@ -54,11 +54,11 @@ export const ConfirmationInfoComponent = ({
       <Spacer position="left" size="large">
         <ConfirmationTextContainer color={"#FFFFFF"}>
           <Text1Container>
-            <Text text_variant="cta_dark_caption_16">Category:</Text>
+            <Text text_variant="bold_text_16">Category:</Text>
           </Text1Container>
 
           <Text2Container>
-            <Text text_variant="regular_caption_16">{short_name}</Text>
+            <Text text_variant="regular_text_16">{short_name}</Text>
           </Text2Container>
           {isConfirmed && <CheckIconComponent width={30} height={30} />}
         </ConfirmationTextContainer>
@@ -67,7 +67,7 @@ export const ConfirmationInfoComponent = ({
       <Spacer position="left" size="large">
         <ConfirmationTextContainer color={"#FFFFFF"}>
           <Text1Container>
-            <Text text_variant="cta_dark_caption_16">Expense date:</Text>
+            <Text text_variant="bold_text_16">Expense date:</Text>
           </Text1Container>
 
           <Text2Container>

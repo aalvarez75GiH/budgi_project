@@ -18,7 +18,7 @@ export const DoneHeaderComponent = ({ action, color }) => {
       justify={"center"}
     >
       <HeaderLabelContainer width={"100%"} marginLeft={"10%"}>
-        <Text text_variant="headers_label">{caption}</Text>
+        <Text text_variant="bold_text_20">{caption}</Text>
       </HeaderLabelContainer>
     </ClickableFlexibleContainer>
   );

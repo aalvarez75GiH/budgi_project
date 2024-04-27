@@ -75,7 +75,7 @@ export const TransactionConfirmationView = ({ navigation }) => {
           color={theme.colors.buttons.t_E5E5E5}
           borderRadius={0}
           action={goingHome}
-          text_variant="Link_button"
+          text_variant="bold_text_16"
         />
       </FlexibleContainer>
       <FlexibleContainer

@@ -26,7 +26,6 @@ export const RoundedOptionButton = ({
       borderRadius={borderRadius}
     >
       <OptionButtonTextIconContainer>
-        {/* <Text text_variant="bold_caption_12">{caption}</Text> */}
         <UnderlinedBoldCaption size={12}>{caption}</UnderlinedBoldCaption>
       </OptionButtonTextIconContainer>
     </RoundedOPTButton>

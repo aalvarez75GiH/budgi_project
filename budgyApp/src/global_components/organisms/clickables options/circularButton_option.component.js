@@ -57,7 +57,7 @@ export const CircularButtonOptionComponent = ({
         direction="column"
         onPress={action}
       >
-        <Text text_variant="bold_caption_12">{caption}</Text>
+        <Text text_variant="bold_text_12">{caption}</Text>
       </ClickableControlledContainer>
     </ClickableControlledContainer>
   );

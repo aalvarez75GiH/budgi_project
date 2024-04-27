@@ -3,7 +3,6 @@ import { Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { SafeArea } from "../../global_components/safe-area.component";
-import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { BackHeaderWithLabelAndCancelButton } from "../../global_components/organisms/headers/back_header+label+cancel.header";
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { theme } from "../../infrastructure/theme";
@@ -118,7 +117,8 @@ export const EnterAmountView = ({ navigation, route }) => {
             alignment="center"
             // color="red"
           >
-            <Text text_variant="dark_bold_caption_20">Enter Amount</Text>
+            {/* <Text text_variant="dark_bold_caption_20">Enter Amount</Text> */}
+            <Text text_variant="bold_text_20">Enter Amount</Text>
           </ControlledContainer>
           <ControlledContainer
             width={"100%"}
@@ -199,7 +199,7 @@ export const EnterAmountView = ({ navigation, route }) => {
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
               action={() => null}
-              text_variant="cta_dark_caption"
+              text_variant="bold_text_20"
             />
           ) : null}
           <Spacer position="top" size="large" />

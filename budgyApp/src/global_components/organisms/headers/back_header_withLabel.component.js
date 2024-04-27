@@ -28,7 +28,7 @@ export const BackHeaderWithLabelComponent = ({
         align={align}
       />
       <HeaderLabelContainer width={"75%"} marginLeft={"15%"}>
-        <Text text_variant="headers_label">{caption}</Text>
+        <Text text_variant="bold_text_20">{caption}</Text>
       </HeaderLabelContainer>
     </FlexibleContainer>
   );

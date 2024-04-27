@@ -24,7 +24,7 @@ export const ConfirmationInfoCheckedComponent = ({
         <ConfirmationTitleContainer>
           <FileIcon />
           <Spacer position="left" size="large" />
-          <Text text_variant="cta_dark_caption">Transaction info:</Text>
+          <Text text_variant="bold_text_20">Transaction info:</Text>
         </ConfirmationTitleContainer>
       </Spacer>
       <Spacer />
@@ -33,10 +33,10 @@ export const ConfirmationInfoCheckedComponent = ({
       <Spacer position="left" size="large">
         <ConfirmationTextContainer color={"#E5E5E5"}>
           <Text1Container>
-            <Text text_variant="cta_dark_caption_16">Amount:</Text>
+            <Text text_variant="bold_text_16">Amount:</Text>
           </Text1Container>
           <Text2Container>
-            <Text text_variant="regular_caption_16">$32.98</Text>
+            <Text text_variant="regular_text_16">$32.98</Text>
           </Text2Container>
         </ConfirmationTextContainer>
       </Spacer>
@@ -44,11 +44,11 @@ export const ConfirmationInfoCheckedComponent = ({
       <Spacer position="left" size="large">
         <ConfirmationTextContainer color={"#FFFFFF"}>
           <Text1Container>
-            <Text text_variant="cta_dark_caption_16">Category:</Text>
+            <Text text_variant="bold_text_16">Category:</Text>
           </Text1Container>
 
           <Text2Container>
-            <Text text_variant="regular_caption_16">Gas</Text>
+            <Text text_variant="regular_text_16">Gas</Text>
           </Text2Container>
           {dataIsConfirmed && <CheckIconComponent width={30} height={30} />}
         </ConfirmationTextContainer>
@@ -57,11 +57,11 @@ export const ConfirmationInfoCheckedComponent = ({
       <Spacer position="left" size="large">
         <ConfirmationTextContainer color={"#FFFFFF"}>
           <Text1Container>
-            <Text text_variant="cta_dark_caption_16">Expense date:</Text>
+            <Text text_variant="bold_text_16">Expense date:</Text>
           </Text1Container>
 
           <Text2Container>
-            <Text text_variant="regular_caption_16">Mar 17, 2023</Text>
+            <Text text_variant="regular_text_16">Mar 17, 2023</Text>
           </Text2Container>
         </ConfirmationTextContainer>
       </Spacer>

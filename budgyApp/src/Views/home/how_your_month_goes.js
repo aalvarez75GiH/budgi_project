@@ -226,7 +226,7 @@
 //                 <CheckIconComponent icon_width={20} icon_height={20} />
 //               </Spacer>
 //             </Spacer>
-//             <Text text_variant="bold_caption_12">Most updated transaction</Text>
+//             <Text text_variant="bold_text_12">Most updated transaction</Text>
 //           </ControlledContainer>
 //         </ControlledContainer>
 //         <Spacer position="left" size="medium">

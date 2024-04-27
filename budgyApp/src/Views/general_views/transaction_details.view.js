@@ -77,7 +77,7 @@ export const TransactionDetailsView = ({ navigation, route }) => {
                 // color="red"
               >
                 <Spacer position="left" size="extraLarge">
-                  <Text text_variant="cta_dark_caption_16">Description:</Text>
+                  <Text text_variant="bold_text_16">Description:</Text>
                 </Spacer>
               </ControlledContainer>
               <ClickableControlledContainer
