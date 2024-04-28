@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { theme } from "../../../infrastructure/theme";
 
 export const ConfirmationInfoContainer = Styled(View)`
-width: ${Platform.OS === "ios" ? "390px" : "370px"};
+width: ${Platform.OS === "ios" ? 390 : 370}px;
 height: 150px;
 /* background-color: ${theme.colors.brand.primary}; */
 /* background-color: red; */

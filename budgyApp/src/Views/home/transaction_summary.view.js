@@ -202,8 +202,6 @@ export const TransactionSummaryView = ({ navigation }) => {
           <Spacer position="top" size="large" />
 
           <ConfirmationInfoComponent
-            width={200}
-            height={140}
             isConfirmed={isConfirmed}
             amount={stringedAmount}
             transaction_date={transaction_date}
@@ -215,7 +213,7 @@ export const TransactionSummaryView = ({ navigation }) => {
             <>
               <ControlledContainer
                 width={"100%"}
-                height={"50px"}
+                height={"10%"}
                 justify="center"
                 alignment="flex-start"
                 // color="red"
@@ -226,7 +224,7 @@ export const TransactionSummaryView = ({ navigation }) => {
               </ControlledContainer>
               <ClickableControlledContainer
                 width={"85%"}
-                height={"150px"}
+                height={"30%"}
                 justify="flex-start"
                 alignment="flex-start"
                 action={movingForwardToAddDescription}

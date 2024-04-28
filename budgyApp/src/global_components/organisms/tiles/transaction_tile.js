@@ -32,6 +32,9 @@ export const TransactionTile = ({
       height={"80px"}
       borderColor={theme.colors.bg.e_F4F4F4}
       borderWidth={"2px"}
+      justify={"center"}
+      align={"center"}
+      bg_color={theme.colors.bg.p_FFFFFF}
     >
       {icon_name === `byUserCategoryIcon` ? (
         <PNGComponent
@@ -56,11 +59,17 @@ export const TransactionTile = ({
         />
       )}
 
-      <TileLabelContainer width={"50%"} height={"70px"}>
+      <TileLabelContainer width={"50%"} height={"70px"} justify="center">
         <Text text_variant="bold_text_16">{short_name}</Text>
         <Text text_variant="neutral_bold_text_14">{transaction_date}</Text>
       </TileLabelContainer>
-      <TileIconContainer>
+      <TileIconContainer
+        width={"10%"}
+        height={"100%"}
+        bg_color={theme.colors.bg.p_FFFFFF}
+        justify={"center"}
+        align={"center"}
+      >
         {most_recent && <CheckIconComponent icon_width={20} icon_height={20} />}
       </TileIconContainer>
       <TileAmountMoneyContainer>

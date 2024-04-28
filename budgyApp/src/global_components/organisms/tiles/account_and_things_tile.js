@@ -26,33 +26,30 @@ export const AccountAndThingsTile = ({
       height={"70px"}
       borderColor={theme.colors.bg.e_F4F4F4}
       borderWidth={"2px"}
+      justify={"center"}
+      align={"center"}
+      bg_color={theme.colors.bg.p_FFFFFF}
     >
-      {icon_name === `byUserCategoryIcon` ? (
-        <PNGComponent
-          icon_width={50}
-          icon_height={50}
-          position={"static"}
-          left={0}
-          top={0}
-          justify={"center"}
-          icon_name={icon_name}
-        />
-      ) : (
-        <SVGComponent
-          icon_width={30}
-          icon_height={30}
-          position={"static"}
-          left={0}
-          top={0}
-          justify={"center"}
-          icon_name={icon_name}
-        />
-      )}
+      <SVGComponent
+        icon_width={30}
+        icon_height={30}
+        position={"static"}
+        left={0}
+        top={0}
+        justify={"center"}
+        icon_name={icon_name}
+      />
 
-      <TileLabelContainer width={"70%"} height={"90px"}>
+      <TileLabelContainer width={"70%"} height={"90px"} justify="center">
         <Text text_variant="bold_text_16">{caption}</Text>
       </TileLabelContainer>
-      <TileIconContainer>
+      <TileIconContainer
+        width={"10%"}
+        height={"100%"}
+        bg_color={theme.colors.bg.p_FFFFFF}
+        justify={"center"}
+        align={"center"}
+      >
         {active_icon && (
           <RNPIconButton
             action={() => null}

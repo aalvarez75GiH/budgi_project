@@ -13,7 +13,6 @@ export const HeaderLabelContainer = Styled(View)`
   justify-content: center;
   align-items: right;
   margin-left: ${(props) => props.marginLeft};
-  /* margin-top: 30px; */
   /* border: 2px solid #000000; */
 `;
 

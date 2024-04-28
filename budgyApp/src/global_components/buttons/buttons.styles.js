@@ -81,8 +81,8 @@ export const RNPIconButtonContainer = Styled(View)`
 // ********************* Options Buttons Component *********
 
 export const OptionsButtonsContainer = Styled(View)`
-width: ${(props) => props.width}px;
-height: ${(props) => props.height}px;
+width: ${(props) => props.width};
+height: ${(props) => props.height};
 background-color: ${(props) => props.color};
 /* border: 1px solid #000000; */
 flex-direction:row;
@@ -100,8 +100,8 @@ align-items: center;
 `;
 
 export const OPTButton = Styled(TouchableOpacity)`
-  width: ${(props) => props.width}px;
-  height: ${(props) => props.height}px;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   background-color: ${(props) =>
     props.isActive
       ? theme.colors.buttons.s_142223C

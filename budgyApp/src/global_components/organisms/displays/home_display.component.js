@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { Text } from "../../../infrastructure/typography/text.component";
-import { HomeDisplayContainer } from "./home_display.styles";
+import { FlexibleContainer } from "../../containers/flexible_container";
 
 export const HomeDisplayComponent = ({ number }) => {
   // console.log("number at display:", number);
@@ -17,13 +17,17 @@ export const HomeDisplayComponent = ({ number }) => {
   };
 
   return (
-    <HomeDisplayContainer>
+    <FlexibleContainer alignment="center" justify="center" direction="column">
       <Text
         text_variant="white_regular_text_96"
         style={{ textAlign: "center" }}
       >
         {formatCurrency(number)}
       </Text>
-    </HomeDisplayContainer>
+    </FlexibleContainer>
   );
 };
+
+// alignment="center"
+//       justify="center"
+//       direction="column"

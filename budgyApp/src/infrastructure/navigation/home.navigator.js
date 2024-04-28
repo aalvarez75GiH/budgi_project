@@ -12,6 +12,7 @@ import { CalendarView } from "../../Views/home/calendar.view";
 import { AddDescriptionView } from "../../Views/home/add_description.view";
 // import { GeneralOperationDetailsView } from "../../Views/general_views/enter_amount.view";
 import { TransactionDetailsView } from "../../Views/general_views/transaction_details.view";
+import { AnyTransactionDetailsView } from "../../Views/general_views/any_transaction_details.view";
 import { EnterAmountView } from "../../Views/general_views/enter_amount.view";
 // import { HowMonthIsGoingView } from "../../Views/home/how_your_month_goes";
 
@@ -68,7 +69,7 @@ export const HomeNavigator = () => {
       />
       <HomeStack.Screen
         name="Transaction_details_view"
-        component={TransactionDetailsView}
+        component={AnyTransactionDetailsView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

@@ -148,7 +148,7 @@ export const MyTransactionsView = ({ navigation }) => {
     }, 200);
   };
 
-  const test = (item) => {
+  const movingForwardToDetailsView = (item) => {
     console.log("ITEM:", JSON.stringify(item, null, 2));
     const { amount, short_name, transaction_date, description } = item;
     console.log("AMOUNT:", amount);
@@ -159,6 +159,17 @@ export const MyTransactionsView = ({ navigation }) => {
       item,
     });
   };
+  // const test = (item) => {
+  //   console.log("ITEM:", JSON.stringify(item, null, 2));
+  //   const { amount, short_name, transaction_date, description } = item;
+  //   console.log("AMOUNT:", amount);
+  //   console.log("SHORT NAME:", short_name);
+  //   console.log("EXPENSE DATE:", transaction_date);
+  //   console.log("DESCRIPTION:", description);
+  //   navigation.navigate("Transaction_details_view", {
+  //     item,
+  //   });
+  // };
 
   //   *************** it does render transactions
   const renderItem = ({ item }) => {
@@ -172,7 +183,7 @@ export const MyTransactionsView = ({ navigation }) => {
         transaction_date={item.transaction_date}
         most_recent={item.most_recent}
         short_name={item.short_name}
-        action={() => test(item)}
+        action={() => movingForwardToDetailsView(item)}
       />
     );
   };

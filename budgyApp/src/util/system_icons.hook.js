@@ -16,9 +16,14 @@ import UserIcon from "../../assets/icons/svgs/user_icon.svg";
 import EmailIcon from "../../assets/icons/svgs/email_icon_2.svg";
 import CheckIcon from "../../assets/icons/svgs/ok_success_icon.svg";
 import TransactionsIcon from "../../assets/icons/svgs/receipt_icon.svg";
-import MoneyIcon from "../../assets/icons/svgs/wallet_icon.svg";
+import WalletIcon from "../../assets/icons/svgs/wallet_icon.svg";
 import PreferencesIcon from "../../assets/icons/svgs/preferences_icon2.svg";
 import clearTextIcon from "../../assets/icons/svgs/delete_discard_icon.svg";
+import editIcon from "../../assets/icons/svgs/edit_icon.svg";
+import billIcon from "../../assets/icons/svgs/bills_icon.svg";
+import calendarIcon from "../../assets/icons/svgs/calendar_icon.svg";
+import descriptionIcon from "../../assets/icons/svgs/comment_icon.svg";
+
 // import CategoryByUser from "../../../../assets/icons/svgs/users_group_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
@@ -85,7 +90,7 @@ export const useSVGComponent = (icon_name) => {
     },
     {
       icon_name: "SpendingIcon",
-      icon: MoneyIcon,
+      icon: WalletIcon,
     },
     {
       icon_name: "PreferencesIcon",
@@ -94,6 +99,22 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "ClearTextIcon",
       icon: clearTextIcon,
+    },
+    {
+      icon_name: "EditIcon",
+      icon: editIcon,
+    },
+    {
+      icon_name: "BillIcon",
+      icon: billIcon,
+    },
+    {
+      icon_name: "CalendarIcon",
+      icon: calendarIcon,
+    },
+    {
+      icon_name: "DescriptionIcon",
+      icon: descriptionIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";
