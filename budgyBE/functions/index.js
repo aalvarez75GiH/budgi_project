@@ -63,4 +63,35 @@ exports.CategoryDataUpdateProcessAfterTransaction = fcn.firestore
     );
   });
 
-// **********************************************
+exports.CategoryDataUpdateProcessAfterTransactionUpdate = fcn.firestore
+  .document("transactions/{documentId}")
+  .onUpdate(async (change, context) => {
+    // const { category_id, user_id, month_year, creation_date } =
+    //   change.after.data();
+    const after = change.after.data();
+    console.log("AFTER:", after);
+    const { category_id, user_id, month_year, creation_date } = after;
+    // // ** Getting the amount of money when summing all transactions that match with Month year, Category and User
+    const transactions_amount =
+      await gettingTransactionsMoneyAmountByMonthYear_CategoryID_UserID(
+        category_id,
+        user_id,
+        month_year
+      );
+
+    // // ** Getting category data by same month_year and user_id of transaction
+    const category_data =
+      await gettingCategoryDataToUpdateWithTransactionsMoneyAmount(
+        user_id,
+        month_year
+      );
+    // console.log("CATEGORY DATA FOUND:", category_data);
+
+    // // ** Updating  category data with transactions amount
+    await updateCategoryData_expenseCategory_amounts(
+      category_id,
+      transactions_amount.amount,
+      category_data,
+      creation_date
+    );
+  });

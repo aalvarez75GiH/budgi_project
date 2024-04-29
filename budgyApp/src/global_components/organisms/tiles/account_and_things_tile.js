@@ -25,7 +25,6 @@ export const AccountAndThingsTile = ({
       width={"100%"}
       height={70}
       borderColor={theme.colors.bg.e_F4F4F4}
-      borderWidth={2}
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}

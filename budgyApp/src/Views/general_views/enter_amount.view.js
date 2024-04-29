@@ -20,25 +20,34 @@ import { ClickableControlledContainer } from "../../global_components/containers
 export const EnterAmountView = ({ navigation, route }) => {
   const {
     fixingANumberToTwoDecimalsAndString,
-    setTransactionInfoForRequest,
-    transactionInfoForRequest,
     fixingANumberToTwoDecimals,
+    transactionInfoForUpdate,
+    setTransactionInfoForUpdate,
   } = useContext(TransactionsContext);
 
+  // const { item } = route.params;
+  // const { amount } = item;
+  // const { transactionInfoForUpdate, setTransactionInfoForUpdate } =
+  //   route.params;
+  const { amount } = transactionInfoForUpdate;
+
+  console.log(
+    "TRANSACTION FOR UPDATE AT ENTER AMOUNT VIEW:",
+    JSON.stringify(transactionInfoForUpdate, null, 2)
+  );
+
   // ****** Here we are parsing amount to integer for request to transaction end point
-  const { item } = route.params;
-  const { amount } = item;
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
   const [amountToSet, setAmountToSet] = useState(String(`$${stringedAmount}`));
 
-  const item_modified_at_enter_amount_view = {
-    ...item,
-    amount: amountToSet.slice(1),
-  };
+  // const item_modified_at_enter_amount_view = {
+  //   ...item,
+  //   amount: amountToSet.slice(1),
+  // };
 
   console.log(
     "ITEM MODIFIED:",
-    JSON.stringify(item_modified_at_enter_amount_view, null, 2)
+    JSON.stringify(transactionInfoForUpdate, null, 2)
   );
 
   // const {
@@ -85,11 +94,12 @@ export const EnterAmountView = ({ navigation, route }) => {
   };
 
   const settingNewTransactionAmount = () => {
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
+    setTransactionInfoForUpdate({
+      ...transactionInfoForUpdate,
       amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
     });
-    navigation.navigate("Transaction_summary");
+
+    navigation.navigate("Transaction_details_view");
   };
 
   return (
@@ -210,8 +220,8 @@ export const EnterAmountView = ({ navigation, route }) => {
               height={50}
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
-              // action={settingNewTransactionAmount}
-              action={() => null}
+              action={settingNewTransactionAmount}
+              // action={() => null}
               text_variant="bold_text_20"
             />
           ) : null}

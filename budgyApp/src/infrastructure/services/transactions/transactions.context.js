@@ -5,7 +5,10 @@ import { NumPadContext } from "../numPad/numPad.context";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "./transactions.services";
-import { registerTransactionRequest } from "./transactions.services";
+import {
+  registerTransactionRequest,
+  updateTransactionRequest,
+} from "./transactions.services";
 
 export const TransactionContextProvider = ({ children }) => {
   const { month_year } = useContext(DateOperationsContext);
@@ -32,6 +35,8 @@ export const TransactionContextProvider = ({ children }) => {
   const [transactionInfoForRequest, setTransactionInfoForRequest] = useState(
     TRANSACTION_INFO_INITIAL
   );
+  const [transactionInfoForUpdate, setTransactionInfoForUpdate] = useState({});
+
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [transactionsByMonthYear, setTransactionsByMonthYear] = useState([]);
   const [total_amount, setTransactionsTotalAmount] = useState(0);
@@ -92,6 +97,74 @@ export const TransactionContextProvider = ({ children }) => {
     return numberFixed;
   };
 
+  // ****************** Updating transactions logic ******************
+
+  const listenForNewChangesAtDB = () => {
+    const collectionRef = db.collection("transactions");
+    collectionRef.onSnapshot(async (snapshot) => {
+      let hasNewData = false;
+
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          const newData = change.doc.data();
+          console.log("NEW TRANSACTION IS:", newData);
+          if (newData) {
+            hasNewData = true;
+          }
+        }
+      });
+
+      if (hasNewData) {
+        try {
+          const transactionsAndAmount =
+            await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
+              user_id,
+              month_year
+            );
+
+          const { transactions, total_amount } = transactionsAndAmount;
+
+          setTransactionsByMonthYear(transactions);
+          setTransactionsTotalAmount(total_amount);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    });
+  };
+  const updatingTransaction = async () => {
+    setIsLoading(true);
+    // console.log(
+    //   "TRANSACTION INFO FOR UPDATE:",
+    //   JSON.stringify(transactionInfoForUpdate, null, 2)
+    // );
+
+    try {
+      const response = await new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const response = await updateTransactionRequest(
+              transactionInfoForUpdate
+            );
+            // console.log("RESPONSE:", JSON.stringify(response, null, 2));
+            (await response) ? listenForNewChangesAtDB() : null;
+            // response ? setIsLoading(false) : setIsLoading(true);
+            !isLoading ? resolve(response) : null;
+          } catch (error) {
+            console.log("THERE WAS AN ERROR:", error);
+            reject(error);
+          }
+        }, 3000);
+      });
+      return response;
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
+  // ****************** Updating transactions logic ******************
+
   return (
     <TransactionsContext.Provider
       value={{
@@ -108,6 +181,9 @@ export const TransactionContextProvider = ({ children }) => {
         total_amount,
         setTransactionsByMonthYear,
         setTransactionsTotalAmount,
+        transactionInfoForUpdate,
+        setTransactionInfoForUpdate,
+        updatingTransaction,
         // registeringTransaction,
       }}
     >

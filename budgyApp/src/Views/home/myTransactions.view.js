@@ -60,13 +60,22 @@ export const MyTransactionsView = ({ navigation }) => {
   const { user_id } = user;
 
   //   ****** Consumption from Transactions Context ************
-  const { transactionsByMonthYear, total_amount, isLoading, setIsLoading } =
-    useContext(TransactionsContext);
+  const {
+    transactionsByMonthYear,
+    total_amount,
+    isLoading,
+    setIsLoading,
+    setTransactionInfoForUpdate,
+  } = useContext(TransactionsContext);
 
   useEffect(() => {
     settingUpTransactionsFromContext();
     setExpenseCategoriesToRender(expenseCategories);
   }, []);
+  useEffect(() => {
+    settingUpTransactionsFromContext();
+    // setExpenseCategoriesToRender(expenseCategories);
+  }, [transactionsByMonthYear, total_amount]);
 
   //   console.log(
   //     "TRANSACTIONS TO RENDER:",
@@ -149,16 +158,20 @@ export const MyTransactionsView = ({ navigation }) => {
   };
 
   const movingForwardToDetailsView = (item) => {
-    console.log("ITEM:", JSON.stringify(item, null, 2));
-    const { amount, short_name, transaction_date, description } = item;
-    console.log("AMOUNT:", amount);
-    console.log("SHORT NAME:", short_name);
-    console.log("EXPENSE DATE:", transaction_date);
-    console.log("DESCRIPTION:", description);
-    navigation.navigate("Transaction_details_view", {
-      item,
-    });
+    setTransactionInfoForUpdate(item);
+    navigation.navigate("Transaction_details_view");
   };
+  // const movingForwardToDetailsView = (item) => {
+  //   console.log("ITEM:", JSON.stringify(item, null, 2));
+  //   const { amount, short_name, transaction_date, description } = item;
+  //   console.log("AMOUNT:", amount);
+  //   console.log("SHORT NAME:", short_name);
+  //   console.log("EXPENSE DATE:", transaction_date);
+  //   console.log("DESCRIPTION:", description);
+  //   navigation.navigate("Transaction_details_view", {
+  //     item,
+  //   });
+  // };
 
   //   *************** it does render transactions
   const renderItem = ({ item }) => {

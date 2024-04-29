@@ -14,6 +14,20 @@ export const registerTransactionRequest = async (transactionInfoForRequest) => {
     });
 };
 
+export const updateTransactionRequest = async (transactionInfoForUpdate) => {
+  // console.log("TRANSACTION INFO AT SERVICES:", transactionInfoForUpdate);
+  const { transactionEndPoint } = environment;
+  return await axios
+    .put(`${transactionEndPoint}`, transactionInfoForUpdate)
+    .then((response) => {
+      // console.log("RESPONSE AT SERVICES:", JSON.stringify(response, null, 2));
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
 export const getTransactionsRequest = async () => {
   // console.log("TRANSACTION INFO AT SERVICES:", transactionInfoForRequest);
   const { transactionEndPoint } = environment;

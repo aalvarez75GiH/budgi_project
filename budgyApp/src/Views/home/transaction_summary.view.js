@@ -60,36 +60,71 @@ export const TransactionSummaryView = ({ navigation }) => {
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
+  // const listenForNewChangesAtDB = () => {
+  //   // let newData;
+  //   const collectionRef = db.collection("transactions");
+  //   collectionRef.onSnapshot((snapshot) => {
+  //     snapshot.docChanges().forEach(async (change) => {
+  //       if (change.type === "added") {
+  //         const newData = change.doc.data();
+  //         console.log("NEW TRANSACTION IS:", newData);
+  //         if (newData) {
+  //           try {
+  //             const transactionsAndAmount =
+  //               await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
+  //                 user_id,
+  //                 month_year
+  //               );
+  //             console.log(
+  //               "TRANSACTIONS AND AMOUNT AFTER LISTENER LISTENED:",
+  //               JSON.stringify(transactionsAndAmount, null, 2)
+  //             );
+
+  //             const { transactions, total_amount } = transactionsAndAmount;
+
+  //             setTransactionsByMonthYear(transactions);
+  //             setTransactionsTotalAmount(total_amount);
+  //           } catch (error) {
+  //             console.log(error);
+  //           }
+  //         }
+  //       }
+  //     });
+  //   });
+  // };
+
   const listenForNewChangesAtDB = () => {
-    // let newData;
     const collectionRef = db.collection("transactions");
-    collectionRef.onSnapshot((snapshot) => {
-      snapshot.docChanges().forEach(async (change) => {
+    collectionRef.onSnapshot(async (snapshot) => {
+      let hasNewData = false;
+
+      snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
           const newData = change.doc.data();
           console.log("NEW TRANSACTION IS:", newData);
           if (newData) {
-            try {
-              const transactionsAndAmount =
-                await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
-                  user_id,
-                  month_year
-                );
-              console.log(
-                "TRANSACTIONS AND AMOUNT AFTER LISTENER LISTENED:",
-                JSON.stringify(transactionsAndAmount, null, 2)
-              );
-
-              const { transactions, total_amount } = transactionsAndAmount;
-
-              setTransactionsByMonthYear(transactions);
-              setTransactionsTotalAmount(total_amount);
-            } catch (error) {
-              console.log(error);
-            }
+            hasNewData = true;
           }
         }
       });
+
+      if (hasNewData) {
+        try {
+          const transactionsAndAmount =
+            await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
+              user_id,
+              month_year
+            );
+
+          const { transactions, total_amount } = transactionsAndAmount;
+
+          setTransactionsByMonthYear(transactions);
+          setTransactionsTotalAmount(total_amount);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      }
     });
   };
 

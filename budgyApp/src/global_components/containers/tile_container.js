@@ -8,7 +8,7 @@ background-color:${(props) => props.bg_color};
 margin-top: ${(props) => props.margin_top}px;
 flex-direction: row;
 border-bottom-color: ${(props) => props.borderColor};
-border-bottom-width: ${(props) => props.borderWidth}px;
+border-bottom-width: 2px;
 justify-content: ${(props) => props.justify};
 align-items:${(props) => props.align};
 `;
@@ -45,7 +45,7 @@ background-color:${(props) => props.bg_color};
 margin-top: ${(props) => props.margin_top};
 flex-direction: row;
 border-bottom-color: ${(props) => props.borderColor};
-border-bottom-width: ${(props) => props.borderWidth}px;
+/* border-bottom-width: ${(props) => props.borderWidth}px; */
 justify-content: ${(props) => props.justify};
 align-items:${(props) => props.align};
 `;
