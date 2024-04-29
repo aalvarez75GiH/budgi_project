@@ -22,26 +22,26 @@ export const RegularCategoryTile = ({
     <TilesContainer
       onPress={action}
       width={"100%"}
-      height={"90px"}
-      margin_top={"2px"}
+      height={90}
+      margin_top={2}
       borderColor={theme.colors.bg.e_F4F4F4}
-      borderWidth={"2px"}
+      borderWidth={2}
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
     >
       {icon_name === `byUserCategoryIcon` ? (
         <PNGComponent
-          icon_width={"50px"}
-          icon_height={"50px"}
+          icon_width={50}
+          icon_height={50}
           position={"static"}
           justify={"center"}
           icon_name={icon_name}
         />
       ) : (
         <SVGComponent
-          icon_width={"30px"}
-          icon_height={"30px"}
+          icon_width={30}
+          icon_height={30}
           position={"static"}
           justify={"center"}
           icon_name={icon_name}
@@ -49,7 +49,7 @@ export const RegularCategoryTile = ({
         />
       )}
 
-      <TileLabelContainer width={"70%"} height={"90px"} justify="center">
+      <TileLabelContainer width={"70%"} height={90} justify="center">
         <Text text_variant="bold_text_16">{category_name}</Text>
       </TileLabelContainer>
       <TileIconContainer
@@ -59,9 +59,7 @@ export const RegularCategoryTile = ({
         justify={"center"}
         align={"center"}
       >
-        {isSelected && (
-          <CheckIconComponent icon_width={"25px"} icon_height={"25px"} />
-        )}
+        {isSelected && <CheckIconComponent icon_width={25} icon_height={25} />}
       </TileIconContainer>
     </TilesContainer>
   );

@@ -23,9 +23,9 @@ export const AccountAndThingsTile = ({
     <TilesContainer
       onPress={action}
       width={"100%"}
-      height={"70px"}
+      height={70}
       borderColor={theme.colors.bg.e_F4F4F4}
-      borderWidth={"2px"}
+      borderWidth={2}
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
@@ -40,7 +40,7 @@ export const AccountAndThingsTile = ({
         icon_name={icon_name}
       />
 
-      <TileLabelContainer width={"70%"} height={"90px"} justify="center">
+      <TileLabelContainer width={"70%"} height={90} justify="center">
         <Text text_variant="bold_text_16">{caption}</Text>
       </TileLabelContainer>
       <TileIconContainer

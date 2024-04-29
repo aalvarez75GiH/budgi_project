@@ -3,19 +3,19 @@ import { TouchableOpacity, View } from "react-native";
 
 export const TilesContainer = Styled(TouchableOpacity)`
 width: ${(props) => props.width};
-height: ${(props) => props.height};
+height: ${(props) => props.height}px;
 background-color:${(props) => props.bg_color};
-margin-top: ${(props) => props.margin_top};
-flex_direction: row;
+margin-top: ${(props) => props.margin_top}px;
+flex-direction: row;
 border-bottom-color: ${(props) => props.borderColor};
-border-bottom-width: ${(props) => props.borderWidth};
+border-bottom-width: ${(props) => props.borderWidth}px;
 justify-content: ${(props) => props.justify};
 align-items:${(props) => props.align};
 `;
 
 export const TileLabelContainer = Styled(View)`
-height: ${(props) => props.height};
 width: ${(props) => props.width};
+height: ${(props) => props.height}px;
 /* background-color: red; */
 background-color: ${(props) => props.bg_color};
 justify-content: ${(props) => props.justify};
@@ -24,13 +24,11 @@ flex-direction: ${(props) => props.direction};
 `;
 
 export const TileIconContainer = Styled(View)`
-width:${(props) => props.width} ;
+width:${(props) => props.width};
 height: ${(props) => props.height};
 justify-content: ${(props) => props.justify};
 align-items: ${(props) => props.align};
-background_color: ${(props) => props.bg_color};
-/* background_color: yellow; */
-
+background-color: ${(props) => props.bg_color};
 `;
 
 export const TileAmountMoneyContainer = Styled(View)`
@@ -45,9 +43,9 @@ width: ${(props) => props.width};
 height: ${(props) => props.height};
 background-color:${(props) => props.bg_color};
 margin-top: ${(props) => props.margin_top};
-flex_direction: row;
+flex-direction: row;
 border-bottom-color: ${(props) => props.borderColor};
-border-bottom-width: ${(props) => props.borderWidth};
+border-bottom-width: ${(props) => props.borderWidth}px;
 justify-content: ${(props) => props.justify};
 align-items:${(props) => props.align};
 `;

@@ -19,7 +19,6 @@ export const InfoDetailsTile = ({
   caption2,
   navigation,
   icon_name,
-  active_icon,
   action,
   icon_width,
   icon_height,
@@ -29,7 +28,7 @@ export const InfoDetailsTile = ({
       width={"100%"}
       height={"70px"}
       borderColor={theme.colors.bg.e_F4F4F4}
-      borderWidth={"2px"}
+      borderWidth={2}
       justify={"flex-start"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}

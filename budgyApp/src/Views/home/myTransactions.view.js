@@ -159,17 +159,6 @@ export const MyTransactionsView = ({ navigation }) => {
       item,
     });
   };
-  // const test = (item) => {
-  //   console.log("ITEM:", JSON.stringify(item, null, 2));
-  //   const { amount, short_name, transaction_date, description } = item;
-  //   console.log("AMOUNT:", amount);
-  //   console.log("SHORT NAME:", short_name);
-  //   console.log("EXPENSE DATE:", transaction_date);
-  //   console.log("DESCRIPTION:", description);
-  //   navigation.navigate("Transaction_details_view", {
-  //     item,
-  //   });
-  // };
 
   //   *************** it does render transactions
   const renderItem = ({ item }) => {

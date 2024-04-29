@@ -29,9 +29,9 @@ export const TransactionTile = ({
     <TilesContainer
       onPress={action}
       width={"100%"}
-      height={"80px"}
+      height={80}
       borderColor={theme.colors.bg.e_F4F4F4}
-      borderWidth={"2px"}
+      borderWidth={2}
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
@@ -59,7 +59,7 @@ export const TransactionTile = ({
         />
       )}
 
-      <TileLabelContainer width={"50%"} height={"70px"} justify="center">
+      <TileLabelContainer width={"50%"} height={70} justify="center">
         <Text text_variant="bold_text_16">{short_name}</Text>
         <Text text_variant="neutral_bold_text_14">{transaction_date}</Text>
       </TileLabelContainer>

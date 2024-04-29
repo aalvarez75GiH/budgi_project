@@ -71,7 +71,6 @@ export const ConfirmationInfoComponent = ({
           </Text1Container>
 
           <Text2Container>
-            {/* <UnderlinedRegularCaption>Mar 17, 2023</UnderlinedRegularCaption> */}
             <UnderlinedRegularCaption size={16}>
               {transaction_date}
             </UnderlinedRegularCaption>

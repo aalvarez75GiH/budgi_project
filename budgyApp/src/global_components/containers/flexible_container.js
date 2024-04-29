@@ -7,6 +7,8 @@ export const FlexibleContainer = Styled(View)`
     background-color: ${(props) => props.color};
     justify-content: ${(props) => props.justify};
     align-items: ${(props) => props.alignment || "center"};
-    border: ${(props) => (props.isBordered ? "2px solid #000000" : "none")};
     
+    border-bottom_width: ${(props) => (props.isBordered ? 2 : 0)}px;
+    border_bottom_color: ${(props) =>
+      props.isBordered ? "#000000" : "transparent"};  
 `;

@@ -18,6 +18,8 @@ export const DescriptionTile = ({ description, action, width, height }) => {
       color={"#FFFFFF"}
       //   color="red"
       direction="column"
+      border_bottom_width={2}
+      border_bottom_color={theme.colors.bg.e_F4F4F4}
     >
       <ControlledContainer
         width={"100%"}
@@ -36,7 +38,9 @@ export const DescriptionTile = ({ description, action, width, height }) => {
           direction="row"
           //   color="brown"
         >
-          <Text text_variant="bold_text_16">Description:</Text>
+          <Spacer position="left" size="medium">
+            <Text text_variant="bold_text_16">Description:</Text>
+          </Spacer>
         </ControlledContainer>
         <ControlledContainer
           width={"58%"}
@@ -64,10 +68,28 @@ export const DescriptionTile = ({ description, action, width, height }) => {
         // color={theme.colors.bg.e_F4F4F4}
         onPress={action}
       >
-        <Spacer position="left" size="extraLarge">
-          <TextForDescription size={16}>{description}</TextForDescription>
-        </Spacer>
+        {/* <Spacer position="left" size="xxl"> */}
+        {description.length < 1 ? (
+          <Spacer position="left" size="xs">
+            <Spacer position="left" size="extraLarge">
+              <Text text_variant="neutral_bold_text_16">
+                Add a description...
+              </Text>
+            </Spacer>
+          </Spacer>
+        ) : (
+          <Spacer position="left" size="xs">
+            <Spacer position="left" size="extraLarge">
+              <Text text_variant="regular_text_16">{description}</Text>
+            </Spacer>
+          </Spacer>
+        )}
+        {/* </Spacer> */}
       </ClickableControlledContainer>
     </ControlledContainer>
   );
 };
+
+// <Text text_variant="neutral_bold_text_16">
+//   Add a description...
+// </Text>

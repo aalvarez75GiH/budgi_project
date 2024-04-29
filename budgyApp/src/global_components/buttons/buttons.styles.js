@@ -6,7 +6,7 @@ import { theme } from "../../infrastructure/theme";
 // ********************* Regular CTA Button
 
 export const CTAButtonContainer = Styled(View)`
-  width: ${Platform.OS === "ios" ? "410px" : "400px"};
+  width: ${Platform.OS === "ios" ? 410 : 400}px;
   height: 90px;
   background-color: red;
   justify-content: center;
@@ -81,8 +81,8 @@ export const RNPIconButtonContainer = Styled(View)`
 // ********************* Options Buttons Component *********
 
 export const OptionsButtonsContainer = Styled(View)`
-width: ${(props) => props.width};
-height: ${(props) => props.height};
+width: ${(props) => props.width}px;
+height: ${(props) => props.height}px;
 background-color: ${(props) => props.color};
 /* border: 1px solid #000000; */
 flex-direction:row;
@@ -100,8 +100,8 @@ align-items: center;
 `;
 
 export const OPTButton = Styled(TouchableOpacity)`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
   background-color: ${(props) =>
     props.isActive
       ? theme.colors.buttons.s_142223C
@@ -116,10 +116,6 @@ export const OPTButton = Styled(TouchableOpacity)`
 export const LinkBtnContainer = Styled(View)`
 width: 70%;
 height: auto;
-/* border: 2px solid #000000; */
-/* position: absolute; */
-/* top: 540px; */
-/* left: 140px; */
 justify-content: center;
 align-items: center;
 `;
@@ -127,7 +123,6 @@ align-items: center;
 export const LinkBtn = Styled(TouchableOpacity)`
   width: 100%;
   height: 40px;
-  /* background-color: #E5E5E5; */
   justify-content: center;
   align-items: center;
   

@@ -18,8 +18,12 @@ import { SVGComponent } from "../../global_components/image_components/svg.compo
 import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
 
 export const EnterAmountView = ({ navigation, route }) => {
-  const { fixingANumberToTwoDecimalsAndString } =
-    useContext(TransactionsContext);
+  const {
+    fixingANumberToTwoDecimalsAndString,
+    setTransactionInfoForRequest,
+    transactionInfoForRequest,
+    fixingANumberToTwoDecimals,
+  } = useContext(TransactionsContext);
 
   // ****** Here we are parsing amount to integer for request to transaction end point
   const { item } = route.params;
@@ -78,6 +82,14 @@ export const EnterAmountView = ({ navigation, route }) => {
 
   const clearingText = () => {
     setAmountToSet("");
+  };
+
+  const settingNewTransactionAmount = () => {
+    setTransactionInfoForRequest({
+      ...transactionInfoForRequest,
+      amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
+    });
+    navigation.navigate("Transaction_summary");
   };
 
   return (
@@ -193,11 +205,12 @@ export const EnterAmountView = ({ navigation, route }) => {
         >
           {amountToSet.length > 0 ? (
             <RegularCTAButton
-              caption="Next"
+              caption="Set Amount"
               width={310}
               height={50}
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
+              // action={settingNewTransactionAmount}
               action={() => null}
               text_variant="bold_text_20"
             />

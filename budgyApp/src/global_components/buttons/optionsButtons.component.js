@@ -23,13 +23,13 @@ export const OptionsButtonsComponent = ({
   };
   return (
     <OptionsButtonsContainer
-      width={"350px"}
-      height={"50px"}
+      width={350}
+      height={50}
       color={theme.colors.bg.p_FFFFFF}
     >
       <OptionButton
-        width={"170px"}
-        height={"50px"}
+        width={170}
+        height={50}
         caption="Today"
         color={theme.colors.bg.s_142223C}
         borderRadius={0}
@@ -37,8 +37,8 @@ export const OptionsButtonsComponent = ({
         action={action}
       />
       <OptionButton
-        width={"170px"}
-        height={"50px"}
+        width={170}
+        height={50}
         action={action2}
         caption="Different day"
         color={theme.colors.buttons.t_E5E5E5}
