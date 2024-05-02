@@ -13,10 +13,7 @@ import { theme } from "../../infrastructure/theme";
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { TransactionTile } from "../../global_components/organisms/tiles/transaction_tile";
-import {
-  getTransactionsAndTotalAmountRequestOrderedByTimeStamp,
-  getTransactionsAndTotalAmountRequest_ByUser_ByCat_ByMonthyear_OrderedByTimeStamp,
-} from "../../infrastructure/services/transactions/transactions.services";
+
 import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
 import { CheckIconComponent } from "../../global_components/check_icon_component";
 import { RoundedOptionButton } from "../../global_components/buttons/rounded_option_button";
@@ -24,7 +21,6 @@ import { GeneralFlexContainer } from "../../global_components/containers/general
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { CircularButtonOptionComponent } from "../../global_components/organisms/clickables options/circularButton_option.component";
 import { CircularTextOptionComponent } from "../../global_components/organisms/clickables options/circular_text_option.component";
-import { useSVGComponent } from "../../util/system_icons.hook";
 
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
@@ -46,15 +42,10 @@ export const MyTransactionsView = ({ navigation }) => {
   //   ****** Consumption from Category List Context ************
   const { categoryList } = useContext(CategoryListContext);
   const expenseCategories = categoryList.expense_categories;
-  //   console.log(
-  //     "CATEGORY LIST AT HOW_MONTH:",
-  //     JSON.stringify(categoryList, null, 2)
-  //   );
-  //   console.log("EXPENSE CATEGORIES AT HOW_MONTH:", expenseCategories);
 
   //   ****** Consumption from Date Operations Context ************
   const { month_year } = useContext(DateOperationsContext);
-
+  // let month_year = "APR 2024";
   //   ****** Consumption from Authentication Context ************
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
@@ -72,56 +63,63 @@ export const MyTransactionsView = ({ navigation }) => {
     settingUpTransactionsFromContext();
     setExpenseCategoriesToRender(expenseCategories);
   }, []);
+
   useEffect(() => {
     settingUpTransactionsFromContext();
-    // setExpenseCategoriesToRender(expenseCategories);
   }, [transactionsByMonthYear, total_amount]);
-
-  //   console.log(
-  //     "TRANSACTIONS TO RENDER:",
-  //     JSON.stringify(transactionsToRender, null, 2)
-  //   );
 
   //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
   const settingUpTransactionsFromContext = () => {
     setIsPressed(true);
     setIsLoading(true);
-    // setIsLoadingByCat(true);
     setSelectedItem(null);
     setTimeout(() => {
       setTransactionsToRender(transactionsByMonthYear);
       setTotalAmountToRender(total_amount);
-      // setIsLoadingByCat(false);
       setIsLoading(false);
     }, 1000);
   };
+
+  console.log(
+    "TRANSACTIONS BY MONTH YEAR AT MY TRANSACTIONS VIEW:",
+    JSON.stringify(transactionsByMonthYear, null, 2)
+  );
+  console.log(
+    "TRANSACTIONS TO RENDER:",
+    JSON.stringify(transactionsToRender, null, 2)
+  );
+
   //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
   const settingUpTransactionsFromContextForAllOptionButton = () => {
     setIsPressed(true);
     setIsLoadingByCat(true);
-    // setIsLoadingByCat(true);
     setSelectedItem(null);
     setTimeout(() => {
       setTransactionsToRender(transactionsByMonthYear);
       setTotalAmountToRender(total_amount);
-      // setIsLoadingByCat(false);
       setIsLoadingByCat(false);
     }, 1000);
   };
 
-  //**** HERE WE SET THE TRANSACTIONS BY CATEGORY AND MONTH YEAR BY DEMAND ****
-
+  // This function is used to set up transactions by category and month/year.
   const settingUpTransactions_byCategory_by_MonthYear = async (
     user_id,
     category_id,
     month_year
   ) => {
+    // Set the button to not pressed and start loading.
     setIsPressed(false);
     setIsLoadingByCat(true);
+
+    // Delay the execution of the following code by 200ms.
     setTimeout(() => {
       try {
+        // Initialize an empty array to store transactions that match the criteria.
         let transactionsByCategoryMonthYear = [];
+
+        // Loop through all transactions.
         transactionsByMonthYear.map((transaction) => {
+          // If the transaction matches the user, category, and month/year, add it to the array.
           if (
             transaction.user_id === user_id &&
             transaction.category_id === category_id &&
@@ -131,27 +129,27 @@ export const MyTransactionsView = ({ navigation }) => {
           }
         });
 
-        // console.log(
-        //   "TRANSACTIONS BY CATEGORY AND MONTH YEAR:",
-        //   JSON.stringify(transactionsByCategoryMonthYear, null, 2)
-        // );
+        // If there are any transactions that match the criteria...
         if (transactionsByCategoryMonthYear.length) {
+          // ...calculate the total amount of these transactions.
           const transactions_amount = transactionsByCategoryMonthYear.reduce(
             (a, b) => ({
               amount: a.amount + b.amount,
             })
           );
-          // console.log(
-          //   "TRANSACTIONS TOTAL AMOUNT:",
-          //   JSON.stringify(transactions_amount, null, 2)
-          // );
+
+          // Set the total amount to be rendered.
           setTotalAmountToRender(transactions_amount.amount);
         } else {
+          // If there are no transactions that match the criteria, log a message.
           console.log("THERE ARE NO TRANSACTIONS FOR THAT CATEGORY...");
         }
+
+        // Stop loading and set the transactions to be rendered.
         setIsLoadingByCat(false);
         setTransactionsToRender(transactionsByCategoryMonthYear);
       } catch (error) {
+        // If there's an error, log it.
         console.log(error);
       }
     }, 200);
@@ -161,17 +159,9 @@ export const MyTransactionsView = ({ navigation }) => {
     setTransactionInfoForUpdate(item);
     navigation.navigate("Transaction_details_view");
   };
-  // const movingForwardToDetailsView = (item) => {
-  //   console.log("ITEM:", JSON.stringify(item, null, 2));
-  //   const { amount, short_name, transaction_date, description } = item;
-  //   console.log("AMOUNT:", amount);
-  //   console.log("SHORT NAME:", short_name);
-  //   console.log("EXPENSE DATE:", transaction_date);
-  //   console.log("DESCRIPTION:", description);
-  //   navigation.navigate("Transaction_details_view", {
-  //     item,
-  //   });
-  // };
+  const movingForwardToMonthsPadView = () => {
+    navigation.navigate("Months_Pad_View");
+  };
 
   //   *************** it does render transactions
   const renderItem = ({ item }) => {
@@ -199,7 +189,6 @@ export const MyTransactionsView = ({ navigation }) => {
       user_id,
       category_id,
       month_year
-      // index
     );
   };
 
@@ -257,15 +246,26 @@ export const MyTransactionsView = ({ navigation }) => {
         <ControlledContainer width={"60%"} height={"35%"} direction={"column"}>
           <Spacer position="left" size="large">
             <Text text_variant="bold_text_20">
-              {/* <Text text_variant="bold_text_20"> */}
-              Total: ${totalAmountToRender.toFixed(2)}
+              {/* Total: ${totalAmountToRender.toFixed(2)} */}
+              Total:{" "}
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(totalAmountToRender)}
             </Text>
           </Spacer>
-          <Spacer position="top" size="medium" />
-          <ControlledContainer width={"100%"} height={"50%"} direction={"row"}>
+          {/* <Spacer position="top" size="medium" /> */}
+          <ControlledContainer
+            width={"90%"}
+            height={"70%"}
+            direction={"row"}
+            // color="brown"
+            justify={"center"}
+            alignment={"center"}
+          >
             <Spacer position="left" size="small">
-              <Spacer position="left" size="large">
-                <CheckIconComponent icon_width={20} icon_height={20} />
+              <Spacer position="left" size="medium">
+                <CheckIconComponent icon_width={15} icon_height={15} />
               </Spacer>
             </Spacer>
             <Text text_variant="bold_text_12">Most updated transaction</Text>
@@ -279,7 +279,7 @@ export const MyTransactionsView = ({ navigation }) => {
           >
             <RoundedOptionButton
               color={"#F4F4F4"}
-              onPress={() => null}
+              action={movingForwardToMonthsPadView}
               width={"140px"}
               height={"55px"}
               borderRadius={25}
@@ -360,7 +360,7 @@ export const MyTransactionsView = ({ navigation }) => {
             isBordered={false}
           >
             <EmptyInfoAlert
-              caption="Sorry, No transactions for this category yet :("
+              caption="Sorry, We could not find any transaction :("
               width={"90%"}
               height={"20%"}
               color="#F9F9FA"

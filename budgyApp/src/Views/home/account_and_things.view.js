@@ -31,7 +31,7 @@ export const AccountAndThingsView = ({ navigation }) => {
         direction={"column"}
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
-        flexibility={0.14}
+        flexibility={0.1}
       />
 
       {/* ********* */}

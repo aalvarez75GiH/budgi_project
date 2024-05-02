@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
+import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { Text } from "../../infrastructure/typography/text.component";
@@ -21,57 +22,75 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
   //  ***** Transactions context consumption
   const {
     fixingANumberToTwoDecimalsAndString,
-    transactionInfoForUpdate,
     updatingTransaction,
     isLoading,
+    transactionInfoForUpdate,
   } = useContext(TransactionsContext);
 
+  const {
+    amount,
+    transaction_date,
+    short_name,
+    description,
+    month_year,
+    transaction_id,
+  } = transactionInfoForUpdate;
+
   console.log(
-    "TRANSACTION FOR UPDATE AT DETAILS:",
+    "TRANSACTION INFO FOR UPDATE AT ANY TRANSACTION DETAILS:",
     JSON.stringify(transactionInfoForUpdate, null, 2)
   );
-
-  const { amount, transaction_date, short_name, description, month_year } =
-    transactionInfoForUpdate;
-
-  console.log("USER ID AT ANY TRANSACTION DETAILS:", user_id);
-  console.log("MONTH YEAR AT ANY TRANSACTION DETAILS:", month_year);
-
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
+  // const movingForwardToAddDescription = () => {
+  //   navigation.navigate("AddDescription_view");
+  // };
+
   const movingForwardToAddDescription = () => {
-    navigation.navigate("AddDescription_view");
+    navigation.navigate("General_AddDescription_view", {
+      comingFrom: "AnyTransactionDetailsView",
+    });
+  };
+
+  const movingForwardToSelectCategoryView = () => {
+    navigation.navigate("General_select_category_view", {
+      comingFrom: "AnyTransactionDetailsView",
+    });
+  };
+  const movingForwardToGeneralCalendarView = () => {
+    navigation.navigate("General_calendar_view", {
+      comingFrom: "AnyTransactionDetailsView",
+    });
   };
 
   const updatingTransactionProcess = async () => {
     const response = await updatingTransaction();
-    console.log(
-      "RESPONSE FROM UPDATING TRANSACTION:",
-      JSON.stringify(response, null, 2)
-    );
-    // response ? listenForNewChangesAtDB() : null;
     response ? navigation.navigate("My transactions") : null;
+  };
+
+  const closingMenu = () => {
+    navigation.goBack();
+  };
+
+  const movingForwardToDeleteConfirmationView = () => {
+    navigation.navigate("Delete_confirmation_view", {
+      transaction_id: transaction_id,
+    });
   };
 
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-      <ExitHeaderComponent
+      <TwoIconsHeaderComponent
         navigation={navigation}
-        direction={"column"}
+        direction={"row"}
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
-        flexibility={0.1}
+        flexibility={0.12}
+        action_icon_1={movingForwardToDeleteConfirmationView}
+        action_icon_2={closingMenu}
       />
 
-      <FlexibleContainer
-        // color={"#898989"}
-        color={theme.colors.bg.p_FFFFFF}
-        direction="row"
-        flexibility={0.008}
-        justify={"flex-start"}
-        isBordered={false}
-      ></FlexibleContainer>
       <ControlledContainer
         color={theme.colors.bg.p_FFFFFF}
         // color={"red"}
@@ -81,10 +100,10 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         alignment="flex-start"
       >
         <ControlledContainer
-          // color={theme.colors.bg.p_FFFFFF}
+          color={theme.colors.bg.p_FFFFFF}
           // color={"red"}
           width={"100%"}
-          height={"50px"}
+          height={"100px"}
           justify="center"
           alignment="flex-start"
         >
@@ -120,7 +139,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           navigation={navigation}
           icon_name={"EditIcon"}
           active_icon={true}
-          action={() => null}
+          action={movingForwardToSelectCategoryView}
           icon_width={25}
           icon_height={25}
         />
@@ -132,7 +151,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           active_icon={true}
           icon_width={25}
           icon_height={25}
-          action={() => null}
+          action={movingForwardToGeneralCalendarView}
         />
 
         <DescriptionTile
@@ -144,7 +163,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
       </FlexibleContainer>
       <FlexibleContainer
         color={theme.colors.bg.p_FFFFFF}
-        // color={"lightblue"}
+        // color={"brown"}
         direction="column"
         flexibility={description ? 0.46 : 0.53}
         justify={"center"}

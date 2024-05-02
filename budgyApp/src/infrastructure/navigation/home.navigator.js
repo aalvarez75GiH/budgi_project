@@ -2,20 +2,18 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { Home } from "../../Views/home/home.view";
-import { SelectCategoryView } from "../../Views/home/select_category.view";
 import { TransactionConfirmationView } from "../../Views/home/transaction_confirmation.view";
 import { TransactionSummaryView } from "../../Views/home/transaction_summary.view";
 
 import { AccountAndThingsView } from "../../Views/home/account_and_things.view";
 import { MyTransactionsView } from "../../Views/home/myTransactions.view";
-import { CalendarView } from "../../Views/home/calendar.view";
-import { AddDescriptionView } from "../../Views/home/add_description.view";
-// import { GeneralOperationDetailsView } from "../../Views/general_views/enter_amount.view";
-import { TransactionDetailsView } from "../../Views/general_views/transaction_details.view";
+import { GeneralCalendarView } from "../../Views/general_views/calendar.view";
+import { GeneralAddDescriptionView } from "../../Views/general_views/add_description.view";
+import { GeneralSelectCategoryView } from "../../Views/general_views/select_category.view";
 import { AnyTransactionDetailsView } from "../../Views/general_views/any_transaction_details.view";
 import { EnterAmountView } from "../../Views/general_views/enter_amount.view";
-// import { HowMonthIsGoingView } from "../../Views/home/how_your_month_goes";
-
+import { CancelDeleteConfirmationView } from "../../Views/general_views/cancel_delete_confirmation.view";
+import { MonthsPadView } from "../../Views/general_views/months_pad.view";
 const HomeStack = createNativeStackNavigator();
 
 export const HomeNavigator = () => {
@@ -26,7 +24,14 @@ export const HomeNavigator = () => {
       }}
     >
       <HomeStack.Screen name="Home" component={Home} />
-      <HomeStack.Screen name="Categories" component={SelectCategoryView} />
+
+      <HomeStack.Screen
+        name="General_select_category_view"
+        component={GeneralSelectCategoryView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+
       <HomeStack.Screen
         name="Transaction_summary"
         component={TransactionSummaryView}
@@ -55,15 +60,15 @@ export const HomeNavigator = () => {
       /> */}
 
       <HomeStack.Screen
-        name="Calendar_view"
-        component={CalendarView}
+        name="General_calendar_view"
+        component={GeneralCalendarView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />
 
       <HomeStack.Screen
-        name="AddDescription_view"
-        component={AddDescriptionView}
+        name="General_AddDescription_view"
+        component={GeneralAddDescriptionView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />
@@ -76,6 +81,18 @@ export const HomeNavigator = () => {
       <HomeStack.Screen
         name="Enter_amount_view"
         component={EnterAmountView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <HomeStack.Screen
+        name="Delete_confirmation_view"
+        component={CancelDeleteConfirmationView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <HomeStack.Screen
+        name="Months_Pad_View"
+        component={MonthsPadView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

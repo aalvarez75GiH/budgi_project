@@ -25,50 +25,14 @@ export const EnterAmountView = ({ navigation, route }) => {
     setTransactionInfoForUpdate,
   } = useContext(TransactionsContext);
 
-  // const { item } = route.params;
-  // const { amount } = item;
-  // const { transactionInfoForUpdate, setTransactionInfoForUpdate } =
-  //   route.params;
   const { amount } = transactionInfoForUpdate;
-
-  console.log(
-    "TRANSACTION FOR UPDATE AT ENTER AMOUNT VIEW:",
-    JSON.stringify(transactionInfoForUpdate, null, 2)
-  );
 
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
   const [amountToSet, setAmountToSet] = useState(String(`$${stringedAmount}`));
 
-  // const item_modified_at_enter_amount_view = {
-  //   ...item,
-  //   amount: amountToSet.slice(1),
-  // };
-
-  console.log(
-    "ITEM MODIFIED:",
-    JSON.stringify(transactionInfoForUpdate, null, 2)
-  );
-
-  // const {
-  //   amount,
-  //   category_name,
-  //   category_id,
-  //   creation_date,
-  //   user_id,
-  //   most_recent,
-  //   transaction_date,
-  //   icon_name,
-  //   timeStamp,
-  //   short_name,
-  //   description,
-  //   month_year,
-  //   transaction_id,
-  // } = item;
-
   const formatCurrency = (value) => {
     const digits = value.replace(/[^0-9]/g, "");
-    console.log("DIGITS:", digits.length);
 
     if (!digits) {
       setAmountToSet("");
@@ -111,15 +75,7 @@ export const EnterAmountView = ({ navigation, route }) => {
           color={theme.colors.bg.p_FFFFFF}
           flexibility={0.08}
           arrow_left_action={() => navigation.goBack()}
-          cancel_button_action={
-            () =>
-              // navigation.reset({
-              //   index: 1,
-              //   routes: [{ name: "My transactions" }],
-              // })
-              navigation.popToTop()
-            // navigation.navigate("My transactions")
-          }
+          cancel_button_action={() => navigation.popToTop()}
           align={"center"}
           // color={"#FAA"}
         />

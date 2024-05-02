@@ -27,6 +27,22 @@ export const updateTransactionRequest = async (transactionInfoForUpdate) => {
       return error;
     });
 };
+export const deleteTransactionRequest = async (transaction_id) => {
+  // console.log("TRANSACTION INFO AT SERVICES:", transactionInfoForUpdate);
+  const { transactionEndPoint } = environment;
+  return await axios
+    .delete(`${transactionEndPoint}?transaction_id=${transaction_id}`)
+    .then((response) => {
+      console.log(
+        "RESPONSE AT DELETE TRANSACTION SERVICE:",
+        JSON.stringify(response, null, 2)
+      );
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
 
 export const getTransactionsRequest = async () => {
   // console.log("TRANSACTION INFO AT SERVICES:", transactionInfoForRequest);
@@ -62,6 +78,7 @@ export const getTransactionsAndTotalAmountRequest = async (
       return error;
     });
 };
+
 export const getTransactionsAndTotalAmountRequestOrderedByTimeStamp = async (
   user_id,
   month_year
@@ -70,18 +87,30 @@ export const getTransactionsAndTotalAmountRequestOrderedByTimeStamp = async (
   console.log("USER_ID AT SERVICES:", user_id);
   console.log("MONTH YEAR:", month_year);
   const { transactionEndPoint } = environment;
-  console.log(transactionEndPoint);
   return await axios
+    // .get(
+    //   `https://us-central1-budgy-bd9b1.cloudfunctions.net/transactionsEndPoint/transactionsByUserId_MonthYearOrdered?user_id=34c110af-5d1e-41ee-948f-ca366ae3c53b&month_year=APR 2024`
+    // )
+    // .get(
+    //   `http://127.0.0.1:5001/budgy-bd9b1/us-central1/transactionsEndPoint/transactionsByUserId_MonthYearOrdered?user_id=49c33d4c-421f-41ff-90fb-6261ecd4c891&month_year=APR 2024`
+    // )
+
     .get(
       `${transactionEndPoint}/transactionsByUserId_MonthYearOrdered?user_id=${user_id}&month_year=${month_year}`
     )
     .then((response) => {
-      // console.log("RESPONSE:", response);
+      console.log("RESPONSE STATUS:", response.status);
       console.log(response.data.total_amount);
       return response.data;
     })
     .catch((error) => {
-      return error;
+      if (error.response) {
+        console.error("Error:", error.response.data.msg);
+        console.error("Error Status:", error.response.data.status);
+        return error.response.data;
+      } else {
+        console.error("Error:", error.message);
+      }
     });
 };
 

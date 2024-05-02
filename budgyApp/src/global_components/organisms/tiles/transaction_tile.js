@@ -72,7 +72,12 @@ export const TransactionTile = ({
         {most_recent && <CheckIconComponent icon_width={20} icon_height={20} />}
       </TileIconContainer>
       <TileAmountMoneyContainer>
-        <Text text_variant="bold_text_16">${amount.toFixed(2)}</Text>
+        <Text text_variant="bold_text_16">
+          {new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+          }).format(amount)}
+        </Text>
       </TileAmountMoneyContainer>
     </TilesContainer>
   );

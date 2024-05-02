@@ -224,6 +224,23 @@ const deleteTransactionsByUserIDAndCategoryID = async (
       });
     });
 };
+// const deleteTransactionsByUserID_CategoryID_MonthYear = async (
+//   user_id,
+//   category_id
+// ) => {
+//   console.log("CATEGORY ID AT CONTROLLER:", category_id);
+//   console.log("USER ID AT CONTROLLER:", user_id);
+//   db.collection("transactions")
+//     .where(`user_id`, "==", user_id)
+//     .where(`category_id`, "==", category_id)
+//     .where(`month_year`, "==", month_year)
+//     .get()
+//     .then((querySnapshot) => {
+//       querySnapshot.forEach((doc) => {
+//         deleteTransaction(doc.data().transaction_id);
+//       });
+//     });
+// };
 
 module.exports = {
   getAllTransactions,
@@ -234,6 +251,7 @@ module.exports = {
   getTransactions_ByUser_IDCategory_IDMonthYear,
   getTransactionsByCategoryId,
   deleteTransactionsByUserID,
+  // deleteTransactionsByUserID_CategoryID_MonthYear,
   getTransactions_ByUser_ID_MonthYear,
   deleteTransactionsByUserIDAndCategoryID,
   getTransactions_ByUser_ID_Cat_ID,

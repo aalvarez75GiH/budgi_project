@@ -8,7 +8,6 @@ import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
 import "firebase/firestore";
-import { doc, onSnapshot } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const firebaseConfig = {
@@ -21,8 +20,6 @@ const firebaseConfig = {
 };
 
 const app = firebase.initializeApp(firebaseConfig);
-// const app = initializeApp(firebaseConfig); // initializing firebase application
-// const auth = getAuth(app);
 export const db = app.firestore();
 
 // *****************************************************
@@ -33,38 +30,6 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [language, setLanguage] = useState("english");
   const [newTransaction, setNewTransaction] = useState(null);
-  useEffect(() => {
-    // const collectionRef = db.collection("transactions");
-    // collectionRef.get().then((querySnapshot) => {
-    //   querySnapshot
-    //     .forEach((doc) => {
-    //       console.log(doc.transaction_id, "=>", doc.data());
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error getting documenents:", error);
-    //     });
-    // });
-  }, []);
-
-  // const unsub = onSnapshot(
-  //   doc(db, "transactions", "05b11d9c-b3ac-465d-9ef5-19afef1ee502"),
-  //   (doc) => {
-  //     console.log("current data", doc.data());
-  //   }
-  // );
-  // let newData;
-  // const collectionRef = db.collection("transactions");
-  // collectionRef.onSnapshot((snapshot) => {
-  //   snapshot.docChanges().forEach((change) => {
-  //     if (change.type === "added") {
-  //       newData = change.doc.data();
-  //       console.log("NEW TRANSACTION IS:", newData);
-  //     }
-  //   });
-  //   // setNewTransaction(newData);
-  // });
-  // const date = dateInformation();
-  // const date =
 
   // ************* User Development env
   // const user = {

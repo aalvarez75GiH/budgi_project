@@ -12,13 +12,13 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
-export const CalendarView = ({ navigation, route }) => {
+export const GeneralCalendarView = ({ navigation, route }) => {
   const { packingExpenseDateForDifferentDay, system_date } = useContext(
     DateOperationsContext
   );
 
   const [selected, setSelected] = useState(null);
-  const { setButton1Pressed, setButton2Pressed } = route.params;
+  const { setButton1Pressed, setButton2Pressed, comingFrom } = route.params;
 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [timeStamp, setTimeStamp] = useState(null);
@@ -33,69 +33,108 @@ export const CalendarView = ({ navigation, route }) => {
   const {
     setTransactionInfoForRequest,
     transactionInfoForRequest,
+    transactionInfoForUpdate,
+    setTransactionInfoForUpdate,
     transactionsByMonthYear,
   } = useContext(TransactionsContext);
 
   console.log("SELECTED DATE DATE AT NEW CALENDAR:", selectedDate);
 
-  const onDateChange = (date) => {
-    setSelected(date);
-    const { expenseDate, month_year } = packingExpenseDateForDifferentDay(date);
-    // setSelectedDate(date);
-    // const randomTime = Math.floor(Math.random() * 86400000);
-    // console.log("RANDOM TIME:", randomTime);
-    // const selectedDateTime = selectedDate ? new Date(selectedDate) : new Date();
-    // const selectedDateTimeStamp = selectedDateTime.getTime();
-    // const selectedDateTimeStamp = selectedDateTime.getTime() + randomTime;
-    // console.log("TIME STAMP OF SELECTED DATE TIME:", selectedDateTimeStamp);
-    // setTimeStamp(selectedDateTimeStamp);
+  const settingTimeStampForDifferentDay = (expenseDate) => {
     const last_transactionWithSameExpenseDate = transactionsByMonthYear.find(
       (element) => element.transaction_date === expenseDate
     );
-    const timeStampForDifferentDayTransaction =
-      last_transactionWithSameExpenseDate.timeStamp + 1000;
 
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
-      creation_date: system_date,
-      transaction_date: expenseDate,
-      month_year: month_year,
-      timeStamp: timeStampForDifferentDayTransaction
-        ? timeStampForDifferentDayTransaction
-        : Date.now(),
-    });
+    let timeStampForDifferentDayTransaction;
+    if (last_transactionWithSameExpenseDate) {
+      // Use last_transactionWithSameExpenseDate
+      timeStampForDifferentDayTransaction =
+        last_transactionWithSameExpenseDate.timeStamp + 1000;
+      // return timeStampForDifferentDayTransaction;
+    } else {
+      // Handle the case where last_transactionWithSameExpenseDate is undefined
+      timeStampForDifferentDayTransaction = Date.now();
+      // return timeStampForDifferentDayTransaction;
+    }
+    return timeStampForDifferentDayTransaction;
   };
-  // const onDateChange = (date) => {
-  //   const { expenseDate, month_year } = packingExpenseDateForDifferentDay(date);
-  //   console.log("EXPENSE DATE AT NEW CALENDAR:", expenseDate);
-  //   setTransactionInfoForRequest({
-  //     ...transactionInfoForRequest,
-  //     creation_date: system_date,
-  //     transaction_date: expenseDate,
-  //     month_year: month_year,
-  //   });
-  //   setSelected(date);
-  // };
+
+  const onDateChange = (date) => {
+    setSelected(date);
+    const { expenseDate, month_year } = packingExpenseDateForDifferentDay(date);
+
+    const timeStampForDifferentDayTransaction =
+      settingTimeStampForDifferentDay(expenseDate);
+
+    {
+      comingFrom === "TransactionSummaryView"
+        ? setTransactionInfoForRequest({
+            ...transactionInfoForRequest,
+            creation_date: system_date,
+            transaction_date: expenseDate,
+            month_year: month_year,
+            timeStamp: timeStampForDifferentDayTransaction
+              ? timeStampForDifferentDayTransaction
+              : Date.now(),
+          })
+        : setTransactionInfoForUpdate({
+            ...transactionInfoForUpdate,
+            transaction_date: expenseDate,
+            month_year: month_year,
+            timeStamp: timeStampForDifferentDayTransaction
+              ? timeStampForDifferentDayTransaction
+              : Date.now(),
+          });
+    }
+  };
 
   function backHeaderAction() {
     const { expenseDate, month_year } =
       packingExpenseDateForDifferentDay(system_date);
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
-      creation_date: system_date,
-      transaction_date: expenseDate,
-      month_year: month_year,
-      timeStamp: Date.now(),
-    });
+
+    const timeStampForDifferentDayTransaction =
+      settingTimeStampForDifferentDay(expenseDate);
+    {
+      comingFrom === "TransactionSummaryView"
+        ? setTransactionInfoForRequest({
+            ...transactionInfoForRequest,
+            creation_date: system_date,
+            transaction_date: expenseDate,
+            month_year: month_year,
+            timeStamp: timeStampForDifferentDayTransaction
+              ? timeStampForDifferentDayTransaction
+              : Date.now(),
+          })
+        : setTransactionInfoForUpdate({
+            ...transactionInfoForUpdate,
+            transaction_date: expenseDate,
+            month_year: month_year,
+            timeStamp: timeStampForDifferentDayTransaction
+              ? timeStampForDifferentDayTransaction
+              : Date.now(),
+          });
+    }
+    {
+      comingFrom === "TransactionSummaryView"
+        ? settingButtonPressedAndExiting()
+        : movingBackToTransactionDetails();
+    }
+  }
+
+  const settingButtonPressedAndExiting = () => {
     setButton1Pressed(true);
     setButton2Pressed(false);
     navigation.goBack();
-  }
+  };
 
   const comingBackToSummary = () => {
     setButton1Pressed(false);
     setButton2Pressed(true);
     navigation.goBack();
+  };
+
+  const movingBackToTransactionDetails = () => {
+    navigation.navigate("Transaction_details_view");
   };
 
   return (
@@ -162,7 +201,11 @@ export const CalendarView = ({ navigation, route }) => {
             height={50}
             color={theme.colors.buttons.p_FC9827}
             borderRadius={50}
-            action={comingBackToSummary}
+            action={
+              comingFrom === "TransactionSummaryView"
+                ? comingBackToSummary
+                : movingBackToTransactionDetails
+            }
             text_variant="bold_text_20"
             //   isLoading={isLoading}
           />

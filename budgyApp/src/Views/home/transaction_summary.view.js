@@ -60,39 +60,6 @@ export const TransactionSummaryView = ({ navigation }) => {
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
-  // const listenForNewChangesAtDB = () => {
-  //   // let newData;
-  //   const collectionRef = db.collection("transactions");
-  //   collectionRef.onSnapshot((snapshot) => {
-  //     snapshot.docChanges().forEach(async (change) => {
-  //       if (change.type === "added") {
-  //         const newData = change.doc.data();
-  //         console.log("NEW TRANSACTION IS:", newData);
-  //         if (newData) {
-  //           try {
-  //             const transactionsAndAmount =
-  //               await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
-  //                 user_id,
-  //                 month_year
-  //               );
-  //             console.log(
-  //               "TRANSACTIONS AND AMOUNT AFTER LISTENER LISTENED:",
-  //               JSON.stringify(transactionsAndAmount, null, 2)
-  //             );
-
-  //             const { transactions, total_amount } = transactionsAndAmount;
-
-  //             setTransactionsByMonthYear(transactions);
-  //             setTransactionsTotalAmount(total_amount);
-  //           } catch (error) {
-  //             console.log(error);
-  //           }
-  //         }
-  //       }
-  //     });
-  //   });
-  // };
-
   const listenForNewChangesAtDB = () => {
     const collectionRef = db.collection("transactions");
     collectionRef.onSnapshot(async (snapshot) => {
@@ -132,7 +99,9 @@ export const TransactionSummaryView = ({ navigation }) => {
     setIsLoading(true);
     const transactionInfoForRequestWithTS = {
       ...transactionInfoForRequest,
-      timeStamp: Date.now(),
+      timeStamp: transactionInfoForRequest.timeStamp
+        ? transactionInfoForRequest.timeStamp
+        : Date.now(),
     };
     console.log(
       "TRANSACTION INFO FOR REQ WITH TS:",
@@ -154,25 +123,32 @@ export const TransactionSummaryView = ({ navigation }) => {
     }, 3000);
   };
 
-  const cancellingTransaction = () => {
-    cleaningState();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Home" }],
-    });
-  };
-
   const movingForwardToCalendar = () => {
-    navigation.navigate("Calendar_view", {
+    navigation.navigate("General_calendar_view", {
       setButton1Pressed,
       setButton2Pressed,
+      comingFrom: "TransactionSummaryView",
     });
     setButton1Pressed(false);
     setButton2Pressed(true);
   };
+  // const movingForwardToCalendar = () => {
+  //   navigation.navigate("Calendar_view", {
+  //     setButton1Pressed,
+  //     setButton2Pressed,
+  //     comingFrom: "TransactionSummaryView",
+  //   });
+  //   setButton1Pressed(false);
+  //   setButton2Pressed(true);
+  // };
 
+  // const movingForwardToAddDescription = () => {
+  //   navigation.navigate("AddDescription_view");
+  // };
   const movingForwardToAddDescription = () => {
-    navigation.navigate("AddDescription_view");
+    navigation.navigate("General_AddDescription_view", {
+      comingFrom: "TransactionSummaryView",
+    });
   };
 
   const backHeaderAction = () => {

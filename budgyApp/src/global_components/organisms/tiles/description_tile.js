@@ -10,6 +10,7 @@ import { theme } from "../../../infrastructure/theme";
 
 export const DescriptionTile = ({ description, action, width, height }) => {
   return (
+    // <ControlledContainer>
     <ControlledContainer
       width={width}
       height={height}
@@ -29,36 +30,51 @@ export const DescriptionTile = ({ description, action, width, height }) => {
         direction="row"
         // color="blue"
       >
-        <Spacer position="left" size="large" />
-        <ControlledContainer
-          width={"32%"}
-          height={"50px"}
-          justify="center"
-          alignment="center"
-          direction="row"
-          //   color="brown"
-        >
-          <Spacer position="left" size="medium">
-            <Text text_variant="bold_text_16">Description:</Text>
+        <Spacer position="left" size="small">
+          <Spacer position="left" size="large">
+            <ControlledContainer
+              width={"70%"}
+              height={"50px"}
+              justify="center"
+              alignment="center"
+              direction="row"
+              //   color="brown"
+            >
+              <Text text_variant="bold_text_16">Description:</Text>
+            </ControlledContainer>
           </Spacer>
-        </ControlledContainer>
-        <ControlledContainer
-          width={"58%"}
-          height={"50px"}
-          justify="flex-end"
-          alignment="flex-end"
-          direction="row"
-          //   color="yellow"
-        >
-          <SVGComponent
-            icon_width={"30px"}
-            icon_height={"30px"}
-            position={"static"}
-            justify={"center"}
-            icon_name={"DescriptionIcon"}
-            icon_color={theme.colors.buttons.s_142223C}
-          />
-        </ControlledContainer>
+        </Spacer>
+
+        <Spacer position="left" size="small">
+          <Spacer position="left" size="small">
+            <Spacer position="left" size="small">
+              <Spacer position="left" size="xxl">
+                <Spacer position="left" size="xxl">
+                  <Spacer position="left" size="xxl">
+                    <ClickableControlledContainer
+                      width={"50%"}
+                      height={"50px"}
+                      justify="center"
+                      alignment="flex-end"
+                      direction="row"
+                      //   color="yellow"
+                      onPress={action}
+                    >
+                      <SVGComponent
+                        icon_width={"30px"}
+                        icon_height={"30px"}
+                        position={"static"}
+                        justify={"center"}
+                        icon_name={"DescriptionIcon"}
+                        icon_color={theme.colors.buttons.s_142223C}
+                      />
+                    </ClickableControlledContainer>
+                  </Spacer>
+                </Spacer>
+              </Spacer>
+            </Spacer>
+          </Spacer>
+        </Spacer>
       </ControlledContainer>
       <ClickableControlledContainer
         width={"85%"}
@@ -68,7 +84,6 @@ export const DescriptionTile = ({ description, action, width, height }) => {
         // color={theme.colors.bg.e_F4F4F4}
         onPress={action}
       >
-        {/* <Spacer position="left" size="xxl"> */}
         {description.length < 1 ? (
           <Spacer position="left" size="xs">
             <Spacer position="left" size="extraLarge">
@@ -78,18 +93,16 @@ export const DescriptionTile = ({ description, action, width, height }) => {
             </Spacer>
           </Spacer>
         ) : (
-          <Spacer position="left" size="xs">
-            <Spacer position="left" size="extraLarge">
-              <Text text_variant="regular_text_16">{description}</Text>
+          <Spacer position="left" size="small">
+            <Spacer position="left" size="xs">
+              <Spacer position="left" size="extraLarge">
+                <Text text_variant="regular_text_16">{description}</Text>
+              </Spacer>
             </Spacer>
           </Spacer>
         )}
-        {/* </Spacer> */}
       </ClickableControlledContainer>
+      {/* </ControlledContainer> */}
     </ControlledContainer>
   );
 };
-
-// <Text text_variant="neutral_bold_text_16">
-//   Add a description...
-// </Text>

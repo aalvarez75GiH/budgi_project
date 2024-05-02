@@ -93,26 +93,6 @@ module.exports.postingTransactionWithCategoryDataVerified = (transaction) => {
   })();
   return transaction;
 };
-// module.exports.postingTransactionWithCategoryDataVerified = (transaction) => {
-//   console.log(" TRANSACTION AT PTWCDV:", transaction);
-//   (async () => {
-//     try {
-//       const transaction_created =
-//         await transactionsController.createTransactionAlternative(transaction);
-//       console.log(
-//         " TRANSACTION COMING FROM CONTROLLER AT PTWCDV:",
-//         transaction_created
-//       );
-//       await updatingMostRecentTransactionToFalse(transaction_created);
-//     } catch (error) {
-//       return {
-//         status: "Failed",
-//         msg: error,
-//       };
-//     }
-//   })();
-//   return transaction;
-// };
 
 // Here we post a transaction after category data (for month year of the transaction) is verified that  does not exists
 // We post a single category data for the month_year and user id of the transaction and then the transaction itself

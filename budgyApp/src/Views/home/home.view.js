@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
 import { theme } from "../../infrastructure/theme";
-import { NumPadComponent } from "../../global_components/organisms/num pads/num_pad";
+import { NumPadComponent } from "../../global_components/organisms/pads/num_pad";
 import { HomeDisplayComponent } from "../../global_components/organisms/displays/home_display.component";
 import { Text } from "../../infrastructure/typography/text.component";
 import { TextContainer } from "./home.styles";
@@ -30,7 +30,10 @@ export const Home = ({ navigation }) => {
       ...transactionInfoForRequest,
       amount: fixingANumberToTwoDecimalsAndString(number),
     });
-    navigation.navigate("Categories");
+    // navigation.navigate("Categories");
+    navigation.navigate("General_select_category_view", {
+      comingFrom: "Home_View",
+    });
   };
 
   // console.log(

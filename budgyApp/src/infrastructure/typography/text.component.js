@@ -46,7 +46,11 @@ font-family: ${theme.fonts.bold};
 font-size: ${theme.fontSizes.text_24};
 color: ${theme.colors.text.s_FFFFFF};
 `;
-
+const neutral_bold_text_24 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_24};
+color: ${theme.colors.neutrals.p_B7B7B7};
+`;
 // ********* 20  ********************
 
 const regular_text_20 = (theme) => `
@@ -64,6 +68,11 @@ const white_bold_text_20 = (theme) => `
 font-family: ${theme.fonts.bold};
 font-size: ${theme.fontSizes.text_20};
 color: ${theme.colors.text.s_FFFFFF};
+`;
+const neutral_bold_text_20 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_20};
+color: ${theme.colors.neutrals.p_B7B7B7};
 `;
 
 // ********* 16  ********************
@@ -135,9 +144,11 @@ const variants = {
   regular_text_24,
   bold_text_24,
   white_bold_text_24,
+  neutral_bold_text_24,
   regular_text_20,
   bold_text_20,
   white_bold_text_20,
+  neutral_bold_text_20,
   bold_text_16,
   regular_text_16,
   white_bold_text_16,

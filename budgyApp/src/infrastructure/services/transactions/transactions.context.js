@@ -8,14 +8,14 @@ import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "./transa
 import {
   registerTransactionRequest,
   updateTransactionRequest,
+  deleteTransactionRequest,
 } from "./transactions.services";
 
 export const TransactionContextProvider = ({ children }) => {
   const { month_year } = useContext(DateOperationsContext);
   const { setNumber } = useContext(NumPadContext);
-  const { user, app, db } = useContext(AuthenticationContext);
+  const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
-  // const db = app.firestore();
 
   const TRANSACTION_INFO_INITIAL = {
     amount: "",
@@ -53,11 +53,16 @@ export const TransactionContextProvider = ({ children }) => {
             month_year
           );
 
+        // console.log("HEEEY:", transactionsAndAmount);
+
         // console.log(
         //   "TRANSACTIONS AND AMOUNT:",
         //   JSON.stringify(transactionsAndAmount, null, 2)
         // );
-        const { transactions, total_amount } = transactionsAndAmount;
+        // console.log(
+        //   "TRANSACTIONS   STATUS:",
+        //   JSON.stringify(transactionsAndAmount.status, null, 2)
+        // );
         // console.log(
         //   "TRANSACTION REQUEST COMING:",
         //   JSON.stringify(transactions, null, 2)
@@ -67,11 +72,19 @@ export const TransactionContextProvider = ({ children }) => {
         //   JSON.stringify(total_amount, null, 2)
         // );
 
-        if (transactionsAndAmount) {
-          setTransactionsTotalAmount(total_amount);
-          setTransactionsByMonthYear(transactions);
-          // setIsLoading(false);
+        if (transactionsAndAmount.status === "404") {
+          setTransactionsTotalAmount(0);
+          setTransactionsByMonthYear([]);
+          return;
         }
+        const { transactions, total_amount } = transactionsAndAmount;
+        setTransactionsTotalAmount(total_amount);
+        setTransactionsByMonthYear(transactions);
+        // if (transactionsAndAmount.status === "200") {
+        //   setTransactionsTotalAmount(total_amount);
+        //   setTransactionsByMonthYear(transactions);
+        //   return;
+        // }
       } catch (error) {
         console.log(error);
       } finally {
@@ -80,6 +93,11 @@ export const TransactionContextProvider = ({ children }) => {
       // test(db);
     })();
   }, []);
+
+  // console.log(
+  //   "TRANSACTIONS BY MONTH YEAR AT CONTEXT:",
+  //   JSON.stringify(transactionsByMonthYear, null, 2)
+  // );
 
   const cleaningState = () => {
     setNumber("0");
@@ -122,17 +140,26 @@ export const TransactionContextProvider = ({ children }) => {
               month_year
             );
 
+          if (transactionsAndAmount.status === "404") {
+            setTransactionsTotalAmount(0);
+            setTransactionsByMonthYear([]);
+            return;
+          }
           const { transactions, total_amount } = transactionsAndAmount;
-
-          setTransactionsByMonthYear(transactions);
           setTransactionsTotalAmount(total_amount);
-          setIsLoading(false);
+          setTransactionsByMonthYear(transactions);
+
+          // setTransactionsByMonthYear(transactions);
+          // setTransactionsTotalAmount(total_amount);
         } catch (error) {
           console.log(error);
+        } finally {
+          setIsLoading(false);
         }
       }
     });
   };
+
   const updatingTransaction = async () => {
     setIsLoading(true);
     // console.log(
@@ -147,6 +174,34 @@ export const TransactionContextProvider = ({ children }) => {
             const response = await updateTransactionRequest(
               transactionInfoForUpdate
             );
+            // console.log("RESPONSE:", JSON.stringify(response, null, 2));
+            (await response) ? listenForNewChangesAtDB() : null;
+            // response ? setIsLoading(false) : setIsLoading(true);
+            !isLoading ? resolve(response) : null;
+          } catch (error) {
+            console.log("THERE WAS AN ERROR:", error);
+            reject(error);
+          }
+        }, 3000);
+      });
+      return response;
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
+  const deletingTransaction = async (transaction_id) => {
+    setIsLoading(true);
+    // console.log(
+    //   "TRANSACTION INFO FOR UPDATE:",
+    //   JSON.stringify(transactionInfoForUpdate, null, 2)
+    // );
+
+    try {
+      const response = await new Promise((resolve, reject) => {
+        setTimeout(async () => {
+          try {
+            const response = await deleteTransactionRequest(transaction_id);
             // console.log("RESPONSE:", JSON.stringify(response, null, 2));
             (await response) ? listenForNewChangesAtDB() : null;
             // response ? setIsLoading(false) : setIsLoading(true);
@@ -184,7 +239,7 @@ export const TransactionContextProvider = ({ children }) => {
         transactionInfoForUpdate,
         setTransactionInfoForUpdate,
         updatingTransaction,
-        // registeringTransaction,
+        deletingTransaction,
       }}
     >
       {children}

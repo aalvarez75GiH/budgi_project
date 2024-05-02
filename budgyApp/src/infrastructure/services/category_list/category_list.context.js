@@ -10,15 +10,12 @@ export const CategoryListContextProvider = ({ children }) => {
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
-  console.log("USER_ID AT CATEGORY LIST CONTEXT:", user_id);
-  // console.log("CATEGORY LIST CONTEXT:", categoryList);
 
   useEffect(() => {
     (async () => {
       setIsLoading(true);
       try {
         const category_list = await getCategoryList_By_UserID_Request(user_id);
-
         category_list
           ? setCategoryList(category_list.data)
           : console.log("THERE MUST BE AN ERROR FETCHING CATEGORY LIST...");

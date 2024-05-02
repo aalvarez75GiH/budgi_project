@@ -9,26 +9,27 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { theme } from "../../infrastructure/theme";
 import { SafeArea } from "../../global_components/safe-area.component";
 import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
-import { sortingExpenseCategories } from "./home.handlers";
+import { sortingExpenseCategories } from "../home/home.handlers";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 
-// ****** Context's
+// ****** Context's imported **********************
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 
-export const SelectCategoryView = ({ navigation }) => {
+export const GeneralSelectCategoryView = ({ navigation, route }) => {
+  const { comingFrom } = route.params;
+
   // ********** Transactions context consumption **********
   const {
     transactionInfoForRequest,
+    transactionInfoForUpdate,
     setTransactionInfoForRequest,
+    setTransactionInfoForUpdate,
     fixingANumberToTwoDecimals,
   } = useContext(TransactionsContext);
   const { amount } = transactionInfoForRequest;
-  console.log(
-    "TRANSACTION INFO FOR REQUEST AT SELECT CATEGORY VIEW:",
-    JSON.stringify(transactionInfoForRequest, null, 2)
-  );
+
   // ********** Date operations context consumption **********
   const { system_date, expenseDate } = useContext(DateOperationsContext);
 
@@ -40,11 +41,15 @@ export const SelectCategoryView = ({ navigation }) => {
 
   useEffect(() => {
     sortingExpenseCategories(expense_categories);
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
-      creation_date: system_date,
-      transaction_date: expenseDate,
-    });
+    {
+      comingFrom === "Home_View"
+        ? setTransactionInfoForRequest({
+            ...transactionInfoForRequest,
+            creation_date: system_date,
+            transaction_date: expenseDate,
+          })
+        : null;
+    }
   }, []);
 
   //**** HERE WE SET THE CATEGORY SELECTED AND SET TRANSACTION INFO FOR REQUEST WITH INFO NEEDED ****
@@ -54,15 +59,26 @@ export const SelectCategoryView = ({ navigation }) => {
     selectedItem === category_id;
     setSelectedItem(item.category_id);
     // console.log("SELECTED ITEM:", selectedItem);
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
-      category_name: category_name,
-      category_id: category_id,
-      icon_name: icon_name,
-      short_name: short_name,
-      amount: fixingANumberToTwoDecimals(amount),
-    });
-    navigation.navigate("Transaction_summary");
+    comingFrom === "AnyTransactionDetailsView"
+      ? setTransactionInfoForUpdate({
+          ...transactionInfoForUpdate,
+          category_name: category_name,
+          category_id: category_id,
+          icon_name: icon_name,
+          short_name: short_name,
+        })
+      : setTransactionInfoForRequest({
+          ...transactionInfoForRequest,
+          category_name: category_name,
+          category_id: category_id,
+          icon_name: icon_name,
+          short_name: short_name,
+          amount: fixingANumberToTwoDecimals(amount),
+        });
+
+    comingFrom === "AnyTransactionDetailsView"
+      ? navigation.navigate("Transaction_details_view")
+      : navigation.navigate("Transaction_summary");
   };
 
   const renderItem = ({ item }) => {

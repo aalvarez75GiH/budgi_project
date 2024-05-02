@@ -46,7 +46,13 @@ export const ConfirmationInfoComponent = ({
             <Text text_variant="bold_text_16">Amount:</Text>
           </Text1Container>
           <Text2Container>
-            <Text text_variant="regular_text_16">${amount.toString()}</Text>
+            {/* <Text text_variant="regular_text_16">${amount.toString()}</Text> */}
+            <Text text_variant="regular_text_16">
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(amount)}
+            </Text>
           </Text2Container>
         </ConfirmationTextContainer>
       </Spacer>

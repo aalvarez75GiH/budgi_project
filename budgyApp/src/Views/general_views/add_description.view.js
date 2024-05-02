@@ -7,14 +7,18 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { SafeArea } from "../../global_components/safe-area.component";
 import { FormInput } from "../../global_components/inputs/form_input";
 import { Spacer } from "../../global_components/optimized.spacer.component";
-import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { BackHeaderWithLabelComponentButton } from "../../global_components/organisms/headers/back_header+label+done.component";
 import { LinkButton } from "../../global_components/buttons/link_button";
 
-export const AddDescriptionView = ({ navigation }) => {
-  const { transactionInfoForRequest, setTransactionInfoForRequest } =
-    useContext(TransactionsContext);
+export const GeneralAddDescriptionView = ({ navigation, route }) => {
+  const { comingFrom } = route.params;
+  const {
+    transactionInfoForRequest,
+    setTransactionInfoForRequest,
+    transactionInfoForUpdate,
+    setTransactionInfoForUpdate,
+  } = useContext(TransactionsContext);
 
   // const description_from_transaction = transactionInfoForRequest.description;
 
@@ -22,36 +26,81 @@ export const AddDescriptionView = ({ navigation }) => {
     "TRANSACTION INFO FOR REQUEST AT ADD DESCRIPTION:",
     JSON.stringify(transactionInfoForRequest, null, 2)
   );
+  console.log(
+    "TRANSACTION INFO FOR UPDATE AT ADD DESCRIPTION:",
+    JSON.stringify(transactionInfoForUpdate, null, 2)
+  );
 
   const [description, setDescription] = useState(
     transactionInfoForRequest.description
       ? transactionInfoForRequest.description
       : ""
   );
+  const [descriptionToUpdate, setDescriptionToUpdate] = useState(
+    transactionInfoForUpdate.description
+      ? transactionInfoForUpdate.description
+      : ""
+  );
+
   const [isDoneActive, setIsDoneActive] = useState(
     transactionInfoForRequest.description ? true : false
   );
   console.log("INTERNAL DESCRIPTION:", JSON.stringify(description, null, 2));
+  console.log(
+    "INTERNAL DESCRIPTION TO UPDATE:",
+    JSON.stringify(descriptionToUpdate, null, 2)
+  );
   console.log("IS DONE ACTIVE:", isDoneActive);
 
   const goingBack = () => {
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
-      description: description,
-    });
+    {
+      comingFrom === "AnyTransactionDetailsView"
+        ? setTransactionInfoForUpdate({
+            ...transactionInfoForUpdate,
+            description: descriptionToUpdate,
+          })
+        : setTransactionInfoForRequest({
+            ...transactionInfoForRequest,
+            description: description,
+          });
+    }
+
     navigation.goBack();
   };
 
   const onChangeText = (value) => {
-    console.log("RED FLAG...");
-    setDescription(value);
-    console.log("DESCRIPTION LENGTH:", description.length);
-    setIsDoneActive(description.length > 1 ? true : false);
+    {
+      comingFrom === "AnyTransactionDetailsView"
+        ? setDescriptionToUpdate(value)
+        : setDescription(value);
+    }
+    {
+      comingFrom === "TransactionSummaryView"
+        ? setDescription(value)
+        : setDescriptionToUpdate(value);
+    }
+
+    console.log("DESCRIPTION TO UPDATE :", descriptionToUpdate);
+    console.log("DESCRIPTION TO UPDATE LENGTH:", descriptionToUpdate.length);
+    console.log("DESCRIPTION:", description);
+    console.log("DESCRIPTION LENGHT:", description.length);
+    setIsDoneActive(
+      comingFrom === "AnyTransactionDetailsView"
+        ? descriptionToUpdate.length > 1
+          ? true
+          : false
+        : description.length > 1
+        ? true
+        : false
+    );
   };
 
   const cleaningDescription = () => {
-    console.log("BLUE FLAG...");
-    setDescription("");
+    {
+      comingFrom === "AnyTransactionDetailsView"
+        ? setDescriptionToUpdate("")
+        : setDescription("");
+    }
     setIsDoneActive(false);
   };
 
@@ -60,7 +109,7 @@ export const AddDescriptionView = ({ navigation }) => {
       <GeneralFlexContainer>
         <BackHeaderWithLabelComponentButton
           navigation={navigation}
-          caption="Add a description"
+          caption="Add a G description"
           direction={"row"}
           color={theme.colors.bg.p_FFFFFF}
           // color={"red"}
@@ -95,7 +144,11 @@ export const AddDescriptionView = ({ navigation }) => {
               colors: { onSurfaceVariant: theme.colors.text.t_898989 },
             }} // try this }} />
             onChangeText={(value) => onChangeText(value)}
-            value={description}
+            value={
+              comingFrom === "AnyTransactionDetailsView"
+                ? descriptionToUpdate
+                : description
+            }
           />
         </FlexibleContainer>
         <FlexibleContainer
@@ -108,7 +161,7 @@ export const AddDescriptionView = ({ navigation }) => {
         >
           {/* <Spacer position="top" size="xxl" /> */}
           {/* <Spacer position="top" size="xxl" /> */}
-          {description.length !== 0 ? (
+          {description.length !== 0 || descriptionToUpdate.length !== 0 ? (
             <LinkButton
               caption="Clear description"
               action={cleaningDescription}
