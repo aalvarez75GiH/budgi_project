@@ -9,7 +9,8 @@ import { SVGComponent } from "../image_components/svg.component";
 export const MonthOptionButton = ({
   action,
   caption,
-  color,
+  color1,
+  color2,
   width,
   height,
   borderRadius,
@@ -18,7 +19,8 @@ export const MonthOptionButton = ({
 }) => {
   return (
     <OPTButton
-      color={color}
+      color1={color1}
+      color2={color2}
       onPress={action}
       width={width}
       height={height}
@@ -44,8 +46,8 @@ export const MonthOptionButton = ({
           {isActive && (
             <SVGComponent
               icon_name="SuccessIcon"
-              icon_width={20}
-              icon_height={20}
+              icon_width={15}
+              icon_height={15}
               position={"static"}
               left={"0%"}
               top={"0%"}

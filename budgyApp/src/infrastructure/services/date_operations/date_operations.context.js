@@ -113,19 +113,19 @@ export const DateOperationsContextProvider = ({ children }) => {
   const month_year = gettingAcronym(month_name);
 
   //   ************* TIME STAMP WORK IN PROGRESS ****************
-  const gettingMonthNumber = (month_name) => {
-    const index = month_acronyms.findIndex(
-      (obj) => obj.month_name === month_name
-    );
+  // const gettingMonthNumber = (month_name) => {
+  //   const index = month_acronyms.findIndex(
+  //     (obj) => obj.month_name === month_name
+  //   );
 
-    const month_number = month_acronyms[index].month_number;
+  //   const month_number = month_acronyms[index].month_number;
 
-    return month_number;
-  };
+  //   return month_number;
+  // };
 
-  const numberMonth = gettingMonthNumber("April");
-  const expenseDateForTimeStamp = `${year}-${numberMonth}-${day_week}`;
-  console.log("DATE FOR TIME STAMP:", expenseDateForTimeStamp);
+  // const monthNumber = gettingMonthNumber("April");
+  // const expenseDateForTimeStamp = `${year}-${monthNumber}-${day_week}`;
+  // console.log("DATE FOR TIME STAMP:", expenseDateForTimeStamp);
   //   ************* TIME STAMP WORK IN PROGRESS ****************
 
   const operationsDateData = {
@@ -184,6 +184,7 @@ export const DateOperationsContextProvider = ({ children }) => {
         expenseDate,
         calendar_date_initial_date,
         packingExpenseDateForDifferentDay,
+        gettingAcronym,
       }}
     >
       {children}

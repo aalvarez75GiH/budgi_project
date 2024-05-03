@@ -103,9 +103,7 @@ export const OPTButton = Styled(TouchableOpacity)`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
   background-color: ${(props) =>
-    props.isActive
-      ? theme.colors.buttons.s_142223C
-      : theme.colors.buttons.t_E5E5E5};
+    props.isActive ? props.color1 : props.color2};
   justify-content: center;
   align-items: center;
   border-radius: ${(props) => props.borderRadius}px;

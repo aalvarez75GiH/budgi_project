@@ -29,26 +29,26 @@ import { TransactionsContext } from "../../infrastructure/services/transactions/
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 
 export const MyTransactionsView = ({ navigation }) => {
-  const [transactionsToRender, setTransactionsToRender] = useState([]);
-  const [totalAmountToRender, setTotalAmountToRender] = useState(0);
-  const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
-    []
-  );
-  // const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingByCat, setIsLoadingByCat] = useState(false);
-  const [isPressed, setIsPressed] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  //   ****** Consumption from Category List Context ************
-  const { categoryList } = useContext(CategoryListContext);
-  const expenseCategories = categoryList.expense_categories;
-
   //   ****** Consumption from Date Operations Context ************
   const { month_year } = useContext(DateOperationsContext);
   // let month_year = "APR 2024";
   //   ****** Consumption from Authentication Context ************
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
+
+  const [transactionsToRender, setTransactionsToRender] = useState([]);
+  const [totalAmountToRender, setTotalAmountToRender] = useState(0);
+  const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
+    []
+  );
+  const [isLoadingByCat, setIsLoadingByCat] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [month_year_toRender, set_month_year_toRender] = useState(month_year);
+
+  //   ****** Consumption from Category List Context ************
+  const { categoryList } = useContext(CategoryListContext);
+  const expenseCategories = categoryList.expense_categories;
 
   //   ****** Consumption from Transactions Context ************
   const {
@@ -80,14 +80,14 @@ export const MyTransactionsView = ({ navigation }) => {
     }, 1000);
   };
 
-  console.log(
-    "TRANSACTIONS BY MONTH YEAR AT MY TRANSACTIONS VIEW:",
-    JSON.stringify(transactionsByMonthYear, null, 2)
-  );
-  console.log(
-    "TRANSACTIONS TO RENDER:",
-    JSON.stringify(transactionsToRender, null, 2)
-  );
+  // console.log(
+  //   "TRANSACTIONS BY MONTH YEAR AT MY TRANSACTIONS VIEW:",
+  //   JSON.stringify(transactionsByMonthYear, null, 2)
+  // );
+  // console.log(
+  //   "TRANSACTIONS TO RENDER:",
+  //   JSON.stringify(transactionsToRender, null, 2)
+  // );
 
   //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
   const settingUpTransactionsFromContextForAllOptionButton = () => {
@@ -105,8 +105,10 @@ export const MyTransactionsView = ({ navigation }) => {
   const settingUpTransactions_byCategory_by_MonthYear = async (
     user_id,
     category_id,
-    month_year
+    // month_year
+    month_year_toRender
   ) => {
+    console.log("MONTH YEAR TO RENDER INSIDE FUNCTION:", month_year_toRender);
     // Set the button to not pressed and start loading.
     setIsPressed(false);
     setIsLoadingByCat(true);
@@ -123,7 +125,7 @@ export const MyTransactionsView = ({ navigation }) => {
           if (
             transaction.user_id === user_id &&
             transaction.category_id === category_id &&
-            transaction.month_year === month_year
+            transaction.month_year === month_year_toRender
           ) {
             transactionsByCategoryMonthYear.push(transaction);
           }
@@ -154,13 +156,16 @@ export const MyTransactionsView = ({ navigation }) => {
       }
     }, 200);
   };
-
+  console.log("MONTH YEAR TO RENDER:", month_year_toRender);
   const movingForwardToDetailsView = (item) => {
     setTransactionInfoForUpdate(item);
     navigation.navigate("Transaction_details_view");
   };
   const movingForwardToMonthsPadView = () => {
-    navigation.navigate("Months_Pad_View");
+    navigation.navigate("Months_Pad_View", {
+      user_id: user_id,
+      set_month_year_toRender: set_month_year_toRender,
+    });
   };
 
   //   *************** it does render transactions
@@ -188,7 +193,7 @@ export const MyTransactionsView = ({ navigation }) => {
     settingUpTransactions_byCategory_by_MonthYear(
       user_id,
       category_id,
-      month_year
+      month_year_toRender
     );
   };
 
@@ -283,7 +288,7 @@ export const MyTransactionsView = ({ navigation }) => {
               width={"140px"}
               height={"55px"}
               borderRadius={25}
-              caption={month_year}
+              caption={month_year_toRender ? month_year_toRender : month_year}
               underlined={true}
             />
           </ControlledContainer>

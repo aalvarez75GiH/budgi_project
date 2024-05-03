@@ -9,7 +9,8 @@ import { SVGComponent } from "../image_components/svg.component";
 export const OptionButton = ({
   action,
   caption,
-  color,
+  color1,
+  color2,
   width,
   height,
   borderRadius,
@@ -17,7 +18,8 @@ export const OptionButton = ({
 }) => {
   return (
     <OPTButton
-      color={color}
+      color1={color1}
+      color2={color2}
       onPress={action}
       width={width}
       height={height}

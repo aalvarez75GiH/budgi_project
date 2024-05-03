@@ -53,25 +53,6 @@ export const TransactionContextProvider = ({ children }) => {
             month_year
           );
 
-        // console.log("HEEEY:", transactionsAndAmount);
-
-        // console.log(
-        //   "TRANSACTIONS AND AMOUNT:",
-        //   JSON.stringify(transactionsAndAmount, null, 2)
-        // );
-        // console.log(
-        //   "TRANSACTIONS   STATUS:",
-        //   JSON.stringify(transactionsAndAmount.status, null, 2)
-        // );
-        // console.log(
-        //   "TRANSACTION REQUEST COMING:",
-        //   JSON.stringify(transactions, null, 2)
-        // );
-        // console.log(
-        //   "TRANSACTION REQUEST COMING:",
-        //   JSON.stringify(total_amount, null, 2)
-        // );
-
         if (transactionsAndAmount.status === "404") {
           setTransactionsTotalAmount(0);
           setTransactionsByMonthYear([]);
@@ -80,11 +61,6 @@ export const TransactionContextProvider = ({ children }) => {
         const { transactions, total_amount } = transactionsAndAmount;
         setTransactionsTotalAmount(total_amount);
         setTransactionsByMonthYear(transactions);
-        // if (transactionsAndAmount.status === "200") {
-        //   setTransactionsTotalAmount(total_amount);
-        //   setTransactionsByMonthYear(transactions);
-        //   return;
-        // }
       } catch (error) {
         console.log(error);
       } finally {
@@ -98,6 +74,33 @@ export const TransactionContextProvider = ({ children }) => {
   //   "TRANSACTIONS BY MONTH YEAR AT CONTEXT:",
   //   JSON.stringify(transactionsByMonthYear, null, 2)
   // );
+
+  const gettingTransactions_byUserID_MonthYear_onDemand = async (
+    user_id,
+    month_year
+  ) => {
+    try {
+      setIsLoading(true);
+      const transactionsAndAmount =
+        await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
+          user_id,
+          month_year
+        );
+
+      if (transactionsAndAmount.status === "404") {
+        setTransactionsTotalAmount(0);
+        setTransactionsByMonthYear([]);
+        return;
+      }
+      const { transactions, total_amount } = transactionsAndAmount;
+      setTransactionsTotalAmount(total_amount);
+      setTransactionsByMonthYear(transactions);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const cleaningState = () => {
     setNumber("0");
@@ -115,8 +118,7 @@ export const TransactionContextProvider = ({ children }) => {
     return numberFixed;
   };
 
-  // ****************** Updating transactions logic ******************
-
+  // *********************  THIS FUNCTION IS USED TO LISTEN FOR NEW CHANGES AT DB  *******************
   const listenForNewChangesAtDB = () => {
     const collectionRef = db.collection("transactions");
     collectionRef.onSnapshot(async (snapshot) => {
@@ -160,36 +162,44 @@ export const TransactionContextProvider = ({ children }) => {
     });
   };
 
+  // *********************  THIS FUNCTION IS USED TO UPDATE A TRANSACTION *******************
   const updatingTransaction = async () => {
+    // Set the loading state to true.
     setIsLoading(true);
-    // console.log(
-    //   "TRANSACTION INFO FOR UPDATE:",
-    //   JSON.stringify(transactionInfoForUpdate, null, 2)
-    // );
 
     try {
+      // Create a new promise that will resolve with the response from the updateTransactionRequest function.
       const response = await new Promise((resolve, reject) => {
+        // Delay the execution of the following code by 3000ms (3 seconds).
         setTimeout(async () => {
           try {
+            // Call the updateTransactionRequest function with the transactionInfoForUpdate object.
             const response = await updateTransactionRequest(
               transactionInfoForUpdate
             );
-            // console.log("RESPONSE:", JSON.stringify(response, null, 2));
+
+            // If the response is truthy, call the listenForNewChangesAtDB function.
             (await response) ? listenForNewChangesAtDB() : null;
-            // response ? setIsLoading(false) : setIsLoading(true);
+
+            // If the loading state is false, resolve the promise with the response.
             !isLoading ? resolve(response) : null;
           } catch (error) {
+            // If there's an error, log it and reject the promise with the error.
             console.log("THERE WAS AN ERROR:", error);
             reject(error);
           }
         }, 3000);
       });
+
+      // Return the response.
       return response;
     } catch (error) {
+      // If there's an error, log it.
       console.log("THERE WAS AN ERROR:", error);
     }
   };
 
+  // ********************* THIS FUNCTION IS USED TO DELETE A TRANSACTION *******************
   const deletingTransaction = async (transaction_id) => {
     setIsLoading(true);
     // console.log(
@@ -240,9 +250,29 @@ export const TransactionContextProvider = ({ children }) => {
         setTransactionInfoForUpdate,
         updatingTransaction,
         deletingTransaction,
+        gettingTransactions_byUserID_MonthYear_onDemand,
       }}
     >
       {children}
     </TransactionsContext.Provider>
   );
 };
+
+// console.log("HEEEY:", transactionsAndAmount);
+
+// console.log(
+//   "TRANSACTIONS AND AMOUNT:",
+//   JSON.stringify(transactionsAndAmount, null, 2)
+// );
+// console.log(
+//   "TRANSACTIONS   STATUS:",
+//   JSON.stringify(transactionsAndAmount.status, null, 2)
+// );
+// console.log(
+//   "TRANSACTION REQUEST COMING:",
+//   JSON.stringify(transactions, null, 2)
+// );
+// console.log(
+//   "TRANSACTION REQUEST COMING:",
+//   JSON.stringify(total_amount, null, 2)
+// );
