@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import {
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList } from "react-native";
 
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
@@ -29,10 +23,13 @@ import { TransactionsContext } from "../../infrastructure/services/transactions/
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 
 export const MyTransactionsView = ({ navigation }) => {
-  //   ****** Consumption from Date Operations Context ************
-  const { month_year } = useContext(DateOperationsContext);
+  //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
+  const { month_year, setMonthSelected, month_name } = useContext(
+    DateOperationsContext
+  );
   // let month_year = "APR 2024";
-  //   ****** Consumption from Authentication Context ************
+
+  //   ****** DATA FROM DATES AUTHENTICATION CONTEXT ************
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
 
@@ -46,23 +43,34 @@ export const MyTransactionsView = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [month_year_toRender, set_month_year_toRender] = useState(month_year);
 
-  //   ****** Consumption from Category List Context ************
+  //   ****** DATA FROM CATEGORY LIST CONTEXT ************
   const { categoryList } = useContext(CategoryListContext);
   const expenseCategories = categoryList.expense_categories;
 
-  //   ****** Consumption from Transactions Context ************
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
     transactionsByMonthYear,
     total_amount,
     isLoading,
     setIsLoading,
     setTransactionInfoForUpdate,
+    gettingTransactions_byUserID_MonthYear_onDemand,
   } = useContext(TransactionsContext);
 
   useEffect(() => {
     settingUpTransactionsFromContext();
     setExpenseCategoriesToRender(expenseCategories);
+
+    return async () => {
+      setMonthSelected(month_name);
+      await gettingTransactions_byUserID_MonthYear_onDemand(
+        user_id,
+        month_year
+      );
+    };
   }, []);
+  console.log("MONTH YEAR TO RENDER:", month_year_toRender);
+  console.log("MONTH YEAR :", month_year);
 
   useEffect(() => {
     settingUpTransactionsFromContext();
@@ -79,15 +87,6 @@ export const MyTransactionsView = ({ navigation }) => {
       setIsLoading(false);
     }, 1000);
   };
-
-  // console.log(
-  //   "TRANSACTIONS BY MONTH YEAR AT MY TRANSACTIONS VIEW:",
-  //   JSON.stringify(transactionsByMonthYear, null, 2)
-  // );
-  // console.log(
-  //   "TRANSACTIONS TO RENDER:",
-  //   JSON.stringify(transactionsToRender, null, 2)
-  // );
 
   //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
   const settingUpTransactionsFromContextForAllOptionButton = () => {
@@ -156,7 +155,7 @@ export const MyTransactionsView = ({ navigation }) => {
       }
     }, 200);
   };
-  console.log("MONTH YEAR TO RENDER:", month_year_toRender);
+
   const movingForwardToDetailsView = (item) => {
     setTransactionInfoForUpdate(item);
     navigation.navigate("Transaction_details_view");

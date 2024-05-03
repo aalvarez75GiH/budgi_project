@@ -12,7 +12,7 @@ import { AccountAndThingsTile } from "../../global_components/organisms/tiles/ac
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const AccountAndThingsView = ({ navigation }) => {
-  // ********* Authentication context consumption ************
+  //   ****** DATA FROM AUTHENTICATION CONTEXT ************
   const { user } = useContext(AuthenticationContext);
   const { first_name, last_name } = user;
   const fullName = first_name + " " + last_name;

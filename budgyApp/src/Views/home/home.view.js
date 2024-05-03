@@ -15,16 +15,16 @@ import { NumPadContext } from "../../infrastructure/services/numPad/numPad.conte
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const Home = ({ navigation }) => {
-  // ******** NumPad context consumption *************
+  //   ****** DATA FROM NUMPAD CONTEXT ************
   const { number } = useContext(NumPadContext);
 
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
     transactionInfoForRequest,
     setTransactionInfoForRequest,
     fixingANumberToTwoDecimalsAndString,
   } = useContext(TransactionsContext);
 
-  // ******** Transactions context consumption *************
   const movingToSelectCategory = () => {
     setTransactionInfoForRequest({
       ...transactionInfoForRequest,

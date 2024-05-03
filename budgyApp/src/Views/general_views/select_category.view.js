@@ -20,7 +20,7 @@ import { DateOperationsContext } from "../../infrastructure/services/date_operat
 export const GeneralSelectCategoryView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
 
-  // ********** Transactions context consumption **********
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
     transactionInfoForRequest,
     transactionInfoForUpdate,

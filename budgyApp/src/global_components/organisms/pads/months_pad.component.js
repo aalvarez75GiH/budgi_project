@@ -7,8 +7,9 @@ import { theme } from "../../../infrastructure/theme";
 import { MonthPadContainer, Month_Row } from "./num_pad.styles";
 import { DateOperationsContext } from "../../../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../../../infrastructure/services/transactions/transactions.context";
+import { is } from "date-fns/locale";
 
-export const MonthsPadComponent = ({ selectingMonth, isActive }) => {
+export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
   //   console.log("MONTH SELECTED:", month_selected);
   return (
     <>
@@ -21,8 +22,8 @@ export const MonthsPadComponent = ({ selectingMonth, isActive }) => {
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
-            isActive={
-              isActive.month_selected === "January" ? isActive.isActive : false
+            isChosen={
+              isChosen.month_selected === "January" ? isChosen.isActive : false
             }
             action={() => selectingMonth("January")}
             isDisabled={false}
@@ -34,11 +35,9 @@ export const MonthsPadComponent = ({ selectingMonth, isActive }) => {
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
-            isActive={
-              isActive.month_selected === "February" ? isActive.isActive : false
+            isChosen={
+              isChosen.month_selected === "February" ? isChosen.isActive : false
             }
-            // isActive={false}
-            // action={() => console.log("February")}
             action={() => selectingMonth("February")}
             isDisabled={false}
           />
@@ -49,9 +48,8 @@ export const MonthsPadComponent = ({ selectingMonth, isActive }) => {
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
-            // isActive={false}
-            isActive={
-              isActive.month_selected === "March" ? isActive.isActive : false
+            isChosen={
+              isChosen.month_selected === "March" ? isChosen.isActive : false
             }
             action={() => selectingMonth("March")}
             isDisabled={false}
@@ -65,9 +63,8 @@ export const MonthsPadComponent = ({ selectingMonth, isActive }) => {
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
-            // isActive={false}
-            isActive={
-              isActive.month_selected === "April" ? isActive.isActive : false
+            isChosen={
+              isChosen.month_selected === "April" ? isChosen.isActive : false
             }
             action={() => selectingMonth("April")}
             isDisabled={false}
@@ -79,9 +76,8 @@ export const MonthsPadComponent = ({ selectingMonth, isActive }) => {
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
-            // isActive={true}
-            isActive={
-              isActive.month_selected === "May" ? isActive.isActive : false
+            isChosen={
+              isChosen.month_selected === "May" ? isChosen.isActive : false
             }
             action={() => selectingMonth("May")}
             isDisabled={false}

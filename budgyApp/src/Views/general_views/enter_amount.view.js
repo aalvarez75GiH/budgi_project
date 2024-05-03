@@ -18,6 +18,7 @@ import { SVGComponent } from "../../global_components/image_components/svg.compo
 import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
 
 export const EnterAmountView = ({ navigation, route }) => {
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
     fixingANumberToTwoDecimalsAndString,
     fixingANumberToTwoDecimals,

@@ -7,7 +7,6 @@ import { GeneralFlexContainer } from "../../global_components/containers/general
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
-import { MonthOptionButton } from "../../global_components/buttons/month_option_button";
 import { MonthsPadComponent } from "../../global_components/organisms/pads/months_pad.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 
@@ -16,33 +15,32 @@ import { TransactionsContext } from "../../infrastructure/services/transactions/
 
 export const MonthsPadView = ({ navigation, route }) => {
   const { user_id, set_month_year_toRender } = route.params;
-  const [month_selected, setMonthSelected] = useState(
-    month_selected ? month_selected : "May"
-  );
+
+  //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
+  const { setMonthSelected, month_selected, settingMonthYearForRequest } =
+    useContext(DateOperationsContext);
+
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
+  const { gettingTransactions_byUserID_MonthYear_onDemand, isLoading } =
+    useContext(TransactionsContext);
+
   const [month_year_onDemand, setMonthYearOnDemand] = useState("MAY 2024");
-  const [isActive, setIsActive] = useState({
+
+  const [isChosen, setIsChosen] = useState({
     month_selected: month_selected,
     isActive: true,
   });
 
-  const { gettingAcronym } = useContext(DateOperationsContext);
-  const { gettingTransactions_byUserID_MonthYear_onDemand, isLoading } =
-    useContext(TransactionsContext);
-
-  useEffect(() => {
-    const month_year_for_request = gettingAcronym(month_selected);
-    console.log("MONTH YEAR FOR REQUEST:", month_year_for_request);
+  const selectingMonth = (month) => {
+    const month_year_for_request = settingMonthYearForRequest(month);
+    setIsChosen({ month_selected: month, isActive: true });
+    setMonthSelected(month);
     setMonthYearOnDemand(month_year_for_request);
     set_month_year_toRender(month_year_for_request);
-  }, [month_selected]);
-
-  const selectingMonth = (month) => {
-    setIsActive({ month_selected: month, isActive: true });
-    setMonthSelected(month);
   };
 
-  console.log("MONTH SELECTED:", month_selected);
-  console.log("MONTH YEAR ON DEMAND OUTSIDE:", month_year_onDemand);
+  console.log("MONTH SELECTED AT MONTH PAD VIEW:", month_selected);
+  console.log("MONTH YEAR AT MONTH PAD VIEW:", month_year_onDemand);
 
   const gettingTransactionsOnDemand = async () => {
     await gettingTransactions_byUserID_MonthYear_onDemand(
@@ -85,7 +83,8 @@ export const MonthsPadView = ({ navigation, route }) => {
           <MonthsPadComponent
             user_id={user_id}
             selectingMonth={selectingMonth}
-            isActive={isActive}
+            //isActive={isActive}
+            isChosen={isChosen}
           />
         </FlexibleContainer>
         <FlexibleContainer

@@ -14,8 +14,8 @@ export const MonthOptionButton = ({
   width,
   height,
   borderRadius,
-  isActive,
   isDisabled,
+  isChosen,
 }) => {
   return (
     <OPTButton
@@ -25,13 +25,13 @@ export const MonthOptionButton = ({
       width={width}
       height={height}
       borderRadius={borderRadius}
-      isActive={isActive}
+      isActive={isChosen}
     >
       <OptionButtonTextIconContainer>
         <Spacer position="left" size="large">
           <Text
             text_variant={
-              isActive
+              isChosen
                 ? "white_bold_text_20"
                 : isDisabled
                 ? "neutral_bold_text_20"
@@ -43,7 +43,7 @@ export const MonthOptionButton = ({
         </Spacer>
         <>
           <Spacer position="left" size="medium" />
-          {isActive && (
+          {isChosen && (
             <SVGComponent
               icon_name="SuccessIcon"
               icon_width={15}

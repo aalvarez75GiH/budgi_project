@@ -13,23 +13,13 @@ import { DateOperationsContext } from "../../infrastructure/services/date_operat
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const GeneralCalendarView = ({ navigation, route }) => {
+  //   ****** DATA DATE OPERATIONS CONTEXT ************
   const { packingExpenseDateForDifferentDay, system_date } = useContext(
     DateOperationsContext
   );
 
-  const [selected, setSelected] = useState(null);
-  const { setButton1Pressed, setButton2Pressed, comingFrom } = route.params;
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [timeStamp, setTimeStamp] = useState(null);
-
-  //   ****** Date operations context consumption ************
-  // console.log("SYSTEM DATE AT NEW CALENDAR:", system_date);
-  // console.log("SELECTED  AT NEW CALENDAR:", selected);
-  // console.log("SELECTED DATE TIME STAMP:", selectedDate.getTime());
-  // console.log("TIME STAMP::", timeStamp);
-
-  //   ****** Transactions context consumption ************
   const {
     setTransactionInfoForRequest,
     transactionInfoForRequest,
@@ -37,6 +27,11 @@ export const GeneralCalendarView = ({ navigation, route }) => {
     setTransactionInfoForUpdate,
     transactionsByMonthYear,
   } = useContext(TransactionsContext);
+
+  const [selected, setSelected] = useState(null);
+  const { setButton1Pressed, setButton2Pressed, comingFrom } = route.params;
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   console.log("SELECTED DATE DATE AT NEW CALENDAR:", selectedDate);
 

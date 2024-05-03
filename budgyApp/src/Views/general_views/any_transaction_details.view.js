@@ -16,10 +16,12 @@ import { TransactionsContext } from "../../infrastructure/services/transactions/
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
+  //   ****** DATA FROM AUTHENTICATION CONTEXT ************
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
 
-  //  ***** Transactions context consumption
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
+
   const {
     fixingANumberToTwoDecimalsAndString,
     updatingTransaction,
@@ -42,10 +44,6 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
   );
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
-
-  // const movingForwardToAddDescription = () => {
-  //   navigation.navigate("AddDescription_view");
-  // };
 
   const movingForwardToAddDescription = () => {
     navigation.navigate("General_AddDescription_view", {

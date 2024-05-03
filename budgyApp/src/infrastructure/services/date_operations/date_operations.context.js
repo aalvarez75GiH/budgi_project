@@ -3,6 +3,15 @@ import React, { createContext, useState } from "react";
 export const DateOperationsContext = createContext();
 
 export const DateOperationsContextProvider = ({ children }) => {
+  // const [month_selected, setMonthSelected] = useState(
+  //   month_selected ? month_selected : month_name
+  // );
+  console.log("MONTH SELECTED AT CONTEXT:", month_selected);
+  const settingMonthYearForRequest = (month) => {
+    const month_year_for_request = gettingAcronym(month);
+    console.log("MONTH YEAR FOR REQUEST:", month_year_for_request);
+    return month_year_for_request;
+  };
   const weekDays = [
     "Sunday",
     "Monday",
@@ -99,6 +108,9 @@ export const DateOperationsContextProvider = ({ children }) => {
   const expenseDate = `${month_name + " " + day_week + "," + " " + year}`;
   const calendar_date_initial_date = `${year}-${month}-${day_week}`;
 
+  const [month_selected, setMonthSelected] = useState(
+    month_selected ? month_selected : month_name
+  );
   //   ********* This function get month name and outcomes the acronym from month acronyms array
   const gettingAcronym = (month_name) => {
     const index = month_acronyms.findIndex(
@@ -111,22 +123,6 @@ export const DateOperationsContextProvider = ({ children }) => {
     return new_month_year;
   };
   const month_year = gettingAcronym(month_name);
-
-  //   ************* TIME STAMP WORK IN PROGRESS ****************
-  // const gettingMonthNumber = (month_name) => {
-  //   const index = month_acronyms.findIndex(
-  //     (obj) => obj.month_name === month_name
-  //   );
-
-  //   const month_number = month_acronyms[index].month_number;
-
-  //   return month_number;
-  // };
-
-  // const monthNumber = gettingMonthNumber("April");
-  // const expenseDateForTimeStamp = `${year}-${monthNumber}-${day_week}`;
-  // console.log("DATE FOR TIME STAMP:", expenseDateForTimeStamp);
-  //   ************* TIME STAMP WORK IN PROGRESS ****************
 
   const operationsDateData = {
     system_date: system_date,
@@ -185,6 +181,10 @@ export const DateOperationsContextProvider = ({ children }) => {
         calendar_date_initial_date,
         packingExpenseDateForDifferentDay,
         gettingAcronym,
+        month_name,
+        month_selected,
+        setMonthSelected,
+        settingMonthYearForRequest,
       }}
     >
       {children}

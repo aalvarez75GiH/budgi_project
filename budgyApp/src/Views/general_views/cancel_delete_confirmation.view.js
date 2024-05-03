@@ -1,15 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
-import { FlatList } from "react-native";
-//  ****** My Imports
-
-import { BackHeaderWithLabelComponent } from "../../global_components/organisms/headers/back_header_withLabel.component";
-import { RegularCategoryTile } from "../../global_components/organisms/tiles/category_list_tile";
+import React, { useContext } from "react";
 
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { SafeArea } from "../../global_components/safe-area.component";
-import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
-import { sortingExpenseCategories } from "../home/home.handlers";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
@@ -19,28 +12,12 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 
 // ****** Context's imported **********************
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
-import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
-import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 
 export const CancelDeleteConfirmationView = ({ navigation, route }) => {
   const { transaction_id } = route.params;
 
-  // ********** Transactions context consumption **********
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const { deletingTransaction, isLoading } = useContext(TransactionsContext);
-  //   const { amount } = transactionInfoForRequest;
-
-  // ********** Date operations context consumption **********
-  //   const { system_date, expenseDate } = useContext(DateOperationsContext);
-
-  // ********** Category List context consumption **********
-  //   const { categoryList, isLoading } = useContext(CategoryListContext);
-  //   const { expense_categories } = categoryList;
-
-  //**** HERE WE SET THE CATEGORY SELECTED AND SET TRANSACTION INFO FOR REQUEST WITH INFO NEEDED ****
-
-  //   const goingBack = () => {
-  //     navigation.goBack();
-  //   };
 
   const deletingTransactionProcess = async () => {
     const response = await deletingTransaction(transaction_id);

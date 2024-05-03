@@ -12,7 +12,7 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const TransactionConfirmationView = ({ navigation }) => {
-  // ******* Transactions context consumption ************
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
     isConfirmed,
     cleaningState,

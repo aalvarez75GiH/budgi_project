@@ -13,14 +13,14 @@ import { LinkButton } from "../../global_components/buttons/link_button";
 
 export const GeneralAddDescriptionView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
+
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
     transactionInfoForRequest,
     setTransactionInfoForRequest,
     transactionInfoForUpdate,
     setTransactionInfoForUpdate,
   } = useContext(TransactionsContext);
-
-  // const description_from_transaction = transactionInfoForRequest.description;
 
   console.log(
     "TRANSACTION INFO FOR REQUEST AT ADD DESCRIPTION:",
@@ -142,7 +142,7 @@ export const GeneralAddDescriptionView = ({ navigation, route }) => {
             theme={{
               roundness: 10,
               colors: { onSurfaceVariant: theme.colors.text.t_898989 },
-            }} // try this }} />
+            }}
             onChangeText={(value) => onChangeText(value)}
             value={
               comingFrom === "AnyTransactionDetailsView"
@@ -159,8 +159,6 @@ export const GeneralAddDescriptionView = ({ navigation, route }) => {
           justify={"center"}
           alignment={"flex-start"}
         >
-          {/* <Spacer position="top" size="xxl" /> */}
-          {/* <Spacer position="top" size="xxl" /> */}
           {description.length !== 0 || descriptionToUpdate.length !== 0 ? (
             <LinkButton
               caption="Clear description"

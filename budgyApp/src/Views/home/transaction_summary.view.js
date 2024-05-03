@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-// import { Text } from "react-native";
 
 import { SafeArea } from "../../global_components/safe-area.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
@@ -18,7 +17,6 @@ import { AuthenticationContext } from "../../infrastructure/services/authenticat
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { Text } from "../../infrastructure/typography/text.component";
-import { FormInput } from "../../global_components/inputs/form_input";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
 import { TextForDescription } from "../../global_components/special text components/text_for_descriptions";
@@ -28,7 +26,7 @@ export const TransactionSummaryView = ({ navigation }) => {
   const [button1Pressed, setButton1Pressed] = useState(true);
   const [button2Pressed, setButton2Pressed] = useState(false);
 
-  //   ***** Transactions context consumption
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
     isConfirmed,
     setIsConfirmed,
@@ -38,20 +36,18 @@ export const TransactionSummaryView = ({ navigation }) => {
     fixingANumberToTwoDecimalsAndString,
     setTransactionsByMonthYear,
     setTransactionsTotalAmount,
-    // isLoading,
-    // registeringTransaction,
   } = useContext(TransactionsContext);
 
-  const { amount } = transactionInfoForRequest;
+  const { amount, transaction_date, short_name, description } =
+    transactionInfoForRequest;
+
+  //   ****** DATA FROM DATE OPERATIONS CONTEXT ************
   const { packingExpenseDateForDifferentDay, system_date, month_year } =
     useContext(DateOperationsContext);
 
-  //   ***** Authentication context consumption
+  //   ****** DATA FROM AUTHENTICATION CONTEXT ************
   const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
-
-  const { transaction_date, short_name, description } =
-    transactionInfoForRequest;
 
   console.log(
     "TRANSACTION INFO AT SUMMARY:",
