@@ -17,14 +17,18 @@ export const MonthsPadView = ({ navigation, route }) => {
   const { user_id, set_month_year_toRender } = route.params;
 
   //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
-  const { setMonthSelected, month_selected, settingMonthYearForRequest } =
-    useContext(DateOperationsContext);
+  const {
+    setMonthSelected,
+    month_selected,
+    settingMonthYearForRequest,
+    month_year,
+  } = useContext(DateOperationsContext);
 
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const { gettingTransactions_byUserID_MonthYear_onDemand, isLoading } =
     useContext(TransactionsContext);
 
-  const [month_year_onDemand, setMonthYearOnDemand] = useState("MAY 2024");
+  const [month_year_onDemand, setMonthYearOnDemand] = useState(month_year);
 
   const [isChosen, setIsChosen] = useState({
     month_selected: month_selected,

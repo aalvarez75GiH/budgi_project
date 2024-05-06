@@ -162,12 +162,12 @@ export const DateOperationsContextProvider = ({ children }) => {
       }`;
       return new_month_year;
     };
-    const month_year = gettingAcronym(month_name);
-    console.log("MONTH YEAR", month_year);
+    const month_year_for_different_day = gettingAcronym(month_name);
+    console.log("MONTH YEAR FOR DIFFERENT DAY", month_year_for_different_day);
 
     return {
       expenseDate,
-      month_year,
+      month_year_for_different_day,
       system_date_for_different_day,
     };
   };

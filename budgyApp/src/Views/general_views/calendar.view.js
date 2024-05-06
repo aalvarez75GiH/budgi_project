@@ -11,12 +11,14 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
+import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const GeneralCalendarView = ({ navigation, route }) => {
+  const { user } = useContext(AuthenticationContext);
+  const { user_id } = user;
   //   ****** DATA DATE OPERATIONS CONTEXT ************
-  const { packingExpenseDateForDifferentDay, system_date } = useContext(
-    DateOperationsContext
-  );
+  const { packingExpenseDateForDifferentDay, system_date, month_year } =
+    useContext(DateOperationsContext);
 
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
 
@@ -26,6 +28,7 @@ export const GeneralCalendarView = ({ navigation, route }) => {
     transactionInfoForUpdate,
     setTransactionInfoForUpdate,
     transactionsByMonthYear,
+    gettingTransactions_byUserID_MonthYear_onDemand,
   } = useContext(TransactionsContext);
 
   const [selected, setSelected] = useState(null);
@@ -33,12 +36,12 @@ export const GeneralCalendarView = ({ navigation, route }) => {
 
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  console.log("SELECTED DATE DATE AT NEW CALENDAR:", selectedDate);
-
   const settingTimeStampForDifferentDay = (expenseDate) => {
+    console.log("EXPENSE DATE:", expenseDate);
     const last_transactionWithSameExpenseDate = transactionsByMonthYear.find(
       (element) => element.transaction_date === expenseDate
     );
+    console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
 
     let timeStampForDifferentDayTransaction;
     if (last_transactionWithSameExpenseDate) {
@@ -53,13 +56,26 @@ export const GeneralCalendarView = ({ navigation, route }) => {
     }
     return timeStampForDifferentDayTransaction;
   };
-
-  const onDateChange = (date) => {
+  //   1713314778149
+  //   1714755218048
+  const onDateChange = async (date) => {
     setSelected(date);
-    const { expenseDate, month_year } = packingExpenseDateForDifferentDay(date);
+    const { expenseDate, month_year_for_different_day } =
+      packingExpenseDateForDifferentDay(date);
+    console.log("MONTH YEAR ON DATE CHANGE:", month_year_for_different_day);
+    console.log("MONTH YEAR ON DATE CHANGE:", month_year);
+    console.log("MONTH YEARS ARE DIFFERENT:");
+    await gettingTransactions_byUserID_MonthYear_onDemand(
+      user_id,
+      month_year_for_different_day
+    );
 
     const timeStampForDifferentDayTransaction =
-      settingTimeStampForDifferentDay(expenseDate);
+      await settingTimeStampForDifferentDay(expenseDate);
+    console.log(
+      "TIME STAMP FOR DIFFERENT DAY TRANSACTION:",
+      timeStampForDifferentDayTransaction
+    );
 
     {
       comingFrom === "TransactionSummaryView"
@@ -67,7 +83,7 @@ export const GeneralCalendarView = ({ navigation, route }) => {
             ...transactionInfoForRequest,
             creation_date: system_date,
             transaction_date: expenseDate,
-            month_year: month_year,
+            month_year: month_year_for_different_day,
             timeStamp: timeStampForDifferentDayTransaction
               ? timeStampForDifferentDayTransaction
               : Date.now(),
@@ -75,7 +91,7 @@ export const GeneralCalendarView = ({ navigation, route }) => {
         : setTransactionInfoForUpdate({
             ...transactionInfoForUpdate,
             transaction_date: expenseDate,
-            month_year: month_year,
+            month_year: month_year_for_different_day,
             timeStamp: timeStampForDifferentDayTransaction
               ? timeStampForDifferentDayTransaction
               : Date.now(),
