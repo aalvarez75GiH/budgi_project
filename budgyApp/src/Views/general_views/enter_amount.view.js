@@ -1,6 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Platform } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { SafeArea } from "../../global_components/safe-area.component";
 import { BackHeaderWithLabelAndCancelButton } from "../../global_components/organisms/headers/back_header+label+cancel.header";
@@ -165,7 +164,6 @@ export const EnterAmountView = ({ navigation, route }) => {
           direction={"column"}
           color={theme.colors.bg.p_FFFFFF}
           // color={"lightblue"}
-          // flexibility={0.6}
           flexibility={Platform.OS === "ios" ? 0.33 : 0.55}
           justify={"flex-end"}
           alignment={"center"}
@@ -178,7 +176,6 @@ export const EnterAmountView = ({ navigation, route }) => {
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
               action={settingNewTransactionAmount}
-              // action={() => null}
               text_variant="bold_text_20"
             />
           ) : null}

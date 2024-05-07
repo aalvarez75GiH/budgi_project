@@ -62,9 +62,9 @@ export const GeneralCalendarView = ({ navigation, route }) => {
     setSelected(date);
     const { expenseDate, month_year_for_different_day } =
       packingExpenseDateForDifferentDay(date);
-    console.log("MONTH YEAR ON DATE CHANGE:", month_year_for_different_day);
-    console.log("MONTH YEAR ON DATE CHANGE:", month_year);
-    console.log("MONTH YEARS ARE DIFFERENT:");
+    // console.log("MONTH YEAR ON DATE CHANGE:", month_year_for_different_day);
+    // console.log("MONTH YEAR ON DATE CHANGE:", month_year);
+
     await gettingTransactions_byUserID_MonthYear_onDemand(
       user_id,
       month_year_for_different_day
@@ -72,30 +72,34 @@ export const GeneralCalendarView = ({ navigation, route }) => {
 
     const timeStampForDifferentDayTransaction =
       await settingTimeStampForDifferentDay(expenseDate);
-    console.log(
-      "TIME STAMP FOR DIFFERENT DAY TRANSACTION:",
-      timeStampForDifferentDayTransaction
-    );
-
-    {
-      comingFrom === "TransactionSummaryView"
-        ? setTransactionInfoForRequest({
-            ...transactionInfoForRequest,
-            creation_date: system_date,
-            transaction_date: expenseDate,
-            month_year: month_year_for_different_day,
-            timeStamp: timeStampForDifferentDayTransaction
-              ? timeStampForDifferentDayTransaction
-              : Date.now(),
-          })
-        : setTransactionInfoForUpdate({
-            ...transactionInfoForUpdate,
-            transaction_date: expenseDate,
-            month_year: month_year_for_different_day,
-            timeStamp: timeStampForDifferentDayTransaction
-              ? timeStampForDifferentDayTransaction
-              : Date.now(),
-          });
+    // console.log(
+    //   "TIME STAMP FOR DIFFERENT DAY TRANSACTION:",
+    //   timeStampForDifferentDayTransaction
+    // );
+    switch (comingFrom) {
+      case "TransactionSummaryView":
+        setTransactionInfoForRequest({
+          ...transactionInfoForRequest,
+          creation_date: system_date,
+          transaction_date: expenseDate,
+          month_year: month_year_for_different_day,
+          timeStamp: timeStampForDifferentDayTransaction
+            ? timeStampForDifferentDayTransaction
+            : Date.now(),
+        });
+        break;
+      case "AnyTransactionDetailsView":
+        setTransactionInfoForUpdate({
+          ...transactionInfoForUpdate,
+          transaction_date: expenseDate,
+          month_year: month_year_for_different_day,
+          timeStamp: timeStampForDifferentDayTransaction
+            ? timeStampForDifferentDayTransaction
+            : Date.now(),
+        });
+        break;
+      default:
+        break;
     }
   };
 
@@ -218,7 +222,6 @@ export const GeneralCalendarView = ({ navigation, route }) => {
                 : movingBackToTransactionDetails
             }
             text_variant="bold_text_20"
-            //   isLoading={isLoading}
           />
         ) : null}
       </FlexibleContainer>

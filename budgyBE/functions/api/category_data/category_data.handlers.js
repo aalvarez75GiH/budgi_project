@@ -270,10 +270,26 @@ const createCategoryDataAfterCategoryListCreation = async (category_list) => {
     );
   console.log("CATEGORY_DATA_PREPARED AT CD HANDLER:", category_data);
 
+  // ***************************************************************************
+  const { category_data_expenseCategories } = category_data;
+  console.log(
+    "CATEGORY DATA EXPENSE CATEGORIES:",
+    category_data_expenseCategories
+  );
+  const total_amount_budgeted = await settingTotalBudgetedOfACategoryData(
+    category_data_expenseCategories
+  );
+
+  const category_data_width_total_amount_budgeted = {
+    ...category_data,
+    total_amount_budgeted: total_amount_budgeted,
+  };
+
+  // ***************************************************************************
   try {
     const categories_data_created =
       await categoryDataController.createCategoryDataAutomaticallyForNewUsers(
-        category_data
+        category_data_width_total_amount_budgeted
       );
 
     return categories_data_created;
@@ -284,6 +300,16 @@ const createCategoryDataAfterCategoryListCreation = async (category_list) => {
       msg: error,
     };
   }
+};
+
+const settingTotalBudgetedOfACategoryData = (
+  category_data_expenseCategories
+) => {
+  let total_amount_budgeted = category_data_expenseCategories.reduce(
+    (a, b) => a + b.limit_amount,
+    0
+  );
+  return total_amount_budgeted;
 };
 
 module.exports = {

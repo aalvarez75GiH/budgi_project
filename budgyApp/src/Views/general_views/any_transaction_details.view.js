@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
@@ -13,13 +12,8 @@ import { DescriptionTile } from "../../global_components/organisms/tiles/descrip
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
-import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
-  //   ****** DATA FROM AUTHENTICATION CONTEXT ************
-  const { user } = useContext(AuthenticationContext);
-  const { user_id } = user;
-
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
 
   const {
@@ -29,14 +23,8 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     transactionInfoForUpdate,
   } = useContext(TransactionsContext);
 
-  const {
-    amount,
-    transaction_date,
-    short_name,
-    description,
-    month_year,
-    transaction_id,
-  } = transactionInfoForUpdate;
+  const { amount, transaction_date, short_name, description, transaction_id } =
+    transactionInfoForUpdate;
 
   console.log(
     "TRANSACTION INFO FOR UPDATE AT ANY TRANSACTION DETAILS:",
@@ -85,8 +73,10 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
         flexibility={0.12}
-        action_icon_1={movingForwardToDeleteConfirmationView}
-        action_icon_2={closingMenu}
+        action_icon_right={movingForwardToDeleteConfirmationView}
+        action_icon_left={closingMenu}
+        icon_name_right={"RemoveIcon"}
+        icon_name_left={"ExitIcon"}
       />
 
       <ControlledContainer

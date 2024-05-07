@@ -9,12 +9,18 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { theme } from "../../infrastructure/theme";
 import { MonthsPadComponent } from "../../global_components/organisms/pads/months_pad.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
+import { getTotalAmountByMonthYearAndUser_ID } from "../../infrastructure/services/transactions/transactions.services";
 
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const MonthsPadView = ({ navigation, route }) => {
-  const { user_id, set_month_year_toRender } = route.params;
+  const {
+    user_id,
+    set_month_year_toRender,
+    comingFrom,
+    setTotalAmountOnDemand,
+  } = route.params;
 
   //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
   const {
@@ -25,8 +31,11 @@ export const MonthsPadView = ({ navigation, route }) => {
   } = useContext(DateOperationsContext);
 
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-  const { gettingTransactions_byUserID_MonthYear_onDemand, isLoading } =
-    useContext(TransactionsContext);
+  const {
+    gettingTransactions_byUserID_MonthYear_onDemand,
+    isLoading,
+    gettingTotalAmountByMonthYearAndUser_ID,
+  } = useContext(TransactionsContext);
 
   const [month_year_onDemand, setMonthYearOnDemand] = useState(month_year);
 
@@ -43,14 +52,26 @@ export const MonthsPadView = ({ navigation, route }) => {
     set_month_year_toRender(month_year_for_request);
   };
 
-  console.log("MONTH SELECTED AT MONTH PAD VIEW:", month_selected);
-  console.log("MONTH YEAR AT MONTH PAD VIEW:", month_year_onDemand);
-
-  const gettingTransactionsOnDemand = async () => {
-    await gettingTransactions_byUserID_MonthYear_onDemand(
-      user_id,
-      month_year_onDemand
-    );
+  const cta_action = async () => {
+    switch (comingFrom) {
+      case "MyTransactionsView":
+        await gettingTransactions_byUserID_MonthYear_onDemand(
+          user_id,
+          month_year_onDemand
+        );
+        break;
+      case "HowMonthIsGoingView":
+        const response = await gettingTotalAmountByMonthYearAndUser_ID(
+          user_id,
+          month_year_onDemand
+        );
+        console.log("RESPONSE AT MONTHS PAD VIEW:", response.total_amount);
+        setTotalAmountOnDemand(response.total_amount);
+        break;
+      default:
+        // Handle any other cases
+        break;
+    }
     navigation.goBack();
   };
 
@@ -106,7 +127,7 @@ export const MonthsPadView = ({ navigation, route }) => {
             height={50}
             color={theme.colors.buttons.p_FC9827}
             borderRadius={50}
-            action={() => gettingTransactionsOnDemand()}
+            action={cta_action}
             text_variant="bold_text_20"
             isLoading={isLoading}
           />

@@ -64,6 +64,7 @@ app.get("/transactionById", (req, res) => {
     }
   })();
 });
+
 //** Getting a transaction by ID
 app.get("/transactionsByCatID", (req, res) => {
   const category_id = req.query.category_id;
@@ -195,7 +196,7 @@ app.get("/transactionsByUserId_MonthYear", (req, res) => {
   })();
 });
 
-//** Getting transactions by userID and Month year ORDERED
+//** Getting transactions by userID and Month year ORDERED by timeStamp
 app.get("/transactionsByUserId_MonthYearOrdered", (req, res) => {
   const user_id = req.query.user_id;
   const month_year = req.query.month_year;
@@ -214,6 +215,42 @@ app.get("/transactionsByUserId_MonthYearOrdered", (req, res) => {
             console.log(total_amount.amount);
             res.status(200).json({
               transactions,
+              total_amount: total_amount.amount,
+            });
+          } else {
+            res.status(404).send({
+              status: "404",
+              msg: `TRANSACTIONS WITH USER ID: ${user_id} AND MONTH YEAR: ${month_year} WERE NOT FOUND`,
+            });
+          }
+        });
+    } catch (error) {
+      return res.status(404).send({
+        status: "500",
+        msg: error,
+      });
+    }
+  })();
+});
+
+//** Getting transaction's total amount by userID and Month year ***
+app.get("/transactionsTotalAmountByUserId_MonthYear", (req, res) => {
+  const user_id = req.query.user_id;
+  const month_year = req.query.month_year;
+  console.log("USER ID:", user_id);
+  console.log("MONTH YEAR:", month_year);
+  (async () => {
+    try {
+      await transactionsController
+        .getTransactions_ByUser_ID_MonthYear(user_id, month_year)
+        .then(async (transactions) => {
+          if (transactions.length) {
+            const total_amount =
+              await gettingTotalAmountTransactionsByUserIDAndMonthYear(
+                transactions
+              );
+            console.log(total_amount.amount);
+            res.status(200).json({
               total_amount: total_amount.amount,
             });
           } else {

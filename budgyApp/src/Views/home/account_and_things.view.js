@@ -118,8 +118,8 @@ export const AccountAndThingsView = ({ navigation }) => {
           navigation={navigation}
           icon_name={"SpendingIcon"}
           active_icon={true}
-          //action={movingToHowYourMonthIsGoing}
-          action={() => null}
+          action={movingToHowYourMonthIsGoing}
+          // action={() => null}
         />
         <AccountAndThingsTile
           caption={"App preference"}

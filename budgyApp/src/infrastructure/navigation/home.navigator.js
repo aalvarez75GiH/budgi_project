@@ -14,6 +14,7 @@ import { AnyTransactionDetailsView } from "../../Views/general_views/any_transac
 import { EnterAmountView } from "../../Views/general_views/enter_amount.view";
 import { CancelDeleteConfirmationView } from "../../Views/general_views/cancel_delete_confirmation.view";
 import { MonthsPadView } from "../../Views/general_views/months_pad.view";
+import { HowMonthIsGoingView } from "../../Views/home/how_your_month_goes";
 const HomeStack = createNativeStackNavigator();
 
 export const HomeNavigator = () => {
@@ -52,12 +53,12 @@ export const HomeNavigator = () => {
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />
-      {/* <HomeStack.Screen
+      <HomeStack.Screen
         name="How month is going"
         component={HowMonthIsGoingView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
-      /> */}
+      />
 
       <HomeStack.Screen
         name="General_calendar_view"

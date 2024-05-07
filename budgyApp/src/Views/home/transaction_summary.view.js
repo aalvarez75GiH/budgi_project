@@ -128,19 +128,7 @@ export const TransactionSummaryView = ({ navigation }) => {
     setButton1Pressed(false);
     setButton2Pressed(true);
   };
-  // const movingForwardToCalendar = () => {
-  //   navigation.navigate("Calendar_view", {
-  //     setButton1Pressed,
-  //     setButton2Pressed,
-  //     comingFrom: "TransactionSummaryView",
-  //   });
-  //   setButton1Pressed(false);
-  //   setButton2Pressed(true);
-  // };
 
-  // const movingForwardToAddDescription = () => {
-  //   navigation.navigate("AddDescription_view");
-  // };
   const movingForwardToAddDescription = () => {
     navigation.navigate("General_AddDescription_view", {
       comingFrom: "TransactionSummaryView",

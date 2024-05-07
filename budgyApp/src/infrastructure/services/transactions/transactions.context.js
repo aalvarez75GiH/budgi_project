@@ -4,12 +4,16 @@ export const TransactionsContext = createContext();
 import { NumPadContext } from "../numPad/numPad.context";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
-import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "./transactions.services";
+import {
+  getTransactionsAndTotalAmountRequestOrderedByTimeStamp,
+  getTotalAmountByMonthYearAndUser_ID,
+} from "./transactions.services";
 import {
   registerTransactionRequest,
   updateTransactionRequest,
   deleteTransactionRequest,
 } from "./transactions.services";
+import { fi } from "date-fns/locale";
 
 export const TransactionContextProvider = ({ children }) => {
   const { month_year } = useContext(DateOperationsContext);
@@ -95,6 +99,24 @@ export const TransactionContextProvider = ({ children }) => {
       const { transactions, total_amount } = transactionsAndAmount;
       setTransactionsTotalAmount(total_amount);
       setTransactionsByMonthYear(transactions);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const gettingTotalAmountByMonthYearAndUser_ID = async (
+    user_id,
+    month_year_onDemand
+  ) => {
+    try {
+      setIsLoading(true);
+      const totalAmount = await getTotalAmountByMonthYearAndUser_ID(
+        user_id,
+        month_year_onDemand
+      );
+      return totalAmount;
     } catch (error) {
       console.log(error);
     } finally {
@@ -251,6 +273,7 @@ export const TransactionContextProvider = ({ children }) => {
         updatingTransaction,
         deletingTransaction,
         gettingTransactions_byUserID_MonthYear_onDemand,
+        gettingTotalAmountByMonthYearAndUser_ID,
       }}
     >
       {children}

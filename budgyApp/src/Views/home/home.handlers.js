@@ -29,6 +29,7 @@ export const sortingExpenseCategories = (expenseCategories) => {
     return 0;
   });
 };
+
 export const sortingTransactions = (transactions) => {
   transactions.sort((a, b) => {
     const transaction_dateA = a.transaction_date; // ignore upper and lowercase

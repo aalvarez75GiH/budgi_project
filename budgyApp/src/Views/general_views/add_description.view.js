@@ -22,15 +22,6 @@ export const GeneralAddDescriptionView = ({ navigation, route }) => {
     setTransactionInfoForUpdate,
   } = useContext(TransactionsContext);
 
-  console.log(
-    "TRANSACTION INFO FOR REQUEST AT ADD DESCRIPTION:",
-    JSON.stringify(transactionInfoForRequest, null, 2)
-  );
-  console.log(
-    "TRANSACTION INFO FOR UPDATE AT ADD DESCRIPTION:",
-    JSON.stringify(transactionInfoForUpdate, null, 2)
-  );
-
   const [description, setDescription] = useState(
     transactionInfoForRequest.description
       ? transactionInfoForRequest.description
@@ -45,24 +36,21 @@ export const GeneralAddDescriptionView = ({ navigation, route }) => {
   const [isDoneActive, setIsDoneActive] = useState(
     transactionInfoForRequest.description ? true : false
   );
-  console.log("INTERNAL DESCRIPTION:", JSON.stringify(description, null, 2));
-  console.log(
-    "INTERNAL DESCRIPTION TO UPDATE:",
-    JSON.stringify(descriptionToUpdate, null, 2)
-  );
-  console.log("IS DONE ACTIVE:", isDoneActive);
 
   const goingBack = () => {
-    {
-      comingFrom === "AnyTransactionDetailsView"
-        ? setTransactionInfoForUpdate({
-            ...transactionInfoForUpdate,
-            description: descriptionToUpdate,
-          })
-        : setTransactionInfoForRequest({
-            ...transactionInfoForRequest,
-            description: description,
-          });
+    switch (comingFrom) {
+      case "AnyTransactionDetailsView":
+        setTransactionInfoForUpdate({
+          ...transactionInfoForUpdate,
+          description: descriptionToUpdate,
+        });
+        break;
+      case "TransactionSummaryView":
+        setTransactionInfoForRequest({
+          ...transactionInfoForRequest,
+          description: description,
+        });
+        break;
     }
 
     navigation.goBack();
@@ -80,10 +68,6 @@ export const GeneralAddDescriptionView = ({ navigation, route }) => {
         : setDescriptionToUpdate(value);
     }
 
-    console.log("DESCRIPTION TO UPDATE :", descriptionToUpdate);
-    console.log("DESCRIPTION TO UPDATE LENGTH:", descriptionToUpdate.length);
-    console.log("DESCRIPTION:", description);
-    console.log("DESCRIPTION LENGHT:", description.length);
     setIsDoneActive(
       comingFrom === "AnyTransactionDetailsView"
         ? descriptionToUpdate.length > 1
@@ -109,7 +93,7 @@ export const GeneralAddDescriptionView = ({ navigation, route }) => {
       <GeneralFlexContainer>
         <BackHeaderWithLabelComponentButton
           navigation={navigation}
-          caption="Add a G description"
+          caption="Add a description"
           direction={"row"}
           color={theme.colors.bg.p_FFFFFF}
           // color={"red"}

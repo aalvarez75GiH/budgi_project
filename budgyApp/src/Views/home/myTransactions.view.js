@@ -27,7 +27,6 @@ export const MyTransactionsView = ({ navigation }) => {
   const { month_year, setMonthSelected, month_name } = useContext(
     DateOperationsContext
   );
-  // let month_year = "APR 2024";
 
   //   ****** DATA FROM DATES AUTHENTICATION CONTEXT ************
   const { user } = useContext(AuthenticationContext);
@@ -160,10 +159,12 @@ export const MyTransactionsView = ({ navigation }) => {
     setTransactionInfoForUpdate(item);
     navigation.navigate("Transaction_details_view");
   };
+
   const movingForwardToMonthsPadView = () => {
     navigation.navigate("Months_Pad_View", {
       user_id: user_id,
       set_month_year_toRender: set_month_year_toRender,
+      comingFrom: "MyTransactionsView",
     });
   };
 

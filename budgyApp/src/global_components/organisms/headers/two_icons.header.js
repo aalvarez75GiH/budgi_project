@@ -9,8 +9,10 @@ export const TwoIconsHeaderComponent = ({
   color,
   flexibility,
   direction,
-  action_icon_1,
-  action_icon_2,
+  action_icon_right,
+  action_icon_left,
+  icon_name_left,
+  icon_name_right,
 }) => {
   return (
     <FlexibleContainer
@@ -21,9 +23,8 @@ export const TwoIconsHeaderComponent = ({
       alignment={"center"}
     >
       <SVG_Clickable_Component
-        action={action_icon_1}
-        icon_name="RemoveIcon"
-        // icon_path={`${svg_path}/exit_icon2.svg`}
+        action={action_icon_left}
+        icon_name={icon_name_left}
         icon_width={22}
         icon_height={22}
         position={"absolute"}
@@ -32,9 +33,8 @@ export const TwoIconsHeaderComponent = ({
         justify="flex-end"
       />
       <SVG_Clickable_Component
-        action={action_icon_2}
-        icon_name="ExitIcon"
-        // icon_path={`${svg_path}/exit_icon2.svg`}
+        action={action_icon_right}
+        icon_name={icon_name_right}
         icon_width={18}
         icon_height={18}
         position={"absolute"}
