@@ -13,7 +13,7 @@ import {
   updateTransactionRequest,
   deleteTransactionRequest,
 } from "./transactions.services";
-import { fi } from "date-fns/locale";
+import { getCategoryData_By_UserID_MonthYearRequest } from "../category_data/category_data.services";
 
 export const TransactionContextProvider = ({ children }) => {
   const { month_year } = useContext(DateOperationsContext);
@@ -106,23 +106,35 @@ export const TransactionContextProvider = ({ children }) => {
     }
   };
 
-  const gettingTotalAmountByMonthYearAndUser_ID = async (
-    user_id,
-    month_year_onDemand
-  ) => {
-    try {
-      setIsLoading(true);
-      const totalAmount = await getTotalAmountByMonthYearAndUser_ID(
-        user_id,
-        month_year_onDemand
-      );
-      return totalAmount;
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID =
+    async (user_id, month_year_onDemand) => {
+      try {
+        setIsLoading(true);
+        const { total_amount } = await getTotalAmountByMonthYearAndUser_ID(
+          user_id,
+          month_year_onDemand
+        );
+        const category_data = await getCategoryData_By_UserID_MonthYearRequest(
+          user_id,
+          month_year_onDemand
+        );
+
+        console.log("TOTAL AMOUNT AT CONTEXT:", total_amount);
+        console.log(
+          "CATEGORY DATA AT CONTEXT:",
+          JSON.stringify(category_data.data, null, 2)
+        );
+
+        return {
+          transactions_total_amount: total_amount,
+          totalBudgeted: category_data.data.total_amount_budgeted,
+        };
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
   const cleaningState = () => {
     setNumber("0");
@@ -273,29 +285,10 @@ export const TransactionContextProvider = ({ children }) => {
         updatingTransaction,
         deletingTransaction,
         gettingTransactions_byUserID_MonthYear_onDemand,
-        gettingTotalAmountByMonthYearAndUser_ID,
+        gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID,
       }}
     >
       {children}
     </TransactionsContext.Provider>
   );
 };
-
-// console.log("HEEEY:", transactionsAndAmount);
-
-// console.log(
-//   "TRANSACTIONS AND AMOUNT:",
-//   JSON.stringify(transactionsAndAmount, null, 2)
-// );
-// console.log(
-//   "TRANSACTIONS   STATUS:",
-//   JSON.stringify(transactionsAndAmount.status, null, 2)
-// );
-// console.log(
-//   "TRANSACTION REQUEST COMING:",
-//   JSON.stringify(transactions, null, 2)
-// );
-// console.log(
-//   "TRANSACTION REQUEST COMING:",
-//   JSON.stringify(total_amount, null, 2)
-// );

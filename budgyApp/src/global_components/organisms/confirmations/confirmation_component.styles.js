@@ -1,5 +1,5 @@
 import Styled from "styled-components/native";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 
 export const ConfirmationInfoContainer = Styled(View)`
 width: ${Platform.OS === "ios" ? 390 : 370}px;

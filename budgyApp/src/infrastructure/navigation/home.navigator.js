@@ -15,6 +15,8 @@ import { EnterAmountView } from "../../Views/general_views/enter_amount.view";
 import { CancelDeleteConfirmationView } from "../../Views/general_views/cancel_delete_confirmation.view";
 import { MonthsPadView } from "../../Views/general_views/months_pad.view";
 import { HowMonthIsGoingView } from "../../Views/home/how_your_month_goes";
+import { CircularChartView } from "../../Views/home/circular_chart.view";
+
 const HomeStack = createNativeStackNavigator();
 
 export const HomeNavigator = () => {
@@ -94,6 +96,12 @@ export const HomeNavigator = () => {
       <HomeStack.Screen
         name="Months_Pad_View"
         component={MonthsPadView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <HomeStack.Screen
+        name="Chart_View"
+        component={CircularChartView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

@@ -159,7 +159,7 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
   const categories_data_toUpdate =
     await categoryDataController.getCategoryDataByUserID(user_id);
 
-  categories_data_toUpdate.map((category_data) => {
+  categories_data_toUpdate.map(async (category_data) => {
     const { category_data_expenseCategories } = category_data;
     const category_data_monthYear = category_data.month_year;
 
@@ -190,9 +190,19 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
       node.updated = true;
       node.updated_on = updated_on;
 
+      // *****************************************************
+      const total_amount_budgeted = await settingTotalBudgetedOfACategoryData(
+        category_data_expenseCategories
+      );
+      const category_data_width_total_amount_budgeted = {
+        ...category_data,
+        total_amount_budgeted: total_amount_budgeted,
+      };
+
+      // *****************************************************
       updatingCategoryDataAfterTransactionsOrCategoryListUpdates(
         category_id,
-        category_data
+        category_data_width_total_amount_budgeted
       );
       return;
     } else {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { theme } from "../../infrastructure/theme";
 import { NumPadComponent } from "../../global_components/organisms/pads/num_pad";
@@ -13,6 +13,7 @@ import { GeneralFlexContainer } from "../../global_components/containers/general
 
 import { NumPadContext } from "../../infrastructure/services/numPad/numPad.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
+import { SafeArea } from "../../global_components/safe-area.component";
 
 export const Home = ({ navigation }) => {
   //   ****** DATA FROM NUMPAD CONTEXT ************
@@ -42,6 +43,7 @@ export const Home = ({ navigation }) => {
   // );
 
   return (
+    // <SafeArea background_color={theme.colors.bg.s_142223C}>
     <GeneralFlexContainer color={theme.colors.bg.s_142223C}>
       <MenuHeaderComponent
         navigation={navigation}
@@ -55,7 +57,6 @@ export const Home = ({ navigation }) => {
       <FlexibleContainer
         direction={"column"}
         color={theme.colors.bg.s_142223C}
-        // color={"red"}
         flexibility={0.8}
         justify={"center"}
         alignment={"center"}
@@ -83,7 +84,10 @@ export const Home = ({ navigation }) => {
       >
         {number === "0" ? (
           <TextContainer>
-            <Text text_variant="gold_bold_text_14">
+            <Text
+              text_variant="gold_bold_text_14"
+              // style={{ fontFamily: "DMSans_700Bold", fontWeight: 700 }}
+            >
               Use numb pad to enter transaction
             </Text>
           </TextContainer>
@@ -111,5 +115,6 @@ export const Home = ({ navigation }) => {
         <FooterMenuContainer color={theme.colors.brand.quaternary} />
       </FlexibleContainer>
     </GeneralFlexContainer>
+    // </SafeArea>
   );
 };

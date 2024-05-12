@@ -74,8 +74,8 @@ app.get("/categoryDataByMonthYear", (req, res) => {
 });
 
 app.get("/categoryDataByUserId_MonthYear", (req, res) => {
-  const user_id = req.body.user_id;
-  const month_year = req.body.month_year;
+  const user_id = req.query.user_id;
+  const month_year = req.query.month_year;
   console.log("USER ID:", user_id);
   console.log("MONTH YEAR:", month_year);
   (async () => {

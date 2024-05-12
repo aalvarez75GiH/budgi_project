@@ -20,6 +20,7 @@ export const MonthsPadView = ({ navigation, route }) => {
     set_month_year_toRender,
     comingFrom,
     setTotalAmountOnDemand,
+    setTotalAmountBudgeted,
   } = route.params;
 
   //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
@@ -34,7 +35,7 @@ export const MonthsPadView = ({ navigation, route }) => {
   const {
     gettingTransactions_byUserID_MonthYear_onDemand,
     isLoading,
-    gettingTotalAmountByMonthYearAndUser_ID,
+    gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID,
   } = useContext(TransactionsContext);
 
   const [month_year_onDemand, setMonthYearOnDemand] = useState(month_year);
@@ -61,12 +62,14 @@ export const MonthsPadView = ({ navigation, route }) => {
         );
         break;
       case "HowMonthIsGoingView":
-        const response = await gettingTotalAmountByMonthYearAndUser_ID(
-          user_id,
-          month_year_onDemand
-        );
-        console.log("RESPONSE AT MONTHS PAD VIEW:", response.total_amount);
-        setTotalAmountOnDemand(response.total_amount);
+        const response =
+          await gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID(
+            user_id,
+            month_year_onDemand
+          );
+        //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+        setTotalAmountOnDemand(response.transactions_total_amount);
+        setTotalAmountBudgeted(response.totalBudgeted);
         break;
       default:
         // Handle any other cases
@@ -75,6 +78,7 @@ export const MonthsPadView = ({ navigation, route }) => {
     navigation.goBack();
   };
 
+  console.log("MONTH YEAR ON DEMAND:", month_year_onDemand);
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
       <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>

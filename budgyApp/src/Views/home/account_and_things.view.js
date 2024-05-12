@@ -23,6 +23,9 @@ export const AccountAndThingsView = ({ navigation }) => {
   const movingToHowYourMonthIsGoing = () => {
     navigation.navigate("How month is going");
   };
+  const movingToChartView = () => {
+    navigation.navigate("Chart_View");
+  };
 
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
@@ -118,8 +121,8 @@ export const AccountAndThingsView = ({ navigation }) => {
           navigation={navigation}
           icon_name={"SpendingIcon"}
           active_icon={true}
-          action={movingToHowYourMonthIsGoing}
-          // action={() => null}
+          // action={movingToHowYourMonthIsGoing}
+          action={movingToChartView}
         />
         <AccountAndThingsTile
           caption={"App preference"}

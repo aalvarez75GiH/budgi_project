@@ -20,16 +20,22 @@ import { DateOperationsContext } from "../../infrastructure/services/date_operat
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
+import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
 
 export const HowMonthIsGoingView = ({ navigation }) => {
-  const { total_amount } = useContext(TransactionsContext);
+  const {
+    total_amount,
+    gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID,
+  } = useContext(TransactionsContext);
   //   ***** Category List context consumption
-  const { categoryList } = useContext(CategoryListContext);
-  const { total_amount_budgeted } = categoryList;
+  const { categoryData } = useContext(CategoryDataContext);
+  const { total_amount_budgeted } = categoryData;
   // console.log("EXPENSE CATEGORIES AT HOW_MONTH:", expense_categories);
 
   //   ***** Date Operations context consumption
-  const { month_year } = useContext(DateOperationsContext);
+  const { month_year, setMonthSelected, month_name } = useContext(
+    DateOperationsContext
+  );
   //   console.log("MONTH YEAR:", month_year);
 
   //   ***** Authentication context consumption
@@ -41,6 +47,27 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   const [totalAmountOnDemand, setTotalAmountOnDemand] = useState(
     totalAmountOnDemand ? totalAmountOnDemand : total_amount
   );
+  const [totalAmountBudgeted, setTotalAmountBudgeted] = useState(
+    totalAmountBudgeted ? totalAmountBudgeted : total_amount_budgeted
+  );
+
+  useEffect(() => {
+    return () => {
+      const test = async () => {
+        setMonthSelected(month_name);
+        const response =
+          await gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID(
+            user_id,
+            month_year
+          );
+        //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+        setTotalAmountOnDemand(response.transactions_total_amount);
+        setTotalAmountBudgeted(response.totalBudgeted);
+        //set_month_year_toRender(month_year);
+      };
+      test();
+    };
+  }, []);
 
   /*********  Rendering whole UI if IsLoading=false  **************/
   const movingForwardToMonthsPadView = () => {
@@ -49,6 +76,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
       set_month_year_toRender,
       comingFrom: "HowMonthIsGoingView",
       setTotalAmountOnDemand,
+      setTotalAmountBudgeted,
     });
   };
 
@@ -62,20 +90,45 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         flexibility={0.1}
       />
 
+      {/************* Rendering FlatList with categories option ***********/}
+      <FlexibleContainer
+        color={theme.colors.bg.p_FFFFFF}
+        // color={"lightblue"}
+        direction="row"
+        flexibility={0.1}
+        justify={"flex-start"}
+        isBordered={false}
+      >
+        <Spacer position="left" size="extraLarge">
+          <RoundedOptionButton
+            color={"#F4F4F4"}
+            width={"140px"}
+            action={movingForwardToMonthsPadView}
+            //   action={() => null}
+            height={"55px"}
+            borderRadius={25}
+            caption={month_year_toRender ? month_year_toRender : month_year}
+            //   caption={"MAY 2024"}
+            underlined={true}
+          />
+        </Spacer>
+      </FlexibleContainer>
+
+      {/************* Rendering FlatList with transactions  ***********/}
+
       {/*********  Rendering Total Amount and change month option button  **************/}
       <FlexibleContainer
         color={theme.colors.bg.p_FFFFFF}
         // color={"brown"}
         direction="row"
-        flexibility={0.3}
+        flexibility={0.2}
         justify={"center"}
         isBordered={false}
       >
         <ControlledContainer
           width={"45%"}
-          height={"25%"}
+          height={"35%"}
           direction={"column"}
-          //   color={theme.colors.neutrals.q_E5E5E5}
           color={theme.colors.ui.success}
           justify={"center"}
           alignment={"center"}
@@ -94,7 +147,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         {/* <Spacer position="left" size="large" /> */}
         <ControlledContainer
           width={"45%"}
-          height={"25%"}
+          height={"35%"}
           direction={"column"}
           color={theme.colors.ui.p_142223C}
           justify={"center"}
@@ -107,34 +160,10 @@ export const HowMonthIsGoingView = ({ navigation }) => {
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
-            }).format(total_amount_budgeted)}
+            }).format(totalAmountBudgeted)}
           </Text>
         </ControlledContainer>
       </FlexibleContainer>
-
-      {/************* Rendering FlatList with categories option ***********/}
-      <FlexibleContainer
-        // color={theme.colors.bg.p_FFFFFF}
-        color={"lightblue"}
-        direction="row"
-        flexibility={0.16}
-        justify={"center"}
-        isBordered={false}
-      >
-        <RoundedOptionButton
-          color={"#FFFFFF"}
-          width={"140px"}
-          action={movingForwardToMonthsPadView}
-          //   action={() => null}
-          height={"55px"}
-          borderRadius={25}
-          caption={month_year_toRender ? month_year_toRender : month_year}
-          //   caption={"MAY 2024"}
-          underlined={true}
-        />
-      </FlexibleContainer>
-
-      {/************* Rendering FlatList with transactions  ***********/}
     </GeneralFlexContainer>
   );
 };

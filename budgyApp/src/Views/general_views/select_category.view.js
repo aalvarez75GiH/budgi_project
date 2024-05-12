@@ -30,10 +30,10 @@ export const GeneralSelectCategoryView = ({ navigation, route }) => {
   } = useContext(TransactionsContext);
   const { amount } = transactionInfoForRequest;
 
-  // ********** Date operations context consumption **********
+  //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
   const { system_date, expenseDate } = useContext(DateOperationsContext);
 
-  // ********** Category List context consumption **********
+  //   ****** DATA FROM CATEGORY LIST CONTEXT ************
   const { categoryList, isLoading } = useContext(CategoryListContext);
   const { expense_categories } = categoryList;
 
@@ -104,7 +104,7 @@ export const GeneralSelectCategoryView = ({ navigation, route }) => {
   };
 
   return (
-    <SafeArea background_color={"#FFFFFF"}>
+    <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
       {isLoading ? (
         <FlexibleContainer
           color={theme.colors.bg.p_FFFFFF}

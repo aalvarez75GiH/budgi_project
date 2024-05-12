@@ -65,7 +65,10 @@ const getCategoryDataByMonthYear = async (month_year) => {
 };
 
 // ** get Category data by user ID, Category ID and Month_year controller
+
 const getCategoryData_ByUser_ID_And_MonthYear = async (user_id, month_year) => {
+  console.log("USER_ID AT CONTROLLER:", user_id);
+  console.log("MONTH_YEAR AT CONTROLLER:", month_year);
   let found_categoryData;
   await db
     .collection("category_data")

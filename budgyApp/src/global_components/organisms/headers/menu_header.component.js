@@ -1,8 +1,6 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
 
 import { FlexibleContainer } from "../../containers/flexible_container";
-import { SVGComponent } from "../../image_components/svg.component";
 import { SVG_Clickable_Component } from "../../image_components/svg_clickable.component";
 
 export const MenuHeaderComponent = ({ navigation, color }) => {
@@ -15,6 +13,7 @@ export const MenuHeaderComponent = ({ navigation, color }) => {
       color={color}
       direction="row"
       flexibility={0.5}
+      // flexibility={1}
       justify={"center"}
     >
       <SVG_Clickable_Component
@@ -30,16 +29,3 @@ export const MenuHeaderComponent = ({ navigation, color }) => {
     </FlexibleContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: "20%",
-    height: "90px",
-    backgroundColor: "red",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "absolute",
-    left: "80%",
-    top: "50%",
-  },
-});
