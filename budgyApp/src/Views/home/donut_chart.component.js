@@ -11,19 +11,19 @@ export const DonutChartComponent = ({
   radius,
   strokeWidth,
   percentageComplete,
-  targetPercentage,
+  mainAmountTextToRender,
   color,
   smallerFont,
   amount_font,
   totalAmountBudgeted,
 }) => {
-  //   const targetPercentage = 3.12;
   const innerRadius = radius - strokeWidth / 2;
-  const targetText = targetPercentage * 100;
+
   const targetTextFixed = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-  }).format(targetText);
+  }).format(mainAmountTextToRender);
+
   const totalAmountBudgetedFixed = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -66,8 +66,8 @@ export const DonutChartComponent = ({
         <Text
           x={innerRadius - 140 / 2}
           y={radius + 50}
-          //text={`Budgeted: ${totalAmountBudgetedFixed}`}
-          text={`Budgeted: $1,700.00`}
+          text={`Budgeted: ${totalAmountBudgetedFixed}`}
+          //   text={`Budgeted: $1,700.00`}
           font={smallerFont}
           opacity={percentageComplete}
           color={theme.colors.ui.p_142223C}

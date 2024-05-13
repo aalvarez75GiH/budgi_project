@@ -19,7 +19,7 @@ export const MonthsPadView = ({ navigation, route }) => {
     user_id,
     set_month_year_toRender,
     comingFrom,
-    setTotalAmountOnDemand,
+    setTotalTransactionsAmountOnDemand,
     setTotalAmountBudgeted,
   } = route.params;
 
@@ -68,7 +68,7 @@ export const MonthsPadView = ({ navigation, route }) => {
             month_year_onDemand
           );
         //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
-        setTotalAmountOnDemand(response.transactions_total_amount);
+        setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
         setTotalAmountBudgeted(response.totalBudgeted);
         break;
       default:

@@ -6,7 +6,7 @@ export const SvgClickableContainer = Styled(TouchableOpacity)`
 width: 20%;
 height: 100%;
 /* background-color: ${theme.colors.neutrals.p_B7B7B7}; */
-/* background-color: red; */
+/* background-color: brown; */
 justify-content: ${(props) => props.justify};
 align_items: center;
 position: ${(props) => props.position};

@@ -16,6 +16,7 @@ import { theme } from "../../infrastructure/theme";
 import { DonutChartComponent } from "./donut_chart.component";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
+import { CircularChartComponent } from "../../global_components/organisms/bar charts diagrams/circular_chart.component";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
@@ -28,8 +29,6 @@ const fontStyle = {
   fontSize: 14,
   fontWeight: "bold",
 };
-const radius = PixelRatio.roundToNearestPixel(130);
-const STROKE_WIDTH = 16;
 
 export const CircularChartView = ({ navigation }) => {
   //   *****************************************************************************************************
@@ -55,14 +54,15 @@ export const CircularChartView = ({ navigation }) => {
   console.log("USER_ID:", user_id);
 
   const [month_year_toRender, set_month_year_toRender] = useState(month_year);
-  const [totalAmountOnDemand, setTotalAmountOnDemand] = useState(
-    totalAmountOnDemand ? totalAmountOnDemand : total_amount
-  );
+  const [totalTransactionsAmountOnDemand, setTotalTransactionsAmountOnDemand] =
+    useState(
+      totalTransactionsAmountOnDemand
+        ? totalTransactionsAmountOnDemand
+        : total_amount
+    );
   const [totalAmountBudgeted, setTotalAmountBudgeted] = useState(
     totalAmountBudgeted ? totalAmountBudgeted : total_amount_budgeted
   );
-
-  //   const [percentageCompleted, setPercentageCompleted] = useState(0);
 
   useEffect(() => {
     return () => {
@@ -74,7 +74,7 @@ export const CircularChartView = ({ navigation }) => {
             month_year
           );
         //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
-        setTotalAmountOnDemand(response.transactions_total_amount);
+        setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
         setTotalAmountBudgeted(response.totalBudgeted);
       };
       test();
@@ -83,7 +83,6 @@ export const CircularChartView = ({ navigation }) => {
   //   *****************************************************************************************************
 
   //   const animationState = useValue(0);
-  const targetPercentage = totalAmountOnDemand / 100;
 
   //   const animateChart = () => {
   //     animationState.current = 0;
@@ -93,7 +92,7 @@ export const CircularChartView = ({ navigation }) => {
   //     });
   //   };
 
-  const font = useFont(require("../../../assets/fonts/DMSans_700Bold.ttf"), 50);
+  //   const font = useFont(require("../../../assets/fonts/DMSans_700Bold.ttf"), 50);
   const amount_font = useFont(
     require("../../../assets/fonts/DMSans_700Bold.ttf"),
     40
@@ -103,9 +102,8 @@ export const CircularChartView = ({ navigation }) => {
     16
   );
 
-  const percentageCompletedBig =
-    (totalAmountOnDemand * 100) / totalAmountBudgeted;
-  const percentageCompleted = percentageCompletedBig / 100;
+  const percentageCompleted =
+    (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
 
   console.log("PERCENTAGE COMPLETED:", percentageCompleted);
 
@@ -126,32 +124,14 @@ export const CircularChartView = ({ navigation }) => {
         justify={"center"}
         isBordered={false}
       >
-        <View style={styles.ringChartContainer}>
-          <DonutChartComponent
-            backgroundColor={theme.colors.ui.s_FFFFFF}
-            radius={radius}
-            strokeWidth={STROKE_WIDTH}
-            percentageComplete={1}
-            targetPercentage={targetPercentage}
-            smallerFont={smallerFont}
-            color={theme.colors.ui.p_142223C}
-            amount_font={amount_font}
-            totalAmountBudgeted={totalAmountBudgeted}
-          />
-        </View>
-        <View style={styles.ringChartContainer}>
-          <DonutChartComponent
-            backgroundColor="white"
-            radius={radius}
-            strokeWidth={STROKE_WIDTH}
-            percentageComplete={percentageCompleted}
-            // percentageComplete={0.5}
-            targetPercentage={targetPercentage}
-            font={font}
-            smallerFont={smallerFont}
-            color={theme.colors.ui.success}
-          />
-        </View>
+        <CircularChartComponent
+          radius={130}
+          amount_font={amount_font}
+          smallerFont={smallerFont}
+          totalTransactionsAmountOnDemand={totalTransactionsAmountOnDemand}
+          percentageCompleted={percentageCompleted}
+          totalAmountBudgeted={totalAmountBudgeted}
+        />
       </FlexibleContainer>
       <FlexibleContainer
         color={theme.colors.bg.p_FFFFFF}
@@ -165,27 +145,27 @@ export const CircularChartView = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  ringChartContainer: {
-    position: "absolute",
-    width: radius * 2,
-    height: radius * 2,
-  },
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//   },
+//   ringChartContainer: {
+//     position: "absolute",
+//     width: radius * 2,
+//     height: radius * 2,
+//   },
 
-  button: {
-    marginTop: 40,
-    backgroundColor: "orange",
-    paddingHorizontal: 60,
-    paddingVertical: 15,
-    borderRadius: 10,
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 20,
-  },
-});
+//   button: {
+//     marginTop: 40,
+//     backgroundColor: "orange",
+//     paddingHorizontal: 60,
+//     paddingVertical: 15,
+//     borderRadius: 10,
+//   },
+//   buttonText: {
+//     color: "white",
+//     fontSize: 20,
+//   },
+// });

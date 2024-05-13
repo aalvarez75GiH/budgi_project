@@ -1,32 +1,28 @@
-import React, { useState, useEffect, useContext } from "react";
-import { FlatList } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+
+import { useFont } from "@shopify/react-native-skia";
 
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
-import { FlexibleContainer } from "../../global_components/containers/flexible_container";
+import { ExitHeaderWithMonthsOptionButtonComponent } from "../../global_components/organisms/headers/exit+month_option_button.header";
 import { theme } from "../../infrastructure/theme";
-import { Text } from "../../infrastructure/typography/text.component";
-import { Spacer } from "../../global_components/optimized.spacer.component";
-import { TransactionTile } from "../../global_components/organisms/tiles/transaction_tile";
-
-import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
-import { CheckIconComponent } from "../../global_components/check_icon_component";
-import { RoundedOptionButton } from "../../global_components/buttons/rounded_option_button";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
-import { ControlledContainer } from "../../global_components/containers/controlled_container";
-import { CircularButtonOptionComponent } from "../../global_components/organisms/clickables options/circularButton_option.component";
-import { CircularTextOptionComponent } from "../../global_components/organisms/clickables options/circular_text_option.component";
+import { FlexibleContainer } from "../../global_components/containers/flexible_container";
+import { CircularChartComponent } from "../../global_components/organisms/bar charts diagrams/circular_chart.component";
+import { RoundedOptionButton } from "../../global_components/buttons/rounded_option_button";
+import { Spacer } from "../../global_components/optimized.spacer.component";
 
-import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
-import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
-import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
+import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
+import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const HowMonthIsGoingView = ({ navigation }) => {
+  //   *****************************************************************************************************
   const {
     total_amount,
     gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID,
   } = useContext(TransactionsContext);
+
   //   ***** Category List context consumption
   const { categoryData } = useContext(CategoryDataContext);
   const { total_amount_budgeted } = categoryData;
@@ -44,9 +40,12 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   console.log("USER_ID:", user_id);
 
   const [month_year_toRender, set_month_year_toRender] = useState(month_year);
-  const [totalAmountOnDemand, setTotalAmountOnDemand] = useState(
-    totalAmountOnDemand ? totalAmountOnDemand : total_amount
-  );
+  const [totalTransactionsAmountOnDemand, setTotalTransactionsAmountOnDemand] =
+    useState(
+      totalTransactionsAmountOnDemand
+        ? totalTransactionsAmountOnDemand
+        : total_amount
+    );
   const [totalAmountBudgeted, setTotalAmountBudgeted] = useState(
     totalAmountBudgeted ? totalAmountBudgeted : total_amount_budgeted
   );
@@ -61,109 +60,87 @@ export const HowMonthIsGoingView = ({ navigation }) => {
             month_year
           );
         //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
-        setTotalAmountOnDemand(response.transactions_total_amount);
+        setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
         setTotalAmountBudgeted(response.totalBudgeted);
-        //set_month_year_toRender(month_year);
       };
       test();
     };
   }, []);
+  //   *****************************************************************************************************
 
-  /*********  Rendering whole UI if IsLoading=false  **************/
+  //   const animationState = useValue(0);
+
+  //   const animateChart = () => {
+  //     animationState.current = 0;
+  //     runTiming(0, targetPercentage, {
+  //       duration: 1250,
+  //       easing: Easing.inOut(Easing.cubic),
+  //     });
+  //   };
+
+  //   const font = useFont(require("../../../assets/fonts/DMSans_700Bold.ttf"), 50);
+  const amount_font = useFont(
+    require("../../../assets/fonts/DMSans_700Bold.ttf"),
+    40
+  );
+  const smallerFont = useFont(
+    require("../../../assets/fonts/DMSans_700Bold.ttf"),
+    16
+  );
+
+  const percentageCompleted =
+    (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
+
+  console.log("PERCENTAGE COMPLETED:", percentageCompleted);
+
   const movingForwardToMonthsPadView = () => {
     navigation.navigate("Months_Pad_View", {
       user_id,
       set_month_year_toRender,
       comingFrom: "HowMonthIsGoingView",
-      setTotalAmountOnDemand,
+      setTotalTransactionsAmountOnDemand,
       setTotalAmountBudgeted,
     });
   };
 
   return (
     <GeneralFlexContainer>
-      <ExitHeaderComponent
+      <ExitHeaderWithMonthsOptionButtonComponent
         navigation={navigation}
         direction={"column"}
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
-        flexibility={0.1}
+        flexibility={0.12}
+        month_year_toRender={month_year_toRender}
+        month_year={month_year}
+        action={movingForwardToMonthsPadView}
       />
 
-      {/************* Rendering FlatList with categories option ***********/}
       <FlexibleContainer
         color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="row"
-        flexibility={0.1}
-        justify={"flex-start"}
-        isBordered={false}
-      >
-        <Spacer position="left" size="extraLarge">
-          <RoundedOptionButton
-            color={"#F4F4F4"}
-            width={"140px"}
-            action={movingForwardToMonthsPadView}
-            //   action={() => null}
-            height={"55px"}
-            borderRadius={25}
-            caption={month_year_toRender ? month_year_toRender : month_year}
-            //   caption={"MAY 2024"}
-            underlined={true}
-          />
-        </Spacer>
-      </FlexibleContainer>
-
-      {/************* Rendering FlatList with transactions  ***********/}
-
-      {/*********  Rendering Total Amount and change month option button  **************/}
-      <FlexibleContainer
-        color={theme.colors.bg.p_FFFFFF}
-        // color={"brown"}
-        direction="row"
-        flexibility={0.2}
+        flexibility={0.3}
         justify={"center"}
         isBordered={false}
       >
-        <ControlledContainer
-          width={"45%"}
-          height={"35%"}
-          direction={"column"}
-          color={theme.colors.ui.success}
-          justify={"center"}
-          alignment={"center"}
-          borderTopLeftRadius={35}
-          borderBottomLeftRadius={35}
-        >
-          <Text text_variant="white_bold_text_12">Spent on MAY 2024</Text>
-          <Text text_variant="white_bold_text_20">
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            }).format(totalAmountOnDemand)}
-          </Text>
-        </ControlledContainer>
-
-        {/* <Spacer position="left" size="large" /> */}
-        <ControlledContainer
-          width={"45%"}
-          height={"35%"}
-          direction={"column"}
-          color={theme.colors.ui.p_142223C}
-          justify={"center"}
-          alignment={"center"}
-          borderTopRightRadius={35}
-          borderBottomRightRadius={35}
-        >
-          <Text text_variant="white_bold_text_12">Total budgeted</Text>
-          <Text text_variant="white_bold_text_20">
-            {new Intl.NumberFormat("en-US", {
-              style: "currency",
-              currency: "USD",
-            }).format(totalAmountBudgeted)}
-          </Text>
-        </ControlledContainer>
+        <CircularChartComponent
+          totalTransactionsAmountOnDemand={totalTransactionsAmountOnDemand}
+          percentageCompleted={percentageCompleted}
+          totalAmountBudgeted={totalAmountBudgeted}
+          radius={130}
+          amount_font={amount_font}
+          smallerFont={smallerFont}
+        />
       </FlexibleContainer>
+      <FlexibleContainer
+        color={theme.colors.bg.p_FFFFFF}
+        // color={"lightblue"}
+        direction="row"
+        flexibility={0.4}
+        justify={"center"}
+        isBordered={false}
+      ></FlexibleContainer>
     </GeneralFlexContainer>
   );
 };
