@@ -4,15 +4,15 @@ import { PixelRatio } from "react-native";
 import { FlexibleContainer } from "../../containers/flexible_container";
 import { theme } from "../../../infrastructure/theme";
 import { ChartContainer } from "./circular_chart.styles";
-import { DonutChartComponent } from "../../../Views/home/donut_chart.component";
+import { DonutChartComponent } from "./donut_chart.component";
 
 export const CircularChartComponent = ({
-  totalTransactionsAmountOnDemand,
+  primaryAmount,
+  secondaryAmount,
   percentageCompleted,
-  totalAmountBudgeted,
   radius,
-  amount_font,
-  smallerFont,
+  secondaryLabel,
+  overSpentAmountInNegative,
 }) => {
   return (
     <FlexibleContainer
@@ -29,11 +29,11 @@ export const CircularChartComponent = ({
           radius={PixelRatio.roundToNearestPixel(radius)}
           strokeWidth={16}
           percentageComplete={1}
-          mainAmountTextToRender={totalTransactionsAmountOnDemand}
-          smallerFont={smallerFont}
-          color={theme.colors.ui.p_142223C}
-          amount_font={amount_font}
-          totalAmountBudgeted={totalAmountBudgeted}
+          primaryAmount={primaryAmount}
+          secondaryAmount={secondaryAmount}
+          color={theme.colors.bg.s_142223C}
+          secondaryLabel={secondaryLabel}
+          overSpentAmountInNegative={overSpentAmountInNegative}
         />
       </ChartContainer>
       <ChartContainer radius={radius}>
@@ -42,11 +42,15 @@ export const CircularChartComponent = ({
           radius={PixelRatio.roundToNearestPixel(radius)}
           strokeWidth={16}
           percentageComplete={percentageCompleted}
-          mainAmountTextToRender={totalTransactionsAmountOnDemand}
-          amount_font={amount_font}
-          smallerFont={smallerFont}
-          color={theme.colors.ui.success}
-          totalAmountBudgeted={totalAmountBudgeted}
+          primaryAmount={primaryAmount}
+          secondaryAmount={secondaryAmount}
+          color={
+            overSpentAmountInNegative
+              ? theme.colors.ui.error_cancels
+              : theme.colors.ui.success
+          }
+          secondaryLabel={secondaryLabel}
+          overSpentAmountInNegative={overSpentAmountInNegative}
         />
       </ChartContainer>
     </FlexibleContainer>

@@ -16,7 +16,6 @@ export const HeaderLabelContainer = Styled(View)`
   /* border: 2px solid #000000; */
 `;
 
-// ***************** Menu header ******************
 
 export const IconContainer = Styled(TouchableOpacity)`
     width: 100px;

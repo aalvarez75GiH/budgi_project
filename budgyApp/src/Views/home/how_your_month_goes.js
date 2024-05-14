@@ -1,15 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { useFont } from "@shopify/react-native-skia";
+import { Platform } from "react-native";
 
-import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { ExitHeaderWithMonthsOptionButtonComponent } from "../../global_components/organisms/headers/exit+month_option_button.header";
 import { theme } from "../../infrastructure/theme";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { CircularChartComponent } from "../../global_components/organisms/bar charts diagrams/circular_chart.component";
-import { RoundedOptionButton } from "../../global_components/buttons/rounded_option_button";
 import { Spacer } from "../../global_components/optimized.spacer.component";
+import { AccountAndThingsTile } from "../../global_components/organisms/tiles/account_and_things_tile";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
@@ -78,18 +77,23 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   //     });
   //   };
 
-  //   const font = useFont(require("../../../assets/fonts/DMSans_700Bold.ttf"), 50);
-  const amount_font = useFont(
-    require("../../../assets/fonts/DMSans_700Bold.ttf"),
-    40
-  );
-  const smallerFont = useFont(
-    require("../../../assets/fonts/DMSans_700Bold.ttf"),
-    16
-  );
+  let percentageCompleted;
+  let overSpentAmountInNegative;
+  let overSpentAmountInPositive;
+  if (totalAmountBudgeted > totalTransactionsAmountOnDemand) {
+    percentageCompleted =
+      (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
+  }
+  if (totalAmountBudgeted < totalTransactionsAmountOnDemand) {
+    overSpentAmountInNegative =
+      totalAmountBudgeted - totalTransactionsAmountOnDemand;
+    overSpentAmountInPositive =
+      totalTransactionsAmountOnDemand - totalAmountBudgeted;
+    console.log("TEST:", overSpentAmountInPositive);
 
-  const percentageCompleted =
-    (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
+    percentageCompleted = overSpentAmountInPositive / totalAmountBudgeted;
+  }
+  // (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
 
   console.log("PERCENTAGE COMPLETED:", percentageCompleted);
 
@@ -120,27 +124,42 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="row"
-        flexibility={0.3}
+        flexibility={Platform.OS === "ios" ? 0.3 : 0.35}
         justify={"center"}
         isBordered={false}
       >
         <CircularChartComponent
-          totalTransactionsAmountOnDemand={totalTransactionsAmountOnDemand}
+          primaryAmount={totalTransactionsAmountOnDemand}
+          secondaryAmount={totalAmountBudgeted}
           percentageCompleted={percentageCompleted}
-          totalAmountBudgeted={totalAmountBudgeted}
           radius={130}
-          amount_font={amount_font}
-          smallerFont={smallerFont}
+          secondaryLabel="Budgeted:"
+          overSpentAmountInNegative={overSpentAmountInNegative}
         />
       </FlexibleContainer>
       <FlexibleContainer
-        color={theme.colors.bg.p_FFFFFF}
+        color={theme.colors.neutrals.e2_F5F5F5}
         // color={"lightblue"}
-        direction="row"
-        flexibility={0.4}
+        direction="column"
+        flexibility={0.185}
         justify={"center"}
         isBordered={false}
-      ></FlexibleContainer>
+      >
+        <AccountAndThingsTile
+          caption={"Spent vs Budgeted"}
+          navigation={navigation}
+          icon_name={"TransactionsIcon"}
+          active_icon={false}
+          action={() => null}
+        />
+        <AccountAndThingsTile
+          caption={"Spent vs income"}
+          navigation={navigation}
+          icon_name={"TransactionsIcon"}
+          active_icon={false}
+          action={() => null}
+        />
+      </FlexibleContainer>
     </GeneralFlexContainer>
   );
 };
