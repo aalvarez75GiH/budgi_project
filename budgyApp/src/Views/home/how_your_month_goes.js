@@ -9,6 +9,7 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { CircularChartComponent } from "../../global_components/organisms/bar charts diagrams/circular_chart.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { AccountAndThingsTile } from "../../global_components/organisms/tiles/account_and_things_tile";
+import { CenteredTextTile } from "../../global_components/organisms/tiles/centered_text_tile";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
@@ -124,7 +125,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="row"
-        flexibility={Platform.OS === "ios" ? 0.3 : 0.35}
+        flexibility={Platform.OS === "ios" ? 0.32 : 0.37}
         justify={"center"}
         isBordered={false}
       >
@@ -141,21 +142,22 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         color={theme.colors.neutrals.e2_F5F5F5}
         // color={"lightblue"}
         direction="column"
-        flexibility={0.185}
+        // flexibility={0.185}
+        flexibility={Platform.OS === "ios" ? 0.165 : 0.185}
         justify={"center"}
         isBordered={false}
       >
-        <AccountAndThingsTile
-          caption={"Spent vs Budgeted"}
+        <CenteredTextTile
+          caption={"Spent vs budgeted"}
           navigation={navigation}
-          icon_name={"TransactionsIcon"}
+          icon_name={"SuccessIcon"}
           active_icon={false}
           action={() => null}
         />
-        <AccountAndThingsTile
+        <CenteredTextTile
           caption={"Spent vs income"}
           navigation={navigation}
-          icon_name={"TransactionsIcon"}
+          icon_name={"SuccessIcon"}
           active_icon={false}
           action={() => null}
         />
