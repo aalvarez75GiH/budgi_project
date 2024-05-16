@@ -34,7 +34,7 @@ export const CategoryDataContextProvider = ({ children }) => {
     })();
   }, []);
 
-  console.log("CATEGORY DATA:", JSON.stringify(categoryData, null, 2));
+  // console.log("CATEGORY DATA:", JSON.stringify(categoryData, null, 2));
 
   return (
     <CategoryDataContext.Provider

@@ -15,6 +15,7 @@ import { TransactionsContext } from "../../infrastructure/services/transactions/
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
+import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
 
 export const HowMonthIsGoingView = ({ navigation }) => {
   //   *****************************************************************************************************
@@ -38,7 +39,11 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
   console.log("USER_ID:", user_id);
+  // ******** Real Income context consumption ********************
+  const { realIncomeTotalAmount } = useContext(RealIncomeContext);
 
+  // ******************* STATES ********************************
+  const [tile_selected, set_tile_selected] = useState("spent vs budgeted");
   const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const [totalTransactionsAmountOnDemand, setTotalTransactionsAmountOnDemand] =
     useState(
@@ -49,10 +54,16 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   const [totalAmountBudgeted, setTotalAmountBudgeted] = useState(
     totalAmountBudgeted ? totalAmountBudgeted : total_amount_budgeted
   );
+  const [realIncomeTotalAmountOnDemand, setRealIncomeTotalAmountOnDemand] =
+    useState(
+      realIncomeTotalAmountOnDemand
+        ? realIncomeTotalAmountOnDemand
+        : realIncomeTotalAmount
+    );
 
   useEffect(() => {
     return () => {
-      const test = async () => {
+      const settingTransactionsTotalAmountAndTotalBudgeted = async () => {
         setMonthSelected(month_name);
         const response =
           await gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID(
@@ -63,9 +74,11 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
         setTotalAmountBudgeted(response.totalBudgeted);
       };
-      test();
+      settingTransactionsTotalAmountAndTotalBudgeted();
     };
   }, []);
+
+  console.log("TOTAL REAL INCOME AMOUNT:", realIncomeTotalAmountOnDemand);
   //   *****************************************************************************************************
 
   //   const animationState = useValue(0);
@@ -81,20 +94,37 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   let percentageCompleted;
   let overSpentAmountInNegative;
   let overSpentAmountInPositive;
-  if (totalAmountBudgeted > totalTransactionsAmountOnDemand) {
-    percentageCompleted =
-      (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
+  if (tile_selected === "spent vs budgeted") {
+    if (totalAmountBudgeted > totalTransactionsAmountOnDemand) {
+      percentageCompleted =
+        (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
+    }
+    if (totalAmountBudgeted < totalTransactionsAmountOnDemand) {
+      overSpentAmountInNegative =
+        totalAmountBudgeted - totalTransactionsAmountOnDemand;
+      overSpentAmountInPositive =
+        totalTransactionsAmountOnDemand - totalAmountBudgeted;
+      console.log("TEST:", overSpentAmountInPositive);
+      percentageCompleted = overSpentAmountInPositive / totalAmountBudgeted;
+    }
   }
-  if (totalAmountBudgeted < totalTransactionsAmountOnDemand) {
-    overSpentAmountInNegative =
-      totalAmountBudgeted - totalTransactionsAmountOnDemand;
-    overSpentAmountInPositive =
-      totalTransactionsAmountOnDemand - totalAmountBudgeted;
-    console.log("TEST:", overSpentAmountInPositive);
-
-    percentageCompleted = overSpentAmountInPositive / totalAmountBudgeted;
+  if (tile_selected === "spent vs income") {
+    if (realIncomeTotalAmountOnDemand > totalTransactionsAmountOnDemand) {
+      percentageCompleted =
+        (totalTransactionsAmountOnDemand * 100) /
+        realIncomeTotalAmountOnDemand /
+        100;
+    }
+    if (realIncomeTotalAmountOnDemand < totalTransactionsAmountOnDemand) {
+      overSpentAmountInNegative =
+        realIncomeTotalAmountOnDemand - totalTransactionsAmountOnDemand;
+      overSpentAmountInPositive =
+        totalTransactionsAmountOnDemand - realIncomeTotalAmountOnDemand;
+      console.log("TEST:", overSpentAmountInPositive);
+      percentageCompleted =
+        overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
+    }
   }
-  // (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
 
   console.log("PERCENTAGE COMPLETED:", percentageCompleted);
 
@@ -103,11 +133,17 @@ export const HowMonthIsGoingView = ({ navigation }) => {
       user_id,
       set_month_year_toRender,
       comingFrom: "HowMonthIsGoingView",
+      tile_selected: tile_selected,
       setTotalTransactionsAmountOnDemand,
       setTotalAmountBudgeted,
+      setRealIncomeTotalAmountOnDemand,
     });
   };
 
+  const switchingOptions = (option) => {
+    set_tile_selected(option);
+  };
+  console.log("Tile selected:", tile_selected);
   return (
     <GeneralFlexContainer>
       <ExitHeaderWithMonthsOptionButtonComponent
@@ -129,14 +165,26 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         justify={"center"}
         isBordered={false}
       >
-        <CircularChartComponent
-          primaryAmount={totalTransactionsAmountOnDemand}
-          secondaryAmount={totalAmountBudgeted}
-          percentageCompleted={percentageCompleted}
-          radius={130}
-          secondaryLabel="Budgeted:"
-          overSpentAmountInNegative={overSpentAmountInNegative}
-        />
+        {tile_selected === "spent vs budgeted" && (
+          <CircularChartComponent
+            primaryAmount={totalTransactionsAmountOnDemand}
+            secondaryAmount={totalAmountBudgeted}
+            percentageCompleted={percentageCompleted}
+            radius={130}
+            secondaryLabel="Budgeted:"
+            overSpentAmountInNegative={overSpentAmountInNegative}
+          />
+        )}
+        {tile_selected === "spent vs income" && (
+          <CircularChartComponent
+            primaryAmount={totalTransactionsAmountOnDemand}
+            secondaryAmount={realIncomeTotalAmountOnDemand}
+            percentageCompleted={percentageCompleted}
+            radius={130}
+            secondaryLabel="Income: "
+            overSpentAmountInNegative={overSpentAmountInNegative}
+          />
+        )}
       </FlexibleContainer>
       <FlexibleContainer
         color={theme.colors.neutrals.e2_F5F5F5}
@@ -152,14 +200,14 @@ export const HowMonthIsGoingView = ({ navigation }) => {
           navigation={navigation}
           icon_name={"SuccessIcon"}
           active_icon={false}
-          action={() => null}
+          action={() => switchingOptions("spent vs budgeted")}
         />
         <CenteredTextTile
           caption={"Spent vs income"}
           navigation={navigation}
           icon_name={"SuccessIcon"}
           active_icon={false}
-          action={() => null}
+          action={() => switchingOptions("spent vs income")}
         />
       </FlexibleContainer>
     </GeneralFlexContainer>

@@ -6,7 +6,7 @@ import { AuthenticationContext } from "../authentication/authentication.context"
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 import {
   getTransactionsAndTotalAmountRequestOrderedByTimeStamp,
-  getTotalAmountByMonthYearAndUser_ID,
+  getTransactionsTotalAmountByMonthYearAndUser_ID,
 } from "./transactions.services";
 import {
   registerTransactionRequest,
@@ -14,6 +14,7 @@ import {
   deleteTransactionRequest,
 } from "./transactions.services";
 import { getCategoryData_By_UserID_MonthYearRequest } from "../category_data/category_data.services";
+import { getRealIncome_By_UserID_MonthYearRequest } from "../real_income/real_income.services";
 
 export const TransactionContextProvider = ({ children }) => {
   const { month_year } = useContext(DateOperationsContext);
@@ -106,14 +107,16 @@ export const TransactionContextProvider = ({ children }) => {
     }
   };
 
+  // ********************* THIS FUNCTION IS USED TO GET TRANSACTIONS TOTAL AMOUNT AND TOTAL AMOUNT BUDGETED BY MONTH YEAR AND USER ID *******************
   const gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID =
     async (user_id, month_year_onDemand) => {
       try {
         setIsLoading(true);
-        const { total_amount } = await getTotalAmountByMonthYearAndUser_ID(
-          user_id,
-          month_year_onDemand
-        );
+        const { total_amount } =
+          await getTransactionsTotalAmountByMonthYearAndUser_ID(
+            user_id,
+            month_year_onDemand
+          );
         const category_data = await getCategoryData_By_UserID_MonthYearRequest(
           user_id,
           month_year_onDemand
@@ -128,6 +131,37 @@ export const TransactionContextProvider = ({ children }) => {
         return {
           transactions_total_amount: total_amount,
           totalBudgeted: category_data.data.total_amount_budgeted,
+        };
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+  const gettingTransactionsTotalAmount_And_RealIncomeTotalAmount_ByMonthYear_And_User_ID =
+    async (user_id, month_year_onDemand) => {
+      try {
+        setIsLoading(true);
+        const { total_amount } =
+          await getTransactionsTotalAmountByMonthYearAndUser_ID(
+            user_id,
+            month_year_onDemand
+          );
+        const real_income = await getRealIncome_By_UserID_MonthYearRequest(
+          user_id,
+          month_year_onDemand
+        );
+
+        console.log("TOTAL AMOUNT AT CONTEXT:", total_amount);
+        console.log(
+          "REAL INCOME AT CONTEXT:",
+          JSON.stringify(real_income.data, null, 2)
+        );
+
+        return {
+          transactions_total_amount: total_amount,
+          realIncomeTotalAmount: real_income.data.total_amount,
         };
       } catch (error) {
         console.log(error);
@@ -152,7 +186,7 @@ export const TransactionContextProvider = ({ children }) => {
     return numberFixed;
   };
 
-  // *********************  THIS FUNCTION IS USED TO LISTEN FOR NEW CHANGES AT DB  *******************
+  // *********************  THIS FUNCTION IS USED TO LISTEN FOR NEW TRANSACTIONS CHANGES AT DB  *******************
   const listenForNewChangesAtDB = () => {
     const collectionRef = db.collection("transactions");
     collectionRef.onSnapshot(async (snapshot) => {
@@ -262,8 +296,6 @@ export const TransactionContextProvider = ({ children }) => {
     }
   };
 
-  // ****************** Updating transactions logic ******************
-
   return (
     <TransactionsContext.Provider
       value={{
@@ -286,6 +318,7 @@ export const TransactionContextProvider = ({ children }) => {
         deletingTransaction,
         gettingTransactions_byUserID_MonthYear_onDemand,
         gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID,
+        gettingTransactionsTotalAmount_And_RealIncomeTotalAmount_ByMonthYear_And_User_ID,
       }}
     >
       {children}

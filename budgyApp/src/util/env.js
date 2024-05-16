@@ -5,6 +5,7 @@
 // categoryListEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/us-central1/categoryListEndPoint`,
 // categoryDataEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/us-central1/categoryDataEndPoint`,
 // transactionsEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/transactionsEndPoint`,
+// realIncomeEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/realIncomeEndPoint`,
 //};
 
 // ************* Production Environment
@@ -14,4 +15,5 @@ export const environment = {
   transactionEndPoint: `https://us-central1-budgy-bd9b1.cloudfunctions.net/transactionsEndPoint`,
   categoryListEndPoint: `https://us-central1-budgy-bd9b1.cloudfunctions.net/categoryListEndPoint`,
   categoryDataEndPoint: `https://us-central1-budgy-bd9b1.cloudfunctions.net/categoryDataEndPoint`,
+  realIncomeEndPoint: `https://us-central1-budgy-bd9b1.cloudfunctions.net/realIncomeEndPoint`,
 };

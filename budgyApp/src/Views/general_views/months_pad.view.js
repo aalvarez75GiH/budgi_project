@@ -21,7 +21,11 @@ export const MonthsPadView = ({ navigation, route }) => {
     comingFrom,
     setTotalTransactionsAmountOnDemand,
     setTotalAmountBudgeted,
+    tile_selected,
+    setRealIncomeTotalAmountOnDemand,
   } = route.params;
+
+  console.log("TIILE SELECTED AT MONTH PAD VIEW:", tile_selected);
 
   //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
   const {
@@ -36,6 +40,7 @@ export const MonthsPadView = ({ navigation, route }) => {
     gettingTransactions_byUserID_MonthYear_onDemand,
     isLoading,
     gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID,
+    gettingTransactionsTotalAmount_And_RealIncomeTotalAmount_ByMonthYear_And_User_ID,
   } = useContext(TransactionsContext);
 
   const [month_year_onDemand, setMonthYearOnDemand] = useState(month_year);
@@ -54,29 +59,65 @@ export const MonthsPadView = ({ navigation, route }) => {
   };
 
   const cta_action = async () => {
-    switch (comingFrom) {
-      case "MyTransactionsView":
-        await gettingTransactions_byUserID_MonthYear_onDemand(
+    if (comingFrom === "MyTransactionsView") {
+      await gettingTransactions_byUserID_MonthYear_onDemand(
+        user_id,
+        month_year_onDemand
+      );
+    }
+    if (
+      comingFrom === "HowMonthIsGoingView" &&
+      tile_selected === "spent vs budgeted"
+    ) {
+      const response =
+        await gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID(
           user_id,
           month_year_onDemand
         );
-        break;
-      case "HowMonthIsGoingView":
-        const response =
-          await gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID(
-            user_id,
-            month_year_onDemand
-          );
-        //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
-        setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
-        setTotalAmountBudgeted(response.totalBudgeted);
-        break;
-      default:
-        // Handle any other cases
-        break;
+      //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+      setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
+      setTotalAmountBudgeted(response.totalBudgeted);
     }
+    if (
+      comingFrom === "HowMonthIsGoingView" &&
+      tile_selected === "spent vs income"
+    ) {
+      const response =
+        await gettingTransactionsTotalAmount_And_RealIncomeTotalAmount_ByMonthYear_And_User_ID(
+          user_id,
+          month_year_onDemand
+        );
+      //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+      setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
+      setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
+    }
+
     navigation.goBack();
   };
+  // const cta_action = async () => {
+  //   switch (comingFrom) {
+  //     case "MyTransactionsView":
+  //       await gettingTransactions_byUserID_MonthYear_onDemand(
+  //         user_id,
+  //         month_year_onDemand
+  //       );
+  //       break;
+  //     case "HowMonthIsGoingView":
+  //       const response =
+  //         await gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID(
+  //           user_id,
+  //           month_year_onDemand
+  //         );
+  //       //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+  //       setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
+  //       setTotalAmountBudgeted(response.totalBudgeted);
+  //       break;
+  //     default:
+  //       // Handle any other cases
+  //       break;
+  //   }
+  //   navigation.goBack();
+  // };
 
   console.log("MONTH YEAR ON DEMAND:", month_year_onDemand);
   return (

@@ -10,6 +10,7 @@ import { TransactionContextProvider } from "./src/infrastructure/services/transa
 import { CategoryListContextProvider } from "./src/infrastructure/services/category_list/category_list.context";
 import { DateOperationsContextProvider } from "./src/infrastructure/services/date_operations/date_operations.context";
 import { CategoryDataContextProvider } from "./src/infrastructure/services/category_data/category_data.context";
+import { RealIncomeContextProvider } from "./src/infrastructure/services/real_income/real_income.context";
 
 import { Navigation } from "./src/infrastructure/navigation";
 // ***************************************************
@@ -55,7 +56,9 @@ export default function App() {
               <TransactionContextProvider>
                 <CategoryListContextProvider>
                   <CategoryDataContextProvider>
-                    <Navigation />
+                    <RealIncomeContextProvider>
+                      <Navigation />
+                    </RealIncomeContextProvider>
                   </CategoryDataContextProvider>
                 </CategoryListContextProvider>
               </TransactionContextProvider>
