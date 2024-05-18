@@ -1,15 +1,15 @@
 import React, { useContext, useState, useEffect } from "react";
 
-import { Platform } from "react-native";
+import { Platform, PixelRatio } from "react-native";
 
 import { ExitHeaderWithMonthsOptionButtonComponent } from "../../global_components/organisms/headers/exit+month_option_button.header";
 import { theme } from "../../infrastructure/theme";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { CircularChartComponent } from "../../global_components/organisms/bar charts diagrams/circular_chart.component";
-import { Spacer } from "../../global_components/optimized.spacer.component";
-import { AccountAndThingsTile } from "../../global_components/organisms/tiles/account_and_things_tile";
 import { CenteredTextTile } from "../../global_components/organisms/tiles/centered_text_tile";
+import { CenteredTextTileWithIcon } from "../../global_components/organisms/tiles/centered_text_with_icon_tile";
+import { useMathLogic } from "../../hooks/useMathLogic";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
@@ -19,9 +19,11 @@ import { RealIncomeContext } from "../../infrastructure/services/real_income/rea
 
 export const HowMonthIsGoingView = ({ navigation }) => {
   //   *****************************************************************************************************
+  const { mathForHowYourMonthGoesViewOptions } = useMathLogic();
+
   const {
     total_amount,
-    gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID,
+    getting_transactions_budgeted_and_real_income_totalAmounts,
   } = useContext(TransactionsContext);
 
   //   ***** Category List context consumption
@@ -43,7 +45,8 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   const { realIncomeTotalAmount } = useContext(RealIncomeContext);
 
   // ******************* STATES ********************************
-  const [tile_selected, set_tile_selected] = useState("spent vs budgeted");
+  const [tile_selected, set_tile_selected] = useState("Spent vs budgeted");
+  const [isSpinnerLoading, setIsSpinnerLoading] = useState(false);
   const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const [totalTransactionsAmountOnDemand, setTotalTransactionsAmountOnDemand] =
     useState(
@@ -66,13 +69,14 @@ export const HowMonthIsGoingView = ({ navigation }) => {
       const settingTransactionsTotalAmountAndTotalBudgeted = async () => {
         setMonthSelected(month_name);
         const response =
-          await gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID(
+          await getting_transactions_budgeted_and_real_income_totalAmounts(
             user_id,
             month_year
           );
         //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
         setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
         setTotalAmountBudgeted(response.totalBudgeted);
+        setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
       };
       settingTransactionsTotalAmountAndTotalBudgeted();
     };
@@ -91,49 +95,22 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   //     });
   //   };
 
-  let percentageCompleted;
-  let overSpentAmountInNegative;
-  let overSpentAmountInPositive;
-  if (tile_selected === "spent vs budgeted") {
-    if (totalAmountBudgeted > totalTransactionsAmountOnDemand) {
-      percentageCompleted =
-        (totalTransactionsAmountOnDemand * 100) / totalAmountBudgeted / 100;
-    }
-    if (totalAmountBudgeted < totalTransactionsAmountOnDemand) {
-      overSpentAmountInNegative =
-        totalAmountBudgeted - totalTransactionsAmountOnDemand;
-      overSpentAmountInPositive =
-        totalTransactionsAmountOnDemand - totalAmountBudgeted;
-      console.log("TEST:", overSpentAmountInPositive);
-      percentageCompleted = overSpentAmountInPositive / totalAmountBudgeted;
-    }
-  }
-  if (tile_selected === "spent vs income") {
-    if (realIncomeTotalAmountOnDemand > totalTransactionsAmountOnDemand) {
-      percentageCompleted =
-        (totalTransactionsAmountOnDemand * 100) /
-        realIncomeTotalAmountOnDemand /
-        100;
-    }
-    if (realIncomeTotalAmountOnDemand < totalTransactionsAmountOnDemand) {
-      overSpentAmountInNegative =
-        realIncomeTotalAmountOnDemand - totalTransactionsAmountOnDemand;
-      overSpentAmountInPositive =
-        totalTransactionsAmountOnDemand - realIncomeTotalAmountOnDemand;
-      console.log("TEST:", overSpentAmountInPositive);
-      percentageCompleted =
-        overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
-    }
-  }
+  const { percentageCompleted, overSpentAmountInNegative } =
+    mathForHowYourMonthGoesViewOptions(
+      tile_selected,
+      totalAmountBudgeted,
+      totalTransactionsAmountOnDemand,
+      realIncomeTotalAmountOnDemand
+    );
 
-  console.log("PERCENTAGE COMPLETED:", percentageCompleted);
+  // console.log("PERCENTAGE COMPLETED:", test);
 
   const movingForwardToMonthsPadView = () => {
     navigation.navigate("Months_Pad_View", {
       user_id,
       set_month_year_toRender,
       comingFrom: "HowMonthIsGoingView",
-      tile_selected: tile_selected,
+      // tile_selected: tile_selected,
       setTotalTransactionsAmountOnDemand,
       setTotalAmountBudgeted,
       setRealIncomeTotalAmountOnDemand,
@@ -141,9 +118,15 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   };
 
   const switchingOptions = (option) => {
-    set_tile_selected(option);
+    setIsSpinnerLoading(true);
+    setTimeout(() => {
+      set_tile_selected(option);
+      setIsSpinnerLoading(false);
+    }, 800);
   };
+
   console.log("Tile selected:", tile_selected);
+  console.log("is Spinner loading:", isSpinnerLoading);
   return (
     <GeneralFlexContainer>
       <ExitHeaderWithMonthsOptionButtonComponent
@@ -165,24 +148,25 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         justify={"center"}
         isBordered={false}
       >
-        {tile_selected === "spent vs budgeted" && (
+        {tile_selected === "Spent vs budgeted" && (
           <CircularChartComponent
             primaryAmount={totalTransactionsAmountOnDemand}
             secondaryAmount={totalAmountBudgeted}
             percentageCompleted={percentageCompleted}
-            radius={130}
             secondaryLabel="Budgeted:"
             overSpentAmountInNegative={overSpentAmountInNegative}
+            isSpinnerLoading={isSpinnerLoading}
           />
         )}
-        {tile_selected === "spent vs income" && (
+
+        {tile_selected === "Spent vs income" && (
           <CircularChartComponent
             primaryAmount={totalTransactionsAmountOnDemand}
             secondaryAmount={realIncomeTotalAmountOnDemand}
             percentageCompleted={percentageCompleted}
-            radius={130}
             secondaryLabel="Income: "
             overSpentAmountInNegative={overSpentAmountInNegative}
+            isSpinnerLoading={isSpinnerLoading}
           />
         )}
       </FlexibleContainer>
@@ -195,19 +179,21 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         justify={"center"}
         isBordered={false}
       >
-        <CenteredTextTile
+        <CenteredTextTileWithIcon
           caption={"Spent vs budgeted"}
           navigation={navigation}
-          icon_name={"SuccessIcon"}
-          active_icon={false}
-          action={() => switchingOptions("spent vs budgeted")}
+          icon_name={"ThinCheckIcon"}
+          active_icon={true}
+          action={() => switchingOptions("Spent vs budgeted")}
+          tile_selected={tile_selected}
         />
-        <CenteredTextTile
+        <CenteredTextTileWithIcon
           caption={"Spent vs income"}
           navigation={navigation}
-          icon_name={"SuccessIcon"}
+          icon_name={"ThinCheckIcon"}
           active_icon={false}
-          action={() => switchingOptions("spent vs income")}
+          action={() => switchingOptions("Spent vs income")}
+          tile_selected={tile_selected}
         />
       </FlexibleContainer>
     </GeneralFlexContainer>

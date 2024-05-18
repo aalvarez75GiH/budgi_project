@@ -10,10 +10,21 @@ import { InfoDetailsTile } from "../../global_components/organisms/tiles/info_de
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { DescriptionTile } from "../../global_components/organisms/tiles/description_tile";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
+import { useNavigationLogic } from "../../hooks/useNavigationLogic";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
+  const { navigationLogicFromAnyDetailsView } = useNavigationLogic();
+  const {
+    movingForwardToAddDescription,
+    movingForwardToSelectCategoryView,
+    movingForwardToGeneralCalendarView,
+    movingForwardToDeleteConfirmationView,
+    updatingTransactionProcess,
+    closingMenu,
+  } = navigationLogicFromAnyDetailsView();
+
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
 
   const {
@@ -26,44 +37,8 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
   const { amount, transaction_date, short_name, description, transaction_id } =
     transactionInfoForUpdate;
 
-  console.log(
-    "TRANSACTION INFO FOR UPDATE AT ANY TRANSACTION DETAILS:",
-    JSON.stringify(transactionInfoForUpdate, null, 2)
-  );
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
-
-  const movingForwardToAddDescription = () => {
-    navigation.navigate("General_AddDescription_view", {
-      comingFrom: "AnyTransactionDetailsView",
-    });
-  };
-
-  const movingForwardToSelectCategoryView = () => {
-    navigation.navigate("General_select_category_view", {
-      comingFrom: "AnyTransactionDetailsView",
-    });
-  };
-  const movingForwardToGeneralCalendarView = () => {
-    navigation.navigate("General_calendar_view", {
-      comingFrom: "AnyTransactionDetailsView",
-    });
-  };
-
-  const updatingTransactionProcess = async () => {
-    const response = await updatingTransaction();
-    response ? navigation.navigate("My transactions") : null;
-  };
-
-  const closingMenu = () => {
-    navigation.goBack();
-  };
-
-  const movingForwardToDeleteConfirmationView = () => {
-    navigation.navigate("Delete_confirmation_view", {
-      transaction_id: transaction_id,
-    });
-  };
 
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
@@ -73,8 +48,14 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
         flexibility={0.12}
-        action_icon_right={movingForwardToDeleteConfirmationView}
-        action_icon_left={closingMenu}
+        action_icon_right={() =>
+          movingForwardToDeleteConfirmationView(
+            navigation,
+            "Delete_confirmation_view",
+            transaction_id
+          )
+        }
+        action_icon_left={() => closingMenu(navigation)}
         icon_name_right={"RemoveIcon"}
         icon_name_left={"ExitIcon"}
       />
@@ -127,7 +108,13 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           navigation={navigation}
           icon_name={"EditIcon"}
           active_icon={true}
-          action={movingForwardToSelectCategoryView}
+          action={() =>
+            movingForwardToSelectCategoryView(
+              navigation,
+              "General_select_category_view",
+              "AnyTransactionDetailsView"
+            )
+          }
           icon_width={25}
           icon_height={25}
         />
@@ -139,14 +126,26 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           active_icon={true}
           icon_width={25}
           icon_height={25}
-          action={movingForwardToGeneralCalendarView}
+          action={() =>
+            movingForwardToGeneralCalendarView(
+              navigation,
+              "General_calendar_view",
+              "AnyTransactionDetailsView"
+            )
+          }
         />
 
         <DescriptionTile
           width="100%"
           heigh="50%"
           description={description}
-          action={movingForwardToAddDescription}
+          action={() =>
+            movingForwardToAddDescription(
+              navigation,
+              "General_AddDescription_view",
+              "AnyTransactionDetailsView"
+            )
+          }
         />
       </FlexibleContainer>
       <FlexibleContainer
@@ -163,7 +162,9 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           height={50}
           color={theme.colors.buttons.p_FC9827}
           borderRadius={50}
-          action={updatingTransactionProcess}
+          action={() =>
+            updatingTransactionProcess(navigation, updatingTransaction)
+          }
           // action={() => null}
           text_variant="bold_text_20"
           isLoading={isLoading}

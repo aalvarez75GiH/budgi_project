@@ -15,7 +15,7 @@ import { TransactionsContext } from "../../infrastructure/services/transactions/
 
 export const CancelDeleteConfirmationView = ({ navigation, route }) => {
   const { transaction_id } = route.params;
-
+  console.log("TRANSACTION ID AT CANCEL DELETE CONFIRMATION:", transaction_id);
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const { deletingTransaction, isLoading } = useContext(TransactionsContext);
 

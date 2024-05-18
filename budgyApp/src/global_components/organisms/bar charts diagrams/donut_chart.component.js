@@ -20,7 +20,7 @@ export const DonutChartComponent = ({
   overSpentAmountInNegative,
 }) => {
   const innerRadius = radius - strokeWidth / 2;
-
+  // let primaryAmount = 1300.16;
   const primaryAmountFixed = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -35,7 +35,6 @@ export const DonutChartComponent = ({
   const path = Skia.Path.Make();
   path.addCircle(radius, radius, innerRadius);
 
-  //   const width = font.getTextWidth(targetText);
   //   const titleWidth = smallerFont.getTextWidth("Power");
 
   const amount_font = useFont(
@@ -46,6 +45,12 @@ export const DonutChartComponent = ({
     require("../../../../assets/fonts/DMSans_700Bold.ttf"),
     16
   );
+  const primary_amount_width = amount_font
+    ? amount_font.getTextWidth(primaryAmountFixed)
+    : 0;
+  const secondary_amount_width = smallerFont
+    ? smallerFont.getTextWidth(secondaryAmountFixed)
+    : 0;
 
   return (
     <GeneralFlexContainer>
@@ -53,8 +58,8 @@ export const DonutChartComponent = ({
         <Text
           x={
             overSpentAmountInNegative
-              ? innerRadius - 150 / 2
-              : innerRadius - 100 / 2
+              ? innerRadius - secondary_amount_width / 1
+              : innerRadius - secondary_amount_width / 1.4
           }
           y={radius - 40}
           text={
@@ -75,12 +80,7 @@ export const DonutChartComponent = ({
         />
 
         <Text
-          x={
-            overSpentAmountInNegative
-              ? innerRadius - 170 / 2
-              : innerRadius - 140 / 2
-          }
-          //   y={radius + strokeWidth}
+          x={innerRadius - primary_amount_width / 2.1}
           y={radius + 8}
           text={
             overSpentAmountInNegative
@@ -95,10 +95,13 @@ export const DonutChartComponent = ({
           color={theme.colors.ui.p_142223C}
         />
         <Text
-          x={innerRadius - 140 / 2}
+          x={
+            secondaryLabel === "Budgeted:"
+              ? innerRadius - secondary_amount_width / 1.02
+              : innerRadius - secondary_amount_width / 1.1
+          }
           y={radius + 50}
           text={`${secondaryLabel} ${secondaryAmountFixed}`}
-          // text={`Budgeted: ${totalAmountBudgetedFixed}`}
           font={smallerFont}
           opacity={percentageComplete}
           color={theme.colors.ui.p_142223C}

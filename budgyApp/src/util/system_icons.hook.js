@@ -24,6 +24,7 @@ import billIcon from "../../assets/icons/svgs/bills_icon.svg";
 import calendarIcon from "../../assets/icons/svgs/calendar_icon.svg";
 import descriptionIcon from "../../assets/icons/svgs/comment_icon.svg";
 import removeIcon from "../../assets/icons/svgs/remove_icon.svg";
+import ThinCheckIcon from "../../assets/icons/svgs/check_icon.svg";
 // import CategoryByUser from "../../../../assets/icons/svgs/users_group_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
@@ -119,6 +120,10 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "RemoveIcon",
       icon: removeIcon,
+    },
+    {
+      icon_name: "ThinCheckIcon",
+      icon: ThinCheckIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";

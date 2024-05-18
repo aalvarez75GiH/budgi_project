@@ -35,8 +35,8 @@ export const TwoIconsHeaderComponent = ({
       <SVG_Clickable_Component
         action={action_icon_right}
         icon_name={icon_name_right}
-        icon_width={18}
-        icon_height={18}
+        icon_width={23}
+        icon_height={23}
         position={"absolute"}
         left={"80%"}
         top={"60%"}

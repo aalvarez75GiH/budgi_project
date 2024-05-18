@@ -107,68 +107,43 @@ export const TransactionContextProvider = ({ children }) => {
     }
   };
 
-  // ********************* THIS FUNCTION IS USED TO GET TRANSACTIONS TOTAL AMOUNT AND TOTAL AMOUNT BUDGETED BY MONTH YEAR AND USER ID *******************
-  const gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID =
-    async (user_id, month_year_onDemand) => {
-      try {
-        setIsLoading(true);
-        const { total_amount } =
-          await getTransactionsTotalAmountByMonthYearAndUser_ID(
-            user_id,
-            month_year_onDemand
-          );
-        const category_data = await getCategoryData_By_UserID_MonthYearRequest(
-          user_id,
-          month_year_onDemand
-        );
+  const getting_transactions_budgeted_and_real_income_totalAmounts = async (
+    user_id,
+    month_year_onDemand
+  ) => {
+    try {
+      setIsLoading(true);
 
-        console.log("TOTAL AMOUNT AT CONTEXT:", total_amount);
-        console.log(
-          "CATEGORY DATA AT CONTEXT:",
-          JSON.stringify(category_data.data, null, 2)
-        );
+      const category_data = await getCategoryData_By_UserID_MonthYearRequest(
+        user_id,
+        month_year_onDemand
+      );
+      const real_income = await getRealIncome_By_UserID_MonthYearRequest(
+        user_id,
+        month_year_onDemand
+      );
 
-        return {
-          transactions_total_amount: total_amount,
-          totalBudgeted: category_data.data.total_amount_budgeted,
-        };
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      // console.log("TOTAL AMOUNT AT CONTEXT:", transactions_total_amount);
+      console.log(
+        "CATEGORY DATA AT CONTEXT:",
+        JSON.stringify(category_data.data, null, 2)
+      );
+      console.log(
+        "REAL INCOME AT CONTEXT:",
+        JSON.stringify(real_income.data, null, 2)
+      );
 
-  const gettingTransactionsTotalAmount_And_RealIncomeTotalAmount_ByMonthYear_And_User_ID =
-    async (user_id, month_year_onDemand) => {
-      try {
-        setIsLoading(true);
-        const { total_amount } =
-          await getTransactionsTotalAmountByMonthYearAndUser_ID(
-            user_id,
-            month_year_onDemand
-          );
-        const real_income = await getRealIncome_By_UserID_MonthYearRequest(
-          user_id,
-          month_year_onDemand
-        );
-
-        console.log("TOTAL AMOUNT AT CONTEXT:", total_amount);
-        console.log(
-          "REAL INCOME AT CONTEXT:",
-          JSON.stringify(real_income.data, null, 2)
-        );
-
-        return {
-          transactions_total_amount: total_amount,
-          realIncomeTotalAmount: real_income.data.total_amount,
-        };
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      return {
+        transactions_total_amount: category_data.data.total_amount_spent,
+        totalBudgeted: category_data.data.total_amount_budgeted,
+        realIncomeTotalAmount: real_income.data.total_amount,
+      };
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const cleaningState = () => {
     setNumber("0");
@@ -317,8 +292,7 @@ export const TransactionContextProvider = ({ children }) => {
         updatingTransaction,
         deletingTransaction,
         gettingTransactions_byUserID_MonthYear_onDemand,
-        gettingTransactionsTotalAmount_And_TotalAmountBudgeted_ByMonthYear_And_User_ID,
-        gettingTransactionsTotalAmount_And_RealIncomeTotalAmount_ByMonthYear_And_User_ID,
+        getting_transactions_budgeted_and_real_income_totalAmounts,
       }}
     >
       {children}
