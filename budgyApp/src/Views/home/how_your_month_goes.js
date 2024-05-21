@@ -9,7 +9,7 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { CircularChartComponent } from "../../global_components/organisms/bar charts diagrams/circular_chart.component";
 import { CenteredTextTile } from "../../global_components/organisms/tiles/centered_text_tile";
 import { CenteredTextTileWithIcon } from "../../global_components/organisms/tiles/centered_text_with_icon_tile";
-import { useMathLogic } from "../../hooks/useMathLogic";
+import { useHowYourMonthGoesLogic } from "../../hooks/useHowYourMonthGoesLogic";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
@@ -19,8 +19,7 @@ import { RealIncomeContext } from "../../infrastructure/services/real_income/rea
 
 export const HowMonthIsGoingView = ({ navigation }) => {
   //   *****************************************************************************************************
-  const { mathForHowYourMonthGoesViewOptions } = useMathLogic();
-
+  const { amountsMathLogic } = useHowYourMonthGoesLogic();
   const {
     total_amount,
     getting_transactions_budgeted_and_real_income_totalAmounts,
@@ -29,13 +28,11 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   //   ***** Category List context consumption
   const { categoryData } = useContext(CategoryDataContext);
   const { total_amount_budgeted } = categoryData;
-  // console.log("EXPENSE CATEGORIES AT HOW_MONTH:", expense_categories);
 
   //   ***** Date Operations context consumption
   const { month_year, setMonthSelected, month_name } = useContext(
     DateOperationsContext
   );
-  //   console.log("MONTH YEAR:", month_year);
 
   //   ***** Authentication context consumption
   const { user } = useContext(AuthenticationContext);
@@ -95,22 +92,18 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   //     });
   //   };
 
-  const { percentageCompleted, overSpentAmountInNegative } =
-    mathForHowYourMonthGoesViewOptions(
-      tile_selected,
-      totalAmountBudgeted,
-      totalTransactionsAmountOnDemand,
-      realIncomeTotalAmountOnDemand
-    );
-
-  // console.log("PERCENTAGE COMPLETED:", test);
+  const { percentageCompleted, overSpentAmountInNegative } = amountsMathLogic(
+    tile_selected,
+    totalAmountBudgeted,
+    totalTransactionsAmountOnDemand,
+    realIncomeTotalAmountOnDemand
+  );
 
   const movingForwardToMonthsPadView = () => {
     navigation.navigate("Months_Pad_View", {
       user_id,
       set_month_year_toRender,
       comingFrom: "HowMonthIsGoingView",
-      // tile_selected: tile_selected,
       setTotalTransactionsAmountOnDemand,
       setTotalAmountBudgeted,
       setRealIncomeTotalAmountOnDemand,
@@ -120,13 +113,11 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   const switchingOptions = (option) => {
     setIsSpinnerLoading(true);
     setTimeout(() => {
-      set_tile_selected(option);
       setIsSpinnerLoading(false);
     }, 800);
+    set_tile_selected(option);
   };
 
-  console.log("Tile selected:", tile_selected);
-  console.log("is Spinner loading:", isSpinnerLoading);
   return (
     <GeneralFlexContainer>
       <ExitHeaderWithMonthsOptionButtonComponent

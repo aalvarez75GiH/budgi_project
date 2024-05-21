@@ -1,5 +1,5 @@
 import Styled from "styled-components/native";
-import { View, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 export const ClickableControlledContainer = Styled(TouchableOpacity)`
 width:${(props) => props.width};

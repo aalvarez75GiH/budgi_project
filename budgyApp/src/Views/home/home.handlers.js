@@ -14,22 +14,6 @@ export const parsingAmount = () => {
   };
 };
 
-export const sortingExpenseCategories = (expenseCategories) => {
-  expenseCategories.sort((a, b) => {
-    const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
-    const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
-    if (category_nameA < category_nameB) {
-      return -1;
-    }
-    if (category_nameA > category_nameB) {
-      return 1;
-    }
-
-    // names must be equal
-    return 0;
-  });
-};
-
 export const sortingTransactions = (transactions) => {
   transactions.sort((a, b) => {
     const transaction_dateA = a.transaction_date; // ignore upper and lowercase

@@ -1,5 +1,5 @@
-export const useMathLogic = () => {
-  const mathForHowYourMonthGoesViewOptions = (
+export const useHowYourMonthGoesLogic = () => {
+  const amountsMathLogic = (
     tile_selected,
     totalAmountBudgeted,
     totalTransactionsAmountOnDemand,
@@ -56,6 +56,6 @@ export const useMathLogic = () => {
   };
 
   return {
-    mathForHowYourMonthGoesViewOptions,
+    amountsMathLogic,
   };
 };

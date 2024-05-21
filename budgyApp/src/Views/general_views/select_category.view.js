@@ -1,16 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { FlatList } from "react-native";
-//  ****** My Imports
 
 import { BackHeaderWithLabelComponent } from "../../global_components/organisms/headers/back_header_withLabel.component";
-import { RegularCategoryTile } from "../../global_components/organisms/tiles/category_list_tile";
 
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { SafeArea } from "../../global_components/safe-area.component";
 import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
-import { sortingExpenseCategories } from "../home/home.handlers";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
+import { useSelectCategoryLogic } from "../../hooks/useSelectCategoryLogic";
 
 // ****** Context's imported **********************
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
@@ -20,15 +18,13 @@ import { DateOperationsContext } from "../../infrastructure/services/date_operat
 export const GeneralSelectCategoryView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
 
+  // ******* LOGIC FROM HOOK ********
+  const { sortingExpenseCategories, goingBack, renderItem } =
+    useSelectCategoryLogic();
+
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-  const {
-    transactionInfoForRequest,
-    transactionInfoForUpdate,
-    setTransactionInfoForRequest,
-    setTransactionInfoForUpdate,
-    fixingANumberToTwoDecimals,
-  } = useContext(TransactionsContext);
-  const { amount } = transactionInfoForRequest;
+  const { transactionInfoForRequest, setTransactionInfoForRequest } =
+    useContext(TransactionsContext);
 
   //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
   const { system_date, expenseDate } = useContext(DateOperationsContext);
@@ -36,8 +32,6 @@ export const GeneralSelectCategoryView = ({ navigation, route }) => {
   //   ****** DATA FROM CATEGORY LIST CONTEXT ************
   const { categoryList, isLoading } = useContext(CategoryListContext);
   const { expense_categories } = categoryList;
-
-  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     sortingExpenseCategories(expense_categories);
@@ -51,57 +45,6 @@ export const GeneralSelectCategoryView = ({ navigation, route }) => {
         : null;
     }
   }, []);
-
-  //**** HERE WE SET THE CATEGORY SELECTED AND SET TRANSACTION INFO FOR REQUEST WITH INFO NEEDED ****
-  const selectingCategory = (item) => {
-    const { category_id, category_name, short_name, icon_name } = item;
-    // console.log("ITEM NAME AT SELECTING CATEGORY :", item.category_name);
-    selectedItem === category_id;
-    setSelectedItem(item.category_id);
-    // console.log("SELECTED ITEM:", selectedItem);
-    comingFrom === "AnyTransactionDetailsView"
-      ? setTransactionInfoForUpdate({
-          ...transactionInfoForUpdate,
-          category_name: category_name,
-          category_id: category_id,
-          icon_name: icon_name,
-          short_name: short_name,
-        })
-      : setTransactionInfoForRequest({
-          ...transactionInfoForRequest,
-          category_name: category_name,
-          category_id: category_id,
-          icon_name: icon_name,
-          short_name: short_name,
-          amount: fixingANumberToTwoDecimals(amount),
-        });
-
-    comingFrom === "AnyTransactionDetailsView"
-      ? navigation.navigate("Transaction_details_view")
-      : navigation.navigate("Transaction_summary");
-  };
-
-  const renderItem = ({ item }) => {
-    const { category_id } = item;
-    const isSelected = selectedItem === category_id;
-    // console.log("ITEM AT RENDER ITEM:", item);
-    return (
-      <RegularCategoryTile
-        category_name={item.category_name}
-        navigation={navigation}
-        category_id={item.category_id}
-        icon_path={item.icon_path}
-        short_name={item.short_name}
-        icon_name={item.icon_name}
-        item={item}
-        isSelected={isSelected}
-        action={() => selectingCategory(item)}
-      />
-    );
-  };
-  const goingBack = () => {
-    navigation.goBack();
-  };
 
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
@@ -128,7 +71,7 @@ export const GeneralSelectCategoryView = ({ navigation, route }) => {
             direction={"row"}
             color={theme.colors.bg.p_FFFFFF}
             flexibility={0.5}
-            action={goingBack}
+            action={() => goingBack(navigation)}
             align="flex-end"
             // color={"#FAD"}
           />
@@ -142,7 +85,7 @@ export const GeneralSelectCategoryView = ({ navigation, route }) => {
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
               data={expense_categories}
-              renderItem={renderItem}
+              renderItem={renderItem(navigation, comingFrom)}
               keyExtractor={(item, id) => {
                 return item.category_id;
               }}

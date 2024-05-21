@@ -1,9 +1,5 @@
-export const useNavigationLogic = () => {
-  const navigationLogicFromAnyDetailsView = (
-    navigation,
-    toNavigate,
-    comingFrom
-  ) => {
+export const useAnyTransactionDetailsLogic = () => {
+  const navigationLogic = (navigation, toNavigate, comingFrom) => {
     const movingForwardToAddDescription = (
       navigation,
       toNavigate,
@@ -63,6 +59,6 @@ export const useNavigationLogic = () => {
   };
 
   return {
-    navigationLogicFromAnyDetailsView,
+    navigationLogic,
   };
 };

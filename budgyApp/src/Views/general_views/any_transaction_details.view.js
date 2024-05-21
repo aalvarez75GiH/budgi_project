@@ -10,12 +10,14 @@ import { InfoDetailsTile } from "../../global_components/organisms/tiles/info_de
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { DescriptionTile } from "../../global_components/organisms/tiles/description_tile";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
-import { useNavigationLogic } from "../../hooks/useNavigationLogic";
+import { useAnyTransactionDetailsLogic } from "../../hooks/useAnyTransactionDetailsLogic";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
-  const { navigationLogicFromAnyDetailsView } = useNavigationLogic();
+  const { navigationLogic } = useAnyTransactionDetailsLogic();
+
+  // ****************LOGIC FROM HOOK ********
   const {
     movingForwardToAddDescription,
     movingForwardToSelectCategoryView,
@@ -23,7 +25,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     movingForwardToDeleteConfirmationView,
     updatingTransactionProcess,
     closingMenu,
-  } = navigationLogicFromAnyDetailsView();
+  } = navigationLogic();
 
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
 

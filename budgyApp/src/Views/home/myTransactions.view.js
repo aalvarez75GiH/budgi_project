@@ -6,15 +6,16 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { theme } from "../../infrastructure/theme";
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
-import { TransactionTile } from "../../global_components/organisms/tiles/transaction_tile";
+// import { TransactionTile } from "../../global_components/organisms/tiles/transaction_tile";
+import { CircularButtonOptionComponent } from "../../global_components/organisms/clickables options/circularButton_option.component";
 
 import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
 import { CheckIconComponent } from "../../global_components/check_icon_component";
 import { RoundedOptionButton } from "../../global_components/buttons/rounded_option_button";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
-import { CircularButtonOptionComponent } from "../../global_components/organisms/clickables options/circularButton_option.component";
 import { CircularTextOptionComponent } from "../../global_components/organisms/clickables options/circular_text_option.component";
+import { useMyTransactionsLogic } from "../../hooks/useMyTransactionsLogic";
 
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
@@ -23,6 +24,18 @@ import { TransactionsContext } from "../../infrastructure/services/transactions/
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 
 export const MyTransactionsView = ({ navigation }) => {
+  // ************** LOGIC FROM HOOK **************
+  const {
+    movingForwardToMonthsPadView,
+    settingUpTransactionsFromContextForAllOptionButton,
+    settingUpTransactionsFromContext,
+    renderItem,
+    selectingCategoryAndGettingTransactions,
+    selectedItem,
+    // renderCategoryItem,
+    // isLoadingByCat,
+  } = useMyTransactionsLogic();
+
   //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
   const { month_year, setMonthSelected, month_name } = useContext(
     DateOperationsContext
@@ -39,7 +52,6 @@ export const MyTransactionsView = ({ navigation }) => {
   );
   const [isLoadingByCat, setIsLoadingByCat] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
   const [month_year_toRender, set_month_year_toRender] = useState(month_year);
 
   //   ****** DATA FROM CATEGORY LIST CONTEXT ************
@@ -57,7 +69,15 @@ export const MyTransactionsView = ({ navigation }) => {
   } = useContext(TransactionsContext);
 
   useEffect(() => {
-    settingUpTransactionsFromContext();
+    settingUpTransactionsFromContext(
+      transactionsByMonthYear,
+      total_amount,
+      setIsPressed,
+      setIsLoading,
+      // setSelectedItem,
+      setTransactionsToRender,
+      setTotalAmountToRender
+    );
     setExpenseCategoriesToRender(expenseCategories);
 
     return async () => {
@@ -72,145 +92,51 @@ export const MyTransactionsView = ({ navigation }) => {
   console.log("MONTH YEAR :", month_year);
 
   useEffect(() => {
-    settingUpTransactionsFromContext();
+    settingUpTransactionsFromContext(
+      transactionsByMonthYear,
+      total_amount,
+      setIsPressed,
+      setIsLoading,
+      // setSelectedItem,
+      setTransactionsToRender,
+      setTotalAmountToRender
+    );
   }, [transactionsByMonthYear, total_amount]);
 
-  //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
-  const settingUpTransactionsFromContext = () => {
-    setIsPressed(true);
-    setIsLoading(true);
-    setSelectedItem(null);
-    setTimeout(() => {
-      setTransactionsToRender(transactionsByMonthYear);
-      setTotalAmountToRender(total_amount);
-      setIsLoading(false);
-    }, 1000);
-  };
-
-  //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
-  const settingUpTransactionsFromContextForAllOptionButton = () => {
-    setIsPressed(true);
-    setIsLoadingByCat(true);
-    setSelectedItem(null);
-    setTimeout(() => {
-      setTransactionsToRender(transactionsByMonthYear);
-      setTotalAmountToRender(total_amount);
-      setIsLoadingByCat(false);
-    }, 1000);
-  };
-
-  // This function is used to set up transactions by category and month/year.
-  const settingUpTransactions_byCategory_by_MonthYear = async (
-    user_id,
-    category_id,
-    // month_year
-    month_year_toRender
-  ) => {
-    console.log("MONTH YEAR TO RENDER INSIDE FUNCTION:", month_year_toRender);
-    // Set the button to not pressed and start loading.
-    setIsPressed(false);
-    setIsLoadingByCat(true);
-
-    // Delay the execution of the following code by 200ms.
-    setTimeout(() => {
-      try {
-        // Initialize an empty array to store transactions that match the criteria.
-        let transactionsByCategoryMonthYear = [];
-
-        // Loop through all transactions.
-        transactionsByMonthYear.map((transaction) => {
-          // If the transaction matches the user, category, and month/year, add it to the array.
-          if (
-            transaction.user_id === user_id &&
-            transaction.category_id === category_id &&
-            transaction.month_year === month_year_toRender
-          ) {
-            transactionsByCategoryMonthYear.push(transaction);
-          }
-        });
-
-        // If there are any transactions that match the criteria...
-        if (transactionsByCategoryMonthYear.length) {
-          // ...calculate the total amount of these transactions.
-          const transactions_amount = transactionsByCategoryMonthYear.reduce(
-            (a, b) => ({
-              amount: a.amount + b.amount,
-            })
-          );
-
-          // Set the total amount to be rendered.
-          setTotalAmountToRender(transactions_amount.amount);
-        } else {
-          // If there are no transactions that match the criteria, log a message.
-          console.log("THERE ARE NO TRANSACTIONS FOR THAT CATEGORY...");
-        }
-
-        // Stop loading and set the transactions to be rendered.
-        setIsLoadingByCat(false);
-        setTransactionsToRender(transactionsByCategoryMonthYear);
-      } catch (error) {
-        // If there's an error, log it.
-        console.log(error);
-      }
-    }, 200);
-  };
-
-  const movingForwardToDetailsView = (item) => {
-    setTransactionInfoForUpdate(item);
-    navigation.navigate("Transaction_details_view");
-  };
-
-  const movingForwardToMonthsPadView = () => {
-    navigation.navigate("Months_Pad_View", {
-      user_id: user_id,
-      set_month_year_toRender: set_month_year_toRender,
-      comingFrom: "MyTransactionsView",
-    });
-  };
-
-  //   *************** it does render transactions
-  const renderItem = ({ item }) => {
-    return (
-      <TransactionTile
-        caption={item.category_name}
-        navigation={navigation}
-        icon_name={item.icon_name}
-        active_icon={true}
-        amount={item.amount}
-        transaction_date={item.transaction_date}
-        most_recent={item.most_recent}
-        short_name={item.short_name}
-        action={() => movingForwardToDetailsView(item)}
-      />
-    );
-  };
-
-  //**** HERE WE SET THE CATEGORY SELECTED AND GET TRANSACTIONS BY CATEGORY AND MONTH YEAR WITH TRANSACTION CONTEXT AS SOURCE ****
-  const selectingCategoryAndGettingTransactions = (item) => {
-    const { category_id } = item;
-    selectedItem === category_id;
-    setSelectedItem(item.category_id);
-    settingUpTransactions_byCategory_by_MonthYear(
+  const renderCategoryItem =
+    (
       user_id,
-      category_id,
-      month_year_toRender
-    );
-  };
-
-  //**** HERE WE RENDER CATEGORIES AT CATEGORIES SELECTOR  ****
-  const renderCategoryItem = ({ item, index }) => {
-    // console.log("ITEM:", item);
-    const { category_id, status } = item;
-    const isSelected = selectedItem === category_id;
-    return (
-      <CircularButtonOptionComponent
-        caption={item.short_name}
-        icon_name={item.icon_name}
-        action={() => selectingCategoryAndGettingTransactions(item)}
-        isSelected={isSelected}
-      />
-    );
-  };
+      month_year_toRender,
+      transactionsByMonthYear,
+      setIsPressed,
+      setTotalAmountToRender,
+      setTransactionsToRender,
+      setIsLoadingByCat
+    ) =>
+    ({ item, index }) => {
+      // console.log("ITEM:", item);
+      const { category_id, status } = item;
+      const isSelected = selectedItem === category_id;
+      return (
+        <CircularButtonOptionComponent
+          caption={item.short_name}
+          icon_name={item.icon_name}
+          action={() =>
+            selectingCategoryAndGettingTransactions(
+              item,
+              user_id,
+              month_year_toRender,
+              transactionsByMonthYear,
+              setIsPressed,
+              setTotalAmountToRender,
+              setTransactionsToRender,
+              setIsLoadingByCat
+            )
+          }
+          isSelected={isSelected}
+        />
+      );
+    };
 
   return isLoading ? (
     <FlexibleContainer
@@ -284,7 +210,13 @@ export const MyTransactionsView = ({ navigation }) => {
           >
             <RoundedOptionButton
               color={"#F4F4F4"}
-              action={movingForwardToMonthsPadView}
+              action={() =>
+                movingForwardToMonthsPadView(
+                  navigation,
+                  user_id,
+                  set_month_year_toRender
+                )
+              }
               width={"140px"}
               height={"55px"}
               borderRadius={25}
@@ -310,7 +242,17 @@ export const MyTransactionsView = ({ navigation }) => {
         <CircularTextOptionComponent
           caption="All"
           isPressed={isPressed}
-          action={settingUpTransactionsFromContextForAllOptionButton}
+          action={() =>
+            settingUpTransactionsFromContextForAllOptionButton(
+              transactionsByMonthYear,
+              total_amount,
+              setIsPressed,
+              // setSelectedItem,
+              setTransactionsToRender,
+              setTotalAmountToRender,
+              setIsLoadingByCat
+            )
+          }
         />
         <ControlledContainer
           width={"300px"}
@@ -323,7 +265,15 @@ export const MyTransactionsView = ({ navigation }) => {
             showsHorizontalScrollIndicator={false}
             // showsVerticalScrollIndicator={true}
             data={expenseCategoriesToRender}
-            renderItem={renderCategoryItem}
+            renderItem={renderCategoryItem(
+              user_id,
+              month_year_toRender,
+              transactionsByMonthYear,
+              setIsPressed,
+              setTotalAmountToRender,
+              setTransactionsToRender,
+              setIsLoadingByCat
+            )}
             keyExtractor={(item, id) => {
               return item.category_id;
             }}
@@ -390,7 +340,7 @@ export const MyTransactionsView = ({ navigation }) => {
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
               data={transactionsToRender}
-              renderItem={renderItem}
+              renderItem={renderItem(navigation, setTransactionInfoForUpdate)}
               keyExtractor={(item, id) => {
                 return item.transaction_id;
               }}
