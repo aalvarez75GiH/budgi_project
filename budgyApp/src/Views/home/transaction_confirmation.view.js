@@ -8,33 +8,21 @@ import { DoneHeaderComponent } from "../../global_components/organisms/headers/d
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { FooterMenuContainer } from "../../global_components/organisms/menu-footers/menu_footer.container";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
-
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
+import { useTransactionConfirmationLogic } from "../../hooks/useTransactionConfirmationLogic";
 
 export const TransactionConfirmationView = ({ navigation }) => {
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
+    goingHome,
     isConfirmed,
-    cleaningState,
-    transactionInfoForRequest,
-    fixingANumberToTwoDecimalsAndString,
-  } = useContext(TransactionsContext);
-
-  const { amount, transaction_date, short_name } = transactionInfoForRequest;
-  const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
-
-  const goingHome = () => {
-    cleaningState();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: "Home" }],
-    });
-  };
+    transaction_date,
+    short_name,
+    stringedAmount,
+  } = useTransactionConfirmationLogic();
 
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
       <DoneHeaderComponent
-        action={goingHome}
+        action={() => goingHome(navigation)}
         direction={"row"}
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAD"}
@@ -74,7 +62,7 @@ export const TransactionConfirmationView = ({ navigation }) => {
           height={60}
           color={theme.colors.buttons.t_E5E5E5}
           borderRadius={0}
-          action={goingHome}
+          action={() => goingHome(navigation)}
           text_variant="bold_text_16"
         />
       </FlexibleContainer>

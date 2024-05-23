@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 
 import { theme } from "../../infrastructure/theme";
 import { NumPadComponent } from "../../global_components/organisms/pads/num_pad";
@@ -10,37 +10,10 @@ import { MenuHeaderComponent } from "../../global_components/organisms/headers/m
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { FooterMenuContainer } from "../../global_components/organisms/menu-footers/menu_footer.container";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
-
-import { NumPadContext } from "../../infrastructure/services/numPad/numPad.context";
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
-import { SafeArea } from "../../global_components/safe-area.component";
+import { useHomeLogic } from "../../hooks/useHomeLogic";
 
 export const Home = ({ navigation }) => {
-  //   ****** DATA FROM NUMPAD CONTEXT ************
-  const { number } = useContext(NumPadContext);
-
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-  const {
-    transactionInfoForRequest,
-    setTransactionInfoForRequest,
-    fixingANumberToTwoDecimalsAndString,
-  } = useContext(TransactionsContext);
-
-  const movingToSelectCategory = () => {
-    setTransactionInfoForRequest({
-      ...transactionInfoForRequest,
-      amount: fixingANumberToTwoDecimalsAndString(number),
-    });
-    // navigation.navigate("Categories");
-    navigation.navigate("General_select_category_view", {
-      comingFrom: "Home_View",
-    });
-  };
-
-  // console.log(
-  //   "TRANSACTION INFO FOR REQUEST AT HOME:",
-  //   JSON.stringify(transactionInfoForRequest, null, 2)
-  // );
+  const { movingToSelectCategory, number } = useHomeLogic();
 
   return (
     // <SafeArea background_color={theme.colors.bg.s_142223C}>
@@ -98,7 +71,7 @@ export const Home = ({ navigation }) => {
             height={50}
             color={theme.colors.buttons.p_FC9827}
             borderRadius={50}
-            action={movingToSelectCategory}
+            action={() => movingToSelectCategory(navigation)}
             text_variant="bold_text_20"
             top_position={640}
             icon_align={"center"}

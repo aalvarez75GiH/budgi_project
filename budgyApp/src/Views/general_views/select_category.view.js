@@ -10,38 +10,27 @@ import { IsLoadingContainer } from "../../global_components/containers/isLoading
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { useSelectCategoryLogic } from "../../hooks/useSelectCategoryLogic";
 
-// ****** Context's imported **********************
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
-import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 
 export const GeneralSelectCategoryView = ({ navigation, route }) => {
+  // ******* LOGIC FROM HOOK ********
+  const {
+    sortingExpenseCategories,
+    goingBack,
+    renderItem,
+    expense_categories,
+    isLoading,
+    settingSystemDateAndExpenseDateOnTransactionInfoForRequest,
+  } = useSelectCategoryLogic();
+
   const { comingFrom } = route.params;
 
-  // ******* LOGIC FROM HOOK ********
-  const { sortingExpenseCategories, goingBack, renderItem } =
-    useSelectCategoryLogic();
-
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-  const { transactionInfoForRequest, setTransactionInfoForRequest } =
-    useContext(TransactionsContext);
-
-  //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
-  const { system_date, expenseDate } = useContext(DateOperationsContext);
-
-  //   ****** DATA FROM CATEGORY LIST CONTEXT ************
-  const { categoryList, isLoading } = useContext(CategoryListContext);
-  const { expense_categories } = categoryList;
-
   useEffect(() => {
-    sortingExpenseCategories(expense_categories);
+    sortingExpenseCategories();
     {
       comingFrom === "Home_View"
-        ? setTransactionInfoForRequest({
-            ...transactionInfoForRequest,
-            creation_date: system_date,
-            transaction_date: expenseDate,
-          })
+        ? settingSystemDateAndExpenseDateOnTransactionInfoForRequest()
         : null;
     }
   }, []);

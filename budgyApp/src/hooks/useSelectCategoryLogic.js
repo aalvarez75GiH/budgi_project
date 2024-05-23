@@ -2,7 +2,16 @@ import { useState, useContext } from "react";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
 import { RegularCategoryTile } from "../global_components/organisms/tiles/category_list_tile";
 
+import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
+import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
 export const useSelectCategoryLogic = () => {
+  //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
+  const { system_date, expenseDate } = useContext(DateOperationsContext);
+
+  //   ****** DATA FROM CATEGORY LIST CONTEXT ************
+  const { categoryList, isLoading } = useContext(CategoryListContext);
+  const { expense_categories } = categoryList;
+
   const [selectedItem, setSelectedItem] = useState(null);
 
   const {
@@ -13,9 +22,10 @@ export const useSelectCategoryLogic = () => {
     fixingANumberToTwoDecimals,
   } = useContext(TransactionsContext);
   const { amount } = transactionInfoForRequest;
+
   //   ******** THIS LOGIC SORTS EXPENSE CATEGORIES ALPHABETICALLY ********
-  const sortingExpenseCategories = (expenseCategories) => {
-    expenseCategories.sort((a, b) => {
+  const sortingExpenseCategories = () => {
+    expense_categories.sort((a, b) => {
       const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
       const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
       if (category_nameA < category_nameB) {
@@ -27,6 +37,14 @@ export const useSelectCategoryLogic = () => {
 
       // names must be equal
       return 0;
+    });
+  };
+
+  const settingSystemDateAndExpenseDateOnTransactionInfoForRequest = () => {
+    setTransactionInfoForRequest({
+      ...transactionInfoForRequest,
+      creation_date: system_date,
+      transaction_date: expenseDate,
     });
   };
 
@@ -92,5 +110,9 @@ export const useSelectCategoryLogic = () => {
     selectingCategory,
     goingBack,
     renderItem,
+    expense_categories,
+    isLoading,
+    settingSystemDateAndExpenseDateOnTransactionInfoForRequest,
+    expenseDate,
   };
 };

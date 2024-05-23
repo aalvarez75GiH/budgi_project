@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { SafeArea } from "../../global_components/safe-area.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
@@ -16,9 +16,6 @@ import { ControlledContainer } from "../../global_components/containers/controll
 import { TextForDescription } from "../../global_components/special text components/text_for_descriptions";
 import { useTransactionSummaryLogic } from "../../hooks/useTransactionSummaryLogic";
 
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
-import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
-
 export const TransactionSummaryView = ({ navigation }) => {
   //  ******* LOGIC FROM HOOK ********
   const {
@@ -31,10 +28,6 @@ export const TransactionSummaryView = ({ navigation }) => {
     backHeaderAction,
     settingTodayTransactionDate,
     packingExpenseDateForDifferentDay,
-  } = useTransactionSummaryLogic();
-
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-  const {
     isConfirmed,
     setIsConfirmed,
     transactionInfoForRequest,
@@ -42,14 +35,12 @@ export const TransactionSummaryView = ({ navigation }) => {
     fixingANumberToTwoDecimalsAndString,
     setTransactionsByMonthYear,
     setTransactionsTotalAmount,
-  } = useContext(TransactionsContext);
-
-  const { amount, transaction_date, short_name, description } =
-    transactionInfoForRequest;
-
-  // ****** Here we are parsing amount to integer for request to transaction end point
-  const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
-
+    transaction_date,
+    short_name,
+    description,
+    stringedAmount,
+  } = useTransactionSummaryLogic();
+  console.log("TRANSACTION DATE:", transaction_date);
   return (
     <SafeArea background_color={"#FFFFFF"}>
       <GeneralFlexContainer>

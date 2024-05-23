@@ -1,23 +1,51 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { TransactionTile } from "../global_components/organisms/tiles/transaction_tile";
 import { CircularButtonOptionComponent } from "../global_components/organisms/clickables options/circularButton_option.component";
 
+import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
+import { AuthenticationContext } from "../infrastructure/services/authentication/authentication.context";
+import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
+import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
+
 export const useMyTransactionsLogic = () => {
-  //   const [isPressed, setIsPressed] = useState(false);
-  //   const [isLoadingByCat, setIsLoadingByCat] = useState(false);
+  //   ****** DATA FROM DATE OPERATIONS CONTEXT ************
+  const { month_year, setMonthSelected, month_name } = useContext(
+    DateOperationsContext
+  );
+
+  //   ****** DATA FROM AUTHENTICATION CONTEXT ************
+  const { user } = useContext(AuthenticationContext);
+  const { user_id } = user;
+
+  //   ****** DATA FROM CATEGORY LIST CONTEXT ************
+  const { categoryList } = useContext(CategoryListContext);
+  const expenseCategories = categoryList.expense_categories;
+
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
+  const {
+    transactionsByMonthYear,
+    total_amount,
+    isLoading,
+    setIsLoading,
+    setTransactionInfoForUpdate,
+    gettingTransactions_byUserID_MonthYear_onDemand,
+  } = useContext(TransactionsContext);
+
+  const [isPressed, setIsPressed] = useState(false);
+  const [month_year_toRender, set_month_year_toRender] = useState(month_year);
+  const [isLoadingByCat, setIsLoadingByCat] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  //   const [totalAmountToRender, setTotalAmountToRender] = useState(0);
-  //   const [transactionsToRender, setTransactionsToRender] = useState([]);
+  const [totalAmountToRender, setTotalAmountToRender] = useState(0);
+  const [transactionsToRender, setTransactionsToRender] = useState([]);
+  const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
+    []
+  );
 
   const settingUpTransactions_byCategory_by_MonthYear = async (
     user_id,
     category_id,
     month_year_toRender,
-    transactionsByMonthYear,
-    setIsPressed,
-    setTotalAmountToRender,
-    setTransactionsToRender,
-    setIsLoadingByCat
+    transactionsByMonthYear
   ) => {
     console.log("USER ID:", user_id);
     console.log("CATEGORY ID:", category_id);
@@ -83,9 +111,7 @@ export const useMyTransactionsLogic = () => {
   const settingUpTransactionsFromContext = (
     transactionsByMonthYear,
     total_amount,
-    setIsPressed,
     setIsLoading,
-    // setSelectedItem,
     setTransactionsToRender,
     setTotalAmountToRender
   ) => {
@@ -103,10 +129,9 @@ export const useMyTransactionsLogic = () => {
   const settingUpTransactionsFromContextForAllOptionButton = (
     transactionsByMonthYear,
     total_amount,
-    setIsPressed,
-    // setSelectedItem,
     setTransactionsToRender,
-    setTotalAmountToRender
+    setTotalAmountToRender,
+    setIsLoadingByCat
   ) => {
     setIsPressed(true);
     setIsLoadingByCat(true);
@@ -120,15 +145,7 @@ export const useMyTransactionsLogic = () => {
 
   const selectingCategoryAndGettingTransactions = (
     item,
-    // selectedItem,
-    // setSelectedItem,
-    user_id,
-    month_year_toRender,
-    transactionsByMonthYear,
-    setIsPressed,
-    setTotalAmountToRender,
-    setTransactionsToRender,
-    setIsLoadingByCat
+    transactionsByMonthYear
   ) => {
     console.log("ITEM:", item);
     const { category_id } = item;
@@ -138,11 +155,7 @@ export const useMyTransactionsLogic = () => {
       user_id,
       category_id,
       month_year_toRender,
-      transactionsByMonthYear,
-      setIsPressed,
-      setTotalAmountToRender,
-      setTransactionsToRender,
-      setIsLoadingByCat
+      transactionsByMonthYear
     );
   };
 
@@ -169,6 +182,8 @@ export const useMyTransactionsLogic = () => {
   };
 
   // ********* RENDER LOGIC ********* //
+
+  //   ********* RENDERING TRANSACTIONS ********* //
   const renderItem =
     (navigation, setTransactionInfoForUpdate) =>
     ({ item }) => {
@@ -195,17 +210,7 @@ export const useMyTransactionsLogic = () => {
 
   //**** HERE WE RENDER CATEGORIES AT CATEGORIES BELT SELECTOR  ****
   const renderCategoryItem =
-    (
-      //   selectedItem,
-      //   setSelectedItem,
-      user_id,
-      month_year_toRender,
-      transactionsByMonthYear,
-      setIsPressed,
-      setTotalAmountToRender,
-      setTransactionsToRender,
-      setIsLoadingByCat
-    ) =>
+    (transactionsByMonthYear) =>
     ({ item }) => {
       // console.log("ITEM:", item);
       const { category_id } = item;
@@ -217,15 +222,7 @@ export const useMyTransactionsLogic = () => {
           action={() =>
             selectingCategoryAndGettingTransactions(
               item,
-              //   selectedItem,
-              //   setSelectedItem,
-              user_id,
-              month_year_toRender,
-              transactionsByMonthYear,
-              setIsPressed,
-              setIsLoadingByCat,
-              setTotalAmountToRender,
-              setTransactionsToRender
+              transactionsByMonthYear
             )
           }
           isSelected={isSelected}
@@ -236,13 +233,34 @@ export const useMyTransactionsLogic = () => {
   return {
     movingForwardToDetailsView,
     movingForwardToMonthsPadView,
-    settingUpTransactions_byCategory_by_MonthYear,
     settingUpTransactionsFromContextForAllOptionButton,
     settingUpTransactionsFromContext,
     renderItem,
     renderCategoryItem,
     selectingCategoryAndGettingTransactions,
-    // isLoadingByCat,
     selectedItem,
+    isPressed,
+    setIsPressed,
+    month_year_toRender,
+    set_month_year_toRender,
+    month_year,
+    setMonthSelected,
+    month_name,
+    user_id,
+    transactionsToRender,
+    setTransactionsToRender,
+    totalAmountToRender,
+    setTotalAmountToRender,
+    expenseCategoriesToRender,
+    setExpenseCategoriesToRender,
+    isLoadingByCat,
+    setIsLoadingByCat,
+    transactionsByMonthYear,
+    total_amount,
+    isLoading,
+    setIsLoading,
+    setTransactionInfoForUpdate,
+    gettingTransactions_byUserID_MonthYear_onDemand,
+    expenseCategories,
   };
 };

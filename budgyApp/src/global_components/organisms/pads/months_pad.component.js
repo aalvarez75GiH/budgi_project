@@ -7,7 +7,6 @@ import { theme } from "../../../infrastructure/theme";
 import { MonthPadContainer, Month_Row } from "./num_pad.styles";
 import { DateOperationsContext } from "../../../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../../../infrastructure/services/transactions/transactions.context";
-import { is } from "date-fns/locale";
 
 export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
   //   console.log("MONTH SELECTED:", month_selected);

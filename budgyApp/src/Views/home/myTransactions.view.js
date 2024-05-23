@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { FlatList } from "react-native";
 
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
@@ -6,8 +6,6 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { theme } from "../../infrastructure/theme";
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
-// import { TransactionTile } from "../../global_components/organisms/tiles/transaction_tile";
-import { CircularButtonOptionComponent } from "../../global_components/organisms/clickables options/circularButton_option.component";
 
 import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
 import { CheckIconComponent } from "../../global_components/check_icon_component";
@@ -16,11 +14,6 @@ import { GeneralFlexContainer } from "../../global_components/containers/general
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { CircularTextOptionComponent } from "../../global_components/organisms/clickables options/circular_text_option.component";
 import { useMyTransactionsLogic } from "../../hooks/useMyTransactionsLogic";
-
-import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
-import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
-import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 
 export const MyTransactionsView = ({ navigation }) => {
@@ -30,51 +23,36 @@ export const MyTransactionsView = ({ navigation }) => {
     settingUpTransactionsFromContextForAllOptionButton,
     settingUpTransactionsFromContext,
     renderItem,
-    selectingCategoryAndGettingTransactions,
-    selectedItem,
-    // renderCategoryItem,
-    // isLoadingByCat,
-  } = useMyTransactionsLogic();
-
-  //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
-  const { month_year, setMonthSelected, month_name } = useContext(
-    DateOperationsContext
-  );
-
-  //   ****** DATA FROM DATES AUTHENTICATION CONTEXT ************
-  const { user } = useContext(AuthenticationContext);
-  const { user_id } = user;
-
-  const [transactionsToRender, setTransactionsToRender] = useState([]);
-  const [totalAmountToRender, setTotalAmountToRender] = useState(0);
-  const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
-    []
-  );
-  const [isLoadingByCat, setIsLoadingByCat] = useState(false);
-  const [isPressed, setIsPressed] = useState(false);
-  const [month_year_toRender, set_month_year_toRender] = useState(month_year);
-
-  //   ****** DATA FROM CATEGORY LIST CONTEXT ************
-  const { categoryList } = useContext(CategoryListContext);
-  const expenseCategories = categoryList.expense_categories;
-
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-  const {
+    renderCategoryItem,
+    isPressed,
+    month_year_toRender,
+    set_month_year_toRender,
+    month_year,
+    setMonthSelected,
+    month_name,
+    user_id,
+    transactionsToRender,
+    setTransactionsToRender,
+    totalAmountToRender,
+    setTotalAmountToRender,
+    expenseCategoriesToRender,
+    setExpenseCategoriesToRender,
+    isLoadingByCat,
+    setIsLoadingByCat,
     transactionsByMonthYear,
     total_amount,
     isLoading,
     setIsLoading,
     setTransactionInfoForUpdate,
     gettingTransactions_byUserID_MonthYear_onDemand,
-  } = useContext(TransactionsContext);
+    expenseCategories,
+  } = useMyTransactionsLogic();
 
   useEffect(() => {
     settingUpTransactionsFromContext(
       transactionsByMonthYear,
       total_amount,
-      setIsPressed,
       setIsLoading,
-      // setSelectedItem,
       setTransactionsToRender,
       setTotalAmountToRender
     );
@@ -88,55 +66,16 @@ export const MyTransactionsView = ({ navigation }) => {
       );
     };
   }, []);
-  console.log("MONTH YEAR TO RENDER:", month_year_toRender);
-  console.log("MONTH YEAR :", month_year);
 
   useEffect(() => {
     settingUpTransactionsFromContext(
       transactionsByMonthYear,
       total_amount,
-      setIsPressed,
       setIsLoading,
-      // setSelectedItem,
       setTransactionsToRender,
       setTotalAmountToRender
     );
   }, [transactionsByMonthYear, total_amount]);
-
-  const renderCategoryItem =
-    (
-      user_id,
-      month_year_toRender,
-      transactionsByMonthYear,
-      setIsPressed,
-      setTotalAmountToRender,
-      setTransactionsToRender,
-      setIsLoadingByCat
-    ) =>
-    ({ item, index }) => {
-      // console.log("ITEM:", item);
-      const { category_id, status } = item;
-      const isSelected = selectedItem === category_id;
-      return (
-        <CircularButtonOptionComponent
-          caption={item.short_name}
-          icon_name={item.icon_name}
-          action={() =>
-            selectingCategoryAndGettingTransactions(
-              item,
-              user_id,
-              month_year_toRender,
-              transactionsByMonthYear,
-              setIsPressed,
-              setTotalAmountToRender,
-              setTransactionsToRender,
-              setIsLoadingByCat
-            )
-          }
-          isSelected={isSelected}
-        />
-      );
-    };
 
   return isLoading ? (
     <FlexibleContainer
@@ -246,8 +185,6 @@ export const MyTransactionsView = ({ navigation }) => {
             settingUpTransactionsFromContextForAllOptionButton(
               transactionsByMonthYear,
               total_amount,
-              setIsPressed,
-              // setSelectedItem,
               setTransactionsToRender,
               setTotalAmountToRender,
               setIsLoadingByCat
@@ -263,17 +200,8 @@ export const MyTransactionsView = ({ navigation }) => {
           <FlatList
             horizontal={true}
             showsHorizontalScrollIndicator={false}
-            // showsVerticalScrollIndicator={true}
             data={expenseCategoriesToRender}
-            renderItem={renderCategoryItem(
-              user_id,
-              month_year_toRender,
-              transactionsByMonthYear,
-              setIsPressed,
-              setTotalAmountToRender,
-              setTransactionsToRender,
-              setIsLoadingByCat
-            )}
+            renderItem={renderCategoryItem(transactionsByMonthYear)}
             keyExtractor={(item, id) => {
               return item.category_id;
             }}

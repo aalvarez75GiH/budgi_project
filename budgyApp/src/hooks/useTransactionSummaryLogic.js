@@ -1,19 +1,36 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { registerTransactionRequest } from "../infrastructure/services/transactions/transactions.services";
 import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "../infrastructure/services/transactions/transactions.services";
 import { AuthenticationContext } from "../infrastructure/services/authentication/authentication.context";
+import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
 
 export const useTransactionSummaryLogic = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [button1Pressed, setButton1Pressed] = useState(true);
   const [button2Pressed, setButton2Pressed] = useState(false);
 
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
+  const {
+    isConfirmed,
+    setIsConfirmed,
+    transactionInfoForRequest,
+    setTransactionInfoForRequest,
+    fixingANumberToTwoDecimalsAndString,
+    setTransactionsByMonthYear,
+    setTransactionsTotalAmount,
+  } = useContext(TransactionsContext);
+  const { amount, transaction_date, short_name, description } =
+    transactionInfoForRequest;
+
   const { packingExpenseDateForDifferentDay, system_date, month_year } =
     useContext(DateOperationsContext);
 
   const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
+
+  // ****** Here we are parsing amount to integer for request to transaction end point
+  const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
   console.log("typeof DB:", typeof db);
   const registeringTransaction = async (
@@ -152,5 +169,16 @@ export const useTransactionSummaryLogic = () => {
     packingExpenseDateForDifferentDay,
     month_year,
     listenForNewChangesAtDB,
+    isConfirmed,
+    setIsConfirmed,
+    transactionInfoForRequest,
+    setTransactionInfoForRequest,
+    fixingANumberToTwoDecimalsAndString,
+    setTransactionsByMonthYear,
+    setTransactionsTotalAmount,
+    transaction_date,
+    short_name,
+    description,
+    stringedAmount,
   };
 };

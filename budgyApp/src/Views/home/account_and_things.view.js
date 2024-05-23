@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View } from "react-native";
 
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
@@ -8,21 +8,15 @@ import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { AccountAndThingsTile } from "../../global_components/organisms/tiles/account_and_things_tile";
-
-import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
+import { useAccountAndThingsLogic } from "../../hooks/useAccountAndThingsLogic";
 
 export const AccountAndThingsView = ({ navigation }) => {
-  //   ****** DATA FROM AUTHENTICATION CONTEXT ************
-  const { user } = useContext(AuthenticationContext);
-  const { first_name, last_name } = user;
-  const fullName = first_name + " " + last_name;
-
-  const movingToMyTransactions = () => {
-    navigation.navigate("My transactions");
-  };
-  const movingToHowYourMonthIsGoing = () => {
-    navigation.navigate("How month is going");
-  };
+  const {
+    movingToMyTransactions,
+    movingToHowYourMonthIsGoing,
+    fullName,
+    email,
+  } = useAccountAndThingsLogic();
 
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
@@ -67,7 +61,7 @@ export const AccountAndThingsView = ({ navigation }) => {
         />
 
         <AccountAndThingsTile
-          caption={user.email}
+          caption={email}
           navigation={navigation}
           icon_name={"EmailIcon"}
           active_icon={false}
@@ -111,14 +105,14 @@ export const AccountAndThingsView = ({ navigation }) => {
           navigation={navigation}
           icon_name={"TransactionsIcon"}
           active_icon={true}
-          action={movingToMyTransactions}
+          action={() => movingToMyTransactions(navigation)}
         />
         <AccountAndThingsTile
           caption={"Check how your month is going"}
           navigation={navigation}
           icon_name={"SpendingIcon"}
           active_icon={true}
-          action={movingToHowYourMonthIsGoing}
+          action={() => movingToHowYourMonthIsGoing(navigation)}
         />
         <AccountAndThingsTile
           caption={"App preference"}
