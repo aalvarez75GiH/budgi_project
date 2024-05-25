@@ -5,17 +5,17 @@ import { TransactionsContext } from "../infrastructure/services/transactions/tra
 
 export const useMonthPadLogic = () => {
   const {
-    gettingTransactions_byUserID_MonthYear_onDemand,
-    isLoading,
-    getting_transactions_budgeted_and_real_income_totalAmounts,
-  } = useContext(TransactionsContext);
-
-  const {
     setMonthSelected,
     month_selected,
     settingMonthYearForRequest,
     month_year,
   } = useContext(DateOperationsContext);
+
+  const {
+    gettingTransactions_byUserID_MonthYear_onDemand,
+    isLoading,
+    getting_transactions_budgeted_and_real_income_totalAmounts,
+  } = useContext(TransactionsContext);
 
   const [isChosen, setIsChosen] = useState({
     month_selected: month_selected,
@@ -23,7 +23,7 @@ export const useMonthPadLogic = () => {
   });
   const [month_year_onDemand, setMonthYearOnDemand] = useState(month_year);
 
-  const selectingMonth = (month) => {
+  const selectingMonth = (month, set_month_year_toRender) => {
     const month_year_for_request = settingMonthYearForRequest(month);
     setIsChosen({ month_selected: month, isActive: true });
     setMonthSelected(month);
@@ -32,6 +32,7 @@ export const useMonthPadLogic = () => {
   };
 
   const cta_action = async (
+    navigation,
     comingFrom,
     user_id,
     setTotalTransactionsAmountOnDemand,
@@ -65,5 +66,7 @@ export const useMonthPadLogic = () => {
     isLoading,
     setMonthSelected,
     setMonthYearOnDemand,
+    settingMonthYearForRequest,
+    month_selected,
   };
 };

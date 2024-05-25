@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import { Platform } from "react-native";
 
 import { SafeArea } from "../../global_components/safe-area.component";
@@ -8,63 +8,23 @@ import { theme } from "../../infrastructure/theme";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { Text } from "../../infrastructure/typography/text.component";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { AmountFormInput } from "../../global_components/inputs/amount_formInput";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { SVGComponent } from "../../global_components/image_components/svg.component";
 import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
+import { useEnterAmountLogic } from "../../hooks/useEnterAmountLogic";
 
 export const EnterAmountView = ({ navigation, route }) => {
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
+  const { comingFrom } = route.params;
   const {
-    fixingANumberToTwoDecimalsAndString,
-    fixingANumberToTwoDecimals,
-    transactionInfoForUpdate,
-    setTransactionInfoForUpdate,
-  } = useContext(TransactionsContext);
-
-  const { amount } = transactionInfoForUpdate;
-
-  // ****** Here we are parsing amount to integer for request to transaction end point
-  const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
-  const [amountToSet, setAmountToSet] = useState(String(`$${stringedAmount}`));
-
-  const formatCurrency = (value) => {
-    const digits = value.replace(/[^0-9]/g, "");
-
-    if (!digits) {
-      setAmountToSet("");
-      return;
-    }
-
-    let formattedValue = "." + digits.padStart(1, "");
-    if (digits.length > 5) {
-      formattedValue =
-        digits.slice(0, -5) +
-        "," +
-        digits.slice(-5, -2) +
-        "." +
-        digits.slice(-2);
-    } else if (digits.length > 2) {
-      formattedValue = digits.slice(0, -2) + "." + digits.slice(-2);
-    }
-    setAmountToSet("$" + formattedValue);
-  };
-
-  const clearingText = () => {
-    setAmountToSet("");
-  };
-
-  const settingNewTransactionAmount = () => {
-    setTransactionInfoForUpdate({
-      ...transactionInfoForUpdate,
-      amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
-    });
-
-    navigation.navigate("Transaction_details_view");
-  };
+    cta_action,
+    setAmountToSet,
+    amountToSet,
+    clearingText,
+    formatCurrency,
+  } = useEnterAmountLogic();
 
   return (
     <SafeArea background_color={"#FFFFFF"}>
@@ -175,7 +135,7 @@ export const EnterAmountView = ({ navigation, route }) => {
               height={50}
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
-              action={settingNewTransactionAmount}
+              action={() => cta_action(navigation, comingFrom)}
               text_variant="bold_text_20"
             />
           ) : null}

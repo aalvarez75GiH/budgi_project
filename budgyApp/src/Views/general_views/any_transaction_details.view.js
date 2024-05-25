@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 
 import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
@@ -99,7 +99,9 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           icon_name={"EditIcon"}
           active_icon={true}
           action={() => {
-            navigation.navigate("Enter_amount_view");
+            navigation.navigate("Enter_amount_view", {
+              comingFrom: "AnyTransactionDetailsView",
+            });
           }}
           icon_width={25}
           icon_height={25}

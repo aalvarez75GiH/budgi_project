@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
@@ -9,20 +9,12 @@ import { ControlledContainer } from "../../global_components/containers/controll
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
-
-// ****** Context's imported **********************
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
+import { useCancelDeleteLogic } from "../../hooks/useCancelDeleteLogic";
 
 export const CancelDeleteConfirmationView = ({ navigation, route }) => {
   const { transaction_id } = route.params;
   console.log("TRANSACTION ID AT CANCEL DELETE CONFIRMATION:", transaction_id);
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-  const { deletingTransaction, isLoading } = useContext(TransactionsContext);
-
-  const deletingTransactionProcess = async () => {
-    const response = await deletingTransaction(transaction_id);
-    response ? navigation.navigate("My transactions") : null;
-  };
+  const { deletingTransactionProcess, isLoading } = useCancelDeleteLogic();
 
   return (
     <SafeArea background_color={"#FFFFFF"}>
@@ -61,7 +53,9 @@ export const CancelDeleteConfirmationView = ({ navigation, route }) => {
               height={50}
               color={theme.colors.ui.error_cancels}
               borderRadius={50}
-              action={deletingTransactionProcess}
+              action={() =>
+                deletingTransactionProcess(navigation, transaction_id)
+              }
               text_variant="white_bold_text_20"
               isLoading={isLoading}
             />

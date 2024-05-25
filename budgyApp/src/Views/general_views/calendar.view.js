@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { Platform } from "react-native";
 import CalendarPicker from "react-native-calendar-picker-scrollable-fix";
 
@@ -8,149 +8,18 @@ import { BackHeaderComponent } from "../../global_components/organisms/headers/b
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { Spacer } from "../../global_components/optimized.spacer.component";
-
-import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
-import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
+import { useCalendarLogic } from "../../hooks/useCalendarLogic";
 
 export const GeneralCalendarView = ({ navigation, route }) => {
-  const { user } = useContext(AuthenticationContext);
-  const { user_id } = user;
-  //   ****** DATA DATE OPERATIONS CONTEXT ************
-  const { packingExpenseDateForDifferentDay, system_date, month_year } =
-    useContext(DateOperationsContext);
-
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-
-  const {
-    setTransactionInfoForRequest,
-    transactionInfoForRequest,
-    transactionInfoForUpdate,
-    setTransactionInfoForUpdate,
-    transactionsByMonthYear,
-    gettingTransactions_byUserID_MonthYear_onDemand,
-  } = useContext(TransactionsContext);
-
-  const [selected, setSelected] = useState(null);
   const { setButton1Pressed, setButton2Pressed, comingFrom } = route.params;
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const settingTimeStampForDifferentDay = (expenseDate) => {
-    console.log("EXPENSE DATE:", expenseDate);
-    const last_transactionWithSameExpenseDate = transactionsByMonthYear.find(
-      (element) => element.transaction_date === expenseDate
-    );
-    console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
-
-    let timeStampForDifferentDayTransaction;
-    if (last_transactionWithSameExpenseDate) {
-      // Use last_transactionWithSameExpenseDate
-      timeStampForDifferentDayTransaction =
-        last_transactionWithSameExpenseDate.timeStamp + 1000;
-      // return timeStampForDifferentDayTransaction;
-    } else {
-      // Handle the case where last_transactionWithSameExpenseDate is undefined
-      timeStampForDifferentDayTransaction = Date.now();
-      // return timeStampForDifferentDayTransaction;
-    }
-    return timeStampForDifferentDayTransaction;
-  };
-  //   1713314778149
-  //   1714755218048
-  const onDateChange = async (date) => {
-    setSelected(date);
-    const { expenseDate, month_year_for_different_day } =
-      packingExpenseDateForDifferentDay(date);
-    // console.log("MONTH YEAR ON DATE CHANGE:", month_year_for_different_day);
-    // console.log("MONTH YEAR ON DATE CHANGE:", month_year);
-
-    await gettingTransactions_byUserID_MonthYear_onDemand(
-      user_id,
-      month_year_for_different_day
-    );
-
-    const timeStampForDifferentDayTransaction =
-      await settingTimeStampForDifferentDay(expenseDate);
-    // console.log(
-    //   "TIME STAMP FOR DIFFERENT DAY TRANSACTION:",
-    //   timeStampForDifferentDayTransaction
-    // );
-    switch (comingFrom) {
-      case "TransactionSummaryView":
-        setTransactionInfoForRequest({
-          ...transactionInfoForRequest,
-          creation_date: system_date,
-          transaction_date: expenseDate,
-          month_year: month_year_for_different_day,
-          timeStamp: timeStampForDifferentDayTransaction
-            ? timeStampForDifferentDayTransaction
-            : Date.now(),
-        });
-        break;
-      case "AnyTransactionDetailsView":
-        setTransactionInfoForUpdate({
-          ...transactionInfoForUpdate,
-          transaction_date: expenseDate,
-          month_year: month_year_for_different_day,
-          timeStamp: timeStampForDifferentDayTransaction
-            ? timeStampForDifferentDayTransaction
-            : Date.now(),
-        });
-        break;
-      default:
-        break;
-    }
-  };
-
-  function backHeaderAction() {
-    const { expenseDate, month_year } =
-      packingExpenseDateForDifferentDay(system_date);
-
-    const timeStampForDifferentDayTransaction =
-      settingTimeStampForDifferentDay(expenseDate);
-    {
-      comingFrom === "TransactionSummaryView"
-        ? setTransactionInfoForRequest({
-            ...transactionInfoForRequest,
-            creation_date: system_date,
-            transaction_date: expenseDate,
-            month_year: month_year,
-            timeStamp: timeStampForDifferentDayTransaction
-              ? timeStampForDifferentDayTransaction
-              : Date.now(),
-          })
-        : setTransactionInfoForUpdate({
-            ...transactionInfoForUpdate,
-            transaction_date: expenseDate,
-            month_year: month_year,
-            timeStamp: timeStampForDifferentDayTransaction
-              ? timeStampForDifferentDayTransaction
-              : Date.now(),
-          });
-    }
-    {
-      comingFrom === "TransactionSummaryView"
-        ? settingButtonPressedAndExiting()
-        : movingBackToTransactionDetails();
-    }
-  }
-
-  const settingButtonPressedAndExiting = () => {
-    setButton1Pressed(true);
-    setButton2Pressed(false);
-    navigation.goBack();
-  };
-
-  const comingBackToSummary = () => {
-    setButton1Pressed(false);
-    setButton2Pressed(true);
-    navigation.goBack();
-  };
-
-  const movingBackToTransactionDetails = () => {
-    navigation.navigate("Transaction_details_view");
-  };
+  const {
+    comingBackToSummary,
+    movingBackToTransactionDetails,
+    backHeaderAction,
+    onDateChange,
+    selected,
+  } = useCalendarLogic();
 
   return (
     <GeneralFlexContainer color={"white"}>
@@ -160,7 +29,9 @@ export const GeneralCalendarView = ({ navigation, route }) => {
         height={"15%"}
         direction={"column"}
         color={theme.colors.bg.p_FFFFFF}
-        action={backHeaderAction}
+        action={() =>
+          backHeaderAction(navigation, setButton1Pressed, setButton2Pressed)
+        }
         // color={"#FAD"}
       />
       <FlexibleContainer
@@ -173,7 +44,7 @@ export const GeneralCalendarView = ({ navigation, route }) => {
       >
         <CalendarPicker
           maxDate={new Date()}
-          onDateChange={onDateChange}
+          onDateChange={(date) => onDateChange(date, comingFrom)}
           todayTextStyle={{
             color: "#14223C",
             fontFamily: theme.fonts.bold,
@@ -218,8 +89,13 @@ export const GeneralCalendarView = ({ navigation, route }) => {
             borderRadius={50}
             action={
               comingFrom === "TransactionSummaryView"
-                ? comingBackToSummary
-                : movingBackToTransactionDetails
+                ? () =>
+                    comingBackToSummary(
+                      navigation,
+                      setButton1Pressed,
+                      setButton2Pressed
+                    )
+                : () => movingBackToTransactionDetails(navigation)
             }
             text_variant="bold_text_20"
           />
