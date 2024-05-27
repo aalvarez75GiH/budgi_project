@@ -51,9 +51,6 @@ export const HowMonthIsGoingView = ({ navigation }) => {
     };
   }, []);
 
-  console.log("TOTAL REAL INCOME AMOUNT:", realIncomeTotalAmountOnDemand);
-  //   *****************************************************************************************************
-
   return (
     <GeneralFlexContainer>
       <ExitHeaderWithMonthsOptionButtonComponent

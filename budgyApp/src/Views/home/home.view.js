@@ -16,7 +16,6 @@ export const Home = ({ navigation }) => {
   const { movingToSelectCategory, number } = useHomeLogic();
 
   return (
-    // <SafeArea background_color={theme.colors.bg.s_142223C}>
     <GeneralFlexContainer color={theme.colors.bg.s_142223C}>
       <MenuHeaderComponent
         navigation={navigation}
@@ -88,6 +87,5 @@ export const Home = ({ navigation }) => {
         <FooterMenuContainer color={theme.colors.brand.quaternary} />
       </FlexibleContainer>
     </GeneralFlexContainer>
-    // </SafeArea>
   );
 };

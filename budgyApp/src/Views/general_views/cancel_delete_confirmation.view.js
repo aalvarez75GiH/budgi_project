@@ -13,7 +13,6 @@ import { useCancelDeleteLogic } from "../../hooks/useCancelDeleteLogic";
 
 export const CancelDeleteConfirmationView = ({ navigation, route }) => {
   const { transaction_id } = route.params;
-  console.log("TRANSACTION ID AT CANCEL DELETE CONFIRMATION:", transaction_id);
   const { deletingTransactionProcess, isLoading } = useCancelDeleteLogic();
 
   return (

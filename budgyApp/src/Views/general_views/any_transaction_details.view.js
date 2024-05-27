@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
@@ -11,8 +11,6 @@ import { ControlledContainer } from "../../global_components/containers/controll
 import { DescriptionTile } from "../../global_components/organisms/tiles/description_tile";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useAnyTransactionDetailsLogic } from "../../hooks/useAnyTransactionDetailsLogic";
-
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
   // ****************LOGIC FROM HOOK ********

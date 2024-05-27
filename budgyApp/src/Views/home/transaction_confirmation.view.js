@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { SafeArea } from "../../global_components/safe-area.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";

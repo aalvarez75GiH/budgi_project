@@ -10,9 +10,6 @@ import { IsLoadingContainer } from "../../global_components/containers/isLoading
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { useSelectCategoryLogic } from "../../hooks/useSelectCategoryLogic";
 
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
-import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
-
 export const GeneralSelectCategoryView = ({ navigation, route }) => {
   // ******* LOGIC FROM HOOK ********
   const {
