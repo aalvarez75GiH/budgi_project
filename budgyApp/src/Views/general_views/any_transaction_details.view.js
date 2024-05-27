@@ -15,9 +15,16 @@ import { useAnyTransactionDetailsLogic } from "../../hooks/useAnyTransactionDeta
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
-  const { navigationLogic } = useAnyTransactionDetailsLogic();
-
   // ****************LOGIC FROM HOOK ********
+  const {
+    navigationLogic,
+    stringedAmount,
+    transaction_date,
+    short_name,
+    description,
+    isLoading,
+  } = useAnyTransactionDetailsLogic();
+
   const {
     movingForwardToAddDescription,
     movingForwardToSelectCategoryView,
@@ -26,21 +33,6 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     updatingTransactionProcess,
     closingMenu,
   } = navigationLogic();
-
-  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-
-  const {
-    fixingANumberToTwoDecimalsAndString,
-    updatingTransaction,
-    isLoading,
-    transactionInfoForUpdate,
-  } = useContext(TransactionsContext);
-
-  const { amount, transaction_date, short_name, description, transaction_id } =
-    transactionInfoForUpdate;
-
-  // ****** Here we are parsing amount to integer for request to transaction end point
-  const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
@@ -53,8 +45,8 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         action_icon_right={() =>
           movingForwardToDeleteConfirmationView(
             navigation,
-            "Delete_confirmation_view",
-            transaction_id
+            "Delete_confirmation_view"
+            // transaction_id
           )
         }
         action_icon_left={() => closingMenu(navigation)}
@@ -166,9 +158,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           height={50}
           color={theme.colors.buttons.p_FC9827}
           borderRadius={50}
-          action={() =>
-            updatingTransactionProcess(navigation, updatingTransaction)
-          }
+          action={() => updatingTransactionProcess(navigation)}
           // action={() => null}
           text_variant="bold_text_20"
           isLoading={isLoading}

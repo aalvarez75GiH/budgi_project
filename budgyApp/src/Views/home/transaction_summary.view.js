@@ -40,7 +40,7 @@ export const TransactionSummaryView = ({ navigation }) => {
     description,
     stringedAmount,
   } = useTransactionSummaryLogic();
-  console.log("TRANSACTION DATE:", transaction_date);
+
   return (
     <SafeArea background_color={"#FFFFFF"}>
       <GeneralFlexContainer>

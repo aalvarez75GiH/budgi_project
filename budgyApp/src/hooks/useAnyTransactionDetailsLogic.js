@@ -1,4 +1,18 @@
+import { useContext } from "react";
+import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
+
 export const useAnyTransactionDetailsLogic = () => {
+  // ** DATA FROM TRANSACTIONS CONTEXT ****
+  const {
+    fixingANumberToTwoDecimalsAndString,
+    updatingTransaction,
+    isLoading,
+    transactionInfoForUpdate,
+  } = useContext(TransactionsContext);
+  const { amount, transaction_date, short_name, description, transaction_id } =
+    transactionInfoForUpdate;
+  const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
+
   const navigationLogic = (navigation, toNavigate, comingFrom) => {
     const movingForwardToAddDescription = (
       navigation,
@@ -29,8 +43,8 @@ export const useAnyTransactionDetailsLogic = () => {
     };
     const movingForwardToDeleteConfirmationView = (
       navigation,
-      toNavigate,
-      transaction_id
+      toNavigate
+      //   transaction_id
     ) => {
       navigation.navigate(toNavigate, {
         transaction_id: transaction_id,
@@ -38,8 +52,8 @@ export const useAnyTransactionDetailsLogic = () => {
     };
 
     const updatingTransactionProcess = async (
-      navigation,
-      updatingTransaction
+      navigation
+      //   updatingTransaction
     ) => {
       const response = await updatingTransaction();
       response ? navigation.navigate("My transactions") : null;
@@ -60,5 +74,10 @@ export const useAnyTransactionDetailsLogic = () => {
 
   return {
     navigationLogic,
+    stringedAmount,
+    transaction_date,
+    short_name,
+    description,
+    isLoading,
   };
 };
