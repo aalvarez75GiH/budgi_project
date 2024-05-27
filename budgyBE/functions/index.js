@@ -88,12 +88,22 @@ exports.CategoryDataUpdateProcessAfterTransactionUpdate = fcn.firestore
     // console.log("CATEGORY DATA FOUND:", category_data);
 
     // // ** Updating  category data with transactions amount
-    await updateCategoryData_expenseCategory_amounts(
-      category_id,
-      transactions_amount.amount,
-      category_data,
-      creation_date
-    );
+    if (transactions_amount === 0) {
+      await updateCategoryData_expenseCategory_amounts(
+        category_id,
+        transactions_amount,
+        category_data,
+        creation_date
+      );
+    }
+    if (transactions_amount !== 0) {
+      await updateCategoryData_expenseCategory_amounts(
+        category_id,
+        transactions_amount.amount,
+        category_data,
+        creation_date
+      );
+    }
   });
 
 exports.CategoryDataUpdateProcessAfterDeletion = fcn.firestore
@@ -115,13 +125,22 @@ exports.CategoryDataUpdateProcessAfterDeletion = fcn.firestore
         user_id,
         month_year
       );
-    // console.log("CATEGORY DATA FOUND:", category_data);
 
     // ** Updating  category data with transactions amount
-    await updateCategoryData_expenseCategory_amounts(
-      category_id,
-      transactions_amount.amount,
-      category_data,
-      creation_date
-    );
+    if (transactions_amount === 0) {
+      await updateCategoryData_expenseCategory_amounts(
+        category_id,
+        transactions_amount,
+        category_data,
+        creation_date
+      );
+    }
+    if (transactions_amount !== 0) {
+      await updateCategoryData_expenseCategory_amounts(
+        category_id,
+        transactions_amount.amount,
+        category_data,
+        creation_date
+      );
+    }
   });

@@ -2,29 +2,32 @@ const transactionsController = require("./transactions.controllers");
 
 module.exports.gettingTransactionsMoneyAmountByMonthYear_CategoryID_UserID =
   async (category_id, user_id, month_year) => {
-    let transactions_amount;
+    let transactions_amount = 0;
     try {
-      await transactionsController
-        .getTransactions_ByUser_IDCategory_IDMonthYear(
+      const transactions =
+        await transactionsController.getTransactions_ByUser_IDCategory_IDMonthYear(
           user_id,
           category_id,
           month_year
-        )
-        .then(async (transactions) => {
-          console.log(
-            "TRANSACTIONS BY USER, CATEGORY ID AND MONTH YEAR REQUESTED:",
-            transactions
-          );
+        );
 
-          transactions_amount = transactions.reduce((a, b) => ({
-            amount: a.amount + b.amount,
-          }));
-        });
+      if (transactions.length === 0) {
+        return (transactions_amount = 0);
+      } else {
+        const transactions_amount = transactions.reduce((a, b) => ({
+          amount: a.amount + b.amount,
+        }));
+        console.log(
+          "TRANSACTIONS AMOUNT AT TRIGGER:",
+          transactions_amount.amount
+        );
+        return transactions_amount;
+      }
     } catch (error) {
-      return res.status(404).send({
-        status: "500",
-        msg: error,
-      });
+      console.log("ERROR AT GETTING TRANSACTIONS AMOUNT BY MONTH YEAR:", error);
+      // return res.status(404).send({
+      //   status: "500",
+      //   msg: error,
+      // });
     }
-    return transactions_amount;
   };

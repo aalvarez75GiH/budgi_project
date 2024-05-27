@@ -4,7 +4,6 @@
 //   transactionEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/us-central1/transactionsEndPoint`,
 //   categoryListEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/us-central1/categoryListEndPoint`,
 //   categoryDataEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/us-central1/categoryDataEndPoint`,
-//   transactionsEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/transactionsEndPoint`,
 //   realIncomeEndPoint: `http://10.0.2.2:5001/budgy-bd9b1/realIncomeEndPoint`,
 // };
 
