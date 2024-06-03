@@ -9,7 +9,6 @@ import { DateOperationsContext } from "../../../infrastructure/services/date_ope
 import { TransactionsContext } from "../../../infrastructure/services/transactions/transactions.context";
 
 export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
-  //   console.log("MONTH SELECTED:", month_selected);
   return (
     <>
       <MonthPadContainer width={"350px"} height={"365px"} bg_color={"#FFFFFF"}>
@@ -88,9 +87,12 @@ export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
+            isChosen={
+              isChosen.month_selected === "June" ? isChosen.isActive : false
+            }
             isActive={false}
-            action={() => console.log("June")}
-            isDisabled={true}
+            action={() => selectingMonth("June")}
+            isDisabled={false}
           />
         </Month_Row>
         <Month_Row>
@@ -102,7 +104,7 @@ export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => console.log("July")}
+            action={() => selectingMonth("July")}
             isDisabled={true}
           />
           <MonthOptionButton
@@ -113,7 +115,7 @@ export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => console.log("August")}
+            action={() => selectingMonth("August")}
             isDisabled={true}
           />
           <MonthOptionButton
@@ -124,7 +126,7 @@ export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => console.log("September")}
+            action={() => selectingMonth("September")}
             isDisabled={true}
           />
         </Month_Row>
@@ -137,7 +139,7 @@ export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => console.log("October")}
+            action={() => selectingMonth("October")}
             isDisabled={true}
           />
           <MonthOptionButton
@@ -148,7 +150,7 @@ export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => console.log("November")}
+            action={() => selectingMonth("November")}
             isDisabled={true}
           />
           <MonthOptionButton
@@ -159,7 +161,7 @@ export const MonthsPadComponent = ({ selectingMonth, isChosen }) => {
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => console.log("December")}
+            action={() => selectingMonth("December")}
             isDisabled={true}
           />
         </Month_Row>

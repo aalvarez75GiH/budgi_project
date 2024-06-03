@@ -42,7 +42,10 @@ export const HowMonthIsGoingView = ({ navigation }) => {
             user_id,
             month_year
           );
-        //console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+        console.log(
+          "RESPONSE AT HOW YOUR MONTH  GOES:",
+          JSON.stringify(response.transactions_total_amount, null, 2)
+        );
         setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
         setTotalAmountBudgeted(response.totalBudgeted);
         setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);

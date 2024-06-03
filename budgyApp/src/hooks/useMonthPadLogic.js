@@ -51,7 +51,7 @@ export const useMonthPadLogic = () => {
           user_id,
           month_year_onDemand
         );
-      console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+      //   console.log("RESPONSE AT MONTHS PAD VIEW:", response);
       setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
       setTotalAmountBudgeted(response.totalBudgeted);
       setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
@@ -68,5 +68,6 @@ export const useMonthPadLogic = () => {
     setMonthYearOnDemand,
     settingMonthYearForRequest,
     month_selected,
+    month_year_onDemand,
   };
 };

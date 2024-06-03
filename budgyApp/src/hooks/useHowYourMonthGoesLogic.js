@@ -10,7 +10,7 @@ export const useHowYourMonthGoesLogic = () => {
   //   ***** DATA FROM AUTHENTICATION CONTEXT
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
-  console.log("USER_ID:", user_id);
+  //   console.log("USER_ID:", user_id);
 
   //   ***** DATA FROM TRANSACTIONS CONTEXT
   const {
@@ -77,16 +77,16 @@ export const useHowYourMonthGoesLogic = () => {
     // totalTransactionsAmountOnDemand,
     // realIncomeTotalAmountOnDemand
     {
-      console.log("TOTAL AMOUNT BUDGETED AT HOOK:", totalAmountBudgeted);
-      console.log(
-        "TOTAL TRANSACTIONS AMOUNT ON DEMAND AT HOOK:",
-        totalTransactionsAmountOnDemand
-      );
-      console.log(
-        "REAL INCOME TOTAL AMOUNT ON DEMAND AT HOOK:",
-        realIncomeTotalAmountOnDemand
-      );
-      console.log("TILE SELECTED AT HOOK:", tile_selected);
+      //   console.log("TOTAL AMOUNT BUDGETED AT HOOK:", totalAmountBudgeted);
+      //   console.log(
+      //     "TOTAL TRANSACTIONS AMOUNT ON DEMAND AT HOOK:",
+      //     totalTransactionsAmountOnDemand
+      //   );
+      //   console.log(
+      //     "REAL INCOME TOTAL AMOUNT ON DEMAND AT HOOK:",
+      //     realIncomeTotalAmountOnDemand
+      //   );
+      //   console.log("TILE SELECTED AT HOOK:", tile_selected);
       let percentageCompleted;
       let overSpentAmountInNegative;
       let overSpentAmountInPositive;
@@ -100,7 +100,7 @@ export const useHowYourMonthGoesLogic = () => {
             totalAmountBudgeted - totalTransactionsAmountOnDemand;
           overSpentAmountInPositive =
             totalTransactionsAmountOnDemand - totalAmountBudgeted;
-          console.log("TEST:", overSpentAmountInPositive);
+          //   console.log("TEST:", overSpentAmountInPositive);
           percentageCompleted = overSpentAmountInPositive / totalAmountBudgeted;
         }
       }
@@ -116,7 +116,7 @@ export const useHowYourMonthGoesLogic = () => {
             realIncomeTotalAmountOnDemand - totalTransactionsAmountOnDemand;
           overSpentAmountInPositive =
             totalTransactionsAmountOnDemand - realIncomeTotalAmountOnDemand;
-          console.log("TEST:", overSpentAmountInPositive);
+          //   console.log("TEST:", overSpentAmountInPositive);
           percentageCompleted =
             overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
         }

@@ -71,7 +71,6 @@ export const TransactionContextProvider = ({ children }) => {
       } finally {
         setIsLoading(false);
       }
-      // test(db);
     })();
   }, []);
 
@@ -82,14 +81,14 @@ export const TransactionContextProvider = ({ children }) => {
 
   const gettingTransactions_byUserID_MonthYear_onDemand = async (
     user_id,
-    month_year
+    month_year_onDemand
   ) => {
     try {
       setIsLoading(true);
       const transactionsAndAmount =
         await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
           user_id,
-          month_year
+          month_year_onDemand
         );
 
       if (transactionsAndAmount.status === "404") {
@@ -123,15 +122,7 @@ export const TransactionContextProvider = ({ children }) => {
         month_year_onDemand
       );
 
-      // console.log("TOTAL AMOUNT AT CONTEXT:", transactions_total_amount);
-      console.log(
-        "CATEGORY DATA AT CONTEXT:",
-        JSON.stringify(category_data.data, null, 2)
-      );
-      console.log(
-        "REAL INCOME AT CONTEXT:",
-        JSON.stringify(real_income.data, null, 2)
-      );
+      console.log("REAL INCOME:", real_income.data.total_amount);
 
       return {
         transactions_total_amount: category_data.data.total_amount_spent,
@@ -170,7 +161,7 @@ export const TransactionContextProvider = ({ children }) => {
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
           const newData = change.doc.data();
-          console.log("NEW TRANSACTION IS:", newData);
+          // console.log("NEW TRANSACTION IS:", newData);
           if (newData) {
             hasNewData = true;
           }

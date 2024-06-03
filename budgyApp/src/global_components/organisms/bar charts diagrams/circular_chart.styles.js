@@ -12,27 +12,3 @@ export const CanvasContainer = Styled(Canvas)`
 flex: 1;
 
 `;
-// const styles = StyleSheet.create({
-//     container: {
-//       flex: 1,
-//       justifyContent: "center",
-//       alignItems: "center",
-//     },
-//     ringChartContainer: {
-//       position: "absolute",
-//       width: radius * 2,
-//       height: radius * 2,
-//     },
-
-//     button: {
-//       marginTop: 40,
-//       backgroundColor: "orange",
-//       paddingHorizontal: 60,
-//       paddingVertical: 15,
-//       borderRadius: 10,
-//     },
-//     buttonText: {
-//       color: "white",
-//       fontSize: 20,
-//     },
-//   });

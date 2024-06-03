@@ -3,11 +3,9 @@ import { Skia, Path, Text, useFont } from "@shopify/react-native-skia";
 import { Easing } from "react-native";
 // import * as d3 from "d3";
 
-import { SafeArea } from "../../safe-area.component";
 import { theme } from "../../../infrastructure/theme";
 import { GeneralFlexContainer } from "../../containers/general_flex_container";
 import { CanvasContainer } from "./circular_chart.styles";
-const fontFamily = theme.fonts.bold;
 
 export const DonutChartComponent = ({
   radius,
@@ -26,7 +24,7 @@ export const DonutChartComponent = ({
     currency: "USD",
   }).format(primaryAmount);
 
-  console.log("OVER SPENT:", overSpentAmountInNegative);
+  // console.log("OVER SPENT:", overSpentAmountInNegative);
   const secondaryAmountFixed = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
@@ -61,6 +59,11 @@ export const DonutChartComponent = ({
               ? innerRadius - secondary_amount_width / 1
               : innerRadius - secondary_amount_width / 1.4
           }
+          // x={
+          //   overSpentAmountInNegative
+          //     ? innerRadius - secondary_amount_width / 1
+          //     : innerRadius - secondary_amount_width / 1.4
+          // }
           y={radius - 40}
           text={
             overSpentAmountInNegative ? "You have over spent" : "You have spent"
@@ -80,7 +83,12 @@ export const DonutChartComponent = ({
         />
 
         <Text
-          x={innerRadius - primary_amount_width / 2.1}
+          // x={innerRadius - primary_amount_width / 2.1}
+          x={
+            overSpentAmountInNegative
+              ? innerRadius - primary_amount_width / 2.1
+              : innerRadius - primary_amount_width / 2.1
+          }
           y={radius + 8}
           text={
             overSpentAmountInNegative

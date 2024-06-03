@@ -6,10 +6,12 @@ export const DateOperationsContextProvider = ({ children }) => {
   // const [month_selected, setMonthSelected] = useState(
   //   month_selected ? month_selected : month_name
   // );
-  console.log("MONTH SELECTED AT CONTEXT:", month_selected);
   const settingMonthYearForRequest = (month) => {
     const month_year_for_request = gettingAcronym(month);
-    console.log("MONTH YEAR FOR REQUEST:", month_year_for_request);
+    console.log(
+      "MONTH YEAR FOR REQUEST AT DATE OPERATIONS:",
+      month_year_for_request
+    );
     return month_year_for_request;
   };
   const weekDays = [
@@ -111,6 +113,7 @@ export const DateOperationsContextProvider = ({ children }) => {
   const [month_selected, setMonthSelected] = useState(
     month_selected ? month_selected : month_name
   );
+  console.log("MONTH SELECTED AT DATE OPERATIONS CONTEXT:", month_selected);
   //   ********* This function get month name and outcomes the acronym from month acronyms array
   const gettingAcronym = (month_name) => {
     const index = month_acronyms.findIndex(
@@ -124,21 +127,16 @@ export const DateOperationsContextProvider = ({ children }) => {
   };
   const month_year = gettingAcronym(month_name);
 
-  const operationsDateData = {
-    system_date: system_date,
-    day_week: day_week,
-    month_name: month_name,
-    year: year,
-    month: month,
-    expenseDate: expenseDate,
-    calendar_date_initial_date: calendar_date_initial_date,
-    month_year: month_year,
-  };
-
-  console.log(
-    "OPERATIONS DATE INFO:",
-    JSON.stringify(operationsDateData, null, 2)
-  );
+  // const operationsDateData = {
+  //   system_date: system_date,
+  //   day_week: day_week,
+  //   month_name: month_name,
+  //   year: year,
+  //   month: month,
+  //   expenseDate: expenseDate,
+  //   calendar_date_initial_date: calendar_date_initial_date,
+  //   month_year: month_year,
+  // };
 
   const packingExpenseDateForDifferentDay = (date) => {
     const system_date_for_different_day = new Date(date);

@@ -71,9 +71,3 @@ export const CircularChartComponent = ({
     </FlexibleContainer>
   );
 };
-
-// {
-//   isSpinnerLoading ?
-//   <IsLoadingContainer>
-//     :
-//       }

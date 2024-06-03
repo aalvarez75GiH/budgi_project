@@ -26,14 +26,14 @@ export const MyTransactionsView = ({ navigation }) => {
     renderCategoryItem,
     isPressed,
     month_year_toRender,
-    set_month_year_toRender,
     month_year,
     setMonthSelected,
     month_name,
     user_id,
     transactionsToRender,
-    setTransactionsToRender,
     totalAmountToRender,
+    set_month_year_toRender,
+    setTransactionsToRender,
     setTotalAmountToRender,
     expenseCategoriesToRender,
     setExpenseCategoriesToRender,
@@ -49,13 +49,8 @@ export const MyTransactionsView = ({ navigation }) => {
   } = useMyTransactionsLogic();
 
   useEffect(() => {
-    settingUpTransactionsFromContext(
-      transactionsByMonthYear,
-      total_amount,
-      setIsLoading,
-      setTransactionsToRender,
-      setTotalAmountToRender
-    );
+    console.log("USE EFFECT ACTIVATED");
+    settingUpTransactionsFromContext();
     setExpenseCategoriesToRender(expenseCategories);
 
     return async () => {
@@ -66,15 +61,28 @@ export const MyTransactionsView = ({ navigation }) => {
       );
     };
   }, []);
+  // useEffect(() => {
+  //   console.log("USE EFFECT ACTIVATED");
+  //   settingUpTransactionsFromContext(
+  //     transactionsByMonthYear,
+  //     total_amount,
+  //     setIsLoading,
+  //     setTransactionsToRender,
+  //     setTotalAmountToRender
+  //   );
+  //   setExpenseCategoriesToRender(expenseCategories);
+
+  //   return async () => {
+  //     setMonthSelected(month_name);
+  //     await gettingTransactions_byUserID_MonthYear_onDemand(
+  //       user_id,
+  //       month_year
+  //     );
+  //   };
+  // }, []);
 
   useEffect(() => {
-    settingUpTransactionsFromContext(
-      transactionsByMonthYear,
-      total_amount,
-      setIsLoading,
-      setTransactionsToRender,
-      setTotalAmountToRender
-    );
+    settingUpTransactionsFromContext();
   }, [transactionsByMonthYear, total_amount]);
 
   return isLoading ? (

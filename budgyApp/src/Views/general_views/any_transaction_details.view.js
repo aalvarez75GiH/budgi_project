@@ -11,6 +11,7 @@ import { ControlledContainer } from "../../global_components/containers/controll
 import { DescriptionTile } from "../../global_components/organisms/tiles/description_tile";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useAnyTransactionDetailsLogic } from "../../hooks/useAnyTransactionDetailsLogic";
+import { useMonthPadLogic } from "../../hooks/useMonthPadLogic";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
   // ****************LOGIC FROM HOOK ********

@@ -1,11 +1,8 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 
 import { SVGComponent } from "../../image_components/svg.component";
-import { PNGComponent } from "../../image_components/png.component";
-
 import { Text } from "../../../infrastructure/typography/text.component";
 import { theme } from "../../../infrastructure/theme";
-import { RNPIconButton } from "../../buttons/RNP_icon_button";
 import {
   TilesContainer,
   TileLabelContainer,
@@ -15,14 +12,12 @@ import { ControlledContainer } from "../../containers/controlled_container";
 
 export const CenteredTextTileWithIcon = ({
   caption,
-  navigation,
   icon_name,
-  active_icon,
   action,
   tile_selected,
 }) => {
-  console.log("CAPTION: ", caption);
-  console.log("TILE SELECTED: ", tile_selected);
+  //   console.log("CAPTION: ", caption);
+  //   console.log("TILE SELECTED: ", tile_selected);
   return (
     <TilesContainer
       onPress={action}
@@ -42,25 +37,6 @@ export const CenteredTextTileWithIcon = ({
         direction="row"
         // color="lightblue"
       ></ControlledContainer>
-      {/* {active_icon ? (
-        <TileIconContainer
-          width={"10%"}
-          height={"100%"}
-          bg_color={theme.colors.bg.p_FFFFFF}
-          justify={"center"}
-          align={"center"}
-        >
-          <SVGComponent
-            icon_width={30}
-            icon_height={30}
-            position={"static"}
-            left={0}
-            top={0}
-            justify={"center"}
-            icon_name={icon_name}
-          />
-        </TileIconContainer>
-      ) : null} */}
 
       <TileLabelContainer
         width={"60%"}
@@ -99,26 +75,6 @@ export const CenteredTextTileWithIcon = ({
             />
           </TileIconContainer>
         ) : null}
-        {/* {active_icon ? (
-          <TileIconContainer
-            width={"10%"}
-            height={"100%"}
-            bg_color={theme.colors.bg.p_FFFFFF}
-            //   bg_color={"lightblue"}
-            justify={"center"}
-            align={"center"}
-          >
-            <SVGComponent
-              icon_width={25}
-              icon_height={25}
-              position={"static"}
-              left={0}
-              top={0}
-              justify={"center"}
-              icon_name={icon_name}
-            />
-          </TileIconContainer>
-        ) : null} */}
       </ControlledContainer>
     </TilesContainer>
   );

@@ -32,9 +32,9 @@ export const useMyTransactionsLogic = () => {
   } = useContext(TransactionsContext);
 
   const [isPressed, setIsPressed] = useState(false);
-  const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const [isLoadingByCat, setIsLoadingByCat] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const [totalAmountToRender, setTotalAmountToRender] = useState(0);
   const [transactionsToRender, setTransactionsToRender] = useState([]);
   const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
@@ -47,9 +47,10 @@ export const useMyTransactionsLogic = () => {
     month_year_toRender,
     transactionsByMonthYear
   ) => {
-    console.log("USER ID:", user_id);
-    console.log("CATEGORY ID:", category_id);
-    console.log("MONTH YEAR TO RENDER:", month_year_toRender);
+    console.log(
+      "TRANSACTIONS TO RENDER:",
+      JSON.stringify(transactionsToRender, null, 2)
+    );
     // console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
 
     // Set the button to not pressed and start loading.
@@ -74,10 +75,10 @@ export const useMyTransactionsLogic = () => {
           }
         });
 
-        console.log(
-          "TRANSACTIONS BY CATEGORY MONTH YEAR:",
-          JSON.stringify(transactionsByCategoryMonthYear, null, 2)
-        );
+        // console.log(
+        //   "TRANSACTIONS BY CATEGORY MONTH YEAR:",
+        //   JSON.stringify(transactionsByCategoryMonthYear, null, 2)
+        // );
         // If there are any transactions that match the criteria...
         if (transactionsByCategoryMonthYear.length) {
           // ...calculate the total amount of these transactions.
@@ -107,14 +108,16 @@ export const useMyTransactionsLogic = () => {
     }, 200);
   };
 
+  console.log(
+    "MONTH YEAR TO RENDER AT USE MY TRANSACTIONS HOOK:",
+    month_year_toRender
+  );
+  console.log(
+    "TOTAL AMOUNT TO RENDER AT USE MY TRANSACTIONS HOOK:",
+    totalAmountToRender
+  );
   //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
-  const settingUpTransactionsFromContext = (
-    transactionsByMonthYear,
-    total_amount,
-    setIsLoading,
-    setTransactionsToRender,
-    setTotalAmountToRender
-  ) => {
+  const settingUpTransactionsFromContext = () => {
     setIsPressed(true);
     setIsLoading(true);
     setSelectedItem(null);
@@ -147,7 +150,6 @@ export const useMyTransactionsLogic = () => {
     item,
     transactionsByMonthYear
   ) => {
-    console.log("ITEM:", item);
     const { category_id } = item;
     selectedItem === category_id;
     setSelectedItem(item.category_id);

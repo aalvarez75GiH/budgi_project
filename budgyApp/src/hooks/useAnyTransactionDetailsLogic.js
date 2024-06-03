@@ -51,13 +51,14 @@ export const useAnyTransactionDetailsLogic = () => {
       });
     };
 
-    const updatingTransactionProcess = async (
-      navigation
-      //   updatingTransaction
-    ) => {
+    const updatingTransactionProcess = async (navigation) => {
       const response = await updatingTransaction();
-      response ? navigation.navigate("My transactions") : null;
+      response ? navigation.goBack() : null;
     };
+    // const updatingTransactionProcess = async (navigation) => {
+    //   const response = await updatingTransaction();
+    //   response ? navigation.navigate("My transactions") : null;
+    // };
 
     const closingMenu = (navigation) => {
       navigation.goBack();
