@@ -2,21 +2,34 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { HomeNavigator } from "./home.navigator";
+import { IncomeNavigator } from "./income.navigator";
 
 import { theme } from "../theme";
 
 const Tab = createBottomTabNavigator();
-const Tab_icon = {
-  Home: "home-variant-outline",
-};
 
 const createScreenOptions = ({ route }) => {
-  const iconName = Tab_icon[route.name];
+  let iconName;
+
+  switch (route.name) {
+    case "Home":
+      iconName = "home";
+      break;
+    case "Budget":
+      iconName = "home-outline";
+      break;
+    case "Income":
+      iconName = "home-outline";
+      break;
+    // case "Settings":
+    //   iconName = "settings";
+    //   break;
+    // Add more cases as needed for other screens
+  }
+
   return {
-    tabBarActiveTintColor: theme.colors.brand.primary,
-    tabBarInactiveTintColor: theme.colors.ui.p_142223C,
-    tabBarIcon: ({ size, color }) => (
-      <MaterialCommunityIcons name={iconName} size={36} color={color} />
+    tabBarIcon: ({ color, size }) => (
+      <MaterialCommunityIcons name={iconName} color={color} size={size} />
     ),
   };
 };
@@ -28,13 +41,24 @@ const tabBarListeners = ({ navigation, route }) => ({
 export const AppNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({ route }) => ({
         headerShown: false,
-      }}
+        ...createScreenOptions({ route }),
+      })}
     >
       <Tab.Screen
-        name="Main"
+        name="Home"
         component={HomeNavigator}
+        listeners={tabBarListeners}
+      />
+      <Tab.Screen
+        name="Budget"
+        component={HomeNavigator}
+        listeners={tabBarListeners}
+      />
+      <Tab.Screen
+        name="Income"
+        component={IncomeNavigator}
         listeners={tabBarListeners}
       />
     </Tab.Navigator>

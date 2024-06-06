@@ -9,6 +9,7 @@ export const ExitHeaderComponent = ({
   color,
   flexibility,
   direction,
+  justify,
 }) => {
   const closingMenu = () => {
     navigation.goBack();
@@ -24,13 +25,12 @@ export const ExitHeaderComponent = ({
       <SVG_Clickable_Component
         action={closingMenu}
         icon_name="ExitIcon"
-        // icon_path={`${svg_path}/exit_icon2.svg`}
         icon_width={20}
         icon_height={20}
         position={"absolute"}
         left={"80%"}
         top={"60%"}
-        justify="flex-end"
+        justify={justify}
       />
     </FlexibleContainer>
   );

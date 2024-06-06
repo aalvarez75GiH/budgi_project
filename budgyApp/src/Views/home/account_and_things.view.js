@@ -26,9 +26,9 @@ export const AccountAndThingsView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
         flexibility={0.1}
+        justify={"flex-end"}
       />
 
-      {/* ********* */}
       <FlexibleContainer
         // color={theme.colors.bg.p_FFFFFF}
         // color={"#898989"}

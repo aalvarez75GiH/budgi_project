@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { View } from "react-native";
 
 import { Text } from "../../infrastructure/typography/text.component";
@@ -8,21 +8,55 @@ import { ExitHeaderComponent } from "../../global_components/organisms/headers/e
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { MonthsPadComponent } from "../../global_components/organisms/pads/months_pad.component";
+import { AmountsMonthsPadComponent } from "../../global_components/organisms/pads/amounts_months_pad.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useMonthPadLogic } from "../../hooks/useMonthPadLogic";
 
-export const MonthsPadView = ({ navigation, route }) => {
-  const {
-    user_id,
-    set_month_year_toRender,
+import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
+
+export const AmountsMonthsPadView = ({ navigation, route }) => {
+  const { month_selected, setMonthSelected } = useContext(
+    DateOperationsContext
+  );
+
+  const [isChosen, setIsChosen] = useState({
+    month_selected: month_selected,
+    isActive: true,
+  });
+
+  const selectingMonth = (month) => {
+    setIsChosen({ month_selected: month, isActive: true });
+    setMonthSelected(month);
+  };
+
+  const cta_action = async (
+    navigation,
     comingFrom,
+    user_id,
     setTotalTransactionsAmountOnDemand,
     setTotalAmountBudgeted,
-    setRealIncomeTotalAmountOnDemand,
-  } = route.params;
+    setRealIncomeTotalAmountOnDemand
+  ) => {
+    if (comingFrom === "MyTransactionsView") {
+      await gettingTransactions_byUserID_MonthYear_onDemand(
+        user_id,
+        month_year_onDemand
+      );
+    }
+    if (comingFrom === "HowMonthIsGoingView") {
+      const response =
+        await getting_transactions_budgeted_and_real_income_totalAmounts(
+          user_id,
+          month_year_onDemand
+        );
+      //   console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+      setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
+      setTotalAmountBudgeted(response.totalBudgeted);
+      setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
+    }
 
-  const { selectingMonth, isChosen, cta_action, isLoading } =
-    useMonthPadLogic();
+    navigation.goBack();
+  };
 
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
@@ -55,12 +89,9 @@ export const MonthsPadView = ({ navigation, route }) => {
           color={"white"}
           flexibility={0.5}
         >
-          <MonthsPadComponent
-            user_id={user_id}
-            selectingMonth={(month) =>
-              selectingMonth(month, set_month_year_toRender)
-            }
-            //isActive={isActive}
+          <AmountsMonthsPadComponent
+            // user_id={user_id}
+            selectingMonth={(month) => selectingMonth(month)}
             isChosen={isChosen}
           />
         </FlexibleContainer>
@@ -73,7 +104,7 @@ export const MonthsPadView = ({ navigation, route }) => {
           //   color={"brown"}
           flexibility={0.25}
         >
-          <RegularCTAButton
+          {/* <RegularCTAButton
             caption="Continue"
             width={310}
             height={50}
@@ -91,7 +122,7 @@ export const MonthsPadView = ({ navigation, route }) => {
             }
             text_variant="bold_text_20"
             isLoading={isLoading}
-          />
+          /> */}
         </FlexibleContainer>
       </GeneralFlexContainer>
     </SafeArea>

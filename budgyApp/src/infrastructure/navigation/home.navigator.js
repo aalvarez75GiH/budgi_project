@@ -25,7 +25,7 @@ export const HomeNavigator = () => {
         headerShown: false,
       }}
     >
-      <HomeStack.Screen name="Home" component={Home} />
+      <HomeStack.Screen name="HomeView" component={Home} />
 
       <HomeStack.Screen
         name="General_select_category_view"

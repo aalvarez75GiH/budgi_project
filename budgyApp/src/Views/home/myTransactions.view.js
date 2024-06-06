@@ -109,6 +109,7 @@ export const MyTransactionsView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
         flexibility={0.14}
+        justify={"flex-end"}
       />
 
       {/*********  Rendering Total Amount and change month option button  **************/}

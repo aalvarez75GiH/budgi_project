@@ -25,7 +25,9 @@ import calendarIcon from "../../assets/icons/svgs/calendar_icon.svg";
 import descriptionIcon from "../../assets/icons/svgs/comment_icon.svg";
 import removeIcon from "../../assets/icons/svgs/remove_icon.svg";
 import ThinCheckIcon from "../../assets/icons/svgs/check_icon.svg";
-// import CategoryByUser from "../../../../assets/icons/svgs/users_group_icon.svg";
+import DollarMoneySignIcon from "../../assets/icons/svgs/8679129_money_dollar_circle_icon.svg";
+import AddIncomeIcon from "../../assets/icons/svgs/hand_invoice_icon.svg";
+import StatsIcon from "../../assets/icons/svgs/stats_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -124,6 +126,18 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "ThinCheckIcon",
       icon: ThinCheckIcon,
+    },
+    {
+      icon_name: "DollarMoneySignIcon",
+      icon: DollarMoneySignIcon,
+    },
+    {
+      icon_name: "AddIncomeIcon",
+      icon: AddIncomeIcon,
+    },
+    {
+      icon_name: "StatsIcon",
+      icon: StatsIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";

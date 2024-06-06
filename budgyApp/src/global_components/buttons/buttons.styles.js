@@ -74,7 +74,7 @@ export const RNPIconButtonContainer = Styled(View)`
   height: 50px;
   /* background-color: blue; */
   justify-content: center;
-  align_items: ${(props) => props.align};
+  align-items: ${(props) => props.align};
   
 `;
 

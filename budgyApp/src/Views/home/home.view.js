@@ -77,7 +77,7 @@ export const Home = ({ navigation }) => {
           />
         )}
       </FlexibleContainer>
-      <FlexibleContainer
+      {/* <FlexibleContainer
         direction={"row"}
         // color={"yellow"}
         color={theme.colors.bg.s_142223C}
@@ -85,7 +85,7 @@ export const Home = ({ navigation }) => {
         justify={"center"}
       >
         <FooterMenuContainer color={theme.colors.brand.quaternary} />
-      </FlexibleContainer>
+      </FlexibleContainer> */}
     </GeneralFlexContainer>
   );
 };

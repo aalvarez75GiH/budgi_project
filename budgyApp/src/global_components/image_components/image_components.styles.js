@@ -9,6 +9,7 @@ align_items: center;
 position: ${(props) => props.position};
 left: ${(props) => props.left};
 top: ${(props) => props.right};
+/* background-color: lightblue; */
 `;
 
 export const PngContainer = Styled(TouchableOpacity)`
