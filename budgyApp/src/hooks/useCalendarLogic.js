@@ -94,7 +94,8 @@ export const useCalendarLogic = () => {
   const backHeaderAction = (
     navigation,
     setButton1Pressed,
-    setButton2Pressed
+    setButton2Pressed,
+    comingFrom
   ) => {
     const { expenseDate, month_year } =
       packingExpenseDateForDifferentDay(system_date);

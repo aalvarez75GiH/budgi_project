@@ -3,18 +3,23 @@ import React, { useContext, useEffect, useState } from "react";
 import { NumPadContainer } from "./num_pad.styles";
 import { Row } from "./num_pad.styles";
 import { MonthOptionButton } from "../../buttons/month_option_button";
+import { AmountMonthOptionButton } from "../../buttons/amounts_month_option_button";
 import { theme } from "../../../infrastructure/theme";
 import { MonthPadContainer, Month_Row } from "./num_pad.styles";
 import { DateOperationsContext } from "../../../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../../../infrastructure/services/transactions/transactions.context";
 
-export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
+export const AmountsMonthsPadComponent = ({
+  selectingMonth,
+  isChosen,
+  realIncomes,
+}) => {
   return (
     <>
       <MonthPadContainer width={"350px"} height={"365px"} bg_color={"#FFFFFF"}>
         <Month_Row>
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Jan"
             color1={theme.colors.bg.s_142223C}
@@ -25,9 +30,11 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             }
             action={() => selectingMonth("January")}
             isDisabled={false}
+            realIncomes={realIncomes}
+            month_name="January"
           />
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Feb"
             color1={theme.colors.bg.s_142223C}
@@ -38,9 +45,11 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             }
             action={() => selectingMonth("February")}
             isDisabled={false}
+            realIncomes={realIncomes}
+            month_name="February"
           />
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Mar"
             color1={theme.colors.bg.s_142223C}
@@ -51,11 +60,13 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             }
             action={() => selectingMonth("March")}
             isDisabled={false}
+            realIncomes={realIncomes}
+            month_name="March"
           />
         </Month_Row>
         <Month_Row>
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Apr"
             color1={theme.colors.bg.s_142223C}
@@ -66,9 +77,11 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             }
             action={() => selectingMonth("April")}
             isDisabled={false}
+            realIncomes={realIncomes}
+            month_name="April"
           />
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="May"
             color1={theme.colors.bg.s_142223C}
@@ -79,9 +92,11 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             }
             action={() => selectingMonth("May")}
             isDisabled={false}
+            realIncomes={realIncomes}
+            month_name="May"
           />
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Jun"
             color1={theme.colors.bg.s_142223C}
@@ -93,11 +108,13 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             isActive={false}
             action={() => selectingMonth("June")}
             isDisabled={false}
+            realIncomes={realIncomes}
+            month_name="June"
           />
         </Month_Row>
         <Month_Row>
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Jul"
             color1={theme.colors.bg.s_142223C}
@@ -106,9 +123,11 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             isActive={false}
             action={() => selectingMonth("July")}
             isDisabled={true}
+            realIncomes={realIncomes}
+            month_name="July"
           />
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Aug"
             color1={theme.colors.bg.s_142223C}
@@ -117,9 +136,11 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             isActive={false}
             action={() => selectingMonth("August")}
             isDisabled={true}
+            realIncomes={realIncomes}
+            month_name="August"
           />
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Sep"
             color1={theme.colors.bg.s_142223C}
@@ -128,11 +149,13 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             isActive={false}
             action={() => selectingMonth("September")}
             isDisabled={true}
+            realIncomes={realIncomes}
+            month_name="September"
           />
         </Month_Row>
         <Month_Row>
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Oct"
             color1={theme.colors.bg.s_142223C}
@@ -141,9 +164,11 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             isActive={false}
             action={() => selectingMonth("October")}
             isDisabled={true}
+            realIncomes={realIncomes}
+            month_name="October"
           />
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Nov"
             color1={theme.colors.bg.s_142223C}
@@ -152,9 +177,11 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             isActive={false}
             action={() => selectingMonth("November")}
             isDisabled={true}
+            realIncomes={realIncomes}
+            month_name="November"
           />
-          <MonthOptionButton
-            width={110}
+          <AmountMonthOptionButton
+            width={115}
             height={80}
             caption="Dec"
             color1={theme.colors.bg.s_142223C}
@@ -163,6 +190,8 @@ export const AmountsMonthsPadComponent = ({ selectingMonth, isChosen }) => {
             isActive={false}
             action={() => selectingMonth("December")}
             isDisabled={true}
+            realIncomes={realIncomes}
+            month_name="December"
           />
         </Month_Row>
       </MonthPadContainer>

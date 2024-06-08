@@ -169,6 +169,12 @@ font-size: ${theme.fontSizes.text_12};
 color: ${theme.colors.text.s_FFFFFF};
 font-weight: ${theme.fontWeights.bold};
 `;
+const neutral_bold_text_12 = (theme) => `
+font-family: ${theme.fonts.regular};
+font-size: ${theme.fontSizes.text_12};
+color: ${theme.colors.buttons.e2_5B6477};
+font-weight: ${theme.fontWeights.regular};
+`;
 
 const variants = {
   defaultTextStyles,
@@ -195,6 +201,7 @@ const variants = {
   regular_text_12,
   bold_text_12,
   white_bold_text_12,
+  neutral_bold_text_12,
 };
 
 export const Text = styled.Text`

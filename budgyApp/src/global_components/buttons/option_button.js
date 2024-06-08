@@ -26,7 +26,12 @@ export const OptionButton = ({
       borderRadius={borderRadius}
       isActive={isActive}
     >
-      <OptionButtonTextIconContainer>
+      <OptionButtonTextIconContainer
+        width={"70%"}
+        justify="center"
+        align={"center"}
+        direction="row"
+      >
         <Text text_variant={isActive ? "white_bold_text_16" : "bold_text_16"}>
           {caption}
         </Text>

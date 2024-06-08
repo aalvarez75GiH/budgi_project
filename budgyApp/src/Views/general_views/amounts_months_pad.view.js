@@ -13,8 +13,11 @@ import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useMonthPadLogic } from "../../hooks/useMonthPadLogic";
 
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
+import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
 
 export const AmountsMonthsPadView = ({ navigation, route }) => {
+  const { realIncomes } = route.params;
+
   const { month_selected, setMonthSelected } = useContext(
     DateOperationsContext
   );
@@ -27,35 +30,6 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
   const selectingMonth = (month) => {
     setIsChosen({ month_selected: month, isActive: true });
     setMonthSelected(month);
-  };
-
-  const cta_action = async (
-    navigation,
-    comingFrom,
-    user_id,
-    setTotalTransactionsAmountOnDemand,
-    setTotalAmountBudgeted,
-    setRealIncomeTotalAmountOnDemand
-  ) => {
-    if (comingFrom === "MyTransactionsView") {
-      await gettingTransactions_byUserID_MonthYear_onDemand(
-        user_id,
-        month_year_onDemand
-      );
-    }
-    if (comingFrom === "HowMonthIsGoingView") {
-      const response =
-        await getting_transactions_budgeted_and_real_income_totalAmounts(
-          user_id,
-          month_year_onDemand
-        );
-      //   console.log("RESPONSE AT MONTHS PAD VIEW:", response);
-      setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
-      setTotalAmountBudgeted(response.totalBudgeted);
-      setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
-    }
-
-    navigation.goBack();
   };
 
   return (
@@ -90,9 +64,9 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
           flexibility={0.5}
         >
           <AmountsMonthsPadComponent
-            // user_id={user_id}
             selectingMonth={(month) => selectingMonth(month)}
             isChosen={isChosen}
+            realIncomes={realIncomes}
           />
         </FlexibleContainer>
         <FlexibleContainer
@@ -103,27 +77,7 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
           color={"white"}
           //   color={"brown"}
           flexibility={0.25}
-        >
-          {/* <RegularCTAButton
-            caption="Continue"
-            width={310}
-            height={50}
-            color={theme.colors.buttons.p_FC9827}
-            borderRadius={50}
-            action={() =>
-              cta_action(
-                navigation,
-                comingFrom,
-                user_id,
-                setTotalTransactionsAmountOnDemand,
-                setTotalAmountBudgeted,
-                setRealIncomeTotalAmountOnDemand
-              )
-            }
-            text_variant="bold_text_20"
-            isLoading={isLoading}
-          /> */}
-        </FlexibleContainer>
+        ></FlexibleContainer>
       </GeneralFlexContainer>
     </SafeArea>
   );

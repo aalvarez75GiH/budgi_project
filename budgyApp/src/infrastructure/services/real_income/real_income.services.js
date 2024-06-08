@@ -17,3 +17,14 @@ export const getRealIncome_By_UserID_MonthYearRequest = async (
       return error;
     });
 };
+export const getRealIncomes_By_UserIDRequest = async (user_id) => {
+  const { realIncomeEndPoint } = environment;
+  return await axios
+    .get(`${realIncomeEndPoint}/real_income_byUserId?user_id=${user_id}`)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};

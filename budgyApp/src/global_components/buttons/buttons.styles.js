@@ -91,13 +91,21 @@ justify-content: space-between;
 
 // ********************* Option Button
 export const OptionButtonTextIconContainer = Styled(View)`
-width: 70%;
+width: ${(props) => props.width};
 height: auto;
 /* background-color: red; */
-flex-direction: row;
-justify-content: center;
-align-items: center;
+flex-direction: ${(props) => props.direction};
+justify-content: ${(props) => props.justify};
+align-items: ${(props) => props.align};
 `;
+// export const OptionButtonTextIconContainer = Styled(View)`
+// width: 70%;
+// height: auto;
+// /* background-color: red; */
+// flex-direction: row;
+// justify-content: center;
+// align-items: center;
+// `;
 
 export const OPTButton = Styled(TouchableOpacity)`
   width: ${(props) => props.width}px;

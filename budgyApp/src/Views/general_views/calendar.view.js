@@ -30,7 +30,12 @@ export const GeneralCalendarView = ({ navigation, route }) => {
         direction={"column"}
         color={theme.colors.bg.p_FFFFFF}
         action={() =>
-          backHeaderAction(navigation, setButton1Pressed, setButton2Pressed)
+          backHeaderAction(
+            navigation,
+            setButton1Pressed,
+            setButton2Pressed,
+            comingFrom
+          )
         }
         // color={"#FAD"}
       />

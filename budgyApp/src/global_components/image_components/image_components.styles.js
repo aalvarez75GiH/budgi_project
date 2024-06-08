@@ -5,7 +5,7 @@ export const SvgContainer = Styled(View)`
 width: 20%;
 height: 100%;
 justify-content: ${(props) => props.justify};
-align_items: center;
+align-items: center;
 position: ${(props) => props.position};
 left: ${(props) => props.left};
 top: ${(props) => props.right};

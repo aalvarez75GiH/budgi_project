@@ -1,7 +1,10 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
 
 export const RealIncomeContext = createContext();
-import { getRealIncome_By_UserID_MonthYearRequest } from "./real_income.services";
+import {
+  getRealIncome_By_UserID_MonthYearRequest,
+  getRealIncomes_By_UserIDRequest,
+} from "./real_income.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 
@@ -32,9 +35,6 @@ export const RealIncomeContextProvider = ({ children }) => {
           const { total_amount } = real_income.data;
           setRealIncomeTotalAmount(total_amount);
           setRealIncome(real_income.data);
-          // real_income
-          //   ? setRealIncome(real_income.data)
-          //   : console.log("THERE MUST BE AN ERROR FETCHING REAL INCOME...");
         }
       } catch (error) {
         console.log("HERE IS THE ERROR:", error);
@@ -43,6 +43,22 @@ export const RealIncomeContextProvider = ({ children }) => {
       }
     })();
   }, []);
+
+  //   const getRealIncomes_By_UserID = (user_id) => {
+  //     (async () => {
+  //       try {
+  //         const realIncomes = await getRealIncomes_By_UserIDRequest(user_id);
+  //         realIncomes
+  //           ? return realIncome
+  //           : return null
+  //       } catch (error) {
+  //         return res.status(404).send({
+  //           status: "500",
+  //           msg: error,
+  //         });
+  //       }
+  //     })();
+  //   };
 
   return (
     <RealIncomeContext.Provider
