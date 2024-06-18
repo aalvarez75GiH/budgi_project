@@ -49,7 +49,8 @@ export const AccountAndThingsView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAD"}
         direction="column"
-        flexibility={0.12}
+        // flexibility={0.12}
+        flexibility={0.2}
         justify={"center"}
         isBordered={false}
       >
@@ -93,10 +94,11 @@ export const AccountAndThingsView = ({ navigation }) => {
       {/* ********* */}
 
       <FlexibleContainer
-        color={theme.colors.bg.e_F4F4F4}
+        // color={theme.colors.bg.e_F4F4F4}
+        color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="column"
-        flexibility={0.23}
+        flexibility={0.28}
         justify={"center"}
         isBordered={false}
       >
@@ -106,6 +108,8 @@ export const AccountAndThingsView = ({ navigation }) => {
           icon_name={"TransactionsIcon"}
           active_icon={true}
           action={() => movingToMyTransactions(navigation)}
+          borderTopWidth={"2px"}
+          borderBottomWidth={"1px"}
         />
         <AccountAndThingsTile
           caption={"Check how your month is going"}
@@ -113,12 +117,16 @@ export const AccountAndThingsView = ({ navigation }) => {
           icon_name={"SpendingIcon"}
           active_icon={true}
           action={() => movingToHowYourMonthIsGoing(navigation)}
+          borderTopWidth={"1px"}
+          borderBottomWidth={"1px"}
         />
         <AccountAndThingsTile
           caption={"App preference"}
           navigation={navigation}
           icon_name={"PreferencesIcon"}
           active_icon={true}
+          borderTopWidth={"1px"}
+          borderBottomWidth={"2px"}
         />
       </FlexibleContainer>
     </GeneralFlexContainer>

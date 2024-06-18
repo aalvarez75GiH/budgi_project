@@ -70,7 +70,7 @@ export const NumPadBtn = Styled(View)`
 export const RNPIconBtn = Styled(IconButton)``;
 
 export const RNPIconButtonContainer = Styled(View)`
-  width:${(props) => props.width};
+  width:${(props) => props.width}px;
   height: 50px;
   /* background-color: blue; */
   justify-content: center;

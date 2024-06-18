@@ -1,7 +1,10 @@
 import { useContext, useState } from "react";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
+import { RealIncomeContext } from "../infrastructure/services/real_income/real_income.context";
 
-export const useEnterAmountLogic = () => {
+export const useEnterAmountLogic = (comingFrom) => {
+  console.log("COMING FROM:", comingFrom);
+
   const {
     fixingANumberToTwoDecimalsAndString,
     fixingANumberToTwoDecimals,
@@ -11,7 +14,23 @@ export const useEnterAmountLogic = () => {
   const { amount } = transactionInfoForUpdate;
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
-  const [amountToSet, setAmountToSet] = useState(String(`$${stringedAmount}`));
+  const { realIncomeForRequest, setRealIncomeForRequest } =
+    useContext(RealIncomeContext);
+  const { earned_amount } = realIncomeForRequest;
+
+  const stringedRealIncomeAmount =
+    fixingANumberToTwoDecimalsAndString(earned_amount);
+
+  const [amountToSet, setAmountToSet] = useState(
+    String(
+      `$${
+        comingFrom === "AnyTransactionDetailsView"
+          ? stringedAmount
+          : stringedRealIncomeAmount
+        // stringedAmount
+      }`
+    )
+  );
 
   const cta_action = (navigation, comingFrom) => {
     if (comingFrom === "AnyTransactionDetailsView") {
@@ -20,6 +39,13 @@ export const useEnterAmountLogic = () => {
         amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
       });
       navigation.navigate("Transaction_details_view");
+    }
+    if (comingFrom === "Select_week_view") {
+      setRealIncomeForRequest({
+        ...realIncomeForRequest,
+        earned_amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
+      });
+      navigation.navigate("income_details_view");
     }
   };
 

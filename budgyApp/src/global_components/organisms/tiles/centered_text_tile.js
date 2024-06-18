@@ -28,6 +28,8 @@ export const CenteredTextTile = ({
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
+      border_top_width={2}
+      border_bottom_width={2}
       //   bg_color={"red"}
     >
       {active_icon ? (

@@ -28,3 +28,16 @@ export const getRealIncomes_By_UserIDRequest = async (user_id) => {
       return error;
     });
 };
+
+export const registerRealIncomeRequest = async (realIncomeForRequest) => {
+  console.log("REAL INCOME FOR REQUEST AT SERVICES:", realIncomeForRequest);
+  const { realIncomeEndPoint } = environment;
+  return await axios
+    .put(`${realIncomeEndPoint}/addingWeekIncome`, realIncomeForRequest)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};

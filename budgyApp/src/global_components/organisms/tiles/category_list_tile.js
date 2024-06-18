@@ -28,6 +28,8 @@ export const RegularCategoryTile = ({
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
+      border_top_width={2}
+      border_bottom_width={2}
     >
       {icon_name === `byUserCategoryIcon` ? (
         <PNGComponent

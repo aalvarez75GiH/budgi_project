@@ -16,7 +16,8 @@ import { DateOperationsContext } from "../../infrastructure/services/date_operat
 import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
 
 export const AmountsMonthsPadView = ({ navigation, route }) => {
-  const { realIncomes } = route.params;
+  // const { realIncomes } = route.params;
+  const { gettingRealIncomeForEachButton } = useContext(RealIncomeContext);
 
   const { month_selected, setMonthSelected } = useContext(
     DateOperationsContext
@@ -26,10 +27,17 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
     month_selected: month_selected,
     isActive: true,
   });
+  const [realIncomeOnDemand, setRealIncomeOnDemand] = useState({});
 
   const selectingMonth = (month) => {
     setIsChosen({ month_selected: month, isActive: true });
     setMonthSelected(month);
+    const real_income_on_demand = gettingRealIncomeForEachButton(month);
+    console.log("REAL INCOME ON DEMAND:", real_income_on_demand);
+    setRealIncomeOnDemand(real_income_on_demand);
+    navigation.navigate("Select_work_app_view", {
+      realIncomeOnDemand: real_income_on_demand,
+    });
   };
 
   return (
@@ -52,7 +60,7 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
           flexibility={0.12}
         >
           <View>
-            <Text text_variant="neutral_bold_text_24">Switch Month</Text>
+            <Text text_variant="neutral_bold_text_24">Select Month</Text>
           </View>
         </FlexibleContainer>
         <FlexibleContainer
@@ -66,7 +74,7 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
           <AmountsMonthsPadComponent
             selectingMonth={(month) => selectingMonth(month)}
             isChosen={isChosen}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
           />
         </FlexibleContainer>
         <FlexibleContainer

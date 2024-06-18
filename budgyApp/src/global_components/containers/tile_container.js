@@ -1,6 +1,19 @@
 import Styled from "styled-components/native";
 import { TouchableOpacity, View } from "react-native";
 
+// export const TilesContainer = Styled(TouchableOpacity)`
+// width: ${(props) => props.width};
+// height: ${(props) => props.height}px;
+// background-color:${(props) => props.bg_color};
+// margin-top: ${(props) => props.margin_top}px;
+// flex-direction: row;
+// border-bottom-color: ${(props) => props.borderColor};
+// border-bottom-width: ${(props) => props.border_bottom_width};
+// /* border-top-width: ${(props) => props.border_top_width}; */
+// border-top-color: ${(props) => props.borderColor};
+// justify-content: ${(props) => props.justify};
+// align-items:${(props) => props.align};
+// `;
 export const TilesContainer = Styled(TouchableOpacity)`
 width: ${(props) => props.width};
 height: ${(props) => props.height}px;
@@ -8,9 +21,9 @@ background-color:${(props) => props.bg_color};
 margin-top: ${(props) => props.margin_top}px;
 flex-direction: row;
 border-bottom-color: ${(props) => props.borderColor};
-border-bottom-width: 2px;
-/* border-top-width: 2px; */
-/* border-top-color: ${(props) => props.borderColor}; */
+border-bottom-width: ${(props) => props.borderBottomWidth}px;
+border-top-color: ${(props) => props.borderColor};
+border-top-width: ${(props) => props.borderTopWidth}px;
 justify-content: ${(props) => props.justify};
 align-items:${(props) => props.align};
 `;

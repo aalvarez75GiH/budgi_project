@@ -34,6 +34,8 @@ export const TransactionTile = ({
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
+      borderTopWidth={1}
+      borderBottomWidth={1}
     >
       {icon_name === `byUserCategoryIcon` ? (
         <PNGComponent

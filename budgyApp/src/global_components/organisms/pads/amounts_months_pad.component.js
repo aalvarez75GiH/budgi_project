@@ -12,7 +12,7 @@ import { TransactionsContext } from "../../../infrastructure/services/transactio
 export const AmountsMonthsPadComponent = ({
   selectingMonth,
   isChosen,
-  realIncomes,
+  //   realIncomes,
 }) => {
   return (
     <>
@@ -30,7 +30,7 @@ export const AmountsMonthsPadComponent = ({
             }
             action={() => selectingMonth("January")}
             isDisabled={false}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="January"
           />
           <AmountMonthOptionButton
@@ -45,7 +45,7 @@ export const AmountsMonthsPadComponent = ({
             }
             action={() => selectingMonth("February")}
             isDisabled={false}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="February"
           />
           <AmountMonthOptionButton
@@ -60,7 +60,7 @@ export const AmountsMonthsPadComponent = ({
             }
             action={() => selectingMonth("March")}
             isDisabled={false}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="March"
           />
         </Month_Row>
@@ -77,7 +77,7 @@ export const AmountsMonthsPadComponent = ({
             }
             action={() => selectingMonth("April")}
             isDisabled={false}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="April"
           />
           <AmountMonthOptionButton
@@ -92,7 +92,7 @@ export const AmountsMonthsPadComponent = ({
             }
             action={() => selectingMonth("May")}
             isDisabled={false}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="May"
           />
           <AmountMonthOptionButton
@@ -108,7 +108,7 @@ export const AmountsMonthsPadComponent = ({
             isActive={false}
             action={() => selectingMonth("June")}
             isDisabled={false}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="June"
           />
         </Month_Row>
@@ -123,7 +123,7 @@ export const AmountsMonthsPadComponent = ({
             isActive={false}
             action={() => selectingMonth("July")}
             isDisabled={true}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="July"
           />
           <AmountMonthOptionButton
@@ -136,7 +136,7 @@ export const AmountsMonthsPadComponent = ({
             isActive={false}
             action={() => selectingMonth("August")}
             isDisabled={true}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="August"
           />
           <AmountMonthOptionButton
@@ -149,7 +149,7 @@ export const AmountsMonthsPadComponent = ({
             isActive={false}
             action={() => selectingMonth("September")}
             isDisabled={true}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="September"
           />
         </Month_Row>
@@ -164,7 +164,7 @@ export const AmountsMonthsPadComponent = ({
             isActive={false}
             action={() => selectingMonth("October")}
             isDisabled={true}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="October"
           />
           <AmountMonthOptionButton
@@ -177,7 +177,7 @@ export const AmountsMonthsPadComponent = ({
             isActive={false}
             action={() => selectingMonth("November")}
             isDisabled={true}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="November"
           />
           <AmountMonthOptionButton
@@ -190,7 +190,7 @@ export const AmountsMonthsPadComponent = ({
             isActive={false}
             action={() => selectingMonth("December")}
             isDisabled={true}
-            realIncomes={realIncomes}
+            // realIncomes={realIncomes}
             month_name="December"
           />
         </Month_Row>

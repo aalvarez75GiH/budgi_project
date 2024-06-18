@@ -18,6 +18,8 @@ export const AccountAndThingsTile = ({
   icon_name,
   active_icon,
   action,
+  borderTopWidth,
+  borderBottomWidth,
 }) => {
   return (
     <TilesContainer
@@ -28,6 +30,10 @@ export const AccountAndThingsTile = ({
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
+      // borderTopWidth={borderTopWidth}
+      // borderBottomWidth={borderBottomWidth}
+      borderTopWidth={"2px"}
+      borderBottomWidth={"2px"}
     >
       <SVGComponent
         icon_width={30}

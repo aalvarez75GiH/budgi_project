@@ -28,6 +28,10 @@ import ThinCheckIcon from "../../assets/icons/svgs/check_icon.svg";
 import DollarMoneySignIcon from "../../assets/icons/svgs/8679129_money_dollar_circle_icon.svg";
 import AddIncomeIcon from "../../assets/icons/svgs/hand_invoice_icon.svg";
 import StatsIcon from "../../assets/icons/svgs/stats_icon.svg";
+import UberIcon from "../../assets/icons/svgs/uber_icon.svg";
+import DoordashIcon from "../../assets/icons/svgs/doordash_icon.svg";
+import GrubHubIcon from "../../assets/icons/svgs/grubhub_icon.svg";
+import LyftIcon from "../../assets/icons/svgs/lyft_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -138,6 +142,22 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "StatsIcon",
       icon: StatsIcon,
+    },
+    {
+      icon_name: "UberIcon",
+      icon: UberIcon,
+    },
+    {
+      icon_name: "DoordashIcon",
+      icon: DoordashIcon,
+    },
+    {
+      icon_name: "GrubHubIcon",
+      icon: GrubHubIcon,
+    },
+    {
+      icon_name: "LyftIcon",
+      icon: LyftIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";

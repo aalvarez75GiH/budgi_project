@@ -8,6 +8,7 @@ import { SVGComponent } from "../image_components/svg.component";
 import { ControlledContainer } from "../containers/controlled_container";
 
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
+import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
 
 export const AmountMonthOptionButton = ({
   action,
@@ -19,37 +20,47 @@ export const AmountMonthOptionButton = ({
   borderRadius,
   isDisabled,
   isChosen,
-  realIncomes,
+  //   realIncomes,
   month_name,
 }) => {
-  console.log("realIncomes AT AMOUNT OPTION BUTTON:", realIncomes);
+  //   console.log("realIncomes AT AMOUNT OPTION BUTTON:", realIncomes);
   const { gettingAcronym, setMonthSelected, month_selected, month } =
     useContext(DateOperationsContext);
 
+  const { gettingRealIncomeForEachButton } = useContext(RealIncomeContext);
   const [realIncomeAmount, setRealIncomeAmount] = useState(0);
 
   useEffect(() => {
-    const month_year_by_each_button = gettingAcronym(month_name);
-    console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
-    const index = realIncomes.findIndex(
-      (real_income) => real_income.month_year === month_year_by_each_button
-    );
-    if (index === -1) {
-      console.log("NO REAL INCOME FOR THAT MONTH");
-    } else {
-      console.log("INDEX AT BUTTON:", index);
-      console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
-      setRealIncomeAmount(realIncomes[index].total_amount);
-    }
+    const gettingRealIncomeByMonth = async () => {
+      const real_income_by_button = await gettingRealIncomeForEachButton(
+        month_name
+      );
+      console.log(
+        "REAL INCOME BY BUTTON:",
+        JSON.stringify(real_income_by_button, null, 2)
+      );
+      setRealIncomeAmount(real_income_by_button.total_amount);
+      // const month_year_by_each_button = gettingAcronym(month_name);
+      // console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
+      // const index = realIncomes.findIndex(
+      //   (real_income) => real_income.month_year === month_year_by_each_button
+      // );
+      // if (index === -1) {
+      //   console.log("NO REAL INCOME FOR THAT MONTH");
+      // } else {
+      //   console.log("INDEX AT BUTTON:", index);
+      //   console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
+      //   setRealIncomeAmount(realIncomes[index].total_amount);
+      // }
+    };
+    gettingRealIncomeByMonth();
   }, []);
 
   return (
     <OPTButton
       color1={color1}
       color2={color2}
-      //   onPress={action}
-      //   onPress={selectingMonth}
-      onPress={action}
+      onPress={isDisabled ? null : action}
       width={width}
       height={height}
       borderRadius={borderRadius}

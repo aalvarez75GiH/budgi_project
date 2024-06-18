@@ -93,12 +93,7 @@ export const useSelectCategoryLogic = () => {
       return (
         <RegularCategoryTile
           category_name={item.category_name}
-          navigation={navigation}
-          category_id={item.category_id}
-          icon_path={item.icon_path}
-          short_name={item.short_name}
           icon_name={item.icon_name}
-          item={item}
           isSelected={isSelected}
           action={() => selectingCategory(navigation, item, comingFrom)}
         />

@@ -71,7 +71,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="row"
-        flexibility={Platform.OS === "ios" ? 0.32 : 0.37}
+        flexibility={Platform.OS === "ios" ? 0.42 : 0.37}
         justify={"center"}
         isBordered={false}
       >

@@ -27,7 +27,12 @@ export const MonthOptionButton = ({
       borderRadius={borderRadius}
       isActive={isChosen}
     >
-      <OptionButtonTextIconContainer>
+      <OptionButtonTextIconContainer
+        width={"70%"}
+        justify="center"
+        align={"center"}
+        direction="row"
+      >
         <Spacer position="left" size="large">
           <Text
             text_variant={

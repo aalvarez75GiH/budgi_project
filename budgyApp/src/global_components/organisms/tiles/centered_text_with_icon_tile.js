@@ -27,6 +27,8 @@ export const CenteredTextTileWithIcon = ({
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
+      borderTopWidth={1}
+      borderBottomWidth={1}
       //   bg_color={"red"}
     >
       <ControlledContainer
