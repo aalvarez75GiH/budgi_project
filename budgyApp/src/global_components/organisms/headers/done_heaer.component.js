@@ -5,7 +5,7 @@ import { HeaderLabelContainer } from "./headers.styles";
 import { ClickableFlexibleContainer } from "../../containers/clickable_flexible_container";
 import { AuthenticationContext } from "../../../infrastructure/services/authentication/authentication.context";
 
-export const DoneHeaderComponent = ({ action, color }) => {
+export const DoneHeaderComponent = ({ action, color, flexibility }) => {
   const { language } = useContext(AuthenticationContext);
 
   const caption = language === "english" ? "Done" : "Listo";
@@ -14,7 +14,7 @@ export const DoneHeaderComponent = ({ action, color }) => {
       onPress={action}
       color={color}
       direction="row"
-      flexibility={0.5}
+      flexibility={flexibility}
       justify={"center"}
     >
       <HeaderLabelContainer width={"100%"} marginLeft={"10%"}>

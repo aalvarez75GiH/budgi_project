@@ -27,10 +27,11 @@ export const useEnterAmountLogic = (comingFrom) => {
         comingFrom === "AnyTransactionDetailsView"
           ? stringedAmount
           : stringedRealIncomeAmount
-        // stringedAmount
       }`
     )
   );
+
+  console.log("REAL INCOME AMOUNT TO SET AT LOGIC:", stringedRealIncomeAmount);
 
   const cta_action = (navigation, comingFrom) => {
     if (comingFrom === "AnyTransactionDetailsView") {

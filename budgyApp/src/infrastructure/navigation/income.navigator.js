@@ -7,6 +7,7 @@ import { SelectWorkAppView } from "../../Views/income/select_work_app.view";
 import { SelectWeekView } from "../../Views/income/select_week.view";
 import { EnterAmountView } from "../../Views/general_views/enter_amount.view";
 import { IncomeDetailsView } from "../../Views/income/income_details.view";
+import { IncomeConfirmationView } from "../../Views/income/income_confirmation.view";
 
 const IncomeStack = createNativeStackNavigator();
 
@@ -42,6 +43,11 @@ export const IncomeNavigator = () => {
       <IncomeStack.Screen
         name="income_details_view"
         component={IncomeDetailsView}
+        options={{ animation: "slide_from_right" }}
+      />
+      <IncomeStack.Screen
+        name="income_confirmation_view"
+        component={IncomeConfirmationView}
         options={{ animation: "slide_from_right" }}
       />
     </IncomeStack.Navigator>

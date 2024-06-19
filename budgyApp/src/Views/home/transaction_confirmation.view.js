@@ -25,6 +25,7 @@ export const TransactionConfirmationView = ({ navigation }) => {
         action={() => goingHome(navigation)}
         direction={"row"}
         color={theme.colors.bg.p_FFFFFF}
+        flexibility={0.5}
         // color={"#FAD"}
       />
 

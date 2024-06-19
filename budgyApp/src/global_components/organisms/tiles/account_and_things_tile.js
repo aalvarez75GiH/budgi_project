@@ -32,8 +32,8 @@ export const AccountAndThingsTile = ({
       bg_color={theme.colors.bg.p_FFFFFF}
       // borderTopWidth={borderTopWidth}
       // borderBottomWidth={borderBottomWidth}
-      borderTopWidth={"2px"}
-      borderBottomWidth={"2px"}
+      borderTopWidth={2}
+      borderBottomWidth={2}
     >
       <SVGComponent
         icon_width={30}

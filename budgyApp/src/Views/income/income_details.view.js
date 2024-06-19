@@ -38,7 +38,7 @@ export const IncomeDetailsView = ({ navigation, route }) => {
     navigation.goBack();
   };
 
-  const registeringTransaction = async (realIncomeForRequest) => {
+  const registeringRealIncomeTransaction = async (realIncomeForRequest) => {
     console.log("REAL INCOME FOR REQUEST BEFORE LIVING:", realIncomeForRequest);
     setIsLoading(true);
     setTimeout(async () => {
@@ -46,8 +46,8 @@ export const IncomeDetailsView = ({ navigation, route }) => {
         const response = await registerRealIncomeRequest(realIncomeForRequest);
         // console.log("RESPONSE:", JSON.stringify(response, null, 2));
         response ? setIsLoading(false) : setIsLoading(true);
-
-        // navigation.navigate("Transaction_confirmation");
+        // console.log("REAL INCOME RESPONSE:", response.data);
+        navigation.navigate("income_confirmation_view");
       } catch (error) {
         console.log("THERE WAS AN ERROR:", error);
       }
@@ -189,13 +189,13 @@ export const IncomeDetailsView = ({ navigation, route }) => {
         isBordered={false}
       >
         <RegularCTAButton
-          caption="Set real income"
+          caption="Register"
           width={310}
           height={50}
           color={theme.colors.buttons.p_FC9827}
           borderRadius={50}
           //   action={() => postingTransactionProcess(navigation)}
-          action={() => registeringTransaction(realIncomeForRequest)}
+          action={() => registeringRealIncomeTransaction(realIncomeForRequest)}
           text_variant="bold_text_20"
           isLoading={isLoading}
         />

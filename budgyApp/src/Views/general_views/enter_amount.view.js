@@ -94,7 +94,8 @@ export const EnterAmountView = ({ navigation, route }) => {
                 underlineColor={theme.colors.neutrals.p_B7B7B7}
                 activeUnderlineColor={theme.colors.neutrals.p_B7B7B7}
                 keyboardType="number-pad"
-                onFocus={() => setAmountToSet(`${amountToSet}`)}
+                // onFocus={() => setAmountToSet(`${amountToSet}`)}
+                onFocus={() => setAmountToSet(0)}
                 textBreakStrategy="simple"
               />
               <ClickableControlledContainer

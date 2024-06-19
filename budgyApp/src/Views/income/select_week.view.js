@@ -36,10 +36,12 @@ export const SelectWeekView = ({ navigation, route }) => {
   };
 
   const selectingWeekForRealIncome = (item) => {
+    console.log("Item:", item);
     console.log("Item:", item.week_name);
     setRealIncomeForRequest({
       ...realIncomeForRequest,
       week_name: item.week_name,
+      earned_amount: item.earned_amount !== 0 ? item.earned_amount : 0,
     });
     console.log("REAL INCOME FOR REQUEST AT SELECTING:", realIncomeForRequest);
     navigation.navigate("Enter_amount_view", {

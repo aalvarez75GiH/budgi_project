@@ -10,16 +10,29 @@ import { AuthenticationContext } from "../authentication/authentication.context"
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 
 export const RealIncomeContextProvider = ({ children }) => {
+  const { user } = useContext(AuthenticationContext);
+  const { user_id } = user;
+
+  const { month_year, gettingAcronym } = useContext(DateOperationsContext);
+
   const [realIncome, setRealIncome] = useState({});
   const [realIncomeByMonth, setRealIncomeByMonth] = useState({});
   const [realIncomes, setRealIncomes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [realIncomeTotalAmount, setRealIncomeTotalAmount] = useState(0);
 
-  const { user } = useContext(AuthenticationContext);
-  const { user_id } = user;
+  const REAL_INCOME_INITIAL = {
+    user_id: user_id,
+    month_year: month_year,
+    app_id: "",
+    earned_amount: 0,
+    week_name: "",
+    app_name: "",
+    logo_path: "",
+  };
 
-  const { month_year, gettingAcronym } = useContext(DateOperationsContext);
+  const [realIncomeForRequest, setRealIncomeForRequest] =
+    useState(REAL_INCOME_INITIAL);
 
   useEffect(() => {
     (async () => {
@@ -56,18 +69,18 @@ export const RealIncomeContextProvider = ({ children }) => {
     })();
   }, []);
 
-  const REAL_INCOME_INITIAL = {
-    user_id: user_id,
-    month_year: month_year,
-    app_id: "",
-    earned_amount: 0,
-    week_name: "",
-    app_name: "",
-    logo_path: "",
-  };
+  // const REAL_INCOME_INITIAL = {
+  //   user_id: user_id,
+  //   month_year: month_year,
+  //   app_id: "",
+  //   earned_amount: 0,
+  //   week_name: "",
+  //   app_name: "",
+  //   logo_path: "",
+  // };
 
-  const [realIncomeForRequest, setRealIncomeForRequest] =
-    useState(REAL_INCOME_INITIAL);
+  // const [realIncomeForRequest, setRealIncomeForRequest] =
+  //   useState(REAL_INCOME_INITIAL);
 
   console.log("REAL INCOMES AT CONTEXT:", realIncomes);
 
@@ -85,6 +98,10 @@ export const RealIncomeContextProvider = ({ children }) => {
   //       setRealIncomeAmount(realIncomes[index].total_amount);
   //     }
   //   }, []);
+
+  const cleaningState = () => {
+    setRealIncomeForRequest(REAL_INCOME_INITIAL);
+  };
 
   const gettingRealIncomeForEachButton = (month_name) => {
     const month_year_by_each_button = gettingAcronym(month_name);
@@ -155,6 +172,7 @@ export const RealIncomeContextProvider = ({ children }) => {
         realIncomeForRequest,
         setRealIncomeForRequest,
         registeringRealIncome,
+        cleaningState,
       }}
     >
       {children}
