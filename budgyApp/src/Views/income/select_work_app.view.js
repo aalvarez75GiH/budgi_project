@@ -18,7 +18,7 @@ export const SelectWorkAppView = ({ navigation, route }) => {
     "REAL INCOME ON DEMAND AT SELECT WORK APP VIEW:",
     realIncomeOnDemand
   );
-  console.log("REAL INCOME WORK APPS AT SELECT WORK APPS VIEW:", work_apps);
+  // console.log("REAL INCOME WORK APPS AT SELECT WORK APPS VIEW:", work_apps);
 
   const { setRealIncomeForRequest, realIncomeForRequest } =
     useContext(RealIncomeContext);
@@ -33,11 +33,37 @@ export const SelectWorkAppView = ({ navigation, route }) => {
       app_name: item.app_name,
       logo_path: item.logo_path,
     });
-    navigation.navigate("Select_week_view", {
-      real_income_selected: item,
-    });
-    console.log("ITEM:", item);
+    if (item.app_name !== "Cash") {
+      navigation.navigate("Select_week_view", {
+        real_income_selected: item,
+      });
+    }
+    if (item.app_name === "Cash") {
+      navigation.navigate("Enter_amount_view", {
+        real_income_selected: item,
+        comingFrom: "comingFromCash",
+      });
+    }
   };
+  // const selectingAppForRealIncome = (item) => {
+  //   setRealIncomeForRequest({
+  //     ...realIncomeForRequest,
+  //     app_id: item.app_id,
+  //     app_name: item.app_name,
+  //     logo_path: item.logo_path,
+  //   });
+  //   if (item.app_name !== "Cash") {
+  //     navigation.navigate("Select_week_view", {
+  //       real_income_selected: item,
+  //     });
+  //   }
+  //   if (item.app_name === "Cash") {
+  //     navigation.navigate("Enter_amount_view", {
+  //       real_income_selected: item,
+  //       comingFrom: "comingFromCash",
+  //     });
+  //   }
+  // };
 
   const renderWorkAppItem =
     (navigation) =>

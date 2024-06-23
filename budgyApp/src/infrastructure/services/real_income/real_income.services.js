@@ -41,3 +41,15 @@ export const registerRealIncomeRequest = async (realIncomeForRequest) => {
       return error;
     });
 };
+export const registerCashIncomeRequest = async (realIncomeForRequest) => {
+  console.log("REAL INCOME FOR REQUEST AT SERVICES:", realIncomeForRequest);
+  const { realIncomeEndPoint } = environment;
+  return await axios
+    .put(`${realIncomeEndPoint}/addingCashIncome`, realIncomeForRequest)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};

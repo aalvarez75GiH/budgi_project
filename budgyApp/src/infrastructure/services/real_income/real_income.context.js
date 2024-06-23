@@ -5,12 +5,13 @@ import {
   getRealIncome_By_UserID_MonthYearRequest,
   getRealIncomes_By_UserIDRequest,
   registerRealIncomeRequest,
+  registerCashIncomeRequest,
 } from "./real_income.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 
 export const RealIncomeContextProvider = ({ children }) => {
-  const { user } = useContext(AuthenticationContext);
+  const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
 
   const { month_year, gettingAcronym } = useContext(DateOperationsContext);
@@ -69,35 +70,7 @@ export const RealIncomeContextProvider = ({ children }) => {
     })();
   }, []);
 
-  // const REAL_INCOME_INITIAL = {
-  //   user_id: user_id,
-  //   month_year: month_year,
-  //   app_id: "",
-  //   earned_amount: 0,
-  //   week_name: "",
-  //   app_name: "",
-  //   logo_path: "",
-  // };
-
-  // const [realIncomeForRequest, setRealIncomeForRequest] =
-  //   useState(REAL_INCOME_INITIAL);
-
   console.log("REAL INCOMES AT CONTEXT:", realIncomes);
-
-  //   useEffect(() => {
-  //     const month_year_by_each_button = gettingAcronym(month_name);
-  //     console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
-  //     const index = realIncomes.findIndex(
-  //       (real_income) => real_income.month_year === month_year_by_each_button
-  //     );
-  //     if (index === -1) {
-  //       console.log("NO REAL INCOME FOR THAT MONTH");
-  //     } else {
-  //       console.log("INDEX AT BUTTON:", index);
-  //       console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
-  //       setRealIncomeAmount(realIncomes[index].total_amount);
-  //     }
-  //   }, []);
 
   const cleaningState = () => {
     setRealIncomeForRequest(REAL_INCOME_INITIAL);
@@ -119,44 +92,92 @@ export const RealIncomeContextProvider = ({ children }) => {
     }
   };
 
-  const registeringRealIncome = async (realIncomeForRequest) => {
-    // Set the loading state to true.
+  const registeringRealIncomeTransaction = async (
+    navigation,
+    realIncomeForRequest
+  ) => {
+    console.log("REAL INCOME FOR REQUEST BEFORE LIVING:", realIncomeForRequest);
     setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        const response = await registerRealIncomeRequest(realIncomeForRequest);
+        // console.log("RESPONSE:", JSON.stringify(response, null, 2));
+        response ? setIsLoading(false) : setIsLoading(true);
+        (await response) ? listenForNewChangesAtDB() : null;
+        // console.log("REAL INCOME RESPONSE:", response.data);
+        navigation.navigate("income_confirmation_view");
+      } catch (error) {
+        console.log("THERE WAS AN ERROR:", error);
+      }
+    }, 3000);
+  };
+  const registeringCashIncomeTransaction = async (
+    navigation,
+    realIncomeForRequest
+  ) => {
+    console.log("REAL INCOME FOR REQUEST BEFORE LIVING:", realIncomeForRequest);
+    setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        const response = await registerCashIncomeRequest(realIncomeForRequest);
+        // console.log("RESPONSE:", JSON.stringify(response, null, 2));
+        response ? setIsLoading(false) : setIsLoading(true);
+        (await response) ? listenForNewChangesAtDB() : null;
+        // console.log("REAL INCOME RESPONSE:", response.data);
+        navigation.navigate("income_confirmation_view");
+      } catch (error) {
+        console.log("THERE WAS AN ERROR:", error);
+      }
+    }, 3000);
+  };
 
-    try {
-      // Create a new promise that will resolve with the response from the updateTransactionRequest function.
-      const response = await new Promise((resolve, reject) => {
-        // Delay the execution of the following code by 3000ms (3 seconds).
-        setTimeout(async () => {
-          try {
-            // Call the updateTransactionRequest function with the transactionInfoForUpdate object.
-            const response = await registerRealIncomeRequest(
-              realIncomeForRequest
-            );
-            console.log("RESPONSE AT CONTEXT:", response);
+  const listenForNewChangesAtDB = () => {
+    const collectionRef = db.collection("real_income");
+    collectionRef.onSnapshot(async (snapshot) => {
+      let hasNewData = false;
 
-            // If the response is truthy, call the listenForNewChangesAtDB function.
-            // (await response) ? listenForNewChangesAtDB() : null;
-
-            // If the loading state is false, resolve the promise with the response.
-            // !isLoading ? resolve(response) : null;
-            response.status === 200 ? resolve(response) : null;
-          } catch (error) {
-            // If there's an error, log it and reject the promise with the error.
-            console.log("THERE WAS AN ERROR:", error);
-            reject(error);
-          } finally {
-            setIsLoading(false);
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          const newData = change.doc.data();
+          // console.log("NEW TRANSACTION IS:", newData);
+          if (newData) {
+            hasNewData = true;
           }
-        }, 3000);
+        }
       });
 
-      // Return the response.
-      return response;
-    } catch (error) {
-      // If there's an error, log it.
-      console.log("THERE WAS AN ERROR:", error);
-    }
+      if (hasNewData) {
+        try {
+          const real_income = await getRealIncome_By_UserID_MonthYearRequest(
+            user_id,
+            month_year
+          );
+          if (real_income.status === 404) {
+            console.log("REAL INCOME STATUS 404");
+            setRealIncomeTotalAmount(0);
+            setRealIncome({});
+            return;
+          } else {
+            const { total_amount } = real_income.data;
+            setRealIncomeTotalAmount(total_amount);
+            setRealIncome(real_income.data);
+          }
+
+          const real_incomes = await getRealIncomes_By_UserIDRequest(user_id);
+          if (real_incomes.status === 404) {
+            console.log("REAL INCOMES STATUS 404");
+            setRealIncomes([]);
+            return;
+          } else {
+            setRealIncomes(real_incomes.data);
+          }
+        } catch (error) {
+          console.log("HERE IS THE ERROR:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    });
   };
 
   return (
@@ -165,14 +186,14 @@ export const RealIncomeContextProvider = ({ children }) => {
         realIncome,
         realIncomes,
         isLoading,
-        setIsLoading,
         realIncomeTotalAmount,
         realIncomeByMonth,
         gettingRealIncomeForEachButton,
         realIncomeForRequest,
         setRealIncomeForRequest,
-        registeringRealIncome,
         cleaningState,
+        registeringRealIncomeTransaction,
+        registeringCashIncomeTransaction,
       }}
     >
       {children}

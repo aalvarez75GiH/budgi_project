@@ -52,12 +52,12 @@ export const DescriptionTile = ({ description, action, width, height }) => {
                 <Spacer position="left" size="xxl">
                   <Spacer position="left" size="xxl">
                     <ClickableControlledContainer
-                      width={"50%"}
+                      width={"71%"}
                       height={"50px"}
                       justify="center"
                       alignment="flex-end"
                       direction="row"
-                      //   color="yellow"
+                      // color="yellow"
                       onPress={action}
                     >
                       <SVGComponent

@@ -5,6 +5,7 @@ import { Text } from "../../infrastructure/typography/text.component";
 import { SafeArea } from "../../global_components/safe-area.component";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
+import { BackHeaderWithLabelComponent } from "../../global_components/organisms/headers/back_header_withLabel.component";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { MonthsPadComponent } from "../../global_components/organisms/pads/months_pad.component";
@@ -43,13 +44,24 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
       <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-        <ExitHeaderComponent
+        {/* <ExitHeaderComponent
           navigation={navigation}
           direction={"column"}
           color={theme.colors.bg.p_FFFFFF}
           //   color={"#FAA"}
           flexibility={0.06}
           justify={"flex-end"}
+        /> */}
+        <BackHeaderWithLabelComponent
+          navigation={navigation}
+          caption=""
+          direction={"row"}
+          color={theme.colors.bg.p_FFFFFF}
+          // color={"#FAD"}
+          flexibility={0.1}
+          action={() => navigation.goBack()}
+          align="flex-end"
+          caption_margin_left={"0%"}
         />
         <FlexibleContainer
           width={"100%"}

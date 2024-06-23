@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { Text } from "../../../infrastructure/typography/text.component";
 import { UnderlinedRegularCaption } from "../../special text components/underlined.text.component";
@@ -19,8 +19,6 @@ export const ConfirmationInfoComponent = ({
   transaction_date,
   short_name,
 }) => {
-  console.log("EXPENSE DATE FORMARTTED:", transaction_date);
-
   return (
     <ConfirmationInfoContainer isConfirmed={isConfirmed}>
       <Spacer position="left" size="medium">

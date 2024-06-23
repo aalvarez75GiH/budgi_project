@@ -32,12 +32,13 @@ export const InfoDetailsTile = ({
       justify={"flex-start"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
+      // bg_color="brown"
     >
       <Spacer position="left" size="large" />
       <Spacer position="left" size="large" />
 
       <TileLabelContainer
-        width={"55%"}
+        width={"60%"}
         height={"60%"}
         // bg_color="red"
         direction="row"
@@ -70,6 +71,7 @@ export const InfoDetailsTile = ({
         width={"20%"}
         height={"100%"}
         bg_color={theme.colors.bg.p_FFFFFF}
+        // bg_color="lightblue"
         justify={"flex-end"}
         align={"flex-end"}
         onPress={action}

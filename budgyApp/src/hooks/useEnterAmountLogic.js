@@ -34,6 +34,7 @@ export const useEnterAmountLogic = (comingFrom) => {
   console.log("REAL INCOME AMOUNT TO SET AT LOGIC:", stringedRealIncomeAmount);
 
   const cta_action = (navigation, comingFrom) => {
+    console.log("COMING FROM AT CTA ACTION FUNCTION:", comingFrom);
     if (comingFrom === "AnyTransactionDetailsView") {
       setTransactionInfoForUpdate({
         ...transactionInfoForUpdate,
@@ -46,7 +47,19 @@ export const useEnterAmountLogic = (comingFrom) => {
         ...realIncomeForRequest,
         earned_amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
       });
-      navigation.navigate("income_details_view");
+      // navigation.navigate("income_details_view");
+      navigation.navigate("income_details_view", {
+        comingFrom: comingFrom,
+      });
+    }
+    if (comingFrom === "comingFromCash") {
+      setRealIncomeForRequest({
+        ...realIncomeForRequest,
+        earned_amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
+      });
+      navigation.navigate("income_details_view", {
+        comingFrom: comingFrom,
+      });
     }
   };
 

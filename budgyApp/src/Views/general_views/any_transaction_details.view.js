@@ -79,7 +79,9 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         color={theme.colors.bg.e_F4F4F4}
         // color={"lightblue"}
         direction="column"
-        flexibility={description ? 0.46 : 0.53}
+        // flexibility={description ? 0.46 : 0.53}
+        // flexibility={description ? 0.46 : 0.98}
+        flexibility={0.55}
         justify={"center"}
         isBordered={false}
       >
@@ -147,7 +149,8 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"brown"}
         direction="column"
-        flexibility={description ? 0.46 : 0.53}
+        // flexibility={description ? 0.46 : 0.53}
+        flexibility={0.2}
         justify={"center"}
         isBordered={false}
       >

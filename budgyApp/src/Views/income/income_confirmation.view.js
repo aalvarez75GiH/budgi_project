@@ -63,7 +63,7 @@ export const IncomeConfirmationView = ({ navigation }) => {
             alignment="flex-start"
           >
             <Spacer position="left" size="extraLarge">
-              <Text text_variant="bold_text_20">Transaction info</Text>
+              <Text text_variant="bold_text_20">Income summary</Text>
             </Spacer>
           </ControlledContainer>
         </ControlledContainer>
