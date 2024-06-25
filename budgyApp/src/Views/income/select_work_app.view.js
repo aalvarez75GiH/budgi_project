@@ -34,36 +34,30 @@ export const SelectWorkAppView = ({ navigation, route }) => {
       logo_path: item.logo_path,
     });
     if (item.app_name !== "Cash") {
+      setRealIncomeForRequest({
+        ...realIncomeForRequest,
+        app_id: item.app_id,
+        app_name: item.app_name,
+        logo_path: item.logo_path,
+      });
       navigation.navigate("Select_week_view", {
         real_income_selected: item,
       });
     }
     if (item.app_name === "Cash") {
+      setRealIncomeForRequest({
+        ...realIncomeForRequest,
+        app_id: item.app_id,
+        app_name: item.app_name,
+        logo_path: item.logo_path,
+        earned_amount: item.collected_money,
+      });
       navigation.navigate("Enter_amount_view", {
         real_income_selected: item,
         comingFrom: "comingFromCash",
       });
     }
   };
-  // const selectingAppForRealIncome = (item) => {
-  //   setRealIncomeForRequest({
-  //     ...realIncomeForRequest,
-  //     app_id: item.app_id,
-  //     app_name: item.app_name,
-  //     logo_path: item.logo_path,
-  //   });
-  //   if (item.app_name !== "Cash") {
-  //     navigation.navigate("Select_week_view", {
-  //       real_income_selected: item,
-  //     });
-  //   }
-  //   if (item.app_name === "Cash") {
-  //     navigation.navigate("Enter_amount_view", {
-  //       real_income_selected: item,
-  //       comingFrom: "comingFromCash",
-  //     });
-  //   }
-  // };
 
   const renderWorkAppItem =
     (navigation) =>

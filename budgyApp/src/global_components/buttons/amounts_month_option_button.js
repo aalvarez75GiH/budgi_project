@@ -20,7 +20,6 @@ export const AmountMonthOptionButton = ({
   borderRadius,
   isDisabled,
   isChosen,
-  //   realIncomes,
   month_name,
 }) => {
   //   console.log("realIncomes AT AMOUNT OPTION BUTTON:", realIncomes);

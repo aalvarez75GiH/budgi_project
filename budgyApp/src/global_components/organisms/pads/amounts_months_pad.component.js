@@ -1,13 +1,8 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 
-import { NumPadContainer } from "./num_pad.styles";
-import { Row } from "./num_pad.styles";
-import { MonthOptionButton } from "../../buttons/month_option_button";
 import { AmountMonthOptionButton } from "../../buttons/amounts_month_option_button";
 import { theme } from "../../../infrastructure/theme";
 import { MonthPadContainer, Month_Row } from "./num_pad.styles";
-import { DateOperationsContext } from "../../../infrastructure/services/date_operations/date_operations.context";
-import { TransactionsContext } from "../../../infrastructure/services/transactions/transactions.context";
 
 export const AmountsMonthsPadComponent = ({
   selectingMonth,

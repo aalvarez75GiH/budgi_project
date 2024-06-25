@@ -15,4 +15,5 @@ export const environment = {
   categoryListEndPoint: `https://us-central1-budgy-bd9b1.cloudfunctions.net/categoryListEndPoint`,
   categoryDataEndPoint: `https://us-central1-budgy-bd9b1.cloudfunctions.net/categoryDataEndPoint`,
   realIncomeEndPoint: `https://us-central1-budgy-bd9b1.cloudfunctions.net/realIncomeEndPoint`,
+  expectedIncomeEndPoint: `https://us-central1-budgy-bd9b1.cloudfunctions.net/expectedIncomeEndPoint`,
 };

@@ -55,7 +55,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   }, []);
 
   return (
-    <GeneralFlexContainer>
+    <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
       <ExitHeaderWithMonthsOptionButtonComponent
         navigation={navigation}
         direction={"column"}
