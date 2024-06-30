@@ -143,7 +143,11 @@ export const TransactionContextProvider = ({ children }) => {
   };
 
   const fixingANumberToTwoDecimals = (number) => {
+    console.log("NUMBER AT FUNCTION:", number);
+    console.log("NUMBER TYPE AT FUNCTION:", typeof number);
+
     const numberFixed = Math.round(number * 100) / 100;
+    console.log("NUMBER FIXED AT FUNCTION:", numberFixed);
     return numberFixed;
   };
 

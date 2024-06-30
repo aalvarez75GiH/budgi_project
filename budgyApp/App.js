@@ -11,6 +11,7 @@ import { CategoryListContextProvider } from "./src/infrastructure/services/categ
 import { DateOperationsContextProvider } from "./src/infrastructure/services/date_operations/date_operations.context";
 import { CategoryDataContextProvider } from "./src/infrastructure/services/category_data/category_data.context";
 import { RealIncomeContextProvider } from "./src/infrastructure/services/real_income/real_income.context";
+import { ExpectedIncomeContextProvider } from "./src/infrastructure/services/expected _income/expected_income.context";
 
 import { Navigation } from "./src/infrastructure/navigation";
 // ***************************************************
@@ -57,7 +58,9 @@ export default function App() {
                 <CategoryListContextProvider>
                   <CategoryDataContextProvider>
                     <RealIncomeContextProvider>
-                      <Navigation />
+                      <ExpectedIncomeContextProvider>
+                        <Navigation />
+                      </ExpectedIncomeContextProvider>
                     </RealIncomeContextProvider>
                   </CategoryDataContextProvider>
                 </CategoryListContextProvider>

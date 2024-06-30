@@ -88,6 +88,11 @@ export const IncomeView = ({ navigation }) => {
               svg_icon_size={40}
               border_top_width={1}
               border_bottom_width={0.5}
+              action={() =>
+                navigation.navigate("Amounts_months_pad_view", {
+                  comingFrom: "addExpectedIncomeTile",
+                })
+              }
             />
 
             <Icon_Label_Icon_Tile
@@ -99,12 +104,11 @@ export const IncomeView = ({ navigation }) => {
               svg_icon_size={35}
               border_top_width={1}
               border_bottom_width={0.5}
-              action={() => navigation.navigate("Amounts_months_pad_view")}
-              //   action={() =>
-              //     navigation.navigate("Amounts_months_pad_view", {
-              //       realIncomes: realIncomes,
-              //     })
-              //   }
+              action={() =>
+                navigation.navigate("Amounts_months_pad_view", {
+                  comingFrom: "appsCashIncomeTile",
+                })
+              }
             />
             <Icon_Label_Icon_Tile
               caption="Income stats"

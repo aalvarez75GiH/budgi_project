@@ -25,7 +25,7 @@ export const EnterAmountView = ({ navigation, route }) => {
     clearingText,
     formatCurrency,
   } = useEnterAmountLogic(comingFrom);
-  console.log("AMOUNT TO SET:", amountToSet);
+  console.log("AMOUNT TO SET AT ENTER AMOUNT VIEW:", amountToSet);
   console.log("COMING FROM AT ENTER AMOUNT VIEW:", comingFrom);
   return (
     <SafeArea background_color={"#FFFFFF"}>

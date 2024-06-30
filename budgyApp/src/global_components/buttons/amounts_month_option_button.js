@@ -9,6 +9,7 @@ import { ControlledContainer } from "../containers/controlled_container";
 
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
+import { ExpectedIncomeContext } from "../../infrastructure/services/expected _income/expected_income.context";
 
 export const AmountMonthOptionButton = ({
   action,
@@ -21,39 +22,50 @@ export const AmountMonthOptionButton = ({
   isDisabled,
   isChosen,
   month_name,
+  comingFrom,
 }) => {
   //   console.log("realIncomes AT AMOUNT OPTION BUTTON:", realIncomes);
   const { gettingAcronym, setMonthSelected, month_selected, month } =
     useContext(DateOperationsContext);
 
   const { gettingRealIncomeForEachButton } = useContext(RealIncomeContext);
+  const { gettingExpectedIncomeForEachButton } = useContext(
+    ExpectedIncomeContext
+  );
   const [realIncomeAmount, setRealIncomeAmount] = useState(0);
+  const [expectedIncomeAmount, setExpectedIncomeAmount] = useState(0);
+  const [amountToRender, setAmountToRender] = useState(0);
 
   useEffect(() => {
-    const gettingRealIncomeByMonth = async () => {
-      const real_income_by_button = await gettingRealIncomeForEachButton(
-        month_name
-      );
-      console.log(
-        "REAL INCOME BY BUTTON:",
-        JSON.stringify(real_income_by_button, null, 2)
-      );
-      setRealIncomeAmount(real_income_by_button.total_amount);
-      // const month_year_by_each_button = gettingAcronym(month_name);
-      // console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
-      // const index = realIncomes.findIndex(
-      //   (real_income) => real_income.month_year === month_year_by_each_button
-      // );
-      // if (index === -1) {
-      //   console.log("NO REAL INCOME FOR THAT MONTH");
-      // } else {
-      //   console.log("INDEX AT BUTTON:", index);
-      //   console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
-      //   setRealIncomeAmount(realIncomes[index].total_amount);
-      // }
+    const gettingAmountByMonth = async () => {
+      if (comingFrom === "appsCashIncomeTile") {
+        const real_income_by_button = await gettingRealIncomeForEachButton(
+          month_name
+        );
+        console.log(
+          "REAL INCOME BY BUTTON:",
+          JSON.stringify(real_income_by_button, null, 2)
+        );
+        // setRealIncomeAmount(real_income_by_button.total_amount);
+        setAmountToRender(real_income_by_button.total_amount);
+      }
+      if (comingFrom === "addExpectedIncomeTile") {
+        const expected_income_by_button =
+          await gettingExpectedIncomeForEachButton(month_name);
+        console.log(
+          "EXPECTED INCOME BY BUTTON:",
+          JSON.stringify(expected_income_by_button, null, 2)
+        );
+        // setExpectedIncomeAmount(4200);
+        setAmountToRender(expected_income_by_button.amount);
+      }
     };
-    gettingRealIncomeByMonth();
+    gettingAmountByMonth();
   }, []);
+  console.log(
+    "EXPECTED INCOME BY BUTTON:",
+    JSON.stringify(amountToRender, null, 2)
+  );
 
   return (
     <OPTButton
@@ -126,7 +138,7 @@ export const AmountMonthOptionButton = ({
             {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",
-            }).format(realIncomeAmount)}
+            }).format(amountToRender)}
             {/* {new Intl.NumberFormat("en-US", {
               style: "currency",
               currency: "USD",

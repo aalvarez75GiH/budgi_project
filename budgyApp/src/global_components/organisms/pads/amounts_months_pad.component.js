@@ -7,6 +7,7 @@ import { MonthPadContainer, Month_Row } from "./num_pad.styles";
 export const AmountsMonthsPadComponent = ({
   selectingMonth,
   isChosen,
+  comingFrom,
   //   realIncomes,
 }) => {
   return (
@@ -27,6 +28,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={false}
             // realIncomes={realIncomes}
             month_name="January"
+            comingFrom={comingFrom}
           />
           <AmountMonthOptionButton
             width={115}
@@ -42,6 +44,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={false}
             // realIncomes={realIncomes}
             month_name="February"
+            comingFrom={comingFrom}
           />
           <AmountMonthOptionButton
             width={115}
@@ -57,6 +60,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={false}
             // realIncomes={realIncomes}
             month_name="March"
+            comingFrom={comingFrom}
           />
         </Month_Row>
         <Month_Row>
@@ -74,6 +78,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={false}
             // realIncomes={realIncomes}
             month_name="April"
+            comingFrom={comingFrom}
           />
           <AmountMonthOptionButton
             width={115}
@@ -89,6 +94,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={false}
             // realIncomes={realIncomes}
             month_name="May"
+            comingFrom={comingFrom}
           />
           <AmountMonthOptionButton
             width={115}
@@ -105,6 +111,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={false}
             // realIncomes={realIncomes}
             month_name="June"
+            comingFrom={comingFrom}
           />
         </Month_Row>
         <Month_Row>
@@ -120,6 +127,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={true}
             // realIncomes={realIncomes}
             month_name="July"
+            comingFrom={comingFrom}
           />
           <AmountMonthOptionButton
             width={115}
@@ -133,6 +141,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={true}
             // realIncomes={realIncomes}
             month_name="August"
+            comingFrom={comingFrom}
           />
           <AmountMonthOptionButton
             width={115}
@@ -146,6 +155,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={true}
             // realIncomes={realIncomes}
             month_name="September"
+            comingFrom={comingFrom}
           />
         </Month_Row>
         <Month_Row>
@@ -161,6 +171,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={true}
             // realIncomes={realIncomes}
             month_name="October"
+            comingFrom={comingFrom}
           />
           <AmountMonthOptionButton
             width={115}
@@ -174,6 +185,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={true}
             // realIncomes={realIncomes}
             month_name="November"
+            comingFrom={comingFrom}
           />
           <AmountMonthOptionButton
             width={115}
@@ -187,6 +199,7 @@ export const AmountsMonthsPadComponent = ({
             isDisabled={true}
             // realIncomes={realIncomes}
             month_name="December"
+            comingFrom={comingFrom}
           />
         </Month_Row>
       </MonthPadContainer>

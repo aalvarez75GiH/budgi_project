@@ -24,18 +24,26 @@ export const getExpectedIncome_By_UserID = async (user_id) => {
 //     });
 // };
 
-// export const registerRealIncomeRequest = async (realIncomeForRequest) => {
-//   console.log("REAL INCOME FOR REQUEST AT SERVICES:", realIncomeForRequest);
-//   const { realIncomeEndPoint } = environment;
-//   return await axios
-//     .put(`${realIncomeEndPoint}/addingWeekIncome`, realIncomeForRequest)
-//     .then((response) => {
-//       return response;
-//     })
-//     .catch((error) => {
-//       return error;
-//     });
-// };
+export const registerExpectedIncomeRequest = async (
+  expectedIncomeForRequest
+) => {
+  console.log(
+    "EXPECTED INCOME FOR REQUEST AT SERVICES:",
+    expectedIncomeForRequest
+  );
+  const { expectedIncomeEndPoint } = environment;
+  return await axios
+    .put(
+      `${expectedIncomeEndPoint}/addExpectedIncomeNode`,
+      expectedIncomeForRequest
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
 // export const registerCashIncomeRequest = async (realIncomeForRequest) => {
 //   console.log("REAL INCOME FOR REQUEST AT SERVICES:", realIncomeForRequest);
 //   const { realIncomeEndPoint } = environment;

@@ -1,8 +1,11 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
 
-export const EXpectedIncomeContext = createContext();
+export const ExpectedIncomeContext = createContext();
 
-import { getExpectedIncome_By_UserID } from "./expected_income.services";
+import {
+  getExpectedIncome_By_UserID,
+  registerExpectedIncomeRequest,
+} from "./expected_income.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 
@@ -14,7 +17,7 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
 
   const [expectedIncome, setExpectedIncome] = useState({});
   //   const [realIncomeByMonth, setRealIncomeByMonth] = useState({});
-  //   const [realIncomes, setRealIncomes] = useState([]);
+  const [expectedIncomes, setExpectedIncomes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   //   const [realIncomeTotalAmount, setRealIncomeTotalAmount] = useState(0);
 
@@ -53,6 +56,7 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
           return;
         } else {
           setExpectedIncome(expected_income.data);
+          setExpectedIncomes(expected_income.data.expected_incomes);
         }
       } catch (error) {
         console.log("HERE IS THE ERROR:", error);
@@ -62,47 +66,61 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
     })();
   }, []);
 
-  console.log("REAL INCOMES AT CONTEXT:", realIncomes);
+  console.log(
+    "EXPECTED INCOME AT CONTEXT:",
+    JSON.stringify(expectedIncome, null, 2)
+  );
+  console.log(
+    "EXPECTED INCOMES AT CONTEXT:",
+    JSON.stringify(expectedIncomes, null, 2)
+  );
 
   const cleaningState = () => {
     setExpectedIncomeForRequest(EXPECTED_INCOME_INITIAL);
   };
 
-  //   const gettingExpectedIncomeForEachButton = (month_name) => {
-  //     const month_year_by_each_button = gettingAcronym(month_name);
-  //     console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
-  //     const index = realIncomes.findIndex(
-  //       (real_income) => real_income.month_year === month_year_by_each_button
-  //     );
-  //     if (index === -1) {
-  //       console.log("NO REAL INCOME FOR THAT MONTH");
-  //     } else {
-  //       console.log("INDEX AT BUTTON:", index);
-  //       console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
-  //       //   setRealIncomeByMonth(realIncomes[index]);
-  //       return realIncomes[index];
-  //     }
-  //   };
+  const gettingExpectedIncomeForEachButton = (month_name) => {
+    const month_year_by_each_button = gettingAcronym(month_name);
+    const index = expectedIncomes.findIndex(
+      (expected_income) =>
+        expected_income.month_year === month_year_by_each_button
+    );
+    if (index === -1) {
+      console.log("NO EXPECTED INCOME FOR THAT MONTH");
+    } else {
+      console.log("INDEX AT BUTTON:", index);
+      console.log("expected AT BUTTON:", expectedIncomes[index].amount);
+      //   setRealIncomeByMonth(realIncomes[index]);
+      return expectedIncomes[index];
+    }
+  };
 
-  //   const registeringExpectedIncomeTransaction = async (
-  //     navigation,
-  //     realIncomeForRequest
-  //   ) => {
-  //     console.log("REAL INCOME FOR REQUEST BEFORE LIVING:", realIncomeForRequest);
-  //     setIsLoading(true);
-  //     setTimeout(async () => {
-  //       try {
-  //         const response = await registerRealIncomeRequest(realIncomeForRequest);
-  //         // console.log("RESPONSE:", JSON.stringify(response, null, 2));
-  //         response ? setIsLoading(false) : setIsLoading(true);
-  //         (await response) ? listenForNewChangesAtDB() : null;
-  //         // console.log("REAL INCOME RESPONSE:", response.data);
-  //         navigation.navigate("income_confirmation_view");
-  //       } catch (error) {
-  //         console.log("THERE WAS AN ERROR:", error);
-  //       }
-  //     }, 3000);
-  //   };
+  const registeringExpectedIncomeTransaction = async (
+    navigation,
+    expectedIncomeForRequest
+  ) => {
+    console.log(
+      "EXPECTED INCOME FOR REQUEST BEFORE SERVICES:",
+      expectedIncomeForRequest
+    );
+    setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        const response = await registerExpectedIncomeRequest(
+          expectedIncomeForRequest
+        );
+        // console.log("RESPONSE:", JSON.stringify(response, null, 2));
+        response ? setIsLoading(false) : setIsLoading(true);
+        // (await response) ? listenForNewChangesAtDB() : null;
+        // console.log("REAL INCOME RESPONSE:", response.data);
+        navigation.navigate("income_confirmation_view", {
+          comingFrom: "addExpectedIncomeTile",
+        });
+      } catch (error) {
+        console.log("THERE WAS AN ERROR:", error);
+      }
+    }, 3000);
+  };
 
   //   const listenForNewChangesAtDB = () => {
   //     const collectionRef = db.collection("real_income");
@@ -154,17 +172,19 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
   //   };
 
   return (
-    <EXpectedIncomeContext.Provider
+    <ExpectedIncomeContext.Provider
       value={{
         expectedIncome,
         isLoading,
-        // gettingExpectedIncomeForEachButton,
+        gettingExpectedIncomeForEachButton,
         expectedIncomeForRequest,
         cleaningState,
-        // registeringExpectedIncomeTransaction,
+        setExpectedIncomeForRequest,
+        expectedIncomeForRequest,
+        registeringExpectedIncomeTransaction,
       }}
     >
       {children}
-    </EXpectedIncomeContext.Provider>
+    </ExpectedIncomeContext.Provider>
   );
 };

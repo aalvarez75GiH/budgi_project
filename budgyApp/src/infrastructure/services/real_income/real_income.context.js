@@ -9,6 +9,7 @@ import {
 } from "./real_income.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
+import { combineTransition } from "react-native-reanimated";
 
 export const RealIncomeContextProvider = ({ children }) => {
   const { user, db } = useContext(AuthenticationContext);
@@ -105,7 +106,9 @@ export const RealIncomeContextProvider = ({ children }) => {
         response ? setIsLoading(false) : setIsLoading(true);
         (await response) ? listenForNewChangesAtDB() : null;
         // console.log("REAL INCOME RESPONSE:", response.data);
-        navigation.navigate("income_confirmation_view");
+        navigation.navigate("income_confirmation_view", {
+          comingFrom: "Select_week_view",
+        });
       } catch (error) {
         console.log("THERE WAS AN ERROR:", error);
       }
