@@ -30,16 +30,6 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
       updated: false,
     },
   };
-  //   {
-  //     "user_id": "5f60ea8c-70e7-43ee-9d26-2a72aaf0972b",
-  //     "month_year": "April 2023",
-  //     "new_expected_income":
-  //       {
-  //         "amount": 3900,
-  //         "month_year": "April 2023",
-  //         "updated": true
-  //       }
-  //   }
 
   const [expectedIncomeForRequest, setExpectedIncomeForRequest] = useState(
     EXPECTED_INCOME_INITIAL
@@ -109,10 +99,8 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
         const response = await registerExpectedIncomeRequest(
           expectedIncomeForRequest
         );
-        // console.log("RESPONSE:", JSON.stringify(response, null, 2));
         response ? setIsLoading(false) : setIsLoading(true);
-        // (await response) ? listenForNewChangesAtDB() : null;
-        // console.log("REAL INCOME RESPONSE:", response.data);
+        (await response) ? listenForNewChangesAtExpectedIncomeDB() : null;
         navigation.navigate("income_confirmation_view", {
           comingFrom: "addExpectedIncomeTile",
         });
@@ -122,54 +110,68 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
     }, 3000);
   };
 
-  //   const listenForNewChangesAtDB = () => {
-  //     const collectionRef = db.collection("real_income");
-  //     collectionRef.onSnapshot(async (snapshot) => {
-  //       let hasNewData = false;
+  const listenForNewChangesAtExpectedIncomeDB = () => {
+    const collectionRef = db.collection("expected_income");
+    collectionRef.onSnapshot(async (snapshot) => {
+      let hasNewData = false;
 
-  //       snapshot.docChanges().forEach((change) => {
-  //         if (change.type === "added") {
-  //           const newData = change.doc.data();
-  //           // console.log("NEW TRANSACTION IS:", newData);
-  //           if (newData) {
-  //             hasNewData = true;
-  //           }
-  //         }
-  //       });
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          const newData = change.doc.data();
+          // console.log("NEW TRANSACTION IS:", newData);
+          if (newData) {
+            hasNewData = true;
+          }
+        }
+      });
 
-  //       if (hasNewData) {
-  //         try {
-  //           const real_income = await getRealIncome_By_UserID_MonthYearRequest(
-  //             user_id,
-  //             month_year
-  //           );
-  //           if (real_income.status === 404) {
-  //             console.log("REAL INCOME STATUS 404");
-  //             setRealIncomeTotalAmount(0);
-  //             setRealIncome({});
-  //             return;
-  //           } else {
-  //             const { total_amount } = real_income.data;
-  //             setRealIncomeTotalAmount(total_amount);
-  //             setRealIncome(real_income.data);
-  //           }
-
-  //           const real_incomes = await getRealIncomes_By_UserIDRequest(user_id);
-  //           if (real_incomes.status === 404) {
-  //             console.log("REAL INCOMES STATUS 404");
-  //             setRealIncomes([]);
-  //             return;
-  //           } else {
-  //             setRealIncomes(real_incomes.data);
-  //           }
-  //         } catch (error) {
-  //           console.log("HERE IS THE ERROR:", error);
-  //         } finally {
-  //           setIsLoading(false);
-  //         }
-  //       }
-  //     });
-  //   };
+      if (hasNewData) {
+        //   try {
+        //     const real_income = await getRealIncome_By_UserID_MonthYearRequest(
+        //       user_id,
+        //       month_year
+        //     );
+        //     if (real_income.status === 404) {
+        //       console.log("REAL INCOME STATUS 404");
+        //       setRealIncomeTotalAmount(0);
+        //       setRealIncome({});
+        //       return;
+        //     } else {
+        //       const { total_amount } = real_income.data;
+        //       setRealIncomeTotalAmount(total_amount);
+        //       setRealIncome(real_income.data);
+        //     }
+        //     const real_incomes = await getRealIncomes_By_UserIDRequest(user_id);
+        //     if (real_incomes.status === 404) {
+        //       console.log("REAL INCOMES STATUS 404");
+        //       setRealIncomes([]);
+        //       return;
+        //     } else {
+        //       setRealIncomes(real_incomes.data);
+        //     }
+        //   } catch (error) {
+        //     console.log("HERE IS THE ERROR:", error);
+        //   } finally {
+        //     setIsLoading(false);
+        //   }
+      }
+      try {
+        const expected_income = await getExpectedIncome_By_UserID(user_id);
+        if (expected_income.status === 404) {
+          console.log("REAL INCOME STATUS 404");
+          setExpectedIncome({});
+          return;
+        } else {
+          setExpectedIncome(expected_income.data);
+          setExpectedIncomes(expected_income.data.expected_incomes);
+        }
+      } catch (error) {
+        console.log("HERE IS THE ERROR:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    });
+  };
 
   return (
     <ExpectedIncomeContext.Provider

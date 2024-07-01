@@ -157,10 +157,6 @@ export const IncomeDetailsView = ({ navigation, route }) => {
               height={50}
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
-              //   action={() => postingTransactionProcess(navigation)}
-              // action={() =>
-              //   registeringRealIncomeTransaction(navigation, realIncomeForRequest)
-              // }
               action={() =>
                 comingFrom !== "comingFromCash"
                   ? registeringRealIncomeTransaction(
@@ -222,7 +218,6 @@ export const IncomeDetailsView = ({ navigation, route }) => {
             color={theme.colors.bg.e_F4F4F4}
             // color={"lightblue"}
             direction="column"
-            // flexibility={description ? 0.46 : 0.53}
             flexibility={0.4}
             justify={"center"}
             isBordered={false}
@@ -290,10 +285,6 @@ export const IncomeDetailsView = ({ navigation, route }) => {
               height={50}
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
-              //   action={() => postingTransactionProcess(navigation)}
-              // action={() =>
-              //   registeringRealIncomeTransaction(navigation, realIncomeForRequest)
-              // }
               action={() =>
                 comingFrom !== "comingFromCash"
                   ? registeringRealIncomeTransaction(
@@ -355,7 +346,6 @@ export const IncomeDetailsView = ({ navigation, route }) => {
             color={theme.colors.bg.e_F4F4F4}
             // color={"lightblue"}
             direction="column"
-            // flexibility={description ? 0.46 : 0.53}
             flexibility={0.3}
             justify={"center"}
             isBordered={false}
@@ -375,21 +365,7 @@ export const IncomeDetailsView = ({ navigation, route }) => {
               icon_width={0}
               icon_height={0}
             />
-            {/* <InfoDetailsTile
-            caption={"Amount:"}
-            //   caption2={`$${stringedAmount}`}
-            caption2={`$${earned_amount}`}
-            navigation={navigation}
-            icon_name={"EditIcon"}
-            active_icon={true}
-            action={() => {
-              navigation.navigate("Enter_amount_view", {
-                comingFrom: "income_details_view",
-              });
-            }}
-            icon_width={0}
-            icon_height={0}
-          /> */}
+
             <InfoDetailsTile
               caption={"Desc:"}
               caption2="Expected income"
@@ -410,28 +386,6 @@ export const IncomeDetailsView = ({ navigation, route }) => {
               icon_height={0}
               action={() => null}
             />
-            {/* <InfoDetailsTile
-            caption={"For:"}
-            // caption2={"JUN 2024 - Week 3"}
-            caption2={`${month_year} - ${week_name}`}
-            navigation={navigation}
-            icon_name={"CalendarIcon"}
-            active_icon={true}
-            icon_width={0}
-            icon_height={0}
-            action={() => null}
-          /> */}
-            {/* <InfoDetailsTile
-            caption={"App:"}
-            // caption2={"Uber"}
-            caption2={app_name}
-            navigation={navigation}
-            icon_name={logo_path}
-            active_icon={false}
-            icon_width={25}
-            icon_height={25}
-            action={() => null}
-          /> */}
           </FlexibleContainer>
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
@@ -459,30 +413,6 @@ export const IncomeDetailsView = ({ navigation, route }) => {
               text_variant="bold_text_20"
               isLoading={isLoadingForExpectedIncome}
             />
-            {/* <RegularCTAButton
-            caption="Register"
-            width={310}
-            height={50}
-            color={theme.colors.buttons.p_FC9827}
-            borderRadius={50}
-            //   action={() => postingTransactionProcess(navigation)}
-            // action={() =>
-            //   registeringRealIncomeTransaction(navigation, realIncomeForRequest)
-            // }
-            action={() =>
-              comingFrom !== "comingFromCash"
-                ? registeringRealIncomeTransaction(
-                    navigation,
-                    realIncomeForRequest
-                  )
-                : registeringCashIncomeTransaction(
-                    navigation,
-                    realIncomeForRequest
-                  )
-            }
-            text_variant="bold_text_20"
-            isLoading={isLoading}
-          /> */}
           </FlexibleContainer>
         </GeneralFlexContainer>
       </SafeArea>
