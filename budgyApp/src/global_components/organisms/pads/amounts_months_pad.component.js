@@ -8,6 +8,7 @@ export const AmountsMonthsPadComponent = ({
   selectingMonth,
   isChosen,
   comingFrom,
+  confirmingIfMonthIsEnabled,
   //   realIncomes,
 }) => {
   return (
@@ -24,8 +25,14 @@ export const AmountsMonthsPadComponent = ({
             isChosen={
               isChosen.month_selected === "January" ? isChosen.isActive : false
             }
-            action={() => selectingMonth("January")}
-            isDisabled={false}
+            // action={() => selectingMonth("January")}
+            action={
+              !confirmingIfMonthIsEnabled("January")
+                ? null
+                : () => selectingMonth("January")
+            }
+            // isDisabled={false}
+            isDisabled={!confirmingIfMonthIsEnabled("January")}
             // realIncomes={realIncomes}
             month_name="January"
             comingFrom={comingFrom}
@@ -40,8 +47,14 @@ export const AmountsMonthsPadComponent = ({
             isChosen={
               isChosen.month_selected === "February" ? isChosen.isActive : false
             }
-            action={() => selectingMonth("February")}
-            isDisabled={false}
+            // action={() => selectingMonth("February")}
+            action={
+              !confirmingIfMonthIsEnabled("February")
+                ? null
+                : () => selectingMonth("February")
+            }
+            // isDisabled={false}
+            isDisabled={!confirmingIfMonthIsEnabled("February")}
             // realIncomes={realIncomes}
             month_name="February"
             comingFrom={comingFrom}
@@ -56,8 +69,14 @@ export const AmountsMonthsPadComponent = ({
             isChosen={
               isChosen.month_selected === "March" ? isChosen.isActive : false
             }
-            action={() => selectingMonth("March")}
-            isDisabled={false}
+            // action={() => selectingMonth("March")}
+            action={
+              !confirmingIfMonthIsEnabled("March")
+                ? null
+                : () => selectingMonth("March")
+            }
+            // isDisabled={false}
+            isDisabled={!confirmingIfMonthIsEnabled("March")}
             // realIncomes={realIncomes}
             month_name="March"
             comingFrom={comingFrom}
@@ -74,8 +93,14 @@ export const AmountsMonthsPadComponent = ({
             isChosen={
               isChosen.month_selected === "April" ? isChosen.isActive : false
             }
-            action={() => selectingMonth("April")}
-            isDisabled={false}
+            // action={() => selectingMonth("April")}
+            action={
+              !confirmingIfMonthIsEnabled("April")
+                ? null
+                : () => selectingMonth("April")
+            }
+            // isDisabled={false}
+            isDisabled={!confirmingIfMonthIsEnabled("April")}
             // realIncomes={realIncomes}
             month_name="April"
             comingFrom={comingFrom}
@@ -90,8 +115,14 @@ export const AmountsMonthsPadComponent = ({
             isChosen={
               isChosen.month_selected === "May" ? isChosen.isActive : false
             }
-            action={() => selectingMonth("May")}
-            isDisabled={false}
+            // action={() => selectingMonth("May")}
+            action={
+              !confirmingIfMonthIsEnabled("May")
+                ? null
+                : () => selectingMonth("May")
+            }
+            // isDisabled={false}
+            isDisabled={!confirmingIfMonthIsEnabled("May")}
             // realIncomes={realIncomes}
             month_name="May"
             comingFrom={comingFrom}
@@ -107,8 +138,14 @@ export const AmountsMonthsPadComponent = ({
               isChosen.month_selected === "June" ? isChosen.isActive : false
             }
             isActive={false}
-            action={() => selectingMonth("June")}
-            isDisabled={false}
+            // action={() => selectingMonth("June")}
+            action={
+              !confirmingIfMonthIsEnabled("June")
+                ? null
+                : () => selectingMonth("June")
+            }
+            // isDisabled={false}
+            isDisabled={!confirmingIfMonthIsEnabled("June")}
             // realIncomes={realIncomes}
             month_name="June"
             comingFrom={comingFrom}
@@ -122,9 +159,18 @@ export const AmountsMonthsPadComponent = ({
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
+            isChosen={
+              isChosen.month_selected === "July" ? isChosen.isActive : false
+            }
             isActive={false}
-            action={() => selectingMonth("July")}
-            isDisabled={true}
+            // action={() => selectingMonth("July")}
+            action={
+              !confirmingIfMonthIsEnabled("July")
+                ? null
+                : () => selectingMonth("July")
+            }
+            // isDisabled={true}
+            isDisabled={!confirmingIfMonthIsEnabled("July")}
             // realIncomes={realIncomes}
             month_name="July"
             comingFrom={comingFrom}
@@ -137,8 +183,14 @@ export const AmountsMonthsPadComponent = ({
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => selectingMonth("August")}
-            isDisabled={true}
+            // action={() => selectingMonth("August")}
+            action={
+              !confirmingIfMonthIsEnabled("August")
+                ? null
+                : () => selectingMonth("August")
+            }
+            // isDisabled={true}
+            isDisabled={!confirmingIfMonthIsEnabled("August")}
             // realIncomes={realIncomes}
             month_name="August"
             comingFrom={comingFrom}
@@ -151,8 +203,14 @@ export const AmountsMonthsPadComponent = ({
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => selectingMonth("September")}
-            isDisabled={true}
+            // action={() => selectingMonth("September")}
+            action={
+              !confirmingIfMonthIsEnabled("September")
+                ? null
+                : () => selectingMonth("September")
+            }
+            // isDisabled={true}
+            isDisabled={!confirmingIfMonthIsEnabled("September")}
             // realIncomes={realIncomes}
             month_name="September"
             comingFrom={comingFrom}
@@ -167,8 +225,14 @@ export const AmountsMonthsPadComponent = ({
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => selectingMonth("October")}
-            isDisabled={true}
+            // action={() => selectingMonth("October")}
+            action={
+              !confirmingIfMonthIsEnabled("October")
+                ? null
+                : () => selectingMonth("October")
+            }
+            // isDisabled={true}
+            isDisabled={!confirmingIfMonthIsEnabled("October")}
             // realIncomes={realIncomes}
             month_name="October"
             comingFrom={comingFrom}
@@ -181,8 +245,14 @@ export const AmountsMonthsPadComponent = ({
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => selectingMonth("November")}
-            isDisabled={true}
+            // action={() => selectingMonth("November")}
+            action={
+              !confirmingIfMonthIsEnabled("November")
+                ? null
+                : () => selectingMonth("November")
+            }
+            // isDisabled={true}
+            isDisabled={!confirmingIfMonthIsEnabled("November")}
             // realIncomes={realIncomes}
             month_name="November"
             comingFrom={comingFrom}
@@ -195,8 +265,14 @@ export const AmountsMonthsPadComponent = ({
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
             isActive={false}
-            action={() => selectingMonth("December")}
-            isDisabled={true}
+            // action={() => selectingMonth("December")}
+            action={
+              !confirmingIfMonthIsEnabled("December")
+                ? null
+                : () => selectingMonth("December")
+            }
+            // isDisabled={true}
+            isDisabled={!confirmingIfMonthIsEnabled("December")}
             // realIncomes={realIncomes}
             month_name="December"
             comingFrom={comingFrom}

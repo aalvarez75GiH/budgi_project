@@ -56,15 +56,6 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
     })();
   }, []);
 
-  console.log(
-    "EXPECTED INCOME AT CONTEXT:",
-    JSON.stringify(expectedIncome, null, 2)
-  );
-  console.log(
-    "EXPECTED INCOMES AT CONTEXT:",
-    JSON.stringify(expectedIncomes, null, 2)
-  );
-
   const cleaningState = () => {
     setExpectedIncomeForRequest(EXPECTED_INCOME_INITIAL);
   };
@@ -77,10 +68,10 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
     );
     if (index === -1) {
       console.log("NO EXPECTED INCOME FOR THAT MONTH");
+      return -1;
     } else {
       console.log("INDEX AT BUTTON:", index);
       console.log("expected AT BUTTON:", expectedIncomes[index].amount);
-      //   setRealIncomeByMonth(realIncomes[index]);
       return expectedIncomes[index];
     }
   };
@@ -126,34 +117,6 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
       });
 
       if (hasNewData) {
-        //   try {
-        //     const real_income = await getRealIncome_By_UserID_MonthYearRequest(
-        //       user_id,
-        //       month_year
-        //     );
-        //     if (real_income.status === 404) {
-        //       console.log("REAL INCOME STATUS 404");
-        //       setRealIncomeTotalAmount(0);
-        //       setRealIncome({});
-        //       return;
-        //     } else {
-        //       const { total_amount } = real_income.data;
-        //       setRealIncomeTotalAmount(total_amount);
-        //       setRealIncome(real_income.data);
-        //     }
-        //     const real_incomes = await getRealIncomes_By_UserIDRequest(user_id);
-        //     if (real_incomes.status === 404) {
-        //       console.log("REAL INCOMES STATUS 404");
-        //       setRealIncomes([]);
-        //       return;
-        //     } else {
-        //       setRealIncomes(real_incomes.data);
-        //     }
-        //   } catch (error) {
-        //     console.log("HERE IS THE ERROR:", error);
-        //   } finally {
-        //     setIsLoading(false);
-        //   }
       }
       try {
         const expected_income = await getExpectedIncome_By_UserID(user_id);

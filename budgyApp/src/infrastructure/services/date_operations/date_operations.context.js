@@ -170,6 +170,16 @@ export const DateOperationsContextProvider = ({ children }) => {
     };
   };
 
+  // ************************************************************************************
+  // Step 2: Get the current month (0-11, where January is 0 and December is 11)
+  const currentMonthIndex = new Date().getMonth();
+
+  // Step 3: Slice the array to get months up to the current month
+  const monthsUntilNow = months.slice(0, currentMonthIndex + 1);
+
+  console.log("MONTHS UNTIL NOW:", monthsUntilNow);
+  // ************************************************************************************
+
   return (
     <DateOperationsContext.Provider
       value={{
@@ -183,6 +193,7 @@ export const DateOperationsContextProvider = ({ children }) => {
         month_selected,
         setMonthSelected,
         settingMonthYearForRequest,
+        monthsUntilNow,
       }}
     >
       {children}

@@ -21,8 +21,13 @@ export const MonthsPadView = ({ navigation, route }) => {
     setRealIncomeTotalAmountOnDemand,
   } = route.params;
 
-  const { selectingMonth, isChosen, cta_action, isLoading } =
-    useMonthPadLogic();
+  const {
+    selectingMonth,
+    isChosen,
+    cta_action,
+    isLoading,
+    confirmingIfMonthIsEnabled,
+  } = useMonthPadLogic();
 
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
@@ -60,8 +65,8 @@ export const MonthsPadView = ({ navigation, route }) => {
             selectingMonth={(month) =>
               selectingMonth(month, set_month_year_toRender)
             }
-            //isActive={isActive}
             isChosen={isChosen}
+            confirmingIfMonthIsEnabled={confirmingIfMonthIsEnabled}
           />
         </FlexibleContainer>
         <FlexibleContainer

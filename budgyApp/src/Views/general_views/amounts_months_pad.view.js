@@ -8,17 +8,21 @@ import { BackHeaderWithLabelComponent } from "../../global_components/organisms/
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { AmountsMonthsPadComponent } from "../../global_components/organisms/pads/amounts_months_pad.component";
+import { useMonthPadLogic } from "../../hooks/useMonthPadLogic";
 
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
 import { ExpectedIncomeContext } from "../../infrastructure/services/expected _income/expected_income.context";
+import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const AmountsMonthsPadView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
   console.log("COMING FROM AT AMOUNT MONTHS PAD VIEW:", comingFrom);
-  const { gettingRealIncomeForEachButton } = useContext(RealIncomeContext);
+  const { gettingRealIncomeForEachButton, REAL_INCOME_FULL_STRUCTURE } =
+    useContext(RealIncomeContext);
 
-  const { month_selected, setMonthSelected } = useContext(
+  const { confirmingIfMonthIsEnabled } = useMonthPadLogic();
+  const { month_selected, setMonthSelected, month_year } = useContext(
     DateOperationsContext
   );
 
@@ -27,6 +31,9 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
     setExpectedIncomeForRequest,
     expectedIncomeForRequest,
   } = useContext(ExpectedIncomeContext);
+
+  const { user, db } = useContext(AuthenticationContext);
+  const { user_id } = user;
 
   const [isChosen, setIsChosen] = useState({
     month_selected: month_selected,
@@ -40,30 +47,62 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
       setMonthSelected(month);
       const real_income_on_demand = gettingRealIncomeForEachButton(month);
       console.log("REAL INCOME ON DEMAND:", real_income_on_demand);
-      setRealIncomeOnDemand(real_income_on_demand);
-      navigation.navigate("Select_work_app_view", {
-        realIncomeOnDemand: real_income_on_demand,
-      });
+      if (real_income_on_demand === -1) {
+        setRealIncomeOnDemand(REAL_INCOME_FULL_STRUCTURE);
+        navigation.navigate("Select_work_app_view", {
+          realIncomeOnDemand: REAL_INCOME_FULL_STRUCTURE,
+        });
+      }
+      if (real_income_on_demand !== -1) {
+        setRealIncomeOnDemand(real_income_on_demand);
+        navigation.navigate("Select_work_app_view", {
+          realIncomeOnDemand: real_income_on_demand,
+        });
+      }
+      // setRealIncomeOnDemand(real_income_on_demand);
     }
     if (comingFrom === "addExpectedIncomeTile") {
       setIsChosen({ month_selected: month, isActive: true });
       setMonthSelected(month);
       const expected_income_on_demand =
         gettingExpectedIncomeForEachButton(month);
-      console.log("EXPECTED INCOME ON DEMAND:", expected_income_on_demand);
-      setExpectedIncomeForRequest({
-        ...expectedIncomeForRequest,
-        month_year: expected_income_on_demand.month_year,
-        new_expected_income: {
-          amount: expected_income_on_demand.amount,
+      if (expected_income_on_demand !== -1) {
+        console.log("EXPECTED INCOME ON DEMAND:", expected_income_on_demand);
+        setExpectedIncomeForRequest({
+          ...expectedIncomeForRequest,
           month_year: expected_income_on_demand.month_year,
-          updated: true,
-        },
-      });
-      navigation.navigate("Enter_amount_view", {
-        expectedIncomeOnDemand: expected_income_on_demand,
-        comingFrom: "addExpectedIncomeTile",
-      });
+          new_expected_income: {
+            amount: expected_income_on_demand.amount,
+            month_year: expected_income_on_demand.month_year,
+            updated: true,
+          },
+        });
+        navigation.navigate("Enter_amount_view", {
+          // expectedIncomeOnDemand: expected_income_on_demand,
+          comingFrom: "addExpectedIncomeTile",
+        });
+      }
+      if (expected_income_on_demand === -1) {
+        console.log("EXPECTED INCOME ON DEMAND:", expected_income_on_demand);
+        setExpectedIncomeForRequest({
+          ...expectedIncomeForRequest,
+          user_id: user_id,
+          month_year: month_year,
+          new_expected_income: {
+            amount: 0,
+            month_year: month_year,
+            updated: true,
+          },
+        });
+        navigation.navigate("Enter_amount_view", {
+          // expectedIncomeOnDemand: expected_income_on_demand,
+          comingFrom: "addExpectedIncomeTile",
+        });
+        // navigation.navigate("Enter_amount_view", {
+        //   // expectedIncomeOnDemand: expected_income_on_demand,
+        //   comingFrom: "addExpectedIncomeTile",
+        // });
+      }
     }
   };
 
@@ -105,6 +144,7 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
             selectingMonth={(month) => selectingMonth(month)}
             isChosen={isChosen}
             comingFrom={comingFrom}
+            confirmingIfMonthIsEnabled={confirmingIfMonthIsEnabled}
             // realIncomes={realIncomes}
           />
         </FlexibleContainer>

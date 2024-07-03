@@ -9,6 +9,7 @@ export const useMonthPadLogic = () => {
     month_selected,
     settingMonthYearForRequest,
     month_year,
+    monthsUntilNow,
   } = useContext(DateOperationsContext);
 
   const {
@@ -30,6 +31,14 @@ export const useMonthPadLogic = () => {
     setMonthYearOnDemand(month_year_for_request);
     set_month_year_toRender(month_year_for_request);
   };
+
+  // *********************************************************************
+
+  const confirmingIfMonthIsEnabled = (month) => {
+    return monthsUntilNow.includes(month);
+  };
+
+  // *********************************************************************
 
   const cta_action = async (
     navigation,
@@ -69,5 +78,6 @@ export const useMonthPadLogic = () => {
     settingMonthYearForRequest,
     month_selected,
     month_year_onDemand,
+    confirmingIfMonthIsEnabled,
   };
 };

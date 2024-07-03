@@ -33,6 +33,138 @@ export const RealIncomeContextProvider = ({ children }) => {
     logo_path: "",
   };
 
+  const REAL_INCOME_FULL_STRUCTURE = {
+    creation_date: new Date(),
+    month_year: month_year,
+    total_amount: 0,
+    user_id: user_id,
+    work_apps: [
+      {
+        app_id: "9368eeac-4ee7-44cd-9a07-4bbc7d3a885d",
+        app_name: "Uber",
+        collected_money: 0,
+        icon_color: "#14223C",
+        logo_path: "UberIcon",
+        weeks: [
+          {
+            earned_amount: 0,
+            week_name: "Week 1",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 2",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 3",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 4",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 5",
+          },
+        ],
+      },
+      {
+        app_id: "9b29d597-0129-48c7-aba1-5b4a668a4ece",
+        app_name: "Grubhub",
+        collected_money: 0,
+        icon_color: "#14223C",
+        logo_path: "GrubHubIcon",
+        weeks: [
+          {
+            earned_amount: 0,
+            week_name: "Week 1",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 2",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 3",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 4",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 5",
+          },
+        ],
+      },
+      {
+        app_id: "b5555073-5f59-4002-887f-642f4cc57539",
+        app_name: "Lyft",
+        collected_money: 0,
+        icon_color: "#F700B9",
+        logo_path: "LyftIcon",
+        weeks: [
+          {
+            earned_amount: 0,
+            week_name: "Week 1",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 2",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 3",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 4",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 5",
+          },
+        ],
+      },
+      {
+        app_id: "baeca3dd-05de-4ab3-bd0e-0eba7b650534",
+        app_name: "Cash",
+        collected_money: 0,
+        icon_color: "#14223C",
+        logo_path: "SpendingIcon",
+      },
+      {
+        app_id: "c90e8ff0-7cc2-4808-8647-4d7f1a6f7043",
+        app_name: "Doordash",
+        collected_money: 0,
+        icon_color: "#FA462D",
+        logo_path: "DoordashIcon",
+        weeks: [
+          {
+            earned_amount: 0,
+            week_name: "Week 1",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 2",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 3",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 4",
+          },
+          {
+            earned_amount: 0,
+            week_name: "Week 5",
+          },
+        ],
+      },
+    ],
+  };
+
   const [realIncomeForRequest, setRealIncomeForRequest] =
     useState(REAL_INCOME_INITIAL);
 
@@ -48,8 +180,9 @@ export const RealIncomeContextProvider = ({ children }) => {
           console.log("REAL INCOME STATUS 404");
           setRealIncomeTotalAmount(0);
           setRealIncome({});
-          return;
-        } else {
+          // return;
+        }
+        if (real_income.status === 200) {
           const { total_amount } = real_income.data;
           setRealIncomeTotalAmount(total_amount);
           setRealIncome(real_income.data);
@@ -85,6 +218,7 @@ export const RealIncomeContextProvider = ({ children }) => {
     );
     if (index === -1) {
       console.log("NO REAL INCOME FOR THAT MONTH");
+      return -1;
     } else {
       console.log("INDEX AT BUTTON:", index);
       console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
@@ -92,6 +226,21 @@ export const RealIncomeContextProvider = ({ children }) => {
       return realIncomes[index];
     }
   };
+  // const gettingRealIncomeForEachButton = (month_name) => {
+  //   const month_year_by_each_button = gettingAcronym(month_name);
+  //   console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
+  //   const index = realIncomes.findIndex(
+  //     (real_income) => real_income.month_year === month_year_by_each_button
+  //   );
+  //   if (index === -1) {
+  //     console.log("NO REAL INCOME FOR THAT MONTH");
+  //   } else {
+  //     console.log("INDEX AT BUTTON:", index);
+  //     console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
+  //     //   setRealIncomeByMonth(realIncomes[index]);
+  //     return realIncomes[index];
+  //   }
+  // };
 
   const registeringRealIncomeTransaction = async (
     navigation,
@@ -197,6 +346,7 @@ export const RealIncomeContextProvider = ({ children }) => {
         cleaningState,
         registeringRealIncomeTransaction,
         registeringCashIncomeTransaction,
+        REAL_INCOME_FULL_STRUCTURE,
       }}
     >
       {children}

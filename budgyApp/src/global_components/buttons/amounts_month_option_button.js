@@ -46,18 +46,22 @@ export const AmountMonthOptionButton = ({
           "REAL INCOME BY BUTTON:",
           JSON.stringify(real_income_by_button, null, 2)
         );
-        // setRealIncomeAmount(real_income_by_button.total_amount);
-        setAmountToRender(real_income_by_button.total_amount);
+        if (real_income_by_button === -1) {
+          setAmountToRender(0);
+        }
+        if (real_income_by_button !== -1) {
+          setAmountToRender(real_income_by_button.total_amount);
+        }
       }
       if (comingFrom === "addExpectedIncomeTile") {
         const expected_income_by_button =
           await gettingExpectedIncomeForEachButton(month_name);
-        console.log(
-          "EXPECTED INCOME BY BUTTON:",
-          JSON.stringify(expected_income_by_button, null, 2)
-        );
-        // setExpectedIncomeAmount(4200);
-        setAmountToRender(expected_income_by_button.amount);
+        if (expected_income_by_button === -1) {
+          setAmountToRender(0);
+        }
+        if (expected_income_by_button !== -1) {
+          setAmountToRender(expected_income_by_button.amount);
+        }
       }
     };
     gettingAmountByMonth();
