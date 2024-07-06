@@ -258,6 +258,7 @@ export const MyTransactionsView = ({ navigation }) => {
               color="#F9F9FA"
               justify={"center"}
               alignment={"center"}
+              comingFrom="MyTransactionsView"
             />
           </FlexibleContainer>
         </>

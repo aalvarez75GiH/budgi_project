@@ -20,7 +20,8 @@ export const useHowYourMonthGoesLogic = () => {
 
   //   ***** DATA FROM CATEGORY DATA CONTEXT
   const { categoryData } = useContext(CategoryDataContext);
-  const { total_amount_budgeted } = categoryData;
+  console.log("CATEGORY DATA AT HOOK:", categoryData);
+  // const { total_amount_budgeted } = categoryData;
 
   //   ***** DATA FROM DATE OPERATIONS CONTEXT
   const { month_year, setMonthSelected, month_name } = useContext(
@@ -40,7 +41,9 @@ export const useHowYourMonthGoesLogic = () => {
         : total_amount
     );
   const [totalAmountBudgeted, setTotalAmountBudgeted] = useState(
-    totalAmountBudgeted ? totalAmountBudgeted : total_amount_budgeted
+    totalAmountBudgeted
+      ? totalAmountBudgeted
+      : categoryData.total_amount_budgeted
   );
   const [realIncomeTotalAmountOnDemand, setRealIncomeTotalAmountOnDemand] =
     useState(

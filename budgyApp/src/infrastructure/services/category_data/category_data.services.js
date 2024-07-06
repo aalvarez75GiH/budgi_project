@@ -14,6 +14,10 @@ export const getCategoryData_By_UserID_MonthYearRequest = async (
       return response;
     })
     .catch((error) => {
-      return error;
+      console.log(
+        "CATEGORY DATA ERROR STATUS AT SERVICES:",
+        error.response.status
+      );
+      return error.response.status;
     });
 };

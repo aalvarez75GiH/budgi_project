@@ -204,8 +204,6 @@ export const RealIncomeContextProvider = ({ children }) => {
     })();
   }, []);
 
-  console.log("REAL INCOMES AT CONTEXT:", realIncomes);
-
   const cleaningState = () => {
     setRealIncomeForRequest(REAL_INCOME_INITIAL);
   };
@@ -226,27 +224,11 @@ export const RealIncomeContextProvider = ({ children }) => {
       return realIncomes[index];
     }
   };
-  // const gettingRealIncomeForEachButton = (month_name) => {
-  //   const month_year_by_each_button = gettingAcronym(month_name);
-  //   console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
-  //   const index = realIncomes.findIndex(
-  //     (real_income) => real_income.month_year === month_year_by_each_button
-  //   );
-  //   if (index === -1) {
-  //     console.log("NO REAL INCOME FOR THAT MONTH");
-  //   } else {
-  //     console.log("INDEX AT BUTTON:", index);
-  //     console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
-  //     //   setRealIncomeByMonth(realIncomes[index]);
-  //     return realIncomes[index];
-  //   }
-  // };
 
   const registeringRealIncomeTransaction = async (
     navigation,
     realIncomeForRequest
   ) => {
-    console.log("REAL INCOME FOR REQUEST BEFORE LIVING:", realIncomeForRequest);
     setIsLoading(true);
     setTimeout(async () => {
       try {
@@ -267,7 +249,6 @@ export const RealIncomeContextProvider = ({ children }) => {
     navigation,
     realIncomeForRequest
   ) => {
-    console.log("REAL INCOME FOR REQUEST BEFORE LIVING:", realIncomeForRequest);
     setIsLoading(true);
     setTimeout(async () => {
       try {

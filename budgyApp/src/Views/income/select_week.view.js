@@ -9,8 +9,14 @@ import { BackHeaderWithLabelComponent } from "../../global_components/organisms/
 import { IncomeWeekTile } from "../../global_components/organisms/tiles/income_week_tile";
 
 import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
+import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
+
 export const SelectWeekView = ({ navigation, route }) => {
   const { real_income_selected } = route.params;
+  console.log(
+    "REAL INCOME SELECTED AT SELECT WEEK VIEW:",
+    real_income_selected
+  );
   const { weeks } = real_income_selected;
 
   console.log("WEEKS:", JSON.stringify(weeks, null, 2));
@@ -23,13 +29,9 @@ export const SelectWeekView = ({ navigation, route }) => {
     "REAL INCOME FOR REQUEST AT SELECT WEEK VIEW:",
     realIncomeForRequest
   );
-  //   const { realIncomeOnDemand } = route.params;
-  //   const { work_apps, total_amount } = realIncomeOnDemand;
-  //   console.log(
-  //     "REAL INCOME ON DEMAND AT REAL INCOME DETAILS:",
-  //     realIncomeOnDemand
-  //   );
-  //   console.log("REAL INCOME WORK APPS AT SELECT WORK APPS VIEW:", work_apps);
+
+  const { month_selected } = useContext(DateOperationsContext);
+  console.log(" MONTH SELECTED AT SELECT WEEK:", month_selected);
 
   const goingBack = (navigation) => {
     navigation.goBack();
@@ -42,6 +44,7 @@ export const SelectWeekView = ({ navigation, route }) => {
       ...realIncomeForRequest,
       week_name: item.week_name,
       earned_amount: item.earned_amount !== 0 ? item.earned_amount : 0,
+      // month_year: month_selected,
     });
     console.log("REAL INCOME FOR REQUEST AT SELECTING:", realIncomeForRequest);
     navigation.navigate("Enter_amount_view", {

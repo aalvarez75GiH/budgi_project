@@ -3,12 +3,15 @@ import React, { useEffect } from "react";
 import { Platform } from "react-native";
 
 import { ExitHeaderWithMonthsOptionButtonComponent } from "../../global_components/organisms/headers/exit+month_option_button.header";
+import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { theme } from "../../infrastructure/theme";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { CircularChartComponent } from "../../global_components/organisms/bar charts diagrams/circular_chart.component";
 import { CenteredTextTileWithIcon } from "../../global_components/organisms/tiles/centered_text_with_icon_tile";
 import { useHowYourMonthGoesLogic } from "../../hooks/useHowYourMonthGoesLogic";
+import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
+import { SafeArea } from "../../global_components/safe-area.component";
 
 export const HowMonthIsGoingView = ({ navigation }) => {
   //   *****************************************************************************************************
@@ -54,6 +57,32 @@ export const HowMonthIsGoingView = ({ navigation }) => {
     };
   }, []);
 
+  if (totalAmountBudgeted === 0) {
+    return (
+      <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
+        <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
+          <ExitHeaderComponent
+            navigation={navigation}
+            direction={"column"}
+            color={theme.colors.bg.p_FFFFFF}
+            //   color={"#FAA"}
+            flexibility={0.06}
+            justify={"flex-end"}
+          />
+
+          <EmptyInfoAlert
+            caption="There are no transactions made :("
+            width={"90%"}
+            height={"20%"}
+            color="#F9F9FA"
+            justify={"center"}
+            alignment={"center"}
+            comingFrom="MyTransactionsView"
+          />
+        </GeneralFlexContainer>
+      </SafeArea>
+    );
+  }
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
       <ExitHeaderWithMonthsOptionButtonComponent

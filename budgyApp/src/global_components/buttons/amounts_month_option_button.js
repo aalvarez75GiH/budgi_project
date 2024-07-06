@@ -42,10 +42,10 @@ export const AmountMonthOptionButton = ({
         const real_income_by_button = await gettingRealIncomeForEachButton(
           month_name
         );
-        console.log(
-          "REAL INCOME BY BUTTON:",
-          JSON.stringify(real_income_by_button, null, 2)
-        );
+        // console.log(
+        //   "REAL INCOME BY BUTTON:",
+        //   JSON.stringify(real_income_by_button, null, 2)
+        // );
         if (real_income_by_button === -1) {
           setAmountToRender(0);
         }
@@ -66,10 +66,10 @@ export const AmountMonthOptionButton = ({
     };
     gettingAmountByMonth();
   }, []);
-  console.log(
-    "EXPECTED INCOME BY BUTTON:",
-    JSON.stringify(amountToRender, null, 2)
-  );
+  // console.log(
+  //   "EXPECTED INCOME BY BUTTON:",
+  //   JSON.stringify(amountToRender, null, 2)
+  // );
 
   return (
     <OPTButton

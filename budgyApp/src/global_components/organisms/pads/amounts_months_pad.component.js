@@ -9,8 +9,8 @@ export const AmountsMonthsPadComponent = ({
   isChosen,
   comingFrom,
   confirmingIfMonthIsEnabled,
-  //   realIncomes,
 }) => {
+  console.log("IS CHOSEN AT AMOUNTS MONTHS PAD COMPONENT:", isChosen);
   return (
     <>
       <MonthPadContainer width={"350px"} height={"365px"} bg_color={"#FFFFFF"}>

@@ -41,7 +41,6 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
       try {
         const expected_income = await getExpectedIncome_By_UserID(user_id);
         if (expected_income.status === 404) {
-          console.log("REAL INCOME STATUS 404");
           setExpectedIncome({});
           return;
         } else {
@@ -67,11 +66,8 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
         expected_income.month_year === month_year_by_each_button
     );
     if (index === -1) {
-      console.log("NO EXPECTED INCOME FOR THAT MONTH");
       return -1;
     } else {
-      console.log("INDEX AT BUTTON:", index);
-      console.log("expected AT BUTTON:", expectedIncomes[index].amount);
       return expectedIncomes[index];
     }
   };
@@ -80,10 +76,6 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
     navigation,
     expectedIncomeForRequest
   ) => {
-    console.log(
-      "EXPECTED INCOME FOR REQUEST BEFORE SERVICES:",
-      expectedIncomeForRequest
-    );
     setIsLoading(true);
     setTimeout(async () => {
       try {

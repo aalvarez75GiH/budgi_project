@@ -13,6 +13,7 @@ import { SafeArea } from "../../global_components/safe-area.component";
 
 import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
 import { ExpectedIncomeContext } from "../../infrastructure/services/expected _income/expected_income.context";
+import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 
 export const IncomeConfirmationView = ({ navigation, route }) => {
   // ****************LOGIC FROM HOOK ********
@@ -25,13 +26,25 @@ export const IncomeConfirmationView = ({ navigation, route }) => {
   const { expectedIncomeForRequest } = useContext(ExpectedIncomeContext);
   const { new_expected_income } = expectedIncomeForRequest;
   const { amount, month_year: month_year_expected } = new_expected_income;
+
+  const {
+    month_year: month_year_to_restablish,
+    setMonthSelected,
+    month_selected,
+    month_name,
+  } = useContext(DateOperationsContext);
+
   const goingHome = () => {
+    setMonthSelected(month_name);
     cleaningState();
     navigation.reset({
       index: 0,
       routes: [{ name: "Home" }],
     });
   };
+
+  console.log("MONTH YEAR SELECTED", month_selected);
+  console.log("MONTH YEAR FROM REAL INCOME REQUEST", month_year);
 
   if (comingFrom === "addExpectedIncomeTile") {
     return (

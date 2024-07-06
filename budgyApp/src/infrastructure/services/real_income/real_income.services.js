@@ -30,7 +30,6 @@ export const getRealIncomes_By_UserIDRequest = async (user_id) => {
 };
 
 export const registerRealIncomeRequest = async (realIncomeForRequest) => {
-  console.log("REAL INCOME FOR REQUEST AT SERVICES:", realIncomeForRequest);
   const { realIncomeEndPoint } = environment;
   return await axios
     .put(`${realIncomeEndPoint}/addingWeekIncome`, realIncomeForRequest)
@@ -42,7 +41,6 @@ export const registerRealIncomeRequest = async (realIncomeForRequest) => {
     });
 };
 export const registerCashIncomeRequest = async (realIncomeForRequest) => {
-  console.log("REAL INCOME FOR REQUEST AT SERVICES:", realIncomeForRequest);
   const { realIncomeEndPoint } = environment;
   return await axios
     .put(`${realIncomeEndPoint}/addingCashIncome`, realIncomeForRequest)

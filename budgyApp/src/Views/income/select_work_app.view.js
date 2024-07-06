@@ -13,7 +13,7 @@ import { RealIncomeContext } from "../../infrastructure/services/real_income/rea
 
 export const SelectWorkAppView = ({ navigation, route }) => {
   const { realIncomeOnDemand } = route.params;
-  const { work_apps, total_amount } = realIncomeOnDemand;
+  const { work_apps, total_amount, month_year } = realIncomeOnDemand;
   console.log(
     "REAL INCOME ON DEMAND AT SELECT WORK APP VIEW:",
     realIncomeOnDemand
@@ -27,18 +27,14 @@ export const SelectWorkAppView = ({ navigation, route }) => {
   };
 
   const selectingAppForRealIncome = (item) => {
-    setRealIncomeForRequest({
-      ...realIncomeForRequest,
-      app_id: item.app_id,
-      app_name: item.app_name,
-      logo_path: item.logo_path,
-    });
+    console.log("ITEM:", JSON.stringify(item, null, 2));
     if (item.app_name !== "Cash") {
       setRealIncomeForRequest({
         ...realIncomeForRequest,
         app_id: item.app_id,
         app_name: item.app_name,
         logo_path: item.logo_path,
+        month_year: month_year,
       });
       navigation.navigate("Select_week_view", {
         real_income_selected: item,
@@ -57,6 +53,12 @@ export const SelectWorkAppView = ({ navigation, route }) => {
         comingFrom: "comingFromCash",
       });
     }
+    // setRealIncomeForRequest({
+    //   ...realIncomeForRequest,
+    //   app_id: item.app_id,
+    //   app_name: item.app_name,
+    //   logo_path: item.logo_path,
+    // });
   };
 
   const renderWorkAppItem =

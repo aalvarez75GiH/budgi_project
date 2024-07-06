@@ -22,9 +22,10 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
     useContext(RealIncomeContext);
 
   const { confirmingIfMonthIsEnabled } = useMonthPadLogic();
-  const { month_selected, setMonthSelected, month_year } = useContext(
-    DateOperationsContext
-  );
+  const { month_selected, setMonthSelected, month_year, month_name } =
+    useContext(DateOperationsContext);
+
+  console.log("MONTH SELECTED AT AMOUNT PAD VIEW:", month_selected);
 
   const {
     gettingExpectedIncomeForEachButton,
@@ -40,13 +41,13 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
     isActive: true,
   });
   const [realIncomeOnDemand, setRealIncomeOnDemand] = useState({});
+  console.log("REAL INCOME ON DEMAND AT AMOUNT PAD VIEW:", realIncomeOnDemand);
 
   const selectingMonth = (month) => {
     if (comingFrom === "appsCashIncomeTile") {
       setIsChosen({ month_selected: month, isActive: true });
       setMonthSelected(month);
       const real_income_on_demand = gettingRealIncomeForEachButton(month);
-      console.log("REAL INCOME ON DEMAND:", real_income_on_demand);
       if (real_income_on_demand === -1) {
         setRealIncomeOnDemand(REAL_INCOME_FULL_STRUCTURE);
         navigation.navigate("Select_work_app_view", {
@@ -67,7 +68,6 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
       const expected_income_on_demand =
         gettingExpectedIncomeForEachButton(month);
       if (expected_income_on_demand !== -1) {
-        console.log("EXPECTED INCOME ON DEMAND:", expected_income_on_demand);
         setExpectedIncomeForRequest({
           ...expectedIncomeForRequest,
           month_year: expected_income_on_demand.month_year,
@@ -83,7 +83,6 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
         });
       }
       if (expected_income_on_demand === -1) {
-        console.log("EXPECTED INCOME ON DEMAND:", expected_income_on_demand);
         setExpectedIncomeForRequest({
           ...expectedIncomeForRequest,
           user_id: user_id,
@@ -95,15 +94,16 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
           },
         });
         navigation.navigate("Enter_amount_view", {
-          // expectedIncomeOnDemand: expected_income_on_demand,
           comingFrom: "addExpectedIncomeTile",
         });
-        // navigation.navigate("Enter_amount_view", {
-        //   // expectedIncomeOnDemand: expected_income_on_demand,
-        //   comingFrom: "addExpectedIncomeTile",
-        // });
       }
     }
+  };
+
+  const movingBackward = () => {
+    setMonthSelected(month_name);
+    // cleaningState();
+    navigation.goBack();
   };
 
   return (
@@ -116,7 +116,7 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
           color={theme.colors.bg.p_FFFFFF}
           // color={"#FAD"}
           flexibility={0.1}
-          action={() => navigation.goBack()}
+          action={() => movingBackward()}
           align="flex-end"
           caption_margin_left={"0%"}
         />

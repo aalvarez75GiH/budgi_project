@@ -23,11 +23,18 @@ export const CategoryDataContextProvider = ({ children }) => {
           user_id,
           month_year
         );
-        category_data
-          ? setCategoryData(category_data.data)
-          : console.log("THERE MUST BE AN ERROR FETCHING CATEGORY DATA...");
+
+        if (category_data === 404) {
+          setCategoryData({
+            total_amount_budgeted: 0,
+            total_amount_spent: 0,
+          });
+          return;
+        } else {
+          setCategoryData(category_data.data);
+        }
       } catch (error) {
-        console.log(error);
+        console.log(" CATEGORY DATA ERROR:", error.data);
       } finally {
         setIsLoading(false);
       }
