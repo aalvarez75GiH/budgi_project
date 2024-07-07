@@ -69,7 +69,7 @@ export const DonutChartComponent = ({
             overSpentAmountInNegative ? "You have over spent" : "You have spent"
           }
           font={smallerFont}
-          opacity={percentageComplete}
+          opacity={1}
           color={theme.colors.ui.p_142223C}
         />
         <Path
@@ -99,7 +99,7 @@ export const DonutChartComponent = ({
               : primaryAmountFixed
           }
           font={amount_font}
-          opacity={percentageComplete}
+          opacity={1}
           color={theme.colors.ui.p_142223C}
         />
         <Text

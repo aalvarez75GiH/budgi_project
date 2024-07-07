@@ -24,6 +24,7 @@ export const EnterAmountView = ({ navigation, route }) => {
     amountToSet,
     clearingText,
     formatCurrency,
+    exitingToRoot,
   } = useEnterAmountLogic(comingFrom);
   console.log("AMOUNT TO SET AT ENTER AMOUNT VIEW:", amountToSet);
   console.log("COMING FROM AT ENTER AMOUNT VIEW:", comingFrom);
@@ -36,7 +37,8 @@ export const EnterAmountView = ({ navigation, route }) => {
           color={theme.colors.bg.p_FFFFFF}
           flexibility={0.08}
           arrow_left_action={() => navigation.goBack()}
-          cancel_button_action={() => navigation.popToTop()}
+          // cancel_button_action={() => navigation.popToTop()}
+          cancel_button_action={() => exitingToRoot(navigation)}
           align={"center"}
           // color={"#FAA"}
         />
@@ -51,7 +53,7 @@ export const EnterAmountView = ({ navigation, route }) => {
           <Spacer position="top" size="xxl" />
           <ControlledContainer
             width={"100%"}
-            height={"12%"}
+            height={"16%"}
             justify="center"
             alignment="center"
             // color="red"
@@ -77,7 +79,7 @@ export const EnterAmountView = ({ navigation, route }) => {
               <Spacer position="left" size="xxl" />
               <Spacer position="left" size="medium" />
               <AmountFormInput
-                width={Platform.OS === "ios" ? "75%" : "75%"}
+                width={"75%"}
                 height={"50px"}
                 color={theme.colors.bg.p_FFFFFF}
                 mode="flat"
@@ -94,8 +96,7 @@ export const EnterAmountView = ({ navigation, route }) => {
                 }}
                 underlineColor={theme.colors.neutrals.p_B7B7B7}
                 activeUnderlineColor={theme.colors.neutrals.p_B7B7B7}
-                keyboardType="number-pad"
-                // onFocus={() => setAmountToSet(`${amountToSet}`)}
+                keyboardType={Platform.OS === "ios" ? "number-pad" : "numeric"}
                 onFocus={() => setAmountToSet(0)}
                 textBreakStrategy="simple"
               />

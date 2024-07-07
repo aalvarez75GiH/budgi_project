@@ -61,25 +61,6 @@ export const MyTransactionsView = ({ navigation }) => {
       );
     };
   }, []);
-  // useEffect(() => {
-  //   console.log("USE EFFECT ACTIVATED");
-  //   settingUpTransactionsFromContext(
-  //     transactionsByMonthYear,
-  //     total_amount,
-  //     setIsLoading,
-  //     setTransactionsToRender,
-  //     setTotalAmountToRender
-  //   );
-  //   setExpenseCategoriesToRender(expenseCategories);
-
-  //   return async () => {
-  //     setMonthSelected(month_name);
-  //     await gettingTransactions_byUserID_MonthYear_onDemand(
-  //       user_id,
-  //       month_year
-  //     );
-  //   };
-  // }, []);
 
   useEffect(() => {
     settingUpTransactionsFromContext();
@@ -108,6 +89,7 @@ export const MyTransactionsView = ({ navigation }) => {
         direction={"column"}
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
+        // flexibility={0.14}
         flexibility={0.14}
         justify={"flex-end"}
       />
@@ -172,6 +154,9 @@ export const MyTransactionsView = ({ navigation }) => {
               underlined={true}
             />
           </ControlledContainer>
+          <Spacer position="top" size="small" />
+          <Spacer position="top" size="small" />
+          <Spacer position="top" size="small" />
         </Spacer>
       </FlexibleContainer>
       <Spacer position="top" size="small" />
@@ -182,6 +167,7 @@ export const MyTransactionsView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="row"
+        // flexibility={0.16}
         flexibility={0.16}
         justify={"flex-start"}
         isBordered={false}
@@ -201,7 +187,7 @@ export const MyTransactionsView = ({ navigation }) => {
           }
         />
         <ControlledContainer
-          width={"300px"}
+          width={"350px"}
           height={"100px"}
           justify="center"
           alignment="center"

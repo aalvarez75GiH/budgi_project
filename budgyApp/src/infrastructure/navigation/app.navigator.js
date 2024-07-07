@@ -3,6 +3,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { HomeNavigator } from "./home.navigator";
 import { IncomeNavigator } from "./income.navigator";
+import { BudgetNavigator } from "./budget.navigator";
 
 import { theme } from "../theme";
 
@@ -53,7 +54,7 @@ export const AppNavigator = () => {
       />
       <Tab.Screen
         name="Budget"
-        component={HomeNavigator}
+        component={BudgetNavigator}
         listeners={tabBarListeners}
       />
       <Tab.Screen
