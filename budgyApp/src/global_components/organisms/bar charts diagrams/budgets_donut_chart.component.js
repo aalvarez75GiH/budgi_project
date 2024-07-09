@@ -7,7 +7,7 @@ import { theme } from "../../../infrastructure/theme";
 import { GeneralFlexContainer } from "../../containers/general_flex_container";
 import { CanvasContainer } from "./circular_chart.styles";
 
-export const DonutChartComponent = ({
+export const BudgetsDonutChartComponent = ({
   radius,
   strokeWidth,
   percentageComplete,
@@ -54,15 +54,15 @@ export const DonutChartComponent = ({
     <GeneralFlexContainer>
       <CanvasContainer>
         <Text
+          //   x={innerRadius - secondary_amount_width / 1}
+
           x={
             overSpentAmountInNegative
-              ? innerRadius - secondary_amount_width / 1
-              : innerRadius - secondary_amount_width / 1.4
+              ? innerRadius - primary_amount_width / 2.9
+              : innerRadius - primary_amount_width / 2.8
           }
           y={radius - 40}
-          text={
-            overSpentAmountInNegative ? "You have over spent" : "You have spent"
-          }
+          text={"You have spent"}
           font={smallerFont}
           opacity={1}
           color={theme.colors.ui.p_142223C}
@@ -85,24 +85,23 @@ export const DonutChartComponent = ({
               : innerRadius - primary_amount_width / 2.1
           }
           y={radius + 8}
-          text={
-            overSpentAmountInNegative
-              ? new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(overSpentAmountInNegative)
-              : primaryAmountFixed
-          }
+          text={primaryAmountFixed}
           font={amount_font}
           opacity={1}
           color={theme.colors.ui.p_142223C}
         />
         <Text
+          //   x={innerRadius - secondary_amount_width / 1}
           x={
-            secondaryLabel === "Budgeted:"
-              ? innerRadius - secondary_amount_width / 1.02
-              : innerRadius - secondary_amount_width / 1.1
+            overSpentAmountInNegative
+              ? innerRadius - secondary_amount_width / 1
+              : innerRadius - secondary_amount_width / 1
           }
+          //   x={
+          //     overSpentAmountInNegative
+          //       ? innerRadius - primary_amount_width / 2.0
+          //       : innerRadius - primary_amount_width / 2.8
+          //   }
           y={radius + 50}
           text={`${secondaryLabel} ${secondaryAmountFixed}`}
           font={smallerFont}
