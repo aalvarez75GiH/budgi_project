@@ -4,6 +4,8 @@ export const TransactionsContext = createContext();
 import { NumPadContext } from "../numPad/numPad.context";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
+import { CategoryDataContext } from "../category_data/category_data.context";
+
 import {
   getTransactionsAndTotalAmountRequestOrderedByTimeStamp,
   getTransactionsTotalAmountByMonthYearAndUser_ID,
@@ -21,6 +23,12 @@ export const TransactionContextProvider = ({ children }) => {
   const { setNumber } = useContext(NumPadContext);
   const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
+  const {
+    getAllCategoriesData_By_UserID_Request,
+    setCategoriesData,
+    selectingCurrentMonthCategoryData,
+    gettingCurrentCategoryDataAndAllCategoriesData,
+  } = useContext(CategoryDataContext);
 
   const TRANSACTION_INFO_INITIAL = {
     amount: "",
@@ -189,6 +197,18 @@ export const TransactionContextProvider = ({ children }) => {
           setTransactionsTotalAmount(total_amount);
           setTransactionsByMonthYear(transactions);
 
+          const categories_data = await getAllCategoriesData_By_UserID_Request(
+            user_id
+          );
+          if (!categories_data || categories_data.length === 0) {
+            console.log("REAL INCOMES STATUS 404");
+            setCategoriesData([]);
+            return;
+          } else {
+            // setCategoriesData(categories_data.data);
+            selectingCurrentMonthCategoryData(categories_data.data);
+            // setCategory_data_onDemand(categories_data.data[0]);
+          }
           // setTransactionsByMonthYear(transactions);
           // setTransactionsTotalAmount(total_amount);
         } catch (error) {

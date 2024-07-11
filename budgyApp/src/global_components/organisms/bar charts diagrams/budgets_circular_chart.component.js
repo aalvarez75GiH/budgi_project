@@ -17,7 +17,8 @@ export const BudgetsCircularChartComponent = ({
   isSpinnerLoading,
 }) => {
   console.log("OVER SPENT AMOUNT:", overSpentAmountInNegative);
-  const radius = PixelRatio.roundToNearestPixel(130);
+  const radius = PixelRatio.roundToNearestPixel(120);
+
   return (
     <FlexibleContainer
       color={theme.colors.bg.p_FFFFFF}

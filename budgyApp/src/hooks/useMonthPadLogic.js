@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 
 import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
-
+import { CategoryDataContext } from "../infrastructure/services/category_data/category_data.context";
 export const useMonthPadLogic = () => {
   const {
     setMonthSelected,
@@ -17,6 +17,9 @@ export const useMonthPadLogic = () => {
     isLoading,
     getting_transactions_budgeted_and_real_income_totalAmounts,
   } = useContext(TransactionsContext);
+
+  const { gettingCategoryData_onDemand, isLoading: isLoadingCategories } =
+    useContext(CategoryDataContext);
 
   const [isChosen, setIsChosen] = useState({
     month_selected: month_selected,
@@ -65,6 +68,14 @@ export const useMonthPadLogic = () => {
       setTotalAmountBudgeted(response.totalBudgeted);
       setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
     }
+    if (comingFrom === "BudgetsView") {
+      const response = await gettingCategoryData_onDemand(month_year_onDemand);
+      // setCategory_data_onDemand(categoriesData(index));
+      //   console.log("RESPONSE AT MONTHS PAD VIEW:", response);
+      // setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
+      // setTotalAmountBudgeted(response.totalBudgeted);
+      // setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
+    }
 
     navigation.goBack();
   };
@@ -79,5 +90,6 @@ export const useMonthPadLogic = () => {
     month_selected,
     month_year_onDemand,
     confirmingIfMonthIsEnabled,
+    isLoadingCategories,
   };
 };

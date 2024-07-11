@@ -4,30 +4,36 @@ import { FlatList } from "react-native";
 import { theme } from "../../infrastructure/theme";
 
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
-// import { FooterMenuContainer } from "../../global_components/organisms/menu-footers/menu_footer.container";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
-// import { useHomeLogic } from "../../hooks/useHomeLogic";
-import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { SafeArea } from "../../global_components/safe-area.component";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { BudgetsCircularChartComponent } from "../../global_components/organisms/bar charts diagrams/budgets_circular_chart.component";
 import { CircularButtonOptionComponent } from "../../global_components/organisms/clickables options/circularButton_option.component";
-
-import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
-import { set } from "date-fns";
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
+import { BudgetsHeader } from "../../global_components/organisms/headers/budgets_view.header";
+
+import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
+import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const BudgetView = ({ navigation }) => {
-  const { categoriesData } = useContext(CategoryDataContext);
-  console.log("CATEGORIES DATA AT BUDGET VIEW:", categoriesData);
-  const firstCategoryData = categoriesData[0];
-  const { category_data_expenseCategories } = firstCategoryData;
+  const { categoryData_month_year, category_data_onDemand } =
+    useContext(CategoryDataContext);
+  console.log(
+    "CATEGORIES DATA ON DEMAND AT BUDGET VIEW:",
+    category_data_onDemand
+  );
+  //   const firstCategoryData = categoriesData[0];
+  const { category_data_expenseCategories, month_year } =
+    category_data_onDemand;
   const firstCategoryDataExpenseCategories = category_data_expenseCategories[0];
   //   console.log(
   //     "FIRST CATEGORY DATA EXPENSE CATEGORIES AT BUDGET VIEW:",
   //     category_data_expenseCategories
   //   );
+
+  const { user } = useContext(AuthenticationContext);
+  const { user_id } = user;
 
   const [categorySelected, setCategorySelected] = useState(null);
   const [percentageCompleted, setPercentageCompleted] = useState(0);
@@ -37,6 +43,7 @@ export const BudgetView = ({ navigation }) => {
     firstCategoryDataExpenseCategories.category_id
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const { amount_avail, amount_spent, limit_amount } =
     firstCategoryDataExpenseCategories;
 
@@ -101,23 +108,38 @@ export const BudgetView = ({ navigation }) => {
     set_tile_selected(option);
   };
 
+  const movingForwardToMonthsPadView = (
+    navigation,
+    user_id,
+    set_month_year_toRender
+  ) => {
+    navigation.navigate("Months_Pad_View", {
+      user_id: user_id,
+      set_month_year_toRender: set_month_year_toRender,
+      comingFrom: "BudgetsView",
+    });
+  };
+
   return (
     <SafeArea background_color="#FFFFFF">
       <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-        <FlexibleContainer
-          direction={"column"}
-          color={theme.colors.bg.p_FFFFFF}
-          //   color={"brown"}
-          flexibility={0.04}
-          justify={"center"}
-          alignment={"center"}
-        ></FlexibleContainer>
-        <ExitHeaderComponent
+        <BudgetsHeader
           navigation={navigation}
-          direction={"column"}
           color={theme.colors.bg.p_FFFFFF}
           //   color={"#FAA"}
           flexibility={0.15}
+          direction={"row"}
+          month_year_toRender={month_year}
+          month_year={month_year}
+          action1={() =>
+            movingForwardToMonthsPadView(
+              navigation,
+              user_id,
+              set_month_year_toRender
+            )
+          }
+          action2={() => null}
+          action3={() => null}
         />
 
         <FlexibleContainer
@@ -179,9 +201,9 @@ export const BudgetView = ({ navigation }) => {
         </FlexibleContainer>
         <FlexibleContainer
           direction={"column"}
-          color={theme.colors.bg.s_142223C}
-          // color={"brown"}
-          flexibility={0.19}
+          //   color={theme.colors.bg.s_142223C}
+          color={theme.colors.bg.p_FFFFFF}
+          flexibility={0.15}
           justify={"center"}
           alignment={"center"}
         ></FlexibleContainer>

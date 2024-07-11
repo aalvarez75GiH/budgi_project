@@ -54,17 +54,17 @@ export default function App() {
         <AuthenticationContextProvider>
           <DateOperationsContextProvider>
             <NumPadContextProvider>
-              <TransactionContextProvider>
-                <CategoryListContextProvider>
-                  <CategoryDataContextProvider>
+              <CategoryDataContextProvider>
+                <TransactionContextProvider>
+                  <CategoryListContextProvider>
                     <RealIncomeContextProvider>
                       <ExpectedIncomeContextProvider>
                         <Navigation />
                       </ExpectedIncomeContextProvider>
                     </RealIncomeContextProvider>
-                  </CategoryDataContextProvider>
-                </CategoryListContextProvider>
-              </TransactionContextProvider>
+                  </CategoryListContextProvider>
+                </TransactionContextProvider>
+              </CategoryDataContextProvider>
             </NumPadContextProvider>
           </DateOperationsContextProvider>
         </AuthenticationContextProvider>

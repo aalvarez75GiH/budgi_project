@@ -27,6 +27,7 @@ export const MonthsPadView = ({ navigation, route }) => {
     cta_action,
     isLoading,
     confirmingIfMonthIsEnabled,
+    isLoadingCategories,
   } = useMonthPadLogic();
 
   return (
@@ -95,7 +96,7 @@ export const MonthsPadView = ({ navigation, route }) => {
               )
             }
             text_variant="bold_text_20"
-            isLoading={isLoading}
+            isLoading={isLoading ? isLoading : isLoadingCategories}
           />
         </FlexibleContainer>
       </GeneralFlexContainer>
