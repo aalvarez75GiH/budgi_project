@@ -17,20 +17,15 @@ import { CategoryDataContext } from "../../infrastructure/services/category_data
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const BudgetView = ({ navigation }) => {
-  const { categoryData_month_year, category_data_onDemand } =
-    useContext(CategoryDataContext);
+  const { category_data_onDemand } = useContext(CategoryDataContext);
   console.log(
-    "CATEGORIES DATA ON DEMAND AT BUDGET VIEW:",
+    "CATEGORY DATA ON DEMAND AT BUDGET VIEW:",
     category_data_onDemand
   );
   //   const firstCategoryData = categoriesData[0];
   const { category_data_expenseCategories, month_year } =
     category_data_onDemand;
   const firstCategoryDataExpenseCategories = category_data_expenseCategories[0];
-  //   console.log(
-  //     "FIRST CATEGORY DATA EXPENSE CATEGORIES AT BUDGET VIEW:",
-  //     category_data_expenseCategories
-  //   );
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
@@ -51,7 +46,10 @@ export const BudgetView = ({ navigation }) => {
     amountsMathLogic(firstCategoryDataExpenseCategories);
   }, []);
 
+  //   console.log("CATEGORY SELECTED AT BUDGET VIEW:", categorySelected);
+
   const amountsMathLogic = (categorySelected) => {
+    console.log("CATEGORY SELECTED AT BUDGET VIEW:", categorySelected);
     setIsLoading(true);
     setPercentageCompleted(0);
     setOverSpentAmountInNegative(0);
@@ -100,13 +98,6 @@ export const BudgetView = ({ navigation }) => {
   };
 
   console.log("SELECTED CATEGORY:", selectedItem);
-  const switchingOptions = (option) => {
-    setIsSpinnerLoading(true);
-    setTimeout(() => {
-      setIsSpinnerLoading(false);
-    }, 800);
-    set_tile_selected(option);
-  };
 
   const movingForwardToMonthsPadView = (
     navigation,

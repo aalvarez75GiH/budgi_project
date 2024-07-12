@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
 import { CategoryDataContext } from "../infrastructure/services/category_data/category_data.context";
+
 export const useMonthPadLogic = () => {
   const {
     setMonthSelected,
@@ -18,8 +19,11 @@ export const useMonthPadLogic = () => {
     getting_transactions_budgeted_and_real_income_totalAmounts,
   } = useContext(TransactionsContext);
 
-  const { gettingCategoryData_onDemand, isLoading: isLoadingCategories } =
-    useContext(CategoryDataContext);
+  const {
+    gettingCategoryData_onDemand,
+    isLoading: isLoadingCategories,
+    selectingCategory,
+  } = useContext(CategoryDataContext);
 
   const [isChosen, setIsChosen] = useState({
     month_selected: month_selected,
@@ -33,6 +37,8 @@ export const useMonthPadLogic = () => {
     setMonthSelected(month);
     setMonthYearOnDemand(month_year_for_request);
     set_month_year_toRender(month_year_for_request);
+    // setCategorySelected(null);
+    // selectingCategory();
   };
 
   // *********************************************************************

@@ -86,22 +86,19 @@ export const CategoryDataContextProvider = ({ children }) => {
   };
 
   // const { categoriesData } = useContext(CategoryDataContext);
-  console.log("CATEGORIES DATA AT CONTEXT:", categoriesData);
-  console.log("CATEGORIES DATA ON DEMAND AT CONTEXT:", category_data_onDemand);
+  // console.log("CATEGORIES DATA AT CONTEXT:", categoriesData);
+  console.log(
+    "CATEGORIES DATA ON DEMAND AT CONTEXT:",
+    JSON.stringify(category_data_onDemand, null, 2)
+  );
 
   return (
     <CategoryDataContext.Provider
       value={{
         categoryData,
-        categoriesData,
-        isLoading,
         category_data_onDemand,
+        isLoading,
         gettingCategoryData_onDemand,
-        setCategory_data_onDemand,
-        getAllCategoriesData_By_UserID_Request,
-        setCategoriesData,
-        selectingCurrentMonthCategoryData,
-        gettingCurrentCategoryDataAndAllCategoriesData,
       }}
     >
       {children}
