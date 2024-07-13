@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View } from "react-native";
 
 import { Text } from "../../infrastructure/typography/text.component";
@@ -10,6 +10,8 @@ import { theme } from "../../infrastructure/theme";
 import { MonthsPadComponent } from "../../global_components/organisms/pads/months_pad.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useMonthPadLogic } from "../../hooks/useMonthPadLogic";
+
+import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
 
 export const MonthsPadView = ({ navigation, route }) => {
   const {
@@ -27,9 +29,15 @@ export const MonthsPadView = ({ navigation, route }) => {
     cta_action,
     isLoading,
     confirmingIfMonthIsEnabled,
-    isLoadingCategories,
+    // isLoadingCategoryDataContext,
   } = useMonthPadLogic();
 
+  console.log("IS LOADING:", isLoading);
+  const { isLoadingCategoryDataContext } = useContext(CategoryDataContext);
+  console.log(
+    "IS LOADING CATEGORY DATA CONTEXT:",
+    isLoadingCategoryDataContext
+  );
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
       <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
@@ -96,7 +104,8 @@ export const MonthsPadView = ({ navigation, route }) => {
               )
             }
             text_variant="bold_text_20"
-            isLoading={isLoading ? isLoading : isLoadingCategories}
+            isLoading={isLoading ? isLoading : isLoadingCategoryDataContext}
+            // isLoading={isLoading}
           />
         </FlexibleContainer>
       </GeneralFlexContainer>

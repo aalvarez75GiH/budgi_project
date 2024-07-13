@@ -21,7 +21,7 @@ export const useMonthPadLogic = () => {
 
   const {
     gettingCategoryData_onDemand,
-    isLoading: isLoadingCategories,
+    isLoadingCategoryDataContext,
     selectingCategory,
   } = useContext(CategoryDataContext);
 
@@ -62,6 +62,7 @@ export const useMonthPadLogic = () => {
         user_id,
         month_year_onDemand
       );
+      navigation.goBack();
     }
     if (comingFrom === "HowMonthIsGoingView") {
       const response =
@@ -73,17 +74,18 @@ export const useMonthPadLogic = () => {
       setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
       setTotalAmountBudgeted(response.totalBudgeted);
       setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
+      navigation.goBack();
     }
     if (comingFrom === "BudgetsView") {
-      const response = await gettingCategoryData_onDemand(month_year_onDemand);
+      await gettingCategoryData_onDemand(month_year_onDemand);
+
       // setCategory_data_onDemand(categoriesData(index));
       //   console.log("RESPONSE AT MONTHS PAD VIEW:", response);
       // setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
       // setTotalAmountBudgeted(response.totalBudgeted);
       // setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
+      navigation.goBack();
     }
-
-    navigation.goBack();
   };
   return {
     selectingMonth,
@@ -96,6 +98,6 @@ export const useMonthPadLogic = () => {
     month_selected,
     month_year_onDemand,
     confirmingIfMonthIsEnabled,
-    isLoadingCategories,
+    isLoadingCategoryDataContext,
   };
 };

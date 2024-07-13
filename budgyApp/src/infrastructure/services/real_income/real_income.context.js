@@ -9,7 +9,6 @@ import {
 } from "./real_income.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
-import { combineTransition } from "react-native-reanimated";
 
 export const RealIncomeContextProvider = ({ children }) => {
   const { user, db } = useContext(AuthenticationContext);

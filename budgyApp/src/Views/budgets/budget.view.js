@@ -17,20 +17,20 @@ import { CategoryDataContext } from "../../infrastructure/services/category_data
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 
 export const BudgetView = ({ navigation }) => {
-  const { category_data_onDemand } = useContext(CategoryDataContext);
-  console.log(
-    "CATEGORY DATA ON DEMAND AT BUDGET VIEW:",
-    category_data_onDemand
-  );
+  //   const { category_data_onDemand } = useContext(CategoryDataContext);
+  const { categoryData } = useContext(CategoryDataContext);
+  //   console.log("CATEGORY DATA AT BUDGET VIEW:", categoryData);
   //   const firstCategoryData = categoriesData[0];
-  const { category_data_expenseCategories, month_year } =
-    category_data_onDemand;
+  const { category_data_expenseCategories, month_year } = categoryData;
   const firstCategoryDataExpenseCategories = category_data_expenseCategories[0];
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
 
   const [categorySelected, setCategorySelected] = useState(null);
+  //   const [categorySelected, setCategorySelected] = useState(
+  //     firstCategoryDataExpenseCategories
+  //   );
   const [percentageCompleted, setPercentageCompleted] = useState(0);
   const [overSpentAmountInNegative, setOverSpentAmountInNegative] = useState(0);
   const [overSpentAmountInPositive, setOverSpentAmountInPositive] = useState(0);
@@ -46,7 +46,38 @@ export const BudgetView = ({ navigation }) => {
     amountsMathLogic(firstCategoryDataExpenseCategories);
   }, []);
 
-  //   console.log("CATEGORY SELECTED AT BUDGET VIEW:", categorySelected);
+  useEffect(() => {
+    const test = async () => {
+      console.log("CATEGORY DATA CHANGED");
+      //   console.log("CATEGORY DATA:", categoryData);
+      //   console.log("CATEGORY SELECTED:", categorySelected);
+
+      // Check if categorySelected or categorySelected.category_id is null or undefined
+      if (!categorySelected || categorySelected.category_id == null) {
+        console.log(
+          "categorySelected or categorySelected.category_id is null or undefined"
+        );
+        amountsMathLogic(firstCategoryDataExpenseCategories);
+        return; // Exit the useEffect if the check fails
+      }
+
+      const index = categoryData.category_data_expenseCategories.findIndex(
+        (category_data) =>
+          category_data.category_id === categorySelected.category_id
+      );
+
+      if (index !== -1) {
+        setCategorySelected(
+          categoryData.category_data_expenseCategories[index]
+        );
+        amountsMathLogic(categoryData.category_data_expenseCategories[index]);
+      } else {
+        console.log("Category not found");
+        // Handle the case where the category is not found
+      }
+    };
+    test();
+  }, [categoryData, categorySelected]); // Also, add categorySelected to the dependency array
 
   const amountsMathLogic = (categorySelected) => {
     console.log("CATEGORY SELECTED AT BUDGET VIEW:", categorySelected);
@@ -58,6 +89,7 @@ export const BudgetView = ({ navigation }) => {
       if (limit_amount > amount_spent) {
         setPercentageCompleted((amount_spent * 100) / limit_amount / 100);
         setIsLoading(false);
+        console.log("PERCENTAGE COMPLETED INSIDE:", percentageCompleted);
       }
       if (limit_amount < amount_spent) {
         const overSpentAmountInNegative = limit_amount - amount_spent;
@@ -97,7 +129,7 @@ export const BudgetView = ({ navigation }) => {
     );
   };
 
-  console.log("SELECTED CATEGORY:", selectedItem);
+  console.log("PERCENTAGE COMPLETED:", percentageCompleted);
 
   const movingForwardToMonthsPadView = (
     navigation,

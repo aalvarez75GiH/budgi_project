@@ -8,13 +8,14 @@ import {
 } from "./category_data.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
-import { set } from "date-fns";
 
 export const CategoryDataContextProvider = ({ children }) => {
-  const [categoryData, setCategoryData] = useState({});
   const [categoriesData, setCategoriesData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingCategoryDataContext, setIsLoadingCategoryDataContext] =
+    useState(false);
   const [category_data_onDemand, setCategory_data_onDemand] = useState(null);
+  const [categoryData, setCategoryData] = useState({});
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
@@ -23,81 +24,100 @@ export const CategoryDataContextProvider = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      gettingCurrentCategoryDataAndAllCategoriesData(user_id, month_year);
+      setIsLoadingCategoryDataContext(true);
+      try {
+        const category_data = await getCategoryData_By_UserID_MonthYearRequest(
+          user_id,
+          month_year
+        );
+        console.log(
+          "CATEGORY DATA:",
+          JSON.stringify(category_data.data, null, 2)
+        );
+
+        if (category_data.status === 404) {
+          setCategoryData({
+            total_amount_budgeted: 0,
+            total_amount_spent: 0,
+          });
+        }
+        if (category_data.status === 200) {
+          setCategoryData(category_data.data);
+        }
+        // **********************************************************************
+        const categories_data = await getAllCategoriesData_By_UserID_Request(
+          user_id
+        );
+        if (!categories_data || categories_data.length === 0) {
+          console.log("CATEGORIES DATA STATUS 404");
+          setCategoriesData([]);
+        } else {
+          setCategoriesData(categories_data);
+        }
+        // **********************************************************************
+      } catch (error) {
+        console.log(" CATEGORY DATA ERROR:", error.data);
+      } finally {
+        setIsLoadingCategoryDataContext(false);
+      }
+
+      // gettingCurrentCategoryDataAndAllCategoriesData(user_id, month_year);
     })();
   }, []);
 
-  const gettingCurrentCategoryDataAndAllCategoriesData = async (
-    user_id,
-    month_year
-  ) => {
-    setIsLoading(true);
+  const gettingCategoryData_onDemand = async (month_year_onDemand) => {
+    setIsLoadingCategoryDataContext(true);
     try {
       const category_data = await getCategoryData_By_UserID_MonthYearRequest(
         user_id,
-        month_year
+        month_year_onDemand
       );
-
-      if (category_data === 404) {
+      if (category_data.status === 404) {
         setCategoryData({
           total_amount_budgeted: 0,
           total_amount_spent: 0,
         });
-        return;
-      } else {
+      }
+      if (category_data.status === 200) {
         setCategoryData(category_data.data);
       }
+      // return index;
+      // setCategoryData(categoriesData.data[index]);
     } catch (error) {
-      console.log(" CATEGORY DATA ERROR:", error.data);
+      console.log("ERROR:", error);
     } finally {
-      setIsLoading(false);
-    }
-
-    const categories_data = await getAllCategoriesData_By_UserID_Request(
-      user_id
-    );
-    if (!categories_data || categories_data.length === 0) {
-      console.log("REAL INCOMES STATUS 404");
-      setCategoriesData([]);
-      return;
-    } else {
-      // setCategoriesData(categories_data.data);
-      selectingCurrentMonthCategoryData(categories_data.data);
-      // setCategory_data_onDemand(categories_data.data[0]);
+      setIsLoadingCategoryDataContext(false);
     }
   };
-
-  const selectingCurrentMonthCategoryData = (categories_data) => {
-    const index = categories_data.findIndex(
-      (category_data) => category_data.month_year === month_year
-    );
-    setCategoriesData(categories_data);
-    setCategory_data_onDemand(categories_data[index]);
-  };
-
-  const gettingCategoryData_onDemand = (month_year_onDemand) => {
-    setIsLoading(true);
-    const index = categoriesData.findIndex(
-      (category_data) => category_data.month_year === month_year_onDemand
-    );
-    // return index;
-    setCategory_data_onDemand(categoriesData[index]);
-    setIsLoading(false);
-  };
+  // const gettingCategoryData_onDemand = (month_year_onDemand) => {
+  //   setIsLoadingCategoryDataContext(true);
+  //   try {
+  //     console.log("CATEGORIES DATA AT CONTEXT:", categoriesData.data);
+  //     const index = categoriesData.data.findIndex(
+  //       (category_data) => category_data.month_year === month_year_onDemand
+  //     );
+  //     // return index;
+  //     setCategoryData(categoriesData.data[index]);
+  //   } catch (error) {
+  //     console.log("ERROR:", error);
+  //   } finally {
+  //     setIsLoadingCategoryDataContext(false);
+  //   }
+  // };
 
   // const { categoriesData } = useContext(CategoryDataContext);
   // console.log("CATEGORIES DATA AT CONTEXT:", categoriesData);
-  console.log(
-    "CATEGORIES DATA ON DEMAND AT CONTEXT:",
-    JSON.stringify(category_data_onDemand, null, 2)
-  );
+  // console.log(
+  //   "CATEGORY DATA ON DEMAND AT CONTEXT:",
+  //   JSON.stringify(categoryData, null, 2)
+  // );
 
   return (
     <CategoryDataContext.Provider
       value={{
         categoryData,
         category_data_onDemand,
-        isLoading,
+        isLoadingCategoryDataContext,
         gettingCategoryData_onDemand,
       }}
     >
