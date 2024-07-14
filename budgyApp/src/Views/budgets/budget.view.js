@@ -28,9 +28,6 @@ export const BudgetView = ({ navigation }) => {
   const { user_id } = user;
 
   const [categorySelected, setCategorySelected] = useState(null);
-  //   const [categorySelected, setCategorySelected] = useState(
-  //     firstCategoryDataExpenseCategories
-  //   );
   const [percentageCompleted, setPercentageCompleted] = useState(0);
   const [overSpentAmountInNegative, setOverSpentAmountInNegative] = useState(0);
   const [overSpentAmountInPositive, setOverSpentAmountInPositive] = useState(0);
@@ -49,8 +46,6 @@ export const BudgetView = ({ navigation }) => {
   useEffect(() => {
     const test = async () => {
       console.log("CATEGORY DATA CHANGED");
-      //   console.log("CATEGORY DATA:", categoryData);
-      //   console.log("CATEGORY SELECTED:", categorySelected);
 
       // Check if categorySelected or categorySelected.category_id is null or undefined
       if (!categorySelected || categorySelected.category_id == null) {

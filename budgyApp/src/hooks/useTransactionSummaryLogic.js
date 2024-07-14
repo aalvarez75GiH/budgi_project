@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
 import { registerTransactionRequest } from "../infrastructure/services/transactions/transactions.services";
-import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "../infrastructure/services/transactions/transactions.services";
+
+import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { AuthenticationContext } from "../infrastructure/services/authentication/authentication.context";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
 
@@ -19,6 +20,7 @@ export const useTransactionSummaryLogic = () => {
     fixingANumberToTwoDecimalsAndString,
     setTransactionsByMonthYear,
     setTransactionsTotalAmount,
+    listenForNewChangesAtDB,
   } = useContext(TransactionsContext);
   const { amount, transaction_date, short_name, description } =
     transactionInfoForRequest;
@@ -32,7 +34,6 @@ export const useTransactionSummaryLogic = () => {
   // ****** Here we are parsing amount to integer for request to transaction end point
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
-  console.log("typeof DB:", typeof db);
   const registeringTransaction = async (
     navigation,
     transactionInfoForRequest,
@@ -57,11 +58,13 @@ export const useTransactionSummaryLogic = () => {
         response ? setIsLoading(false) : setIsLoading(true);
         response ? setIsConfirmed(true) : setIsConfirmed(false);
         response
-          ? listenForNewChangesAtDB(
-              setTransactionsByMonthYear,
-              setTransactionsTotalAmount
-            )
-          : null;
+          ? listenForNewChangesAtDB(db)
+          : // listenForNewChangesAtDB(
+            //     setTransactionsByMonthYear,
+            //     setTransactionsTotalAmount,
+            //     db
+            //   )
+            null;
         navigation.navigate("Transaction_confirmation");
       } catch (error) {
         console.log("THERE WAS AN ERROR:", error);
@@ -117,43 +120,6 @@ export const useTransactionSummaryLogic = () => {
     });
     setButton1Pressed(true);
     setButton2Pressed(false);
-  };
-
-  const listenForNewChangesAtDB = (
-    setTransactionsByMonthYear,
-    setTransactionsTotalAmount
-  ) => {
-    const collectionRef = db.collection("transactions");
-    collectionRef.onSnapshot(async (snapshot) => {
-      let hasNewData = false;
-
-      snapshot.docChanges().forEach((change) => {
-        if (change.type === "added") {
-          const newData = change.doc.data();
-          if (newData) {
-            hasNewData = true;
-          }
-        }
-      });
-
-      if (hasNewData) {
-        try {
-          const transactionsAndAmount =
-            await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
-              user_id,
-              month_year
-            );
-
-          const { transactions, total_amount } = transactionsAndAmount;
-
-          setTransactionsByMonthYear(transactions);
-          setTransactionsTotalAmount(total_amount);
-          setIsLoading(false);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    });
   };
 
   return {

@@ -107,10 +107,10 @@ export const CategoryDataContextProvider = ({ children }) => {
 
   // const { categoriesData } = useContext(CategoryDataContext);
   // console.log("CATEGORIES DATA AT CONTEXT:", categoriesData);
-  // console.log(
-  //   "CATEGORY DATA ON DEMAND AT CONTEXT:",
-  //   JSON.stringify(categoryData, null, 2)
-  // );
+  console.log(
+    "CATEGORY DATA  AT CONTEXT:",
+    JSON.stringify(categoryData, null, 2)
+  );
 
   return (
     <CategoryDataContext.Provider
@@ -119,6 +119,8 @@ export const CategoryDataContextProvider = ({ children }) => {
         category_data_onDemand,
         isLoadingCategoryDataContext,
         gettingCategoryData_onDemand,
+        setCategoryData,
+        setCategoriesData,
       }}
     >
       {children}

@@ -15,7 +15,10 @@ import {
   updateTransactionRequest,
   deleteTransactionRequest,
 } from "./transactions.services";
-import { getCategoryData_By_UserID_MonthYearRequest } from "../category_data/category_data.services";
+import {
+  getCategoryData_By_UserID_MonthYearRequest,
+  getAllCategoriesData_By_UserID_Request,
+} from "../category_data/category_data.services";
 import { getRealIncome_By_UserID_MonthYearRequest } from "../real_income/real_income.services";
 
 export const TransactionContextProvider = ({ children }) => {
@@ -23,12 +26,8 @@ export const TransactionContextProvider = ({ children }) => {
   const { setNumber } = useContext(NumPadContext);
   const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
-  const {
-    getAllCategoriesData_By_UserID_Request,
-    setCategoriesData,
-    selectingCurrentMonthCategoryData,
-    gettingCurrentCategoryDataAndAllCategoriesData,
-  } = useContext(CategoryDataContext);
+  const { setCategoryData, setCategoriesData } =
+    useContext(CategoryDataContext);
 
   const TRANSACTION_INFO_INITIAL = {
     amount: "",
@@ -164,8 +163,46 @@ export const TransactionContextProvider = ({ children }) => {
     return numberFixed;
   };
 
+  const updatingCategoryDataAfterTransactions = async (user_id, month_year) => {
+    console.log(" UPDATING CATEGORY DATA AFTER TRANSACTIONS....");
+    try {
+      const category_data = await getCategoryData_By_UserID_MonthYearRequest(
+        user_id,
+        month_year
+      );
+      console.log(
+        "CATEGORY DATA:",
+        JSON.stringify(category_data.data, null, 2)
+      );
+
+      if (category_data.status === 404) {
+        setCategoryData({
+          total_amount_budgeted: 0,
+          total_amount_spent: 0,
+        });
+      }
+      if (category_data.status === 200) {
+        setCategoryData(category_data.data);
+      }
+      // **********************************************************************
+      const categories_data = await getAllCategoriesData_By_UserID_Request(
+        user_id
+      );
+      if (!categories_data || categories_data.length === 0) {
+        console.log("CATEGORIES DATA STATUS 404");
+        setCategoriesData([]);
+      } else {
+        setCategoriesData(categories_data);
+      }
+      // **********************************************************************
+    } catch (error) {
+      console.log(" CATEGORY DATA ERROR:", error.data);
+    }
+  };
+
   // *********************  THIS FUNCTION IS USED TO LISTEN FOR NEW TRANSACTIONS CHANGES AT DB  *******************
-  const listenForNewChangesAtDB = () => {
+  const listenForNewChangesAtDB = (db) => {
+    console.log("TRANSACTIONS LISTENER AT CONTEXT IS RUNNING....");
     const collectionRef = db.collection("transactions");
     collectionRef.onSnapshot(async (snapshot) => {
       let hasNewData = false;
@@ -197,18 +234,8 @@ export const TransactionContextProvider = ({ children }) => {
           setTransactionsTotalAmount(total_amount);
           setTransactionsByMonthYear(transactions);
 
-          const categories_data = await getAllCategoriesData_By_UserID_Request(
-            user_id
-          );
-          if (!categories_data || categories_data.length === 0) {
-            console.log("REAL INCOMES STATUS 404");
-            setCategoriesData([]);
-            return;
-          } else {
-            // setCategoriesData(categories_data.data);
-            selectingCurrentMonthCategoryData(categories_data.data);
-            // setCategory_data_onDemand(categories_data.data[0]);
-          }
+          await updatingCategoryDataAfterTransactions(user_id, month_year);
+          // gettingCurrentCategoryDataAndAllCategoriesData(user_id, month_year);
           // setTransactionsByMonthYear(transactions);
           // setTransactionsTotalAmount(total_amount);
         } catch (error) {
@@ -237,7 +264,7 @@ export const TransactionContextProvider = ({ children }) => {
             );
 
             // If the response is truthy, call the listenForNewChangesAtDB function.
-            (await response) ? listenForNewChangesAtDB() : null;
+            (await response) ? listenForNewChangesAtDB(db) : null;
 
             // If the loading state is false, resolve the promise with the response.
             !isLoading ? resolve(response) : null;
@@ -271,7 +298,7 @@ export const TransactionContextProvider = ({ children }) => {
           try {
             const response = await deleteTransactionRequest(transaction_id);
             // console.log("RESPONSE:", JSON.stringify(response, null, 2));
-            (await response) ? listenForNewChangesAtDB() : null;
+            (await response) ? listenForNewChangesAtDB(db) : null;
             // response ? setIsLoading(false) : setIsLoading(true);
             !isLoading ? resolve(response) : null;
           } catch (error) {
@@ -308,6 +335,8 @@ export const TransactionContextProvider = ({ children }) => {
         deletingTransaction,
         gettingTransactions_byUserID_MonthYear_onDemand,
         getting_transactions_budgeted_and_real_income_totalAmounts,
+        updatingCategoryDataAfterTransactions,
+        listenForNewChangesAtDB,
       }}
     >
       {children}
