@@ -9,13 +9,11 @@ import { theme } from "../../../infrastructure/theme";
 export const BudgetsHeader = ({
   navigation,
   color,
-  flexibility,
   direction,
-  month_year_toRender,
-  month_year,
   action1,
   action2,
   action3,
+  caption,
 }) => {
   return (
     <FlexibleContainer
@@ -40,8 +38,7 @@ export const BudgetsHeader = ({
           action={action1}
           height={"55px"}
           borderRadius={25}
-          caption={month_year_toRender ? month_year_toRender : month_year}
-          //   caption={"MAY 2024"}
+          caption={caption}
           underlined={true}
         />
         <RoundedOptionButton

@@ -45,6 +45,7 @@ export const AppNavigator = () => {
       screenOptions={({ route }) => ({
         headerShown: false,
         ...createScreenOptions({ route }),
+        unmountOnBlur: true,
       })}
     >
       <Tab.Screen

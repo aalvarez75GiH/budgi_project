@@ -12,13 +12,16 @@ import { CircularButtonOptionComponent } from "../../global_components/organisms
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { BudgetsHeader } from "../../global_components/organisms/headers/budgets_view.header";
+import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
 
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
+import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 
 export const BudgetView = ({ navigation }) => {
   //   const { category_data_onDemand } = useContext(CategoryDataContext);
-  const { categoryData } = useContext(CategoryDataContext);
+  const { categoryData, gettingCategoryData_onDemand } =
+    useContext(CategoryDataContext);
   //   console.log("CATEGORY DATA AT BUDGET VIEW:", categoryData);
   //   const firstCategoryData = categoriesData[0];
   const { category_data_expenseCategories, month_year } = categoryData;
@@ -26,6 +29,12 @@ export const BudgetView = ({ navigation }) => {
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
+
+  const {
+    setMonthSelected,
+    month_name,
+    month_year: current_month_year,
+  } = useContext(DateOperationsContext);
 
   const [categorySelected, setCategorySelected] = useState(null);
   const [percentageCompleted, setPercentageCompleted] = useState(0);
@@ -38,9 +47,22 @@ export const BudgetView = ({ navigation }) => {
   const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const { amount_avail, amount_spent, limit_amount } =
     firstCategoryDataExpenseCategories;
+  const [internalIsLoading, setInternalIsLoading] = useState(false);
 
   useEffect(() => {
-    amountsMathLogic(firstCategoryDataExpenseCategories);
+    const test2 = async () => {
+      setInternalIsLoading(true);
+      setTimeout(() => {
+        amountsMathLogic(firstCategoryDataExpenseCategories);
+        setInternalIsLoading(false);
+      }, 2000);
+    };
+    test2();
+
+    return async () => {
+      setMonthSelected(month_name);
+      await gettingCategoryData_onDemand(current_month_year);
+    };
   }, []);
 
   useEffect(() => {
@@ -125,6 +147,7 @@ export const BudgetView = ({ navigation }) => {
   };
 
   console.log("PERCENTAGE COMPLETED:", percentageCompleted);
+  console.log("MONTH YEAR:", month_year);
 
   const movingForwardToMonthsPadView = (
     navigation,
@@ -138,7 +161,23 @@ export const BudgetView = ({ navigation }) => {
     });
   };
 
-  return (
+  <FlexibleContainer
+    color={theme.colors.bg.p_FFFFFF}
+    // color={"#FAD"}
+    direction="row"
+    flexibility={1}
+    justify={"center"}
+    isBordered={false}
+    alignment={"center"}
+  >
+    <IsLoadingContainer
+      size="large"
+      color={theme.colors.brand.primary}
+      caption="Loading transactions..."
+    />
+  </FlexibleContainer>;
+
+  return !internalIsLoading ? (
     <SafeArea background_color="#FFFFFF">
       <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
         <BudgetsHeader
@@ -147,8 +186,7 @@ export const BudgetView = ({ navigation }) => {
           //   color={"#FAA"}
           flexibility={0.15}
           direction={"row"}
-          month_year_toRender={month_year}
-          month_year={month_year}
+          caption={month_year_toRender ? month_year_toRender : month_year}
           action1={() =>
             movingForwardToMonthsPadView(
               navigation,
@@ -227,5 +265,21 @@ export const BudgetView = ({ navigation }) => {
         ></FlexibleContainer>
       </GeneralFlexContainer>
     </SafeArea>
+  ) : (
+    <FlexibleContainer
+      color={theme.colors.bg.p_FFFFFF}
+      // color={"#FAD"}
+      direction="row"
+      flexibility={1}
+      justify={"center"}
+      isBordered={false}
+      alignment={"center"}
+    >
+      <IsLoadingContainer
+        size="large"
+        color={theme.colors.brand.primary}
+        caption=""
+      />
+    </FlexibleContainer>
   );
 };
