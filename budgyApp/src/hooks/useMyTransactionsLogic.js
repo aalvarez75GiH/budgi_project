@@ -122,15 +122,10 @@ export const useMyTransactionsLogic = () => {
     setIsPressed(false);
     setIsLoadingByCat(true);
 
-    // Delay the execution of the following code by 200ms.
-
     try {
-      // Initialize an empty array to store transactions that match the criteria.
       let transactionsByCategoryMonthYear = [];
 
-      // Loop through all transactions.
       transactionsByMonthYear.map((transaction) => {
-        // If the transaction matches the user, category, and month/year, add it to the array.
         if (
           transaction.user_id === user_id &&
           transaction.category_id === category_id &&
@@ -140,20 +135,13 @@ export const useMyTransactionsLogic = () => {
         }
       });
 
-      // console.log(
-      //   "TRANSACTIONS BY CATEGORY MONTH YEAR:",
-      //   JSON.stringify(transactionsByCategoryMonthYear, null, 2)
-      // );
-      // If there are any transactions that match the criteria...
       if (transactionsByCategoryMonthYear.length) {
-        // ...calculate the total amount of these transactions.
         const transactions_amount = transactionsByCategoryMonthYear.reduce(
           (a, b) => ({
             amount: a.amount + b.amount,
           })
         );
 
-        // Set the total amount to be rendered.
         setTotalAmountToRender(transactions_amount.amount);
         const transactions_total_amount_and_transactions_by_category = {
           total_amount_by_category: transactions_amount.amount,
@@ -168,28 +156,21 @@ export const useMyTransactionsLogic = () => {
         };
         return transactions_total_amount_and_transactions_by_category;
       }
-
-      // Stop loading and set the transactions to be rendered.
-      // setIsLoadingByCat(false);
-      setTransactionsToRender(transactionsByCategoryMonthYear);
-      // return transactionsByCategoryMonthYear;
     } catch (error) {
-      // If there's an error, log it.
       console.log(error);
     } finally {
-      // Stop loading.
       setIsLoadingByCat(false);
     }
   };
 
-  console.log(
-    "TRANSACTIONS TO RENDER TRANSACTIONS HOOK:",
-    JSON.stringify(transactionsToRender, null, 2)
-  );
-  console.log(
-    "TOTAL AMOUNT TO RENDER AT USE MY TRANSACTIONS HOOK:",
-    totalAmountToRender
-  );
+  // console.log(
+  //   "TRANSACTIONS TO RENDER  AT USE MY TRANSACTIONS HOOK:",
+  //   JSON.stringify(transactionsToRender, null, 2)
+  // );
+  // console.log(
+  //   "TOTAL AMOUNT TO RENDER AT USE MY TRANSACTIONS HOOK:",
+  //   totalAmountToRender
+  // );
   //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
   const settingUpTransactionsFromContext = () => {
     setIsPressed(true);

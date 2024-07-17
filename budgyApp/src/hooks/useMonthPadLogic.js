@@ -83,11 +83,6 @@ export const useMonthPadLogic = () => {
         month_year_onDemand
       );
 
-      // setCategory_data_onDemand(categoriesData(index));
-      //   console.log("RESPONSE AT MONTHS PAD VIEW:", response);
-      // setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
-      // setTotalAmountBudgeted(response.totalBudgeted);
-      // setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
       navigation.goBack();
     }
   };

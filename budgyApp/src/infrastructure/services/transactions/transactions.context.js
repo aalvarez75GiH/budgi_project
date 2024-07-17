@@ -81,10 +81,10 @@ export const TransactionContextProvider = ({ children }) => {
     })();
   }, []);
 
-  console.log(
-    "TRANSACTIONS BY MONTH YEAR AT CONTEXT:",
-    JSON.stringify(transactionsByMonthYear, null, 2)
-  );
+  // console.log(
+  //   "TRANSACTIONS BY MONTH YEAR AT CONTEXT:",
+  //   JSON.stringify(transactionsByMonthYear, null, 2)
+  // );
 
   const gettingTransactions_byUserID_MonthYear_onDemand = async (
     user_id,

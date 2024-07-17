@@ -174,7 +174,7 @@ export const DateOperationsContextProvider = ({ children }) => {
   // Step 3: Slice the array to get months up to the current month
   const monthsUntilNow = months.slice(0, currentMonthIndex + 1);
 
-  console.log("MONTHS UNTIL NOW:", monthsUntilNow);
+  // console.log("MONTHS UNTIL NOW:", monthsUntilNow);
   // ************************************************************************************
 
   return (

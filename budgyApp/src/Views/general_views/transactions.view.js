@@ -9,22 +9,17 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 
 import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
 import { CheckIconComponent } from "../../global_components/check_icon_component";
-import { RoundedOptionButton } from "../../global_components/buttons/rounded_option_button";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
-import { CircularTextOptionComponent } from "../../global_components/organisms/clickables options/circular_text_option.component";
 import { useMyTransactionsLogic } from "../../hooks/useMyTransactionsLogic";
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 
-import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
+import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
+
 export const TransactionsView = ({ navigation, route }) => {
   const { transactions_and_amount_wanted } = route.params;
-  //   const { transactions_wanted, total_amount_wanted } =
-  //     transactions_and_amount_wanted;
-  console.log(
-    "TRANSACTIONS WANTED AT TRANSACTIONS VIEW:",
-    JSON.stringify(transactions_and_amount_wanted, null, 2)
-  );
+  const { month_selected } = useContext(DateOperationsContext);
+
   // ************** LOGIC FROM HOOK **************
   const {
     settingUpTransactionsFromContext,
@@ -33,27 +28,22 @@ export const TransactionsView = ({ navigation, route }) => {
     setMonthSelected,
     month_name,
     user_id,
-    transactionsToRender,
-    totalAmountToRender,
     isLoadingByCat,
     transactionsByMonthYear,
     total_amount,
     isLoading,
     setTransactionInfoForUpdate,
     gettingTransactions_byUserID_MonthYear_onDemand,
-    settingUpTransactions_byCategory_by_MonthYear,
-    settingUpTransactions_byCategory_by_MonthYear_test,
   } = useMyTransactionsLogic();
 
-  useEffect(() => {
-    return async () => {
-      setMonthSelected(month_name);
-      await gettingTransactions_byUserID_MonthYear_onDemand(
-        user_id,
-        month_year
-      );
-    };
-  }, []);
+  console.log(
+    "MONTH SELECTED AT TRANSACTIONS VIEW:",
+    JSON.stringify(month_selected, null, 2)
+  );
+  console.log(
+    "MONTH NAME AT TRANSACTIONS VIEW:",
+    JSON.stringify(month_name, null, 2)
+  );
 
   useEffect(() => {
     settingUpTransactionsFromContext();
