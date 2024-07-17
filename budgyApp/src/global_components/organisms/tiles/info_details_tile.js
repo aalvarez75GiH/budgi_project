@@ -84,6 +84,7 @@ export const InfoDetailsTile = ({
           top={0}
           justify={"center"}
           icon_name={icon_name}
+          icon_color={"#14223C"}
         />
       </InfoDetailsTileIconContainer>
     </InfoDetailsTileContainer>

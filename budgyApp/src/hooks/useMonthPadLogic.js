@@ -78,6 +78,10 @@ export const useMonthPadLogic = () => {
     }
     if (comingFrom === "BudgetsView") {
       await gettingCategoryData_onDemand(month_year_onDemand);
+      await gettingTransactions_byUserID_MonthYear_onDemand(
+        user_id,
+        month_year_onDemand
+      );
 
       // setCategory_data_onDemand(categoriesData(index));
       //   console.log("RESPONSE AT MONTHS PAD VIEW:", response);

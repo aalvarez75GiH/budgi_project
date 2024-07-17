@@ -30,10 +30,10 @@ export const CategoryDataContextProvider = ({ children }) => {
           user_id,
           month_year
         );
-        console.log(
-          "CATEGORY DATA:",
-          JSON.stringify(category_data.data, null, 2)
-        );
+        // console.log(
+        //   "CATEGORY DATA:",
+        //   JSON.stringify(category_data.data, null, 2)
+        // );
 
         if (category_data.status === 404) {
           setCategoryData({
@@ -49,14 +49,14 @@ export const CategoryDataContextProvider = ({ children }) => {
           user_id
         );
         if (!categories_data || categories_data.length === 0) {
-          console.log("CATEGORIES DATA STATUS 404");
+          // console.log("CATEGORIES DATA STATUS 404");
           setCategoriesData([]);
         } else {
           setCategoriesData(categories_data);
         }
         // **********************************************************************
       } catch (error) {
-        console.log(" CATEGORY DATA ERROR:", error.data);
+        // console.log(" CATEGORY DATA ERROR:", error.data);
       } finally {
         setIsLoadingCategoryDataContext(false);
       }
@@ -107,10 +107,10 @@ export const CategoryDataContextProvider = ({ children }) => {
 
   // const { categoriesData } = useContext(CategoryDataContext);
   // console.log("CATEGORIES DATA AT CONTEXT:", categoriesData);
-  console.log(
-    "CATEGORY DATA  AT CONTEXT:",
-    JSON.stringify(categoryData, null, 2)
-  );
+  // console.log(
+  //   "CATEGORY DATA  AT CONTEXT:",
+  //   JSON.stringify(categoryData, null, 2)
+  // );
 
   return (
     <CategoryDataContext.Provider

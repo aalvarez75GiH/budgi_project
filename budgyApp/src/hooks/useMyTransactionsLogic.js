@@ -47,11 +47,10 @@ export const useMyTransactionsLogic = () => {
     month_year_toRender,
     transactionsByMonthYear
   ) => {
-    console.log(
-      "TRANSACTIONS TO RENDER:",
-      JSON.stringify(transactionsToRender, null, 2)
-    );
     // console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
+    console.log("MONTH YEAR TO RENDER AT FUNCTION VIEW:", month_year_toRender);
+    console.log("USER_ID AT FUNCTION VIEW:", user_id);
+    console.log("CATEGORY SELECTED AT FUNCTION VIEW:", category_id);
 
     // Set the button to not pressed and start loading.
     setIsPressed(false);
@@ -108,9 +107,84 @@ export const useMyTransactionsLogic = () => {
     }, 200);
   };
 
+  const settingUpTransactions_byCategory_by_MonthYear_onDemand = async (
+    user_id,
+    category_id,
+    month_year_toRender,
+    transactionsByMonthYear
+  ) => {
+    // console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
+    console.log("MONTH YEAR TO RENDER AT FUNCTION VIEW:", month_year_toRender);
+    console.log("USER_ID AT FUNCTION VIEW:", user_id);
+    console.log("CATEGORY SELECTED AT FUNCTION VIEW:", category_id);
+
+    // Set the button to not pressed and start loading.
+    setIsPressed(false);
+    setIsLoadingByCat(true);
+
+    // Delay the execution of the following code by 200ms.
+
+    try {
+      // Initialize an empty array to store transactions that match the criteria.
+      let transactionsByCategoryMonthYear = [];
+
+      // Loop through all transactions.
+      transactionsByMonthYear.map((transaction) => {
+        // If the transaction matches the user, category, and month/year, add it to the array.
+        if (
+          transaction.user_id === user_id &&
+          transaction.category_id === category_id &&
+          transaction.month_year === month_year_toRender
+        ) {
+          transactionsByCategoryMonthYear.push(transaction);
+        }
+      });
+
+      // console.log(
+      //   "TRANSACTIONS BY CATEGORY MONTH YEAR:",
+      //   JSON.stringify(transactionsByCategoryMonthYear, null, 2)
+      // );
+      // If there are any transactions that match the criteria...
+      if (transactionsByCategoryMonthYear.length) {
+        // ...calculate the total amount of these transactions.
+        const transactions_amount = transactionsByCategoryMonthYear.reduce(
+          (a, b) => ({
+            amount: a.amount + b.amount,
+          })
+        );
+
+        // Set the total amount to be rendered.
+        setTotalAmountToRender(transactions_amount.amount);
+        const transactions_total_amount_and_transactions_by_category = {
+          total_amount_by_category: transactions_amount.amount,
+          transactions_by_category: transactionsByCategoryMonthYear,
+        };
+        return transactions_total_amount_and_transactions_by_category;
+      }
+      if (transactionsByCategoryMonthYear.length === 0) {
+        const transactions_total_amount_and_transactions_by_category = {
+          total_amount_by_category: 0,
+          transactions_by_category: [],
+        };
+        return transactions_total_amount_and_transactions_by_category;
+      }
+
+      // Stop loading and set the transactions to be rendered.
+      // setIsLoadingByCat(false);
+      setTransactionsToRender(transactionsByCategoryMonthYear);
+      // return transactionsByCategoryMonthYear;
+    } catch (error) {
+      // If there's an error, log it.
+      console.log(error);
+    } finally {
+      // Stop loading.
+      setIsLoadingByCat(false);
+    }
+  };
+
   console.log(
-    "MONTH YEAR TO RENDER AT USE MY TRANSACTIONS HOOK:",
-    month_year_toRender
+    "TRANSACTIONS TO RENDER TRANSACTIONS HOOK:",
+    JSON.stringify(transactionsToRender, null, 2)
   );
   console.log(
     "TOTAL AMOUNT TO RENDER AT USE MY TRANSACTIONS HOOK:",
@@ -228,6 +302,7 @@ export const useMyTransactionsLogic = () => {
             )
           }
           isSelected={isSelected}
+          icon_width={25}
         />
       );
     };
@@ -264,5 +339,7 @@ export const useMyTransactionsLogic = () => {
     setTransactionInfoForUpdate,
     gettingTransactions_byUserID_MonthYear_onDemand,
     expenseCategories,
+    settingUpTransactions_byCategory_by_MonthYear,
+    settingUpTransactions_byCategory_by_MonthYear_onDemand,
   };
 };

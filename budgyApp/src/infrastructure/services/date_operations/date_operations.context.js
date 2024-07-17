@@ -3,9 +3,6 @@ import React, { createContext, useState } from "react";
 export const DateOperationsContext = createContext();
 
 export const DateOperationsContextProvider = ({ children }) => {
-  // const [month_selected, setMonthSelected] = useState(
-  //   month_selected ? month_selected : month_name
-  // );
   const settingMonthYearForRequest = (month) => {
     const month_year_for_request = gettingAcronym(month);
     console.log(

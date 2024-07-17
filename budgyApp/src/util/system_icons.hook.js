@@ -32,6 +32,7 @@ import UberIcon from "../../assets/icons/svgs/uber_icon.svg";
 import DoordashIcon from "../../assets/icons/svgs/doordash_icon.svg";
 import GrubHubIcon from "../../assets/icons/svgs/grubhub_icon.svg";
 import LyftIcon from "../../assets/icons/svgs/lyft_icon.svg";
+import PlusIcon from "../../assets/icons/svgs/plus_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -158,6 +159,10 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "LyftIcon",
       icon: LyftIcon,
+    },
+    {
+      icon_name: "PlusIcon",
+      icon: PlusIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";

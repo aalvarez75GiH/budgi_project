@@ -12,6 +12,7 @@ export const CircularButtonOptionComponent = ({
   action,
   icon_name,
   isSelected,
+  icon_width,
 }) => {
   return (
     <ClickableControlledContainer
@@ -37,8 +38,8 @@ export const CircularButtonOptionComponent = ({
         <CircularContainer isSelected={isSelected} onPress={action}>
           <SVGComponent
             onPress={action}
-            icon_width={25}
-            icon_height={25}
+            icon_width={icon_width}
+            icon_height={icon_width}
             position={"static"}
             left={"0%"}
             top={"0%"}

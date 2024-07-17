@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Home } from "../../Views/home/home.view";
 import { BudgetView } from "../../Views/budgets/budget.view";
 import { MonthsPadView } from "../../Views/general_views/months_pad.view";
+import { TransactionsView } from "../../Views/general_views/transactions.view";
 // import { GeneralSelectCategoryView } from "../../Views/general_views/select_category.view";
 
 const BudgetStack = createNativeStackNavigator();
@@ -20,6 +21,11 @@ export const BudgetNavigator = () => {
       <BudgetStack.Screen
         name="Months_Pad_View"
         component={MonthsPadView}
+        options={{ animation: "slide_from_right" }}
+      />
+      <BudgetStack.Screen
+        name="Transactions_View"
+        component={TransactionsView}
         options={{ animation: "slide_from_right" }}
       />
     </BudgetStack.Navigator>
