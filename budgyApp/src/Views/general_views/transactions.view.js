@@ -24,16 +24,12 @@ export const TransactionsView = ({ navigation, route }) => {
   const {
     settingUpTransactionsFromContext,
     renderItem,
-    month_year,
-    setMonthSelected,
     month_name,
-    user_id,
     isLoadingByCat,
     transactionsByMonthYear,
     total_amount,
     isLoading,
     setTransactionInfoForUpdate,
-    gettingTransactions_byUserID_MonthYear_onDemand,
   } = useMyTransactionsLogic();
 
   console.log(

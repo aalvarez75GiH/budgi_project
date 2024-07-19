@@ -124,17 +124,6 @@ export const DateOperationsContextProvider = ({ children }) => {
   };
   const month_year = gettingAcronym(month_name);
 
-  // const operationsDateData = {
-  //   system_date: system_date,
-  //   day_week: day_week,
-  //   month_name: month_name,
-  //   year: year,
-  //   month: month,
-  //   expenseDate: expenseDate,
-  //   calendar_date_initial_date: calendar_date_initial_date,
-  //   month_year: month_year,
-  // };
-
   const packingExpenseDateForDifferentDay = (date) => {
     const system_date_for_different_day = new Date(date);
     console.log("SYSTEM DATE", system_date_for_different_day);
