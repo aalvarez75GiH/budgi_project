@@ -30,6 +30,8 @@ export const TransactionsView = ({ navigation, route }) => {
     total_amount,
     isLoading,
     setTransactionInfoForUpdate,
+    transactionsToRender,
+    settingUpTransactions_byCategory_by_MonthYear_onDemand,
   } = useMyTransactionsLogic();
 
   console.log(
@@ -40,6 +42,10 @@ export const TransactionsView = ({ navigation, route }) => {
     "MONTH NAME AT TRANSACTIONS VIEW:",
     JSON.stringify(month_name, null, 2)
   );
+  useEffect(() => {
+    console.log("USE EFFECT ACTIVATED");
+    settingUpTransactionsFromContext();
+  }, []);
 
   useEffect(() => {
     settingUpTransactionsFromContext();
@@ -182,6 +188,12 @@ export const TransactionsView = ({ navigation, route }) => {
               showsHorizontalScrollIndicator={false}
               showsVerticalScrollIndicator={false}
               data={transactions_and_amount_wanted.transactions_by_category}
+              // data={
+              //   transactions_and_amount_wanted.transactions_by_category.length >
+              //   0
+              //     ? transactions_and_amount_wanted.transactions_by_category
+              //     : transactionsToRender
+              // }
               renderItem={renderItem(navigation, setTransactionInfoForUpdate)}
               keyExtractor={(item, id) => {
                 return item.transaction_id;

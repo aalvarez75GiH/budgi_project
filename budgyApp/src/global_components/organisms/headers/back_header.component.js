@@ -6,7 +6,13 @@ import { RNPIconButton } from "../../buttons/RNP_icon_button";
 import { AuthenticationContext } from "../../../infrastructure/services/authentication/authentication.context";
 import { FlexibleContainer } from "../../containers/flexible_container";
 
-export const BackHeaderComponent = ({ navigation, color, action, align }) => {
+export const BackHeaderComponent = ({
+  navigation,
+  color,
+  action,
+  align,
+  flexibility,
+}) => {
   const { language } = useContext(AuthenticationContext);
 
   const caption = language === "english" ? "Back" : "Atrás";
@@ -14,7 +20,7 @@ export const BackHeaderComponent = ({ navigation, color, action, align }) => {
     <FlexibleContainer
       color={color}
       direction="row"
-      flexibility={1}
+      flexibility={flexibility}
       justify={"center"}
     >
       <RNPIconButton

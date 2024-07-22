@@ -10,6 +10,7 @@ export const CategoryListContextProvider = ({ children }) => {
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
+  const [categoryName, setCategoryName] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -27,11 +28,18 @@ export const CategoryListContextProvider = ({ children }) => {
     })();
   }, []);
 
+  const clearingCategoryNameAndBack = (navigation) => {
+    setCategoryName("");
+    navigation.goBack();
+  };
   return (
     <CategoryListContext.Provider
       value={{
         categoryList,
         isLoading,
+        categoryName,
+        setCategoryName,
+        clearingCategoryNameAndBack,
       }}
     >
       {children}

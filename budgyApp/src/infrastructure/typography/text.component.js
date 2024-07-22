@@ -137,10 +137,10 @@ font-weight: ${theme.fontWeights.bold};
 `;
 
 const neutral_bold_text_14 = (theme) => `
-font-family: ${theme.fonts.regular};
+font-family: ${theme.fonts.bold};
 font-size: ${theme.fontSizes.text_14};
 color: ${theme.colors.buttons.e2_5B6477};
-font-weight: ${theme.fontWeights.regular};
+font-weight: ${theme.fontWeights.bold};
 `;
 const white_bold_text_14 = (theme) => `
 font-family: ${theme.fonts.bold};

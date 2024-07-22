@@ -303,8 +303,15 @@ const preparing_a_single_new_category_data_expense_category_node = (
 ) => {
   console.log("NEW NODE TO INSERT", new_expense_category_node);
 
-  const { category_name, category_id, limit_amount, updated_on, status } =
-    new_expense_category_node;
+  const {
+    category_name,
+    category_id,
+    limit_amount,
+    updated_on,
+    status,
+    short_name,
+    icon_name,
+  } = new_expense_category_node;
 
   const expenseCategoryNodeForCategoryData = {
     amount_avail: limit_amount,
@@ -315,6 +322,8 @@ const preparing_a_single_new_category_data_expense_category_node = (
     updated: true,
     updated_on: updated_on,
     status: status,
+    short_name: short_name,
+    icon_name: icon_name,
   };
   return expenseCategoryNodeForCategoryData;
 };

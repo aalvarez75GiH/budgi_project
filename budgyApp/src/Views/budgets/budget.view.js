@@ -60,14 +60,14 @@ export const BudgetView = ({ navigation }) => {
   const [internalIsLoading, setInternalIsLoading] = useState(false);
 
   useEffect(() => {
-    const test2 = async () => {
+    const initialAmountsMathLogicForFirstCategoryData = async () => {
       setInternalIsLoading(true);
       setTimeout(() => {
         amountsMathLogic(firstCategoryDataExpenseCategories);
         setInternalIsLoading(false);
       }, 2000);
     };
-    test2();
+    initialAmountsMathLogicForFirstCategoryData();
 
     return async () => {
       setMonthSelected(month_name);
@@ -76,7 +76,7 @@ export const BudgetView = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    const test = async () => {
+    const runningAmountMathLogicForCategoryDataOnDemand = async () => {
       //   console.log("CATEGORY DATA CHANGED");
 
       // Check if categorySelected or categorySelected.category_id is null or undefined
@@ -103,7 +103,7 @@ export const BudgetView = ({ navigation }) => {
         // Handle the case where the category is not found
       }
     };
-    test();
+    runningAmountMathLogicForCategoryDataOnDemand();
   }, [categoryData, categorySelected]); // Also, add categorySelected to the dependency array
 
   const amountsMathLogic = (categorySelected) => {
@@ -168,20 +168,11 @@ export const BudgetView = ({ navigation }) => {
       comingFrom: "BudgetsView",
     });
   };
-  //   const gettingTransactionsByCategory = (
-  //     selectedItem,
-  //     transactionsByMonthYear
-  //   ) => {
-  //     // const { category_id } = item;
-  //     // selectedItem === category_id;
-  //     // setSelectedItem(item.category_id);
-  //     settingUpTransactions_byCategory_by_MonthYear_onDemand(
-  //       user_id,
-  //       selectedItem,
-  //       month_year_toRender,
-  //       transactionsByMonthYear
-  //     );
-  //   };
+  const movingForwardToNewCategoryNameView = () => {
+    navigation.navigate("New_category_name_View", {
+      comingFrom: "BudgetsView",
+    });
+  };
 
   const movingForwardToTransactions = async (navigation) => {
     const transactions_and_amount_wanted =
@@ -350,7 +341,7 @@ export const BudgetView = ({ navigation }) => {
           <CircularButtonOptionComponent
             caption={""}
             icon_name={"PlusIcon"}
-            action={() => null}
+            action={() => movingForwardToNewCategoryNameView()}
             isSelected={false}
             icon_width={25}
             // isSelected={}

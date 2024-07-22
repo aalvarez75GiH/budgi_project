@@ -38,16 +38,6 @@ export default function App() {
     return null;
   }
 
-  // ***************************************************
-  // const [fontsLoaded] = useFonts({
-  //   "DMSans_400Regular": require("./assets/fonts/DMSans-Regular.ttf"),
-  //   "DMSans_700Bold": require("./assets/fonts/DMSans-Bold.ttf"),
-  // });
-
-  // if (!fontsLoaded) {
-  //   return null;
-  // }
-
   return (
     <>
       <ThemeProvider theme={theme}>

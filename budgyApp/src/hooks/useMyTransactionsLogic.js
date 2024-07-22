@@ -184,6 +184,7 @@ export const useMyTransactionsLogic = () => {
   };
 
   //   ******** THIS FUNCTION TAKE THE WHOLE TRANSACTIONS AND SET IT UP FOR RENDERING ******** //
+  //   ******** THIS FUNCTION IT DOES EXECUTES WHEN USER CLICK ALL TRANSACTIONS BUTTON ******** //
   const settingUpTransactionsFromContextForAllOptionButton = (
     transactionsByMonthYear,
     total_amount,

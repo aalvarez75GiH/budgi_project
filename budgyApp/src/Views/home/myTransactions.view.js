@@ -42,7 +42,6 @@ export const MyTransactionsView = ({ navigation }) => {
     transactionsByMonthYear,
     total_amount,
     isLoading,
-    setIsLoading,
     setTransactionInfoForUpdate,
     gettingTransactions_byUserID_MonthYear_onDemand,
     expenseCategories,

@@ -25,6 +25,7 @@ export const GeneralCalendarView = ({ navigation, route }) => {
     <GeneralFlexContainer color={"white"}>
       <BackHeaderComponent
         navigation={navigation}
+        flexibility={1}
         width={"50%"}
         height={"15%"}
         direction={"column"}
