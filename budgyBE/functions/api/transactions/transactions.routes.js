@@ -421,7 +421,7 @@ app.delete("/", (req, res) => {
   })();
 });
 
-//** Update multiple transactions - This is a Developer provisional end point
+//** DELETE MULTIPLE TRANSACTIONS - THIS IS JUST A DEVELOPER END POINT
 app.delete("/transactionsByUserId_CategoryId", (req, res) => {
   const user_id = req.query.user_id;
   const category_id = req.query.category_id;

@@ -13,6 +13,10 @@ export const TwoIconsHeaderComponent = ({
   action_icon_left,
   icon_name_left,
   icon_name_right,
+  icon_top_left,
+  icon_left_left,
+  icon_top_right,
+  icon_left_right,
 }) => {
   return (
     <FlexibleContainer
@@ -28,8 +32,8 @@ export const TwoIconsHeaderComponent = ({
         icon_width={22}
         icon_height={22}
         position={"absolute"}
-        left={"2%"}
-        top={"60%"}
+        icon_left={icon_left_left}
+        icon_top={icon_top_left}
         justify="flex-end"
       />
       <SVG_Clickable_Component
@@ -38,8 +42,8 @@ export const TwoIconsHeaderComponent = ({
         icon_width={23}
         icon_height={23}
         position={"absolute"}
-        left={"80%"}
-        top={"60%"}
+        icon_left={icon_left_right}
+        icon_top={icon_top_right}
         justify="flex-end"
       />
     </FlexibleContainer>

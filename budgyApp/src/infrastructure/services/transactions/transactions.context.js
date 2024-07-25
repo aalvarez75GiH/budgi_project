@@ -53,7 +53,11 @@ export const TransactionContextProvider = ({ children }) => {
   const [transactionsByMonthYear, setTransactionsByMonthYear] = useState([]);
   const [total_amount, setTransactionsTotalAmount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [transactionsToRenderForBudgets, setTransactionsToRenderForBudgets] =
+    useState([]);
+  const [totalAmountToRenderForBudgets, setTotalAmountToRenderForBudgets] =
+    useState(0);
+  const [readyToUpdate, setReadyToUpdate] = useState(false);
   // ******************** Work in progress ************************
   useEffect(() => {
     (async () => {
@@ -166,6 +170,7 @@ export const TransactionContextProvider = ({ children }) => {
   const updatingCategoryDataAfterTransactions = async (user_id, month_year) => {
     console.log(" UPDATING CATEGORY DATA AFTER TRANSACTIONS....");
     try {
+      // ********** GETTING CATEGORY CURRENT CATEGORY DATA PROCESS  **********
       const category_data = await getCategoryData_By_UserID_MonthYearRequest(
         user_id,
         month_year
@@ -184,7 +189,7 @@ export const TransactionContextProvider = ({ children }) => {
       if (category_data.status === 200) {
         setCategoryData(category_data.data);
       }
-      // **********************************************************************
+      // ********** GETTING ALL CATEGORIES DATA PROCESS  **********
       const categories_data = await getAllCategoriesData_By_UserID_Request(
         user_id
       );
@@ -209,6 +214,23 @@ export const TransactionContextProvider = ({ children }) => {
 
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
+          console.log("DATA WAS ADDED....");
+          const newData = change.doc.data();
+          // console.log("NEW TRANSACTION IS:", newData);
+          if (newData) {
+            hasNewData = true;
+          }
+        }
+        if (change.type === "modified") {
+          console.log("DATA WAS MODIFIED....");
+          const newData = change.doc.data();
+          // console.log("NEW TRANSACTION IS:", newData);
+          if (newData) {
+            hasNewData = true;
+          }
+        }
+        if (change.type === "removed") {
+          console.log("DATA WAS REMOVED....");
           const newData = change.doc.data();
           // console.log("NEW TRANSACTION IS:", newData);
           if (newData) {
@@ -337,6 +359,12 @@ export const TransactionContextProvider = ({ children }) => {
         getting_transactions_budgeted_and_real_income_totalAmounts,
         updatingCategoryDataAfterTransactions,
         listenForNewChangesAtDB,
+        transactionsToRenderForBudgets,
+        setTransactionsToRenderForBudgets,
+        totalAmountToRenderForBudgets,
+        setTotalAmountToRenderForBudgets,
+        readyToUpdate,
+        setReadyToUpdate,
       }}
     >
       {children}

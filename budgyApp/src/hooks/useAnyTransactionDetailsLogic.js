@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
 
 export const useAnyTransactionDetailsLogic = () => {
@@ -8,6 +8,8 @@ export const useAnyTransactionDetailsLogic = () => {
     updatingTransaction,
     isLoading,
     transactionInfoForUpdate,
+    setReadyToUpdate,
+    readyToUpdate,
   } = useContext(TransactionsContext);
   const { amount, transaction_date, short_name, description, transaction_id } =
     transactionInfoForUpdate;
@@ -23,6 +25,8 @@ export const useAnyTransactionDetailsLogic = () => {
         comingFrom: comingFrom,
       });
     };
+    // "General_select_category_view",
+    //           "AnyTransactionDetailsView"
     const movingForwardToSelectCategoryView = (
       navigation,
       toNavigate,
@@ -43,16 +47,19 @@ export const useAnyTransactionDetailsLogic = () => {
     };
     const movingForwardToDeleteConfirmationView = (
       navigation,
-      toNavigate
+      toNavigate,
+      comingFrom
       //   transaction_id
     ) => {
       navigation.navigate(toNavigate, {
         transaction_id: transaction_id,
+        comingFrom: comingFrom,
       });
     };
 
     const updatingTransactionProcess = async (navigation) => {
       const response = await updatingTransaction();
+      setReadyToUpdate(false);
       response ? navigation.goBack() : null;
     };
     // const updatingTransactionProcess = async (navigation) => {
@@ -80,5 +87,6 @@ export const useAnyTransactionDetailsLogic = () => {
     short_name,
     description,
     isLoading,
+    readyToUpdate,
   };
 };

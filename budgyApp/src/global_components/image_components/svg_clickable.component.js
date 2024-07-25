@@ -4,13 +4,12 @@ import { SvgClickableContainer } from "../containers/svg_clickable_container";
 // import { useSVGComponent } from "../../util/default_icons.hook";
 import { useSVGComponent } from "../../util/system_icons.hook";
 
-
 export const SVG_Clickable_Component = ({
   icon_width,
   icon_height,
   position,
-  left,
-  top,
+  icon_left,
+  icon_top,
   justify,
   action,
   icon_name,
@@ -21,8 +20,8 @@ export const SVG_Clickable_Component = ({
   return (
     <SvgClickableContainer
       position={position}
-      left={left}
-      top={top}
+      left={icon_left}
+      top={icon_top}
       justify={justify}
       onPress={action}
     >

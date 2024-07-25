@@ -3,7 +3,12 @@ import React from "react";
 import { FlexibleContainer } from "../../containers/flexible_container";
 import { SVG_Clickable_Component } from "../../image_components/svg_clickable.component";
 
-export const MenuHeaderComponent = ({ navigation, color }) => {
+export const MenuHeaderComponent = ({
+  navigation,
+  color,
+  icon_left,
+  icon_top,
+}) => {
   const openingMenu = () => {
     navigation.navigate("Menu");
   };
@@ -22,8 +27,8 @@ export const MenuHeaderComponent = ({ navigation, color }) => {
         icon_width={35}
         icon_height={35}
         position={"absolute"}
-        left={"80%"}
-        top={"40%"}
+        icon_left={icon_left}
+        icon_top={icon_top}
         justify="flex-end"
       />
     </FlexibleContainer>

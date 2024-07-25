@@ -1,9 +1,10 @@
 import { useState, useContext } from "react";
-import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
 import { RegularCategoryTile } from "../global_components/organisms/tiles/category_list_tile";
 
 import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
+import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
+
 export const useSelectCategoryLogic = () => {
   //   ****** DATA FROM DATES OPERATIONS CONTEXT ************
   const { system_date, expenseDate } = useContext(DateOperationsContext);
@@ -11,6 +12,9 @@ export const useSelectCategoryLogic = () => {
   //   ****** DATA FROM CATEGORY LIST CONTEXT ************
   const { categoryList, isLoading } = useContext(CategoryListContext);
   const { expense_categories } = categoryList;
+
+  //   ****** DATA FROM TRANSACTIONS CONTEXT ************
+  const { setReadyToUpdate } = useContext(TransactionsContext);
 
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -50,35 +54,78 @@ export const useSelectCategoryLogic = () => {
 
   //**** HERE WE SET THE CATEGORY SELECTED AND SET TRANSACTION INFO FOR REQUEST WITH INFO NEEDED ****
   const selectingCategory = (navigation, item, comingFrom) => {
+    console.log(" COMING FROM AT SELECTING CATEGORY:", comingFrom);
     const { category_id, category_name, short_name, icon_name } = item;
 
-    //   ****** DATA FROM TRANSACTIONS CONTEXT ************
-
-    // console.log("ITEM NAME AT SELECTING CATEGORY :", item.category_name);
     selectedItem === category_id;
     setSelectedItem(item.category_id);
     // console.log("SELECTED ITEM:", selectedItem);
-    comingFrom === "AnyTransactionDetailsView"
-      ? setTransactionInfoForUpdate({
-          ...transactionInfoForUpdate,
-          category_name: category_name,
-          category_id: category_id,
-          icon_name: icon_name,
-          short_name: short_name,
-        })
-      : setTransactionInfoForRequest({
-          ...transactionInfoForRequest,
-          category_name: category_name,
-          category_id: category_id,
-          icon_name: icon_name,
-          short_name: short_name,
-          amount: fixingANumberToTwoDecimals(amount),
-        });
-
-    comingFrom === "AnyTransactionDetailsView"
-      ? navigation.navigate("Transaction_details_view")
-      : navigation.navigate("Transaction_summary");
+    if (comingFrom === "AnyTransactionDetailsView") {
+      setTransactionInfoForUpdate({
+        ...transactionInfoForUpdate,
+        category_name: category_name,
+        category_id: category_id,
+        icon_name: icon_name,
+        short_name: short_name,
+      });
+      setReadyToUpdate(true);
+      // navigation.navigate("Transaction_details_view");
+      navigation.navigate("Transaction_details_view", {
+        comingFrom: comingFrom,
+      });
+    }
+    if (comingFrom === "Home_View") {
+      setTransactionInfoForRequest({
+        ...transactionInfoForRequest,
+        category_name: category_name,
+        category_id: category_id,
+        icon_name: icon_name,
+        short_name: short_name,
+        amount: fixingANumberToTwoDecimals(amount),
+      });
+      setReadyToUpdate(true);
+      navigation.navigate("Transaction_summary");
+    }
   };
+  // //**** HERE WE SET THE CATEGORY SELECTED AND SET TRANSACTION INFO FOR REQUEST WITH INFO NEEDED ****
+  // const selectingCategory = (navigation, item, comingFrom) => {
+  //   console.log(" COMING FROM AT SELECTING CATEGORY:", comingFrom);
+  //   const { category_id, category_name, short_name, icon_name } = item;
+
+  //   selectedItem === category_id;
+  //   setSelectedItem(item.category_id);
+  //   // console.log("SELECTED ITEM:", selectedItem);
+  //   comingFrom === "AnyTransactionDetailsView"
+  //     ? setTransactionInfoForUpdate({
+  //         ...transactionInfoForUpdate,
+  //         category_name: category_name,
+  //         category_id: category_id,
+  //         icon_name: icon_name,
+  //         short_name: short_name,
+  //       })
+  //     : setTransactionInfoForRequest({
+  //         ...transactionInfoForRequest,
+  //         category_name: category_name,
+  //         category_id: category_id,
+  //         icon_name: icon_name,
+  //         short_name: short_name,
+  //         amount: fixingANumberToTwoDecimals(amount),
+  //       });
+
+  //   if (comingFrom === "AnyTransactionDetailsView") {
+  //     setReadyToUpdate(true);
+  //     navigation.navigate("Transaction_details_view");
+  //   }
+  //   // if (comingFrom === "Home_View") {
+  //   //   setReadyToUpdate(true);
+  //   //   navigation.navigate("Transaction_details_view", {
+  //   //     comingFrom: "Home_View",
+  //   //   });
+  //   // }
+  //   // comingFrom === "AnyTransactionDetailsView"
+  //   //   ? navigation.navigate("Transaction_details_view")
+  //   //   : navigation.navigate("Transaction_summary");
+  // };
 
   const goingBack = (navigation) => {
     navigation.goBack();

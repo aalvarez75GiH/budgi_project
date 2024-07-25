@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { TransactionTile } from "../global_components/organisms/tiles/transaction_tile";
 import { CircularButtonOptionComponent } from "../global_components/organisms/clickables options/circularButton_option.component";
 
@@ -6,12 +6,18 @@ import { DateOperationsContext } from "../infrastructure/services/date_operation
 import { AuthenticationContext } from "../infrastructure/services/authentication/authentication.context";
 import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
+import { set } from "date-fns";
 
 export const useMyTransactionsLogic = () => {
   //   ****** DATA FROM DATE OPERATIONS CONTEXT ************
-  const { month_year, setMonthSelected, month_name } = useContext(
-    DateOperationsContext
-  );
+  const {
+    month_year,
+    setMonthSelected,
+    month_name,
+    resetMonth_year_toRender,
+    set_month_year_toRender,
+    month_year_toRender,
+  } = useContext(DateOperationsContext);
 
   //   ****** DATA FROM AUTHENTICATION CONTEXT ************
   const { user } = useContext(AuthenticationContext);
@@ -29,19 +35,94 @@ export const useMyTransactionsLogic = () => {
     setIsLoading,
     setTransactionInfoForUpdate,
     gettingTransactions_byUserID_MonthYear_onDemand,
+    setTransactionsToRenderForBudgets,
+    setTotalAmountToRenderForBudgets,
   } = useContext(TransactionsContext);
 
   const [isPressed, setIsPressed] = useState(false);
   const [isLoadingByCat, setIsLoadingByCat] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const [totalAmountToRender, setTotalAmountToRender] = useState(0);
   const [transactionsToRender, setTransactionsToRender] = useState([]);
   const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
     []
   );
 
+  // Step 3 & 4: Use useEffect to detect when state variables revert to their initial state
+  useEffect(() => {
+    if (transactionsToRender === transactionsByMonthYear) {
+      // Step 5: Perform desired action
+      console.log(
+        "Both transactionsToRender and totalAmountToRender are set to their initial state."
+      );
+    }
+  }, [transactionsToRender, totalAmountToRender]); // Dependencies array, effect runs on changes to these variables
+
   const settingUpTransactions_byCategory_by_MonthYear = async (
+    user_id,
+    category_id,
+    month_year_toRender,
+    transactionsByMonthYear
+  ) => {
+    // console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
+    console.log("MONTH YEAR TO RENDER AT FUNCTION VIEW:", month_year_toRender);
+    console.log("USER_ID AT FUNCTION VIEW:", user_id);
+    console.log("CATEGORY SELECTED AT FUNCTION VIEW:", category_id);
+
+    // Set the button to not pressed and start loading.
+    setIsPressed(false);
+    setIsLoadingByCat(true);
+
+    // Delay the execution of the following code by 200ms.
+    setTimeout(() => {
+      try {
+        // Initialize an empty array to store transactions that match the criteria.
+        let transactionsByCategoryMonthYear = [];
+
+        // Loop through all transactions.
+        transactionsByMonthYear.map((transaction) => {
+          // If the transaction matches the user, category, and month/year, add it to the array.
+          if (
+            transaction.user_id === user_id &&
+            transaction.category_id === category_id &&
+            transaction.month_year === month_year_toRender
+          ) {
+            transactionsByCategoryMonthYear.push(transaction);
+          }
+        });
+
+        // If there are any transactions that match the criteria...
+        if (transactionsByCategoryMonthYear.length) {
+          // ...calculate the total amount of these transactions.
+          const transactions_amount = transactionsByCategoryMonthYear.reduce(
+            (a, b) => ({
+              amount: a.amount + b.amount,
+            })
+          );
+
+          // Set the total amount to be rendered.
+          setTotalAmountToRender(transactions_amount.amount);
+        } else {
+          setTotalAmountToRender(0);
+          setTransactionsToRender([]);
+          // If there are no transactions that match the criteria, log a message.
+          console.log("THERE ARE NO TRANSACTIONS FOR THAT CATEGORY...");
+          return;
+        }
+
+        // Stop loading and set the transactions to be rendered.
+        // setIsLoadingByCat(false);
+        setTransactionsToRender(transactionsByCategoryMonthYear);
+      } catch (error) {
+        // If there's an error, log it.
+        console.log(error);
+      } finally {
+        // Stop loading.
+        setIsLoadingByCat(false);
+      }
+    }, 200);
+  };
+  const settingUpTransactions_byCategory_by_MonthYear_onDemand = async (
     user_id,
     category_id,
     month_year_toRender,
@@ -88,15 +169,18 @@ export const useMyTransactionsLogic = () => {
           );
 
           // Set the total amount to be rendered.
-          setTotalAmountToRender(transactions_amount.amount);
+          setTotalAmountToRenderForBudgets(transactions_amount.amount);
         } else {
+          setTotalAmountToRenderForBudgets(0);
+          setTransactionsToRenderForBudgets([]);
           // If there are no transactions that match the criteria, log a message.
           console.log("THERE ARE NO TRANSACTIONS FOR THAT CATEGORY...");
+          return;
         }
 
         // Stop loading and set the transactions to be rendered.
         // setIsLoadingByCat(false);
-        setTransactionsToRender(transactionsByCategoryMonthYear);
+        setTransactionsToRenderForBudgets(transactionsByCategoryMonthYear);
       } catch (error) {
         // If there's an error, log it.
         console.log(error);
@@ -107,70 +191,6 @@ export const useMyTransactionsLogic = () => {
     }, 200);
   };
 
-  const settingUpTransactions_byCategory_by_MonthYear_onDemand = async (
-    user_id,
-    category_id,
-    month_year_toRender,
-    transactionsByMonthYear
-  ) => {
-    // console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
-    console.log("MONTH YEAR TO RENDER AT FUNCTION VIEW:", month_year_toRender);
-    console.log("USER_ID AT FUNCTION VIEW:", user_id);
-    console.log("CATEGORY SELECTED AT FUNCTION VIEW:", category_id);
-
-    // Set the button to not pressed and start loading.
-    setIsPressed(false);
-    setIsLoadingByCat(true);
-
-    try {
-      let transactionsByCategoryMonthYear = [];
-
-      transactionsByMonthYear.map((transaction) => {
-        if (
-          transaction.user_id === user_id &&
-          transaction.category_id === category_id &&
-          transaction.month_year === month_year_toRender
-        ) {
-          transactionsByCategoryMonthYear.push(transaction);
-        }
-      });
-
-      if (transactionsByCategoryMonthYear.length) {
-        const transactions_amount = transactionsByCategoryMonthYear.reduce(
-          (a, b) => ({
-            amount: a.amount + b.amount,
-          })
-        );
-
-        setTotalAmountToRender(transactions_amount.amount);
-        const transactions_total_amount_and_transactions_by_category = {
-          total_amount_by_category: transactions_amount.amount,
-          transactions_by_category: transactionsByCategoryMonthYear,
-        };
-        return transactions_total_amount_and_transactions_by_category;
-      }
-      if (transactionsByCategoryMonthYear.length === 0) {
-        const transactions_total_amount_and_transactions_by_category = {
-          total_amount_by_category: 0,
-          transactions_by_category: [],
-        };
-        return transactions_total_amount_and_transactions_by_category;
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingByCat(false);
-    }
-  };
-
-  // console.log(
-  //   "TRANSACTIONS TO RENDER  AT USE MY TRANSACTIONS HOOK:",
-  //   JSON.stringify(transactionsToRender, null, 2)
-  // );
-  // console.log(
-  //   "TOTAL AMOUNT TO RENDER AT USE MY TRANSACTIONS HOOK:",
-  //   totalAmountToRender
-  // );
   //   **** HERE WE GET THE TRANSACTIONS COMING FROM CONTEXT ****
   const settingUpTransactionsFromContext = () => {
     setIsPressed(true);
@@ -202,14 +222,28 @@ export const useMyTransactionsLogic = () => {
     }, 1000);
   };
 
-  const selectingCategoryAndGettingTransactions = (
+  const selectingCategoryAndPackagingRespectiveTransactions = (
     item,
     transactionsByMonthYear
   ) => {
     const { category_id } = item;
     selectedItem === category_id;
-    setSelectedItem(item.category_id);
+    setSelectedItem(category_id);
     settingUpTransactions_byCategory_by_MonthYear(
+      user_id,
+      category_id,
+      month_year_toRender,
+      transactionsByMonthYear
+    );
+  };
+
+  const packagingAndFilteringTransactionsAndAmountByCategoryBudget = (
+    category_id,
+    transactionsByMonthYear
+  ) => {
+    // selectedItem === category_id;
+    // setSelectedItem(category_id);
+    settingUpTransactions_byCategory_by_MonthYear_onDemand(
       user_id,
       category_id,
       month_year_toRender,
@@ -221,10 +255,13 @@ export const useMyTransactionsLogic = () => {
   const movingForwardToDetailsView = (
     navigation,
     item,
-    setTransactionInfoForUpdate
+    setTransactionInfoForUpdate,
+    comingFrom
   ) => {
     setTransactionInfoForUpdate(item);
-    navigation.navigate("Transaction_details_view");
+    navigation.navigate("Transaction_details_view", {
+      comingFrom: comingFrom,
+    });
   };
 
   const movingForwardToMonthsPadView = (
@@ -243,7 +280,7 @@ export const useMyTransactionsLogic = () => {
 
   //   ********* RENDERING TRANSACTIONS ********* //
   const renderItem =
-    (navigation, setTransactionInfoForUpdate) =>
+    (navigation, setTransactionInfoForUpdate, comingFrom) =>
     ({ item }) => {
       return (
         <TransactionTile
@@ -259,7 +296,8 @@ export const useMyTransactionsLogic = () => {
             movingForwardToDetailsView(
               navigation,
               item,
-              setTransactionInfoForUpdate
+              setTransactionInfoForUpdate,
+              comingFrom
             )
           }
         />
@@ -278,7 +316,7 @@ export const useMyTransactionsLogic = () => {
           caption={item.short_name}
           icon_name={item.icon_name}
           action={() =>
-            selectingCategoryAndGettingTransactions(
+            selectingCategoryAndPackagingRespectiveTransactions(
               item,
               transactionsByMonthYear
             )
@@ -296,12 +334,9 @@ export const useMyTransactionsLogic = () => {
     settingUpTransactionsFromContext,
     renderItem,
     renderCategoryItem,
-    selectingCategoryAndGettingTransactions,
     selectedItem,
     isPressed,
     setIsPressed,
-    month_year_toRender,
-    set_month_year_toRender,
     month_year,
     setMonthSelected,
     month_name,
@@ -323,5 +358,9 @@ export const useMyTransactionsLogic = () => {
     expenseCategories,
     settingUpTransactions_byCategory_by_MonthYear,
     settingUpTransactions_byCategory_by_MonthYear_onDemand,
+    packagingAndFilteringTransactionsAndAmountByCategoryBudget,
+    resetMonth_year_toRender,
+    set_month_year_toRender,
+    month_year_toRender,
   };
 };

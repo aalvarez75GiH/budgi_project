@@ -17,6 +17,7 @@ const getAllWorkApps = async () => {
               app_name: doc.data().app_name,
               collected_money: doc.data().collected_money,
               logo_path: doc.data().logo_path,
+              icon_color: doc.data().icon_color,
             };
             work_apps.push(selectedWorkApp);
           }
@@ -27,6 +28,7 @@ const getAllWorkApps = async () => {
               collected_money: doc.data().collected_money,
               logo_path: doc.data().logo_path,
               weeks: doc.data().weeks,
+              icon_color: doc.data().icon_color,
             };
             work_apps.push(selectedWorkApp);
           }

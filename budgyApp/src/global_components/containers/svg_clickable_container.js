@@ -11,5 +11,5 @@ justify-content: ${(props) => props.justify};
 align_items: center;
 position: ${(props) => props.position};
 left: ${(props) => props.left};
-top: ${(props) => props.right};
+top: ${(props) => props.top};
 `;

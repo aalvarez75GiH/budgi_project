@@ -70,6 +70,8 @@ export const IncomeView = ({ navigation }) => {
             //   color={"#FAA"}
             flexibility={0.13}
             justify={"center"}
+            icon_top={"5%"}
+            icon_left={"80%"}
           />
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}

@@ -39,13 +39,28 @@ export const BudgetView = ({ navigation }) => {
     setMonthSelected,
     month_name,
     month_year: current_month_year,
+    resetMonth_year_toRender,
+    set_month_year_toRender,
+    month_year_toRender,
   } = useContext(DateOperationsContext);
 
-  const { settingUpTransactions_byCategory_by_MonthYear_onDemand } =
+  const { packagingAndFilteringTransactionsAndAmountByCategoryBudget } =
     useMyTransactionsLogic();
 
-  const { transactionsByMonthYear } = useContext(TransactionsContext);
-
+  const {
+    transactionsByMonthYear,
+    transactionsToRenderForBudgets,
+    totalAmountToRenderForBudgets,
+  } = useContext(TransactionsContext);
+  // console.log(
+  //   "TRANSACTIONS TO RENDER AT BUDGETS VIEW:",
+  //   JSON.stringify(transactionsToRenderForBudgets, null, 2)
+  // );
+  // console.log(
+  //   "TOTAL AMOUNT TO RENDER AT BUDGET VIEW:",
+  //   JSON.stringify(totalAmountToRenderForBudgets, null, 2)
+  // );
+  // const { transactionsByMonthYear } = useContext(TransactionsContext);
   const [categorySelected, setCategorySelected] = useState(null);
   const [percentageCompleted, setPercentageCompleted] = useState(0);
   const [overSpentAmountInNegative, setOverSpentAmountInNegative] = useState(0);
@@ -54,12 +69,16 @@ export const BudgetView = ({ navigation }) => {
     firstCategoryDataExpenseCategories.category_id
   );
   const [isLoading, setIsLoading] = useState(false);
-  const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const { amount_avail, amount_spent, limit_amount } =
     firstCategoryDataExpenseCategories;
   const [internalIsLoading, setInternalIsLoading] = useState(false);
+  console.log(
+    "CATEGORY SELECTED AT BUDGET VIEW:",
+    JSON.stringify(categorySelected, null, 2)
+  );
 
   useEffect(() => {
+    // setMonthSelected(month_name);
     const initialAmountsMathLogicForFirstCategoryData = async () => {
       setInternalIsLoading(true);
       setTimeout(() => {
@@ -71,6 +90,7 @@ export const BudgetView = ({ navigation }) => {
 
     return async () => {
       setMonthSelected(month_name);
+      resetMonth_year_toRender();
       await gettingCategoryData_onDemand(current_month_year);
     };
   }, []);
@@ -98,13 +118,18 @@ export const BudgetView = ({ navigation }) => {
           categoryData.category_data_expenseCategories[index]
         );
         amountsMathLogic(categoryData.category_data_expenseCategories[index]);
-      } else {
-        console.log("Category not found");
-        // Handle the case where the category is not found
       }
     };
     runningAmountMathLogicForCategoryDataOnDemand();
   }, [categoryData, categorySelected]); // Also, add categorySelected to the dependency array
+
+  useEffect(() => {
+    console.log("EXECUTING...");
+    packagingAndFilteringTransactionsAndAmountByCategoryBudget(
+      selectedItem,
+      transactionsByMonthYear
+    );
+  }, [categorySelected]);
 
   const amountsMathLogic = (categorySelected) => {
     // console.log("CATEGORY SELECTED AT BUDGET VIEW:", categorySelected);
@@ -115,8 +140,6 @@ export const BudgetView = ({ navigation }) => {
       const { limit_amount, amount_spent } = categorySelected;
       if (limit_amount > amount_spent) {
         setPercentageCompleted((amount_spent * 100) / limit_amount / 100);
-        setIsLoading(false);
-        // console.log("PERCENTAGE COMPLETED INSIDE:", percentageCompleted);
       }
       if (limit_amount < amount_spent) {
         const overSpentAmountInNegative = limit_amount - amount_spent;
@@ -128,8 +151,8 @@ export const BudgetView = ({ navigation }) => {
         // Use the local variable for calculation to ensure the updated value is used
         const percentageCompleted = overSpentAmountInPositive / limit_amount;
         setPercentageCompleted(percentageCompleted);
-        setIsLoading(false);
       }
+      setIsLoading(false);
     }, 300);
   };
 
@@ -174,23 +197,6 @@ export const BudgetView = ({ navigation }) => {
     });
   };
 
-  const movingForwardToTransactions = async (navigation) => {
-    const transactions_and_amount_wanted =
-      await settingUpTransactions_byCategory_by_MonthYear_onDemand(
-        user_id,
-        selectedItem,
-        month_year_toRender,
-        transactionsByMonthYear
-      );
-    console.log(
-      "TRANSACTIONS WANTED:",
-      JSON.stringify(transactions_and_amount_wanted, null, 2)
-    );
-    navigation.navigate("Transactions_View", {
-      transactions_and_amount_wanted: transactions_and_amount_wanted,
-    });
-  };
-
   return !internalIsLoading ? (
     <SafeArea background_color="#FFFFFF">
       <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
@@ -208,7 +214,8 @@ export const BudgetView = ({ navigation }) => {
               set_month_year_toRender
             )
           }
-          action2={() => movingForwardToTransactions(navigation)}
+          // action2={() => movingForwardToTransactions(navigation)}
+          action2={() => navigation.navigate("Transactions_by_category_View")}
           action3={() => null}
         />
 

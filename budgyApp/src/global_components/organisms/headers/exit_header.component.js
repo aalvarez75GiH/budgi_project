@@ -10,6 +10,8 @@ export const ExitHeaderComponent = ({
   flexibility,
   direction,
   justify,
+  icon_top,
+  icon_left,
 }) => {
   const closingMenu = () => {
     navigation.goBack();
@@ -20,7 +22,7 @@ export const ExitHeaderComponent = ({
       color={color}
       direction={direction}
       flexibility={flexibility}
-      justify={"center"}
+      justify={"flex-end"}
     >
       <SVG_Clickable_Component
         action={closingMenu}
@@ -28,8 +30,8 @@ export const ExitHeaderComponent = ({
         icon_width={20}
         icon_height={20}
         position={"absolute"}
-        left={"80%"}
-        top={"60%"}
+        icon_left={icon_left}
+        icon_top={icon_top}
         justify={justify}
       />
     </FlexibleContainer>

@@ -89,28 +89,6 @@ export const CategoryDataContextProvider = ({ children }) => {
       setIsLoadingCategoryDataContext(false);
     }
   };
-  // const gettingCategoryData_onDemand = (month_year_onDemand) => {
-  //   setIsLoadingCategoryDataContext(true);
-  //   try {
-  //     console.log("CATEGORIES DATA AT CONTEXT:", categoriesData.data);
-  //     const index = categoriesData.data.findIndex(
-  //       (category_data) => category_data.month_year === month_year_onDemand
-  //     );
-  //     // return index;
-  //     setCategoryData(categoriesData.data[index]);
-  //   } catch (error) {
-  //     console.log("ERROR:", error);
-  //   } finally {
-  //     setIsLoadingCategoryDataContext(false);
-  //   }
-  // };
-
-  // const { categoriesData } = useContext(CategoryDataContext);
-  // console.log("CATEGORIES DATA AT CONTEXT:", categoriesData);
-  // console.log(
-  //   "CATEGORY DATA  AT CONTEXT:",
-  //   JSON.stringify(categoryData, null, 2)
-  // );
 
   return (
     <CategoryDataContext.Provider

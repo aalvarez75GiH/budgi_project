@@ -3,6 +3,14 @@ import "react-native-reanimated";
 import { ThemeProvider } from "styled-components/native";
 // import { useFonts } from "expo-font";
 
+if (__DEV__ || process.env.NODE_ENV === "development") {
+  console.log("In Development mode");
+  const whyDidYouRender = require("@welldone-software/why-did-you-render");
+  whyDidYouRender(React, {
+    trackAllPureComponents: true,
+  });
+}
+
 import { theme } from "./src/infrastructure/theme";
 import { AuthenticationContextProvider } from "./src/infrastructure/services/authentication/authentication.context";
 import { NumPadContextProvider } from "./src/infrastructure/services/numPad/numPad.context";

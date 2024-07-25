@@ -22,6 +22,8 @@ export const GeneralSelectCategoryView = ({ navigation, route }) => {
   } = useSelectCategoryLogic();
 
   const { comingFrom } = route.params;
+  console.log(" COMING FROM AT SELECT CATEGORY VIEW:", comingFrom);
+  console.log(" EXPENSES CATEGORIES:", expense_categories);
 
   useEffect(() => {
     sortingExpenseCategories();

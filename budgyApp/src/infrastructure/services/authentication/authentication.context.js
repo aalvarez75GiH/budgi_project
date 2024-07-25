@@ -32,18 +32,6 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [newTransaction, setNewTransaction] = useState(null);
 
   // ************* User Development env
-  // const user = {
-  //   first_name: "Arnoldo",
-  //   last_name: "Alvarez",
-  //   email: "arnoldo@gmail.com",
-  //   isFirstTime: false,
-  //   role: "user",
-  //   uid: "o3kb7r9LoSdTmLfXfDfTo2aLs8i1",
-  //   creation_date: "2024-04-09T02:41:08.861Z",
-  //   user_id: "09438405-fc76-4be8-ba6b-8a509fb355ac",
-  // };
-
-  // ************* User Production env
   const user = {
     first_name: "Arnoldo",
     last_name: "Alvarez",
@@ -51,9 +39,21 @@ export const AuthenticationContextProvider = ({ children }) => {
     isFirstTime: false,
     role: "user",
     uid: "o3kb7r9LoSdTmLfXfDfTo2aLs8i1",
-    creation_date: "2024-03-31T17:23:42.556Z",
-    user_id: "34c110af-5d1e-41ee-948f-ca366ae3c53b",
+    creation_date: "2024-04-09T02:41:08.861Z",
+    user_id: "3162b151-7081-4bbf-bc2b-201dc705548e",
   };
+
+  // ************* User Production env
+  // const user = {
+  //   first_name: "Arnoldo",
+  //   last_name: "Alvarez",
+  //   email: "arnoldo@gmail.com",
+  //   isFirstTime: false,
+  //   role: "user",
+  //   uid: "o3kb7r9LoSdTmLfXfDfTo2aLs8i1",
+  //   creation_date: "2024-03-31T17:23:42.556Z",
+  //   user_id: "34c110af-5d1e-41ee-948f-ca366ae3c53b",
+  // };
 
   useEffect(() => {
     setUserToDB(user);

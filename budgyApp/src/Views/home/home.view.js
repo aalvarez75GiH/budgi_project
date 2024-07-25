@@ -23,6 +23,8 @@ export const Home = ({ navigation }) => {
         height={"15%"}
         direction={"row"}
         color={theme.colors.bg.s_142223C}
+        icon_top={"5%"}
+        icon_left={"80%"}
         // color={"#FAD"}
       />
 

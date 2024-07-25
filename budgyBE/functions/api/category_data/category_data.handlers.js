@@ -65,6 +65,8 @@ const preparing_multiple_expense_category_nodes_and_category_data = async (
       updated: false,
       updated_on: expense_category.updated_on,
       status: expense_category.status,
+      icon_name: expense_category.icon_name,
+      short_name: expense_category.short_name,
     };
     expense_categories.push(expense_category_for_categoryData);
   });
@@ -231,70 +233,6 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
   });
   return categories_data_toUpdate;
 };
-// const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
-//   user_id,
-//   new_category_name,
-//   new_limit_amount,
-//   category_id,
-//   month_year,
-//   updated_on
-// ) => {
-//   const categories_data_toUpdate =
-//     await categoryDataController.getCategoryDataByUserID(user_id);
-
-//   categories_data_toUpdate.map(async (category_data) => {
-//     const { category_data_expenseCategories } = category_data;
-//     const category_data_monthYear = category_data.month_year;
-
-//     const index = category_data_expenseCategories.findIndex(
-//       (obj) => obj.category_id === category_id
-//     );
-
-//     const node = category_data_expenseCategories[index];
-
-//     if (node.category_name !== new_category_name) {
-//       node.category_name = new_category_name;
-//       node.updated = true;
-//       node.updated_on = updated_on;
-//       updatingCategoryDataAfterTransactionsOrCategoryListUpdates(
-//         category_id,
-//         category_data
-//       );
-//     } else {
-//       node.category_name = node.category_name;
-//     }
-
-//     if (
-//       node.limit_amount !== new_limit_amount &&
-//       category_data_monthYear === month_year
-//     ) {
-//       node.limit_amount = new_limit_amount;
-//       node.amount_avail = new_limit_amount - node.amount_spent;
-//       node.updated = true;
-//       node.updated_on = updated_on;
-
-//       // *****************************************************
-//       const total_amount_budgeted = await settingTotalBudgetedOfACategoryData(
-//         category_data_expenseCategories
-//       );
-//       const category_data_width_total_amount_budgeted = {
-//         ...category_data,
-//         total_amount_budgeted: total_amount_budgeted,
-//       };
-
-//       // *****************************************************
-//       updatingCategoryDataAfterTransactionsOrCategoryListUpdates(
-//         category_id,
-//         category_data_width_total_amount_budgeted
-//       );
-//       return;
-//     } else {
-//       node.limit_amount = node.limit_amount;
-//       node.amount_avail = node.amount_avail;
-//     }
-//   });
-//   return categories_data_toUpdate;
-// };
 
 // ************* Adding a single category data's expense category handlers ************************
 // ** Here a single new Expense Category Node is prepared to be inserted in a user Category Data

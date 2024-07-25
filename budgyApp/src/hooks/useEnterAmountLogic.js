@@ -12,6 +12,7 @@ export const useEnterAmountLogic = (comingFrom) => {
     fixingANumberToTwoDecimals,
     transactionInfoForUpdate,
     setTransactionInfoForUpdate,
+    setReadyToUpdate,
   } = useContext(TransactionsContext);
   const { amount } = transactionInfoForUpdate;
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
@@ -65,7 +66,10 @@ export const useEnterAmountLogic = (comingFrom) => {
         // amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
         amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
       });
-      navigation.navigate("Transaction_details_view");
+      setReadyToUpdate(true);
+      navigation.navigate("Transaction_details_view", {
+        comingFrom: comingFrom,
+      });
     }
     if (comingFrom === "Select_week_view") {
       setRealIncomeForRequest({

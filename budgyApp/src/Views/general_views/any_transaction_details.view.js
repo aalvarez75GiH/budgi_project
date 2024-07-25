@@ -14,6 +14,7 @@ import { useAnyTransactionDetailsLogic } from "../../hooks/useAnyTransactionDeta
 import { useMonthPadLogic } from "../../hooks/useMonthPadLogic";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
+  const { comingFrom } = route.params;
   // ****************LOGIC FROM HOOK ********
   const {
     navigationLogic,
@@ -22,6 +23,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     short_name,
     description,
     isLoading,
+    readyToUpdate,
   } = useAnyTransactionDetailsLogic();
 
   const {
@@ -44,13 +46,18 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         action_icon_right={() =>
           movingForwardToDeleteConfirmationView(
             navigation,
-            "Delete_confirmation_view"
+            "Delete_confirmation_view",
+            comingFrom
             // transaction_id
           )
         }
         action_icon_left={() => closingMenu(navigation)}
         icon_name_right={"RemoveIcon"}
         icon_name_left={"ExitIcon"}
+        icon_top_left={"0%"}
+        icon_left_left={"2%"}
+        icon_top_right={"0%"}
+        icon_left_right={"80%"}
       />
 
       <ControlledContainer
@@ -154,17 +161,19 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         justify={"center"}
         isBordered={false}
       >
-        <RegularCTAButton
-          caption="Update"
-          width={310}
-          height={50}
-          color={theme.colors.buttons.p_FC9827}
-          borderRadius={50}
-          action={() => updatingTransactionProcess(navigation)}
-          // action={() => null}
-          text_variant="bold_text_20"
-          isLoading={isLoading}
-        />
+        {readyToUpdate && (
+          <RegularCTAButton
+            caption="Update"
+            width={310}
+            height={50}
+            color={theme.colors.buttons.p_FC9827}
+            borderRadius={50}
+            action={() => updatingTransactionProcess(navigation)}
+            // action={() => null}
+            text_variant="bold_text_20"
+            isLoading={isLoading}
+          />
+        )}
       </FlexibleContainer>
     </GeneralFlexContainer>
   );

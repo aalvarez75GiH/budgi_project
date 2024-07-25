@@ -21,10 +21,6 @@ export const TransactionTile = ({
   most_recent,
   short_name,
 }) => {
-  const movingToAnotherScreen = () => {
-    navigation.navigate("");
-  };
-
   return (
     <TilesContainer
       onPress={action}
@@ -34,8 +30,8 @@ export const TransactionTile = ({
       justify={"center"}
       align={"center"}
       bg_color={theme.colors.bg.p_FFFFFF}
-      borderTopWidth={1}
-      borderBottomWidth={1}
+      borderTopWidth={0.6}
+      borderBottomWidth={0.8}
     >
       {icon_name === `byUserCategoryIcon` ? (
         <PNGComponent
