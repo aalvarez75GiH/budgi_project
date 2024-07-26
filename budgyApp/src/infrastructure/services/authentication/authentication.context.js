@@ -22,6 +22,17 @@ const firebaseConfig = {
 const app = firebase.initializeApp(firebaseConfig);
 export const db = app.firestore();
 
+// firebase
+//   .auth()
+//   .currentUser.getIdToken(true)
+//   .then(function (idToken) {
+//     // Send token to your backend via HTTPS
+//     // ...
+//   })
+//   .catch(function (error) {
+//     // Handle error
+//   });
+
 // *****************************************************
 
 export const AuthenticationContextProvider = ({ children }) => {
@@ -50,7 +61,7 @@ export const AuthenticationContextProvider = ({ children }) => {
     email: "arnoldo@gmail.com",
     isFirstTime: false,
     role: "user",
-    uid: "o3kb7r9LoSdTmLfXfDfTo2aLs8i1",
+    uid: "SRw6mZOh0cOq2IHUbV6GgVr9",
     creation_date: "2024-03-31T17:23:42.556Z",
     user_id: "34c110af-5d1e-41ee-948f-ca366ae3c53b",
   };
