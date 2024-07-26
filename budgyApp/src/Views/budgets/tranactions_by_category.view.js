@@ -19,24 +19,10 @@ export const TransactionsByCategoryView = ({ navigation, route }) => {
   //   const { amount_wanted } = route.params;
   const { transactionsToRenderForBudgets, totalAmountToRenderForBudgets } =
     useContext(TransactionsContext);
-  console.log(
-    "TOTAL AMOUNT TO RENDER FOR BUDGETS:",
-    totalAmountToRenderForBudgets
-  );
-  // ************** LOGIC FROM HOOK **************
-  const {
-    settingUpTransactionsFromContext,
-    renderItem,
-    month_name,
-    isLoadingByCat,
-    isLoading,
-    setTransactionInfoForUpdate,
-    transactionsToRender,
-  } = useMyTransactionsLogic();
 
-  //   useEffect(() => {
-  //     settingUpTransactionsFromContext();
-  //   }, []);
+  // ************** LOGIC FROM HOOK **************
+  const { renderItem, isLoadingByCat, isLoading, setTransactionInfoForUpdate } =
+    useMyTransactionsLogic();
 
   return isLoading ? (
     <FlexibleContainer
@@ -190,6 +176,4 @@ export const TransactionsByCategoryView = ({ navigation, route }) => {
       )}
     </GeneralFlexContainer>
   );
-
-  TransactionsByCategoryView.whyDidYouRender = true;
 };

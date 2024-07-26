@@ -155,10 +155,6 @@ export const useMyTransactionsLogic = () => {
           }
         });
 
-        // console.log(
-        //   "TRANSACTIONS BY CATEGORY MONTH YEAR:",
-        //   JSON.stringify(transactionsByCategoryMonthYear, null, 2)
-        // );
         // If there are any transactions that match the criteria...
         if (transactionsByCategoryMonthYear.length) {
           // ...calculate the total amount of these transactions.
@@ -179,7 +175,6 @@ export const useMyTransactionsLogic = () => {
         }
 
         // Stop loading and set the transactions to be rendered.
-        // setIsLoadingByCat(false);
         setTransactionsToRenderForBudgets(transactionsByCategoryMonthYear);
       } catch (error) {
         // If there's an error, log it.

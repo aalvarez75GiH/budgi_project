@@ -16,6 +16,8 @@ export const ExitHeaderWithMonthsOptionButtonComponent = ({
   month_year_toRender,
   month_year,
   action,
+  icon_left,
+  icon_top,
 }) => {
   const closingMenu = () => {
     navigation.goBack();
@@ -45,8 +47,8 @@ export const ExitHeaderWithMonthsOptionButtonComponent = ({
           icon_width={20}
           icon_height={20}
           position={"absolute"}
-          left={"2%"}
-          top={"10%"}
+          icon_left={icon_left}
+          icon_to={icon_top}
           justify="center"
         />
 

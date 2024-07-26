@@ -52,7 +52,7 @@ export const TransactionContextProvider = ({ children }) => {
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [transactionsByMonthYear, setTransactionsByMonthYear] = useState([]);
   const [total_amount, setTransactionsTotalAmount] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [transactionsToRenderForBudgets, setTransactionsToRenderForBudgets] =
     useState([]);
   const [totalAmountToRenderForBudgets, setTotalAmountToRenderForBudgets] =
@@ -62,7 +62,7 @@ export const TransactionContextProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       try {
-        setIsLoading(true);
+        // setIsLoading(true);
         const transactionsAndAmount =
           await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
             user_id,
@@ -176,7 +176,7 @@ export const TransactionContextProvider = ({ children }) => {
         month_year
       );
       console.log(
-        "CATEGORY DATA:",
+        " NEW CATEGORY DATA AT UPDATING CATEGORY DATA AFTER TRANSACTION:",
         JSON.stringify(category_data.data, null, 2)
       );
 
@@ -232,7 +232,7 @@ export const TransactionContextProvider = ({ children }) => {
         if (change.type === "removed") {
           console.log("DATA WAS REMOVED....");
           const newData = change.doc.data();
-          // console.log("NEW TRANSACTION IS:", newData);
+          console.log("NEW TRANSACTION IS:", newData);
           if (newData) {
             hasNewData = true;
           }
@@ -250,6 +250,7 @@ export const TransactionContextProvider = ({ children }) => {
           if (transactionsAndAmount.status === "404") {
             setTransactionsTotalAmount(0);
             setTransactionsByMonthYear([]);
+            await updatingCategoryDataAfterTransactions(user_id, month_year);
             return;
           }
           const { transactions, total_amount } = transactionsAndAmount;
@@ -257,9 +258,6 @@ export const TransactionContextProvider = ({ children }) => {
           setTransactionsByMonthYear(transactions);
 
           await updatingCategoryDataAfterTransactions(user_id, month_year);
-          // gettingCurrentCategoryDataAndAllCategoriesData(user_id, month_year);
-          // setTransactionsByMonthYear(transactions);
-          // setTransactionsTotalAmount(total_amount);
         } catch (error) {
           console.log(error);
         } finally {
@@ -306,21 +304,17 @@ export const TransactionContextProvider = ({ children }) => {
     }
   };
 
-  // ********************* THIS FUNCTION IS USED TO DELETE A TRANSACTION *******************
   const deletingTransaction = async (transaction_id) => {
     setIsLoading(true);
-    // console.log(
-    //   "TRANSACTION INFO FOR UPDATE:",
-    //   JSON.stringify(transactionInfoForUpdate, null, 2)
-    // );
 
     try {
       const response = await new Promise((resolve, reject) => {
         setTimeout(async () => {
           try {
             const response = await deleteTransactionRequest(transaction_id);
-            // console.log("RESPONSE:", JSON.stringify(response, null, 2));
-            (await response) ? listenForNewChangesAtDB(db) : null;
+            (await response.status) === 200
+              ? listenForNewChangesAtDB(db)
+              : null;
             // response ? setIsLoading(false) : setIsLoading(true);
             !isLoading ? resolve(response) : null;
           } catch (error) {

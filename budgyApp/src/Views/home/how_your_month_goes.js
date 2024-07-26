@@ -68,6 +68,8 @@ export const HowMonthIsGoingView = ({ navigation }) => {
             //   color={"#FAA"}
             flexibility={0.06}
             justify={"flex-end"}
+            icon_left={"10%"}
+            icon_top={"0%"}
           />
 
           <EmptyInfoAlert
@@ -94,6 +96,8 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         month_year_toRender={month_year_toRender}
         month_year={month_year}
         action={() => movingForwardToMonthsPadView(navigation)}
+        icon_left={"2%"}
+        icon_top={"10%"}
       />
 
       <FlexibleContainer

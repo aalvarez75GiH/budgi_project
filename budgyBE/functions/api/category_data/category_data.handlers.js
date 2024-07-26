@@ -35,18 +35,80 @@ const updatingExpenseCategoryNodeUsingTransactionsAmount = (
         (obj) => obj.category_id == category_id
       );
       console.log("BEFORE UPDATE", expense_categories[index]);
-      expense_categories[index].amount_spent =
+      const expenseCategoryNodeToUpdate = expense_categories[index];
+      // const {
+      //   limit_amount,
+      //   amount_spent,
+      //   percentageCompleted,
+      //   overSpentAmountInNegative,
+      //   overSpentAmountInPositive,
+      //   updated,
+      //   updated_on,
+      // } = expense_categories[index];
+      expenseCategoryNodeToUpdate.amount_spent =
         transactionsAmountFixedRoundedAndParsed;
-      expense_categories[index].amount_avail =
-        expense_categories[index].limit_amount -
+      expenseCategoryNodeToUpdate.amount_avail =
+        expenseCategoryNodeToUpdate.limit_amount -
         transactionsAmountFixedRoundedAndParsed;
-      expense_categories[index].updated = true;
-      expense_categories[index].updated_on = creation_date;
+      expenseCategoryNodeToUpdate.updated = true;
+      expenseCategoryNodeToUpdate.updated_on = creation_date;
+
+      // ****************************************
+      if (
+        expenseCategoryNodeToUpdate.limit_amount >
+        expenseCategoryNodeToUpdate.amount_spent
+      ) {
+        expenseCategoryNodeToUpdate.percentageCompleted =
+          (expenseCategoryNodeToUpdate.amount_spent * 100) /
+          expenseCategoryNodeToUpdate.limit_amount /
+          100;
+      }
+      if (
+        expenseCategoryNodeToUpdate.limit_amount <
+        expenseCategoryNodeToUpdate.amount_spent
+      ) {
+        expenseCategoryNodeToUpdate.overSpentAmountInNegative =
+          expenseCategoryNodeToUpdate.limit_amount -
+          expenseCategoryNodeToUpdate.amount_spent;
+        expenseCategoryNodeToUpdate.overSpentAmountInPositive =
+          expenseCategoryNodeToUpdate.amount_spent -
+          expenseCategoryNodeToUpdate.limit_amount;
+        expenseCategoryNodeToUpdate.percentageCompleted =
+          expenseCategoryNodeToUpdate.overSpentAmountInPositive /
+          expenseCategoryNodeToUpdate.limit_amount;
+      }
+      // ********************************************************
+
       console.log("AFTER UPDATE", expense_categories[index]);
     }
   });
   return category_data;
 };
+
+// const amountsMathLogic = (categorySelected) => {
+//   // console.log("CATEGORY SELECTED AT BUDGET VIEW:", categorySelected);
+//   setIsLoading(true);
+//   setPercentageCompleted(0);
+//   setOverSpentAmountInNegative(0);
+//   setTimeout(() => {
+//     const { limit_amount, amount_spent } = categorySelected;
+//     if (limit_amount > amount_spent) {
+//       setPercentageCompleted((amount_spent * 100) / limit_amount / 100);
+//     }
+//     if (limit_amount < amount_spent) {
+//       const overSpentAmountInNegative = limit_amount - amount_spent;
+//       const overSpentAmountInPositive = amount_spent - limit_amount;
+
+//       setOverSpentAmountInNegative(overSpentAmountInNegative);
+//       setOverSpentAmountInPositive(overSpentAmountInPositive);
+
+//       // Use the local variable for calculation to ensure the updated value is used
+//       const percentageCompleted = overSpentAmountInPositive / limit_amount;
+//       setPercentageCompleted(percentageCompleted);
+//     }
+//     setIsLoading(false);
+//   }, 300);
+// };
 
 // ** Receive expense categories from user category list and prepare node by node turning each one of them in a Category Data expense category node - Return: Category Data with all nodes prepared
 const preparing_multiple_expense_category_nodes_and_category_data = async (
@@ -67,6 +129,9 @@ const preparing_multiple_expense_category_nodes_and_category_data = async (
       status: expense_category.status,
       icon_name: expense_category.icon_name,
       short_name: expense_category.short_name,
+      percentageCompleted: 0,
+      overSpentAmountInNegative: 0,
+      overSpentAmountInPositive: 0,
     };
     expense_categories.push(expense_category_for_categoryData);
   });
@@ -262,6 +327,9 @@ const preparing_a_single_new_category_data_expense_category_node = (
     status: status,
     short_name: short_name,
     icon_name: icon_name,
+    percentageCompleted: 0,
+    overSpentAmountInNegative: 0,
+    overSpentAmountInPositive: 0,
   };
   return expenseCategoryNodeForCategoryData;
 };
