@@ -1,4 +1,6 @@
-const { fcn, db, serverTimestamp, updateDoc } = require("./fb");
+const { fcn } = require("./fb");
+// require("dotenv").config();
+// console.log(process.env);
 
 const transactionsRouter = require("./api/transactions/transactions.routes");
 const categoryDataRouter = require("./api/category_data/category_data.routes");

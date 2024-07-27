@@ -1,4 +1,4 @@
 node_modules/
 
 # service key
-functions/serviceAccountKey.json
+googleServicesAccountKey.json

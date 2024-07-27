@@ -66,4 +66,4 @@ node_modules/
 .env
 
 # service key
-functions/serviceAccountKey.json
+googleServicesAccountKey.json
