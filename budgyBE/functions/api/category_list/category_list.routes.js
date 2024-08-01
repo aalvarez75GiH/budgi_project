@@ -168,7 +168,13 @@ app.put("/", (req, res) => {
 
 //** Updating Category List with new Expense Category node
 app.put("/newUserExpenseCategory", (req, res) => {
+  const new_category_category_id = uuidv4();
   const { user_id, new_expense_category_node, mandatory } = req.body;
+
+  const new_expense_category_toCreate = {
+    ...new_expense_category_node,
+    category_id: new_category_category_id,
+  };
 
   (async () => {
     try {
@@ -178,7 +184,7 @@ app.put("/newUserExpenseCategory", (req, res) => {
 
       const newNodeAtCategoryList =
         await adding_a_single_new_expense_category_node_at_user_category_list(
-          new_expense_category_node,
+          new_expense_category_toCreate,
           mandatory,
           category_list_by_user_id
         );
@@ -190,7 +196,7 @@ app.put("/newUserExpenseCategory", (req, res) => {
       // ************* Adding a new expense category node at user Categories data *****************************
       await adding_a_single_new_expense_category_node_at_user_category_data(
         user_id,
-        new_expense_category_node,
+        new_expense_category_toCreate,
         mandatory
       );
 

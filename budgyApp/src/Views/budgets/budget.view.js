@@ -84,6 +84,10 @@ export const BudgetView = ({ navigation }) => {
   useEffect(() => {
     // setMonthSelected(month_name);
     const initialAmountsMathLogicForFirstCategoryData = async () => {
+      packagingAndFilteringTransactionsAndAmountByCategoryBudget(
+        firstCategoryDataExpenseCategories.category_id,
+        transactionsByMonthYear
+      );
       // setScreenIsLoading(true);
       setTimeout(() => {
         setPercentageCompleted(
@@ -180,7 +184,7 @@ export const BudgetView = ({ navigation }) => {
       // Use the local variable for calculation to ensure the updated value is used
 
       setIsLoading(false);
-    }, 100);
+    }, 300);
   };
 
   const selectingCategory = (item) => {
@@ -324,14 +328,22 @@ export const BudgetView = ({ navigation }) => {
         </FlexibleContainer>
 
         <FlexibleContainer
-          direction={"column"}
-          color={theme.colors.bg.p_FFFFFF}
-          //   color={"lightblue"}
+          direction={"row"}
+          // color={theme.colors.bg.p_FFFFFF}
+          // color={"lightblue"}
           flexibility={0.4}
-          justify={"center"}
+          justify={"space-between"}
           alignment={"center"}
           isBordered={true}
         >
+          <ControlledContainer
+            width={"20%"}
+            height={"60%"}
+            // color={"blue"}
+            justify="center"
+            alignment="center"
+            direction="row"
+          ></ControlledContainer>
           <BudgetsCircularChartComponent
             primaryAmount={
               categorySelected ? categorySelected.amount_spent : amount_spent
@@ -346,6 +358,28 @@ export const BudgetView = ({ navigation }) => {
             overSpentAmountInNegative={overSpentAmountInNegative}
             isSpinnerLoading={isLoading}
           />
+          <ControlledContainer
+            width={"20%"}
+            height={"60%"}
+            // color={"blue"}
+            justify="center"
+            alignment="center"
+            direction="column"
+          >
+            <Text text_variant="bold_text_14">Max:</Text>
+            <Text text_variant="bold_text_12">
+              {categorySelected
+                ? new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(categorySelected.limit_amount)
+                : new Intl.NumberFormat("en-US", {
+                    style: "currency",
+                    currency: "USD",
+                  }).format(firstCategoryDataExpenseCategories.limit_amount)}
+            </Text>
+            {/* <Text text_variant="bold_text_12">{`Max: $420`}</Text> */}
+          </ControlledContainer>
         </FlexibleContainer>
 
         <FlexibleContainer

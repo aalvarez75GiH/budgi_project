@@ -7,11 +7,15 @@ import { TransactionsView } from "../../Views/general_views/transactions.view";
 import { GeneralNewNameView } from "../../Views/general_views/general_new__name.view";
 import { AnyTransactionDetailsView } from "../../Views/general_views/any_transaction_details.view";
 import { EnterAmountView } from "../../Views/general_views/enter_amount.view";
-import { TransactionsByCategoryView } from "../../Views/budgets/tranactions_by_category.view";
+import { TransactionsByCategoryView } from "../../Views/budgets/transactions_by_category.view";
 import { GeneralSelectCategoryView } from "../../Views/general_views/select_category.view";
 import { GeneralCalendarView } from "../../Views/general_views/calendar.view";
 import { GeneralAddDescriptionView } from "../../Views/general_views/add_description.view";
 import { CancelDeleteConfirmationView } from "../../Views/general_views/cancel_delete_confirmation.view";
+import { EnterAmountWithOptionsView } from "../../Views/budgets/enter_amount_with_options.view";
+import { NewOrUpdateCategorySummaryView } from "../../Views/budgets/new_update_category_summary.view";
+import { Home } from "../../Views/home/home.view";
+import { NewOrUpdateCategoryConfirmationView } from "../../Views/budgets/new_update_category_confirmation";
 
 const BudgetStack = createNativeStackNavigator();
 
@@ -23,6 +27,7 @@ export const BudgetNavigator = () => {
       }}
     >
       <BudgetStack.Screen name="BudgetView" component={BudgetView} />
+      <BudgetStack.Screen name="HomeView" component={Home} />
 
       <BudgetStack.Screen
         name="Months_Pad_View"
@@ -78,6 +83,24 @@ export const BudgetNavigator = () => {
       <BudgetStack.Screen
         name="Delete_confirmation_view"
         component={CancelDeleteConfirmationView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <BudgetStack.Screen
+        name="Enter_amount_with_options_view"
+        component={EnterAmountWithOptionsView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <BudgetStack.Screen
+        name="New_category_summary_view"
+        component={NewOrUpdateCategorySummaryView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <BudgetStack.Screen
+        name="New_category_confirmation_view"
+        component={NewOrUpdateCategoryConfirmationView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

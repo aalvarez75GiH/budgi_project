@@ -33,7 +33,9 @@ import DoordashIcon from "../../assets/icons/svgs/doordash_icon.svg";
 import GrubHubIcon from "../../assets/icons/svgs/grubhub_icon.svg";
 import LyftIcon from "../../assets/icons/svgs/lyft_icon.svg";
 import PlusIcon from "../../assets/icons/svgs/plus_icon.svg";
-import CustomByUserIcon from "../../assets/icons/svgs/custom_by_user_icon.svg";
+// import CustomByUserIcon from "../../assets/icons/svgs/custom_by_user_icon.svg";
+import CustomByUserIcon from "../../assets/icons/svgs/user_icon_2.svg";
+import LeftArrowIcon from "../../assets/icons/svgs/left_arrow.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -168,6 +170,10 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "CustomIcon",
       icon: CustomByUserIcon,
+    },
+    {
+      icon_name: "LeftArrowIcon",
+      icon: LeftArrowIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";

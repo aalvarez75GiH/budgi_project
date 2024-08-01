@@ -3,13 +3,13 @@ import { TransactionsContext } from "../infrastructure/services/transactions/tra
 import { RealIncomeContext } from "../infrastructure/services/real_income/real_income.context";
 import { ExpectedIncomeContext } from "../infrastructure/services/expected _income/expected_income.context";
 import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
+import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
 
 export const useEnterAmountLogic = (comingFrom) => {
   console.log("COMING FROM:", comingFrom);
 
   const {
     fixingANumberToTwoDecimalsAndString,
-    fixingANumberToTwoDecimals,
     transactionInfoForUpdate,
     setTransactionInfoForUpdate,
     setReadyToUpdate,
@@ -41,6 +41,8 @@ export const useEnterAmountLogic = (comingFrom) => {
     JSON.stringify(new_expected_income_amount, null, 2)
   );
 
+  const { setCategory_list_info_forRequest } = useContext(CategoryListContext);
+
   const stringedExpectedIncomeAmount = fixingANumberToTwoDecimalsAndString(
     new_expected_income_amount
   );
@@ -63,7 +65,6 @@ export const useEnterAmountLogic = (comingFrom) => {
     if (comingFrom === "AnyTransactionDetailsView") {
       setTransactionInfoForUpdate({
         ...transactionInfoForUpdate,
-        // amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
         amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
       });
       setReadyToUpdate(true);
@@ -74,10 +75,8 @@ export const useEnterAmountLogic = (comingFrom) => {
     if (comingFrom === "Select_week_view") {
       setRealIncomeForRequest({
         ...realIncomeForRequest,
-        // earned_amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
         earned_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
       });
-      // navigation.navigate("income_details_view");
       navigation.navigate("income_details_view", {
         comingFrom: comingFrom,
       });
@@ -95,14 +94,24 @@ export const useEnterAmountLogic = (comingFrom) => {
       setExpectedIncomeForRequest({
         ...expectedIncomeForRequest,
         new_expected_income: {
-          // amount: fixingANumberToTwoDecimals(amountToSet.slice(1)),
           amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
           month_year: expectedIncomeForRequest.new_expected_income.month_year,
-          // month_year: "NOV 2024",
           updated: true,
         },
       });
       navigation.navigate("income_details_view", {
+        comingFrom: comingFrom,
+      });
+    }
+    if (comingFrom === "GeneralNewNameView") {
+      setCategory_list_info_forRequest((prevState) => ({
+        ...prevState,
+        new_expense_category_node: {
+          ...prevState.new_expense_category_node,
+          limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
+        },
+      }));
+      navigation.navigate("New_category_summary_view", {
         comingFrom: comingFrom,
       });
     }

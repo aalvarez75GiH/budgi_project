@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View } from "react-native";
 
 import { Text } from "../../infrastructure/typography/text.component";
@@ -18,6 +18,7 @@ import { AuthenticationContext } from "../../infrastructure/services/authenticat
 export const AmountsMonthsPadView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
   console.log("COMING FROM AT AMOUNT MONTHS PAD VIEW:", comingFrom);
+
   const { gettingRealIncomeForEachButton, REAL_INCOME_FULL_STRUCTURE } =
     useContext(RealIncomeContext);
 
@@ -49,9 +50,13 @@ export const AmountsMonthsPadView = ({ navigation, route }) => {
       setMonthSelected(month);
       const real_income_on_demand = gettingRealIncomeForEachButton(month);
       if (real_income_on_demand === -1) {
-        setRealIncomeOnDemand(REAL_INCOME_FULL_STRUCTURE);
+        // setRealIncomeOnDemand(REAL_INCOME_FULL_STRUCTURE);
+        const new_real_income_structure = setRealIncomeOnDemand(
+          REAL_INCOME_FULL_STRUCTURE(user_id, month_year)
+        );
+
         navigation.navigate("Select_work_app_view", {
-          realIncomeOnDemand: REAL_INCOME_FULL_STRUCTURE,
+          realIncomeOnDemand: new_real_income_structure,
         });
       }
       if (real_income_on_demand !== -1) {

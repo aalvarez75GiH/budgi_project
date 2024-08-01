@@ -12,3 +12,20 @@ export const getCategoryList_By_UserID_Request = async (user_id) => {
       return error;
     });
 };
+
+export const registerNewExpenseCategoryRequest = async (
+  new_expense_category_node
+) => {
+  const { categoryListEndPoint } = environment;
+  return await axios
+    .put(
+      `${categoryListEndPoint}/newUserExpenseCategory`,
+      new_expense_category_node
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};

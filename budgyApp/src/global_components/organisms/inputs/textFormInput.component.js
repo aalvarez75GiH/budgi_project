@@ -11,8 +11,10 @@ import { Text } from "../../../infrastructure/typography/text.component";
 
 import { CategoryListContext } from "../../../infrastructure/services/category_list/category_list.context";
 
-export const TextFormInputComponent = () => {
-  const { categoryName, setCategoryName } = useContext(CategoryListContext);
+export const TextFormInputComponent = (comingFrom) => {
+  const { new_categoryName, setNew_CategoryName } =
+    useContext(CategoryListContext);
+
   return (
     <>
       <ControlledContainer
@@ -56,8 +58,8 @@ export const TextFormInputComponent = () => {
             mode="flat"
             placeholder={""}
             font_size={theme.fontSizes.text_16}
-            onChangeText={(value) => setCategoryName(value)}
-            value={categoryName}
+            onChangeText={(value) => setNew_CategoryName(value)}
+            value={new_categoryName}
             style={{
               fontFamily: theme.fonts.bold,
               justifyContent: "flex-start",

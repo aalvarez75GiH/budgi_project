@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Platform } from "react-native";
 
 import { SafeArea } from "../../global_components/safe-area.component";
@@ -10,32 +10,33 @@ import { theme } from "../../infrastructure/theme";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 
-import { Text } from "../../infrastructure/typography/text.component";
-import { ControlledContainer } from "../../global_components/containers/controlled_container";
-import { AmountFormInput } from "../../global_components/inputs/amount_formInput";
 import { TextFormInputComponent } from "../../global_components/organisms/inputs/textFormInput.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
-import { SVGComponent } from "../../global_components/image_components/svg.component";
-import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
-import { useEnterAmountLogic } from "../../hooks/useEnterAmountLogic";
 
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 
 export const GeneralNewNameView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
-  const {
-    cta_action,
-    setAmountToSet,
-    amountToSet,
-    clearingText,
-    formatCurrency,
-    exitingToRoot,
-  } = useEnterAmountLogic(comingFrom);
-  console.log("AMOUNT TO SET AT ENTER AMOUNT VIEW:", amountToSet);
+
   console.log("COMING FROM AT ENTER AMOUNT VIEW:", comingFrom);
   // const [categoryName, setCategoryName] = useState("");
-  const { categoryName, setCategoryName, clearingCategoryNameAndBack } =
-    React.useContext(CategoryListContext);
+  const {
+    clearingCategoryNameAndBack,
+    category_list_info_forRequest,
+    new_categoryName,
+    setNew_CategoryName,
+    settingNewCategoryName,
+  } = useContext(CategoryListContext);
+  console.log(
+    "CATEGORY LIST INFO FOR REQUEST AT GENERAL VIEW:",
+    JSON.stringify(category_list_info_forRequest, null, 2)
+  );
+  console.log(
+    "NEW CATEGORY NAME AT GENERAL VIEW:",
+    JSON.stringify(new_categoryName, null, 2)
+  );
+  // console.log("CATEGORY LIST INFO FOR REQUEST:", category_list_info_forRequest);
+
   return (
     <SafeArea background_color={"#FFFFFF"}>
       <GeneralFlexContainer>
@@ -58,8 +59,9 @@ export const GeneralNewNameView = ({ navigation, route }) => {
           <Spacer position="top" size="xxl" />
           <Spacer position="top" size="xxl" />
           <TextFormInputComponent
-            categoryName={categoryName}
-            setCategoryName={setCategoryName}
+            comingFrom={comingFrom}
+            setNew_CategoryName={setNew_CategoryName}
+            new_categoryName={new_categoryName}
           />
         </FlexibleContainer>
         <FlexibleContainer
@@ -70,14 +72,16 @@ export const GeneralNewNameView = ({ navigation, route }) => {
           justify={"center"}
           alignment={"center"}
         >
-          {categoryName.length > 0 ? (
+          {new_categoryName.length > 0 ? (
             <RegularCTAButton
               caption="Next"
               width={310}
               height={50}
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
-              action={() => cta_action(navigation, comingFrom)}
+              action={() =>
+                settingNewCategoryName(new_categoryName, navigation)
+              }
               text_variant="bold_text_20"
             />
           ) : null}
