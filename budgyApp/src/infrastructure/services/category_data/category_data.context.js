@@ -5,6 +5,7 @@ export const CategoryDataContext = createContext();
 import {
   getCategoryData_By_UserID_MonthYearRequest,
   getAllCategoriesData_By_UserID_Request,
+  post_category_data_Request,
 } from "./category_data.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
@@ -23,7 +24,7 @@ export const CategoryDataContextProvider = ({ children }) => {
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
 
-  const { month_year } = useContext(DateOperationsContext);
+  const { month_year, system_date } = useContext(DateOperationsContext);
   const categoryDataExpenseCategoryNodeTest = [
     {
       amount_avail: 0,
@@ -52,17 +53,20 @@ export const CategoryDataContextProvider = ({ children }) => {
         );
 
         if (category_data === 404) {
-          setCategoryDataRequestStatus(category_data);
-          setCategoryData(categoryDataCleanObject(user_id, month_year));
-
+          const category_data_created = await post_category_data_Request(
+            user_id,
+            system_date,
+            month_year
+          );
+          console.log(
+            " CATEGORY DATA CREATED:",
+            JSON.stringify(category_data_created.data, null, 2)
+          );
+          setCategoryData(category_data_created.data);
+          // setCategoryData(categoryDataCleanObject(user_id, month_year));
           return;
         }
-        // if (category_data.status === 404) {
-        //   setCategoryData({
-        //     total_amount_budgeted: 0,
-        //     total_amount_spent: 0,
-        //   });
-        // }
+
         if (category_data.status === 200) {
           setCategoryData(category_data.data);
         }

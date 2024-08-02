@@ -114,6 +114,7 @@ const createCategoryDataAutomaticallyForNewUsers = async (category_data) => {
 
 // ** Create Category data
 const createCategoryData = async (category_data) => {
+  console.log("CATEGORY DATA AT CATEGORY DATA CONTROLLER:", category_data);
   const { creation_date } = category_data;
   const month_year = creatingMonthYear(creation_date);
   const category_data_id = uuidv4();
@@ -122,12 +123,16 @@ const createCategoryData = async (category_data) => {
     category_data_id,
     month_year: month_year,
   };
+  console.log(
+    "CATEGORY DATA WITH ALL FIELDS AT CATEGORY DATA CONTROLLER:",
+    category_data_toCreate
+  );
 
   await db
     .collection("category_data")
     .doc(`/${category_data_id}/`)
     .create(category_data_toCreate);
-  return category_data;
+  return category_data_toCreate;
 };
 
 // ** Update Money Amounts of 'user expense category' at user category Data

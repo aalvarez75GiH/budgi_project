@@ -85,31 +85,6 @@ const updatingExpenseCategoryNodeUsingTransactionsAmount = (
   return category_data;
 };
 
-// const amountsMathLogic = (categorySelected) => {
-//   // console.log("CATEGORY SELECTED AT BUDGET VIEW:", categorySelected);
-//   setIsLoading(true);
-//   setPercentageCompleted(0);
-//   setOverSpentAmountInNegative(0);
-//   setTimeout(() => {
-//     const { limit_amount, amount_spent } = categorySelected;
-//     if (limit_amount > amount_spent) {
-//       setPercentageCompleted((amount_spent * 100) / limit_amount / 100);
-//     }
-//     if (limit_amount < amount_spent) {
-//       const overSpentAmountInNegative = limit_amount - amount_spent;
-//       const overSpentAmountInPositive = amount_spent - limit_amount;
-
-//       setOverSpentAmountInNegative(overSpentAmountInNegative);
-//       setOverSpentAmountInPositive(overSpentAmountInPositive);
-
-//       // Use the local variable for calculation to ensure the updated value is used
-//       const percentageCompleted = overSpentAmountInPositive / limit_amount;
-//       setPercentageCompleted(percentageCompleted);
-//     }
-//     setIsLoading(false);
-//   }, 300);
-// };
-
 // ** Receive expense categories from user category list and prepare node by node turning each one of them in a Category Data expense category node - Return: Category Data with all nodes prepared
 const preparing_multiple_expense_category_nodes_and_category_data = async (
   user_id,
@@ -200,6 +175,61 @@ const preparingCategoryDataAfterTransactionForExistingUser = async (
       expense_categories_from_category_list
     );
   return category_data;
+};
+// If a transaction of a specific Month Year do not find a Category data that matches with that month year, it is prepared for creation here - Return: New Category Data already prepared for creation
+const creatingCategoryData = async (user_id, creation_date) => {
+  console.log("USER ID AT CD HANDLER:", user_id);
+  let expense_categories_from_category_list;
+  let expected_incomes;
+  let expected_income_id;
+  let expected_income_creation_date;
+
+  await category_listController
+    .getCategoryListByUserID(user_id)
+    .then((category_list) => {
+      expense_categories_from_category_list = category_list.expense_categories;
+    });
+
+  //** Updating expected income adding expected income node if does not exists */
+  await expected_incomeController
+    .getExpectedIncomeByID(user_id)
+    .then((expected_income) => {
+      expected_incomes = expected_income.expected_incomes;
+      expected_income_id = expected_income.expected_income_id;
+      expected_income_creation_date = expected_income.creation_date;
+    });
+
+  await addingExpectedIncomeNodeIfDoesNotExists(
+    user_id,
+    creation_date,
+    expected_incomes,
+    expected_income_id,
+    expected_income_creation_date
+  );
+
+  const category_data =
+    await preparing_multiple_expense_category_nodes_and_category_data(
+      user_id,
+      creation_date,
+      expense_categories_from_category_list
+    );
+  console.log("CATEGORY DATA AFTER PREPARING:", category_data);
+  const { category_data_expenseCategories } = category_data;
+  console.log(
+    "CATEGORY DATA EXPENSE CATEGORIES:",
+    category_data_expenseCategories
+  );
+  const prepared_total_amounts =
+    await preparingBudgetedAndSpentTotalAmountsOfACategoryData(
+      category_data_expenseCategories
+    );
+
+  const category_data_width_total_amounts = {
+    ...category_data,
+    total_amount_budgeted: prepared_total_amounts.total_amount_budgeted,
+    total_amount_spent: prepared_total_amounts.total_amount_spent,
+  };
+  return category_data_width_total_amounts;
 };
 
 const updatingCategoryDataAfterTransactionsOrCategoryListUpdates = async (
@@ -501,4 +531,5 @@ module.exports = {
   adding_a_single_new_expense_category_node_at_user_category_data,
   preparing_multiple_expense_category_nodes_and_category_data,
   createCategoryDataAfterCategoryListCreation,
+  creatingCategoryData,
 };

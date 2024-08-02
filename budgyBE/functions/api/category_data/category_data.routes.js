@@ -7,6 +7,7 @@ const {
   categoryDataController,
 } = require("../category_data/category_data.controllers");
 const {
+  creatingCategoryData,
   verifyingIfCategoryDataExistsByUserId,
 } = require("./category_data.handlers");
 
@@ -163,22 +164,47 @@ app.get("/categoryDataByUserId_MonthYear", (req, res) => {
 
 //******************** POSTS ****************************************
 
-//** Post a category data V2
+//** Post a category data V#
 app.post("/", (req, res) => {
-  const category_data = {
-    user_id: req.body.user_id,
-    creation_date: req.body.creation_date,
-    expense_categories: req.body.expense_categories,
-  };
-  console.log("CATEGORY DATA AT ROUTES:", category_data);
+  const user_id = req.body.user_id;
+  const creation_date = req.body.creation_date;
+  const month_year = req.body.month_year;
+
+  console.log("USER_ID AT ROUTES:", user_id);
+  console.log("CREATION DATE AT ROUTES:", creation_date);
   (async () => {
     try {
-      await category_dataController
-        .createCategoryData(category_data)
-        .then((data) => {
-          res.json(category_data);
-          console.log("DATA", data);
+      const isVerified = await verifyingIfCategoryDataExistsByUserId(
+        user_id,
+        month_year
+      );
+      if (isVerified) {
+        return res.status(200).send({
+          status: "FOUND",
+          msg: `CATEGORY DATA WITH USER_ID: ${user_id} AND MONTH YEAR: ${month_year} ALREADY EXISTS`,
         });
+      }
+      if (!isVerified) {
+        const category_data_toCreate = await creatingCategoryData(
+          user_id,
+          creation_date
+        );
+        const data = await category_dataController.createCategoryData(
+          category_data_toCreate
+        );
+
+        res.json(data);
+        console.log("DATA", data);
+      }
+      // const category_data_toCreate = await creatingCategoryData(
+      //   user_id,
+      //   creation_date
+      // );
+      // const data = await category_dataController.createCategoryData(
+      //   category_data_toCreate
+      // );
+      // res.json(data);
+      // console.log("DATA", data);
     } catch (error) {
       return res.status(500).send({
         status: "Failed",

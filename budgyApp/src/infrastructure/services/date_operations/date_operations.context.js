@@ -22,8 +22,8 @@ export const DateOperationsContextProvider = ({ children }) => {
     }`;
     return new_month_year;
   };
-  // const month_year = gettingAcronym(month_name);
-  const month_year = gettingAcronym("September");
+  const month_year = gettingAcronym(month_name);
+  // const month_year = gettingAcronym("September");
 
   const [month_year_toRender, set_month_year_toRender] = useState(month_year);
   const [month_selected, setMonthSelected] = useState(

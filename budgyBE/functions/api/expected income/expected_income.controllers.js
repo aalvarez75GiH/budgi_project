@@ -29,7 +29,7 @@ const getAllExpectedIncomes = async () => {
 };
 
 const getExpectedIncomeByID = async (user_id) => {
-  console.log("USER_ID AT CONTROLLER:", user_id);
+  console.log("USER_ID AT EXPECTED INCOME CONTROLLER:", user_id);
   let found_expectedIncome;
   await db
     .collection("expected_income")
