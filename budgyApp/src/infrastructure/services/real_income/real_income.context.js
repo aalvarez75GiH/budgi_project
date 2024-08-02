@@ -77,16 +77,16 @@ export const RealIncomeContextProvider = ({ children }) => {
 
   const gettingRealIncomeForEachButton = (month_name) => {
     const month_year_by_each_button = gettingAcronym(month_name);
-    console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
+    // console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
     const index = realIncomes.findIndex(
       (real_income) => real_income.month_year === month_year_by_each_button
     );
     if (index === -1) {
-      console.log("NO REAL INCOME FOR THAT MONTH");
+      // console.log("NO REAL INCOME FOR THAT MONTH");
       return -1;
     } else {
-      console.log("INDEX AT BUTTON:", index);
-      console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
+      // console.log("INDEX AT BUTTON:", index);
+      // console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
       //   setRealIncomeByMonth(realIncomes[index]);
       return realIncomes[index];
     }

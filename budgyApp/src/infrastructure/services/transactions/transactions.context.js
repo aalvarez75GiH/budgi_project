@@ -154,11 +154,11 @@ export const TransactionContextProvider = ({ children }) => {
   };
 
   const fixingANumberToTwoDecimals = (number) => {
-    console.log("NUMBER AT FUNCTION:", number);
-    console.log("NUMBER TYPE AT FUNCTION:", typeof number);
+    // console.log("NUMBER AT FUNCTION:", number);
+    // console.log("NUMBER TYPE AT FUNCTION:", typeof number);
 
     const numberFixed = Math.round(number * 100) / 100;
-    console.log("NUMBER FIXED AT FUNCTION:", numberFixed);
+    // console.log("NUMBER FIXED AT FUNCTION:", numberFixed);
     return numberFixed;
   };
 
@@ -168,17 +168,17 @@ export const TransactionContextProvider = ({ children }) => {
   };
 
   const updatingCategoryDataAfterTransactions = async (user_id, month_year) => {
-    console.log(" UPDATING CATEGORY DATA AFTER TRANSACTIONS....");
+    // console.log(" UPDATING CATEGORY DATA AFTER TRANSACTIONS....");
     try {
       // ********** GETTING CATEGORY CURRENT CATEGORY DATA PROCESS  **********
       const category_data = await getCategoryData_By_UserID_MonthYearRequest(
         user_id,
         month_year
       );
-      console.log(
-        " NEW CATEGORY DATA AT UPDATING CATEGORY DATA AFTER TRANSACTION:",
-        JSON.stringify(category_data.data, null, 2)
-      );
+      // console.log(
+      //   " NEW CATEGORY DATA AT UPDATING CATEGORY DATA AFTER TRANSACTION:",
+      //   JSON.stringify(category_data.data, null, 2)
+      // );
 
       if (category_data.status === 404) {
         setCategoryData({
@@ -194,7 +194,7 @@ export const TransactionContextProvider = ({ children }) => {
         user_id
       );
       if (!categories_data || categories_data.length === 0) {
-        console.log("CATEGORIES DATA STATUS 404");
+        console.log("CATEGORIES DATA STATUS AT TRANSACTIONS CONTEXT 404");
         setCategoriesData([]);
       } else {
         setCategoriesData(categories_data);
@@ -207,7 +207,7 @@ export const TransactionContextProvider = ({ children }) => {
 
   // *********************  THIS FUNCTION IS USED TO LISTEN FOR NEW TRANSACTIONS CHANGES AT DB  *******************
   const listenForNewChangesAtDB = (db) => {
-    console.log("TRANSACTIONS LISTENER AT CONTEXT IS RUNNING....");
+    // console.log("TRANSACTIONS LISTENER AT CONTEXT IS RUNNING....");
     const collectionRef = db.collection("transactions");
     collectionRef.onSnapshot(async (snapshot) => {
       let hasNewData = false;
@@ -290,7 +290,7 @@ export const TransactionContextProvider = ({ children }) => {
             !isLoading ? resolve(response) : null;
           } catch (error) {
             // If there's an error, log it and reject the promise with the error.
-            console.log("THERE WAS AN ERROR:", error);
+            // console.log("THERE WAS AN ERROR:", error);
             reject(error);
           }
         }, 3000);
@@ -318,7 +318,7 @@ export const TransactionContextProvider = ({ children }) => {
             // response ? setIsLoading(false) : setIsLoading(true);
             !isLoading ? resolve(response) : null;
           } catch (error) {
-            console.log("THERE WAS AN ERROR:", error);
+            // console.log("THERE WAS AN ERROR:", error);
             reject(error);
           }
         }, 3000);

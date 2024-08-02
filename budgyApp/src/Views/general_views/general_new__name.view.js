@@ -26,10 +26,15 @@ export const GeneralNewNameView = ({ navigation, route }) => {
     new_categoryName,
     setNew_CategoryName,
     settingNewCategoryName,
+    category_list_info_forUpdate,
   } = useContext(CategoryListContext);
   console.log(
     "CATEGORY LIST INFO FOR REQUEST AT GENERAL VIEW:",
     JSON.stringify(category_list_info_forRequest, null, 2)
+  );
+  console.log(
+    "CATEGORY LIST INFO FOR UPDATE AT GENERAL VIEW:",
+    JSON.stringify(category_list_info_forUpdate, null, 2)
   );
   console.log(
     "NEW CATEGORY NAME AT GENERAL VIEW:",

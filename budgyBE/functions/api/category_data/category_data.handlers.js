@@ -164,6 +164,7 @@ const preparingCategoryDataAfterTransactionForExistingUser = async (
   user_id,
   creation_date
 ) => {
+  console.log("USER ID AT CD HANDLER:", user_id);
   let expense_categories_from_category_list;
   let expected_incomes;
   let expected_income_id;

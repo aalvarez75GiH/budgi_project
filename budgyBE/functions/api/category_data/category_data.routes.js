@@ -1,5 +1,14 @@
 const app = require("../../express")();
 const category_dataController = require("./category_data.controllers");
+const {
+  preparingCategoryDataAfterTransactionForExistingUser,
+} = require("./category_data.handlers");
+const {
+  categoryDataController,
+} = require("../category_data/category_data.controllers");
+const {
+  verifyingIfCategoryDataExistsByUserId,
+} = require("./category_data.handlers");
 
 //******************** GETS ****************************************
 //** Getting all Category Data
@@ -73,6 +82,59 @@ app.get("/categoryDataByMonthYear", (req, res) => {
   })();
 });
 
+// app.get("/categoryDataByUserId_MonthYear", (req, res) => {
+//   const user_id = req.query.user_id;
+//   const month_year = req.query.month_year;
+//   const creation_date = req.query.creation_date;
+//   console.log("USER ID:", user_id);
+//   console.log("MONTH YEAR:", month_year);
+//   (async () => {
+//     try {
+//       await verifyingIfCategoryDataExistsByUserId(user_id, month_year).then(
+//         async (isVerified) => {
+//           console.log("IS VERIFIED:", isVerified);
+//           if (isVerified) {
+//             await category_dataController
+//               .getCategoryData_ByUser_ID_And_MonthYear(user_id, month_year)
+//               .then((category_data) => {
+//                 category_data
+//                   ? res.status(200).json(category_data)
+//                   : res.status(404).send({
+//                       status: "404",
+//                       msg: `CATEGORY DATA WITH USER_ID: ${user_id} AND MONTH YEAR: ${month_year} WAS NOT FOUND`,
+//                     });
+//               });
+//             console.log("CATEGORY DATA EXIST:");
+//           }
+//           if (!isVerified) {
+//             preparingCategoryDataAfterTransactionForExistingUser(
+//               user_id,
+//               creation_date
+//             ).then(async (category_data) => {
+//               try {
+//                 await categoryDataController
+//                   .createCategoryData(category_data)
+//                   .then((data) => {
+//                     console.log("DATA", data);
+//                   });
+//               } catch (error) {
+//                 return {
+//                   status: "Failed",
+//                   msg: error,
+//                 };
+//               }
+//             });
+//           }
+//         }
+//       );
+//     } catch (error) {
+//       return res.status(404).send({
+//         status: "500",
+//         msg: error,
+//       });
+//     }
+//   })();
+// });
 app.get("/categoryDataByUserId_MonthYear", (req, res) => {
   const user_id = req.query.user_id;
   const month_year = req.query.month_year;

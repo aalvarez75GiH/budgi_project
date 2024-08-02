@@ -148,6 +148,3 @@ export const REAL_INCOME_FULL_STRUCTURE = (user_id, month_year) => ({
     },
   ],
 });
-// export const REAL_INCOME_FULL_STRUCTURE = {
-
-// };

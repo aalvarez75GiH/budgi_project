@@ -113,7 +113,7 @@ export const ExpectedIncomeContextProvider = ({ children }) => {
       try {
         const expected_income = await getExpectedIncome_By_UserID(user_id);
         if (expected_income.status === 404) {
-          console.log("REAL INCOME STATUS 404");
+          // console.log("REAL INCOME STATUS 404");
           setExpectedIncome({});
           return;
         } else {
