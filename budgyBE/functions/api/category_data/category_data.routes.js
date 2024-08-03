@@ -196,15 +196,6 @@ app.post("/", (req, res) => {
         res.json(data);
         console.log("DATA", data);
       }
-      // const category_data_toCreate = await creatingCategoryData(
-      //   user_id,
-      //   creation_date
-      // );
-      // const data = await category_dataController.createCategoryData(
-      //   category_data_toCreate
-      // );
-      // res.json(data);
-      // console.log("DATA", data);
     } catch (error) {
       return res.status(500).send({
         status: "Failed",

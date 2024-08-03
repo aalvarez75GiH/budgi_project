@@ -49,7 +49,9 @@ module.exports.receivingAndPreparingTransactionInfoFromRequest = (req) => {
   }
 };
 
-const updatingMostRecentTransactionToFalse = async (transaction_created) => {
+module.exports.updatingMostRecentTransactionToFalse = async (
+  transaction_created
+) => {
   const { user_id, month_year, transaction_id } = transaction_created;
   console.log(" TRANSACTION CREATED AT UPDATING:", transaction_created);
   try {
@@ -70,59 +72,6 @@ const updatingMostRecentTransactionToFalse = async (transaction_created) => {
       }
     });
   } catch (error) {}
-};
-
-// Here we post a transaction after category data (for month year of the transaction) is verified that exists
-module.exports.postingTransactionWithCategoryDataVerified = (transaction) => {
-  console.log(" TRANSACTION AT PTWCDV:", transaction);
-  (async () => {
-    try {
-      const transaction_created =
-        await transactionsController.createTransaction(transaction);
-      console.log(
-        " TRANSACTION COMING FROM CONTROLLER AT PTWCDV:",
-        transaction_created
-      );
-      await updatingMostRecentTransactionToFalse(transaction_created);
-    } catch (error) {
-      return {
-        status: "Failed",
-        msg: error,
-      };
-    }
-  })();
-  return transaction;
-};
-
-// Here we post a transaction after category data (for month year of the transaction) is verified that  does not exists
-// We post a single category data for the month_year and user id of the transaction and then the transaction itself
-module.exports.postingTransactionWithCategoryDataNotVerified = (
-  transaction,
-  user_id,
-  creation_date
-) => {
-  preparingCategoryDataAfterTransactionForExistingUser(
-    user_id,
-    creation_date
-  ).then(async (category_data) => {
-    try {
-      await categoryDataController
-        .createCategoryData(category_data)
-        .then((data) => {
-          console.log("DATA", data);
-        });
-      const transaction_created =
-        await transactionsController.createTransaction(transaction);
-
-      await updatingMostRecentTransactionToFalse(transaction_created);
-    } catch (error) {
-      return {
-        status: "Failed",
-        msg: error,
-      };
-    }
-  });
-  return transaction;
 };
 
 module.exports.gettingTotalAmountTransactionsByUserIDAndMonthYear = (

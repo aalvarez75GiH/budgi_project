@@ -8,12 +8,7 @@ const {
 
 const {
   receivingAndPreparingTransactionInfoFromRequest,
-  receivingAndPreparing_TS_TransactionInfoFromRequest,
-} = require("./transactions.handlers");
-const {
-  postingTransactionWithCategoryDataVerified,
-  postingTransactionWithCategoryDataNotVerified,
-  postingTSTransactionWithCategoryDataVerified,
+  updatingMostRecentTransactionToFalse,
 } = require("./transactions.handlers");
 
 const {
@@ -275,30 +270,25 @@ app.get("/transactionsTotalAmountByUserId_MonthYear", (req, res) => {
 app.post("/", async (req, res) => {
   const transaction = receivingAndPreparingTransactionInfoFromRequest(req);
   console.log("TRANSACTION CREATED WITH TIME STAMP:", transaction);
-  const { user_id, month_year, creation_date } = transaction;
-  let transaction_created;
-  (async () => {
-    await verifyingIfCategoryDataExistsByUserId(user_id, month_year).then(
-      async (isVerified) => {
-        console.log("IS VERIFIED:", isVerified);
-        if (isVerified) {
-          transaction_created =
-            await postingTransactionWithCategoryDataVerified(transaction);
-          console.log("TRANSACTION created:", transaction);
-        }
-
-        if (!isVerified) {
-          transaction_created = postingTransactionWithCategoryDataNotVerified(
-            transaction,
-            user_id,
-            creation_date
-          );
-        }
-      }
+  // const { user_id, month_year, creation_date } = transaction;
+  // let transaction_created;
+  // async () => {
+  try {
+    const transaction_created = await transactionsController.createTransaction(
+      transaction
     );
-
+    await updatingMostRecentTransactionToFalse(transaction_created);
+    console.log(
+      " TRANSACTION COMING FROM CONTROLLER AT PTWCDV:",
+      transaction_created
+    );
     res.status(201).json(transaction_created);
-  })();
+  } catch (error) {
+    res.status(500).json({
+      status: "Failed",
+      msg: error.message,
+    });
+  }
 });
 
 // *********************************************************************************
