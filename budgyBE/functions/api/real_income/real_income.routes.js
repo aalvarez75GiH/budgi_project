@@ -6,6 +6,7 @@ const {
   createRealIncomeIfItDoesNotExists,
   addingACashIncomeAmountAndUpdatingRealIncomeTotalAmount,
 } = require("./real_income.handlers");
+const workingAppsController = require("../working_apps/working_apps.controllers");
 
 app.get("/real_income_byUserId", (req, res) => {
   const user_id = req.query.user_id;
@@ -46,7 +47,7 @@ app.get("/realIncomeByUserId_MonthYear", (req, res) => {
               });
         });
     } catch (error) {
-      return res.status(404).send({
+      return res.status(401).send({
         status: "500",
         msg: error,
       });
@@ -102,6 +103,62 @@ app.get("/income_comparison_by_monthYear", (req, res) => {
     } catch (error) {
       return res.status(404).send({
         status: "500",
+        msg: error,
+      });
+    }
+  })();
+});
+
+// const createRealIncomesAfterExpectedIncomeCreation = async (
+//   expected_income_created
+// ) => {
+//   const { creation_date, user_id } = expected_income_created;
+//   const month_year = creatingMonthYear(creation_date);
+//   console.log(month_year);
+
+//   const getting_working_apps = await workingAppsController.getAllWorkApps();
+
+//   console.log("WORKING APPS IN REAL INCOME HANDLER:", getting_working_apps);
+
+//   const real_income_ToCreate = {
+//     user_id: user_id,
+//     month_year,
+//     total_amount: 0,
+//     work_apps: getting_working_apps,
+//     creation_date,
+//   };
+//   const real_incomes_created =
+//     await realIncomeController.createRealIncomesAutomaticallyForNewUsers(
+//       real_income_ToCreate
+//     );
+
+//   return real_incomes_created;
+// };
+
+app.post("/createRealIncome", (req, res) => {
+  const user_id = req.body.user_id;
+  const creation_date = req.body.creation_date;
+  const month_year = req.body.month_year;
+
+  (async () => {
+    try {
+      const getting_working_apps = await workingAppsController.getAllWorkApps();
+
+      const real_income_ToCreate = {
+        user_id: user_id,
+        month_year,
+        total_amount: 0,
+        work_apps: getting_working_apps,
+        creation_date,
+      };
+
+      const real_income_created = await realIncomeController.createRealIncome(
+        real_income_ToCreate
+      );
+      res.status(200).json(real_income_created);
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
         msg: error,
       });
     }

@@ -6,6 +6,7 @@ import {
   getRealIncomes_By_UserIDRequest,
   registerRealIncomeRequest,
   registerCashIncomeRequest,
+  post_real_income_Request,
 } from "./real_income.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
@@ -18,7 +19,9 @@ export const RealIncomeContextProvider = ({ children }) => {
   const { user, db } = useContext(AuthenticationContext);
   const { user_id } = user;
 
-  const { month_year, gettingAcronym } = useContext(DateOperationsContext);
+  const { month_year, gettingAcronym, system_date } = useContext(
+    DateOperationsContext
+  );
 
   const [realIncome, setRealIncome] = useState({});
   const [realIncomeByMonth, setRealIncomeByMonth] = useState({});
@@ -43,10 +46,15 @@ export const RealIncomeContextProvider = ({ children }) => {
           user_id,
           month_year
         );
-        if (real_income.status === 404) {
-          console.log("REAL INCOME STATUS 404");
-          setRealIncomeTotalAmount(0);
-          setRealIncome({});
+        console.log("REAL INCOME...", JSON.stringify(real_income, null, 2));
+        if (real_income.code === "ERR_BAD_REQUEST") {
+          const real_income_toCreate = await post_real_income_Request(
+            user_id,
+            system_date,
+            month_year
+          );
+          // setRealIncomeTotalAmount(0);
+          setRealIncome(real_income_toCreate.data);
           // return;
         }
         if (real_income.status === 200) {
@@ -65,6 +73,12 @@ export const RealIncomeContextProvider = ({ children }) => {
         }
       } catch (error) {
         console.log("HERE IS THE ERROR:", error);
+        if (error.response) {
+          // Server responded with a status other than 200 range
+          console.error("Error Response:", error.response.data);
+          console.error("Status:", error.response.status); // Accessing the status code
+          console.error("Headers:", error.response.headers);
+        }
       } finally {
         setIsLoading(false);
       }

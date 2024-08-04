@@ -47,10 +47,10 @@ export const CategoryDataContextProvider = ({ children }) => {
           user_id,
           month_year
         );
-        console.log(
-          "CATEGORY DATA AT CONTEXT:",
-          JSON.stringify(category_data, null, 2)
-        );
+        // console.log(
+        //   "CATEGORY DATA AT CONTEXT:",
+        //   JSON.stringify(category_data, null, 2)
+        // );
 
         if (category_data === 404) {
           const category_data_created = await post_category_data_Request(
@@ -58,10 +58,10 @@ export const CategoryDataContextProvider = ({ children }) => {
             system_date,
             month_year
           );
-          console.log(
-            " CATEGORY DATA CREATED:",
-            JSON.stringify(category_data_created.data, null, 2)
-          );
+          // console.log(
+          //   " CATEGORY DATA CREATED:",
+          //   JSON.stringify(category_data_created.data, null, 2)
+          // );
           setCategoryData(category_data_created.data);
           // setCategoryData(categoryDataCleanObject(user_id, month_year));
           return;
@@ -91,14 +91,14 @@ export const CategoryDataContextProvider = ({ children }) => {
     })();
   }, []);
 
-  console.log(
-    "CATEGORY DATA AT CONTEXT OUTSIDE:",
-    JSON.stringify(categoryData, null, 2)
-  );
-  console.log(
-    "STATUS OUTSIDE:",
-    JSON.stringify(categoryDataRequestStatus, null, 2)
-  );
+  // console.log(
+  //   "CATEGORY DATA AT CONTEXT OUTSIDE:",
+  //   JSON.stringify(categoryData, null, 2)
+  // );
+  // console.log(
+  //   "STATUS OUTSIDE:",
+  //   JSON.stringify(categoryDataRequestStatus, null, 2)
+  // );
 
   const gettingCategoryData_onDemand = async (month_year_onDemand) => {
     setIsLoadingCategoryDataContext(true);

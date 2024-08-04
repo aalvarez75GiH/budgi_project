@@ -11,6 +11,7 @@ export const getRealIncome_By_UserID_MonthYearRequest = async (
       `${realIncomeEndPoint}/realIncomeByUserId_MonthYear?user_id=${user_id}&month_year=${month_year}`
     )
     .then((response) => {
+      console.log("REAL INCOME RESPONSE:", response);
       return response;
     })
     .catch((error) => {
@@ -49,5 +50,36 @@ export const registerCashIncomeRequest = async (realIncomeForRequest) => {
     })
     .catch((error) => {
       return error;
+    });
+};
+
+export const post_real_income_Request = async (
+  // categoryDataInfoNeededForRequest,
+  user_id,
+  creation_date,
+  month_year
+) => {
+  const { realIncomeEndPoint } = environment;
+  const realIncomeInfoNeededForRequest = {
+    user_id,
+    creation_date,
+    month_year,
+  };
+
+  return await axios
+    // .post(`${categoryDataEndPoint}`, categoryDataInfoNeededForRequest)
+    .post(
+      `${realIncomeEndPoint}/createRealIncome`,
+      realIncomeInfoNeededForRequest
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(
+        "CATEGORY DATA ERROR STATUS AT SERVICES:",
+        error.response.status
+      );
+      return error.response.status;
     });
 };
