@@ -177,7 +177,7 @@ const preparingCategoryDataAfterTransactionForExistingUser = async (
   return category_data;
 };
 // If a transaction of a specific Month Year do not find a Category data that matches with that month year, it is prepared for creation here - Return: New Category Data already prepared for creation
-const creatingCategoryData = async (user_id, creation_date) => {
+const preparingNewCategoryDataToCreate = async (user_id, creation_date) => {
   console.log("USER ID AT CD HANDLER:", user_id);
   let expense_categories_from_category_list;
   let expected_incomes;
@@ -394,53 +394,6 @@ const adding_a_single_new_expense_category_node_at_user_category_data = async (
 };
 
 //** We receive user ID, creation date and expenses categories after a Category List is created in order to created categories data - Return: Categories data created */
-// const createCategoryDataAfterCategoryListCreation = async (category_list) => {
-//   const { user_id, creation_date, expense_categories } = category_list;
-
-//   console.log("CATEGORY_LIST_CREATED AT CD HANDLER:", category_list);
-
-//   const expense_categories_from_category_list = expense_categories;
-
-//   const category_data =
-//     await preparing_multiple_expense_category_nodes_and_category_data(
-//       user_id,
-//       creation_date,
-//       expense_categories_from_category_list
-//     );
-//   console.log("CATEGORY_DATA_PREPARED AT CD HANDLER:", category_data);
-
-//   // ***************************************************************************
-//   const { category_data_expenseCategories } = category_data;
-//   console.log(
-//     "CATEGORY DATA EXPENSE CATEGORIES:",
-//     category_data_expenseCategories
-//   );
-//   const total_amount_budgeted = await settingTotalBudgetedOfACategoryData(
-//     category_data_expenseCategories
-//   );
-
-//   const category_data_width_total_amount_budgeted = {
-//     ...category_data,
-//     total_amount_budgeted: total_amount_budgeted,
-//   };
-
-//   // ***************************************************************************
-//   try {
-//     const categories_data_created =
-//       await categoryDataController.createCategoryDataAutomaticallyForNewUsers(
-//         category_data_width_total_amount_budgeted
-//       );
-
-//     return categories_data_created;
-//   } catch (error) {
-//     console.log("THERE IS AN ERROR OCURRING... ");
-//     return {
-//       status: "500",
-//       msg: error,
-//     };
-//   }
-// };
-//** We receive user ID, creation date and expenses categories after a Category List is created in order to created categories data - Return: Categories data created */
 const createCategoryDataAfterCategoryListCreation = async (category_list) => {
   const { user_id, creation_date, expense_categories } = category_list;
 
@@ -531,5 +484,5 @@ module.exports = {
   adding_a_single_new_expense_category_node_at_user_category_data,
   preparing_multiple_expense_category_nodes_and_category_data,
   createCategoryDataAfterCategoryListCreation,
-  creatingCategoryData,
+  preparingNewCategoryDataToCreate,
 };

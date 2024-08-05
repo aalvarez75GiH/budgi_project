@@ -182,6 +182,9 @@ export const AmountsMonthsPadComponent = ({
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
+            isChosen={
+              isChosen.month_selected === "August" ? isChosen.isActive : false
+            }
             isActive={false}
             // action={() => selectingMonth("August")}
             action={
@@ -202,6 +205,11 @@ export const AmountsMonthsPadComponent = ({
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
+            isChosen={
+              isChosen.month_selected === "September"
+                ? isChosen.isActive
+                : false
+            }
             isActive={false}
             // action={() => selectingMonth("September")}
             action={
@@ -224,6 +232,9 @@ export const AmountsMonthsPadComponent = ({
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
+            isChosen={
+              isChosen.month_selected === "October" ? isChosen.isActive : false
+            }
             isActive={false}
             // action={() => selectingMonth("October")}
             action={
@@ -244,6 +255,9 @@ export const AmountsMonthsPadComponent = ({
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
+            isChosen={
+              isChosen.month_selected === "November" ? isChosen.isActive : false
+            }
             isActive={false}
             // action={() => selectingMonth("November")}
             action={
@@ -264,6 +278,9 @@ export const AmountsMonthsPadComponent = ({
             color1={theme.colors.bg.s_142223C}
             color2={theme.colors.neutrals.t_F9F9FA}
             borderRadius={20}
+            isChosen={
+              isChosen.month_selected === "December" ? isChosen.isActive : false
+            }
             isActive={false}
             // action={() => selectingMonth("December")}
             action={

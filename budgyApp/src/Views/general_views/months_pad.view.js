@@ -47,6 +47,8 @@ export const MonthsPadView = ({ navigation, route }) => {
           //   color={"#FAA"}
           flexibility={0.06}
           justify={"flex-end"}
+          icon_left={"80%"}
+          icon_top={"0%"}
         />
         <FlexibleContainer
           width={"100%"}

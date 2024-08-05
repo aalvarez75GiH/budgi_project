@@ -43,28 +43,28 @@ export const AuthenticationContextProvider = ({ children }) => {
   const [newTransaction, setNewTransaction] = useState(null);
 
   // ************* User Development env
-  const user = {
-    first_name: "Arnoldo",
-    last_name: "Alvarez",
-    email: "arnoldo@gmail.com",
-    isFirstTime: false,
-    role: "user",
-    uid: "o3kb7r9LoSdTmLfXfDfTo2aLs8i1",
-    creation_date: "2024-04-09T02:41:08.861Z",
-    user_id: "263b2acd-7d86-42c5-988e-853f5345bc7d",
-  };
-
-  // ************* User Production env
   // const user = {
   //   first_name: "Arnoldo",
   //   last_name: "Alvarez",
   //   email: "arnoldo@gmail.com",
   //   isFirstTime: false,
   //   role: "user",
-  //   uid: "SRw6mZOh0cOq2IHUbV6GgVr9",
-  //   creation_date: "2024-03-31T17:23:42.556Z",
-  //   user_id: "34c110af-5d1e-41ee-948f-ca366ae3c53b",
+  //   uid: "o3kb7r9LoSdTmLfXfDfTo2aLs8i1",
+  //   creation_date: "2024-04-09T02:41:08.861Z",
+  //   user_id: "263b2acd-7d86-42c5-988e-853f5345bc7d",
   // };
+
+  // ************* User Production env
+  const user = {
+    first_name: "Arnoldo",
+    last_name: "Alvarez",
+    email: "arnoldo@gmail.com",
+    isFirstTime: false,
+    role: "user",
+    uid: "SRw6mZOh0cOq2IHUbV6GgVr9",
+    creation_date: "2024-03-31T17:23:42.556Z",
+    user_id: "34c110af-5d1e-41ee-948f-ca366ae3c53b",
+  };
 
   useEffect(() => {
     setUserToDB(user);

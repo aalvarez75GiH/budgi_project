@@ -52,7 +52,7 @@ export const CategoryDataContextProvider = ({ children }) => {
         //   JSON.stringify(category_data, null, 2)
         // );
 
-        if (category_data === 404) {
+        if (category_data.status === 404) {
           const category_data_created = await post_category_data_Request(
             user_id,
             system_date,

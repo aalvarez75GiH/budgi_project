@@ -24,6 +24,7 @@ export const CategoryListContextProvider = ({ children }) => {
     useState(getCategoryListInitialInfo(user_id));
   const [category_list_info_forUpdate, setCategory_list_info_forUpdate] =
     useState(updateCategoryListExpenseCategoryObject(user_id, month_year));
+  const [newCategoryAdded, setNewCategoryAdded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -40,7 +41,7 @@ export const CategoryListContextProvider = ({ children }) => {
         setIsLoading(false);
       }
     })();
-  }, []);
+  }, [newCategoryAdded]);
 
   const settingNewCategoryName = (newName, navigation) => {
     const words = newName.split(" ");
@@ -88,6 +89,7 @@ export const CategoryListContextProvider = ({ children }) => {
         );
         if (response) {
           setIsLoading(false);
+          setNewCategoryAdded(true);
           navigation.navigate("New_category_confirmation_view");
         }
       } catch (error) {
@@ -107,12 +109,13 @@ export const CategoryListContextProvider = ({ children }) => {
     setCategory_list_info_forRequest(getCategoryListInitialInfo(user_id));
     navigation.navigate("BudgetView");
   };
-  const resettingCategoryListInfoForRequest = (navigation) => {
-    setNew_CategoryName("");
-    setCategory_list_info_forRequest(getCategoryListInitialInfo(user_id));
-  };
+  // const resettingCategoryListInfoForRequest = (navigation) => {
+  //   setNew_CategoryName("");
+  //   setCategory_list_info_forRequest(getCategoryListInitialInfo(user_id));
+  // };
 
   const goingHome = (navigation) => {
+    setNewCategoryAdded(false);
     setNew_CategoryName("");
     setCategory_list_info_forRequest(getCategoryListInitialInfo(user_id));
     navigation.navigate("Home");

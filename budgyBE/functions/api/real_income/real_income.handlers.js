@@ -114,18 +114,6 @@ const addingACashIncomeAmountAndUpdatingRealIncomeTotalAmount = async (
   const index = work_apps.findIndex((obj) => obj.app_id === app_id);
   const app_to_update = work_apps[index];
   app_to_update.collected_money = app_to_update.collected_money + earned_amount;
-  //   const weeks = app_to_update.weeks;
-  //   const week_index = weeks.findIndex((obj) => obj.week_name === week_name);
-  //   const week_to_update = weeks[week_index];
-  //   week_to_update.earned_amount = earned_amount;
-
-  // ******************** Updating app:  collected money ***************
-
-  //   const collected_money = weeks.reduce((acc, obj) => {
-  //     return acc + obj.earned_amount;
-  //   }, 0);
-
-  //   app_to_update.collected_money = collected_money;
 
   // ******************** Updating Real income:  Total amount ***************
 
@@ -144,9 +132,27 @@ const addingACashIncomeAmountAndUpdatingRealIncomeTotalAmount = async (
   return real_income_updated;
 };
 
+const verifyingIfRealIncomeExistsByUserIdAndMonthYear = async (
+  user_id,
+  month_year
+) => {
+  const isVerified =
+    await realIncomeController.getRealIncome_ByUser_ID_And_MonthYear(
+      user_id,
+      month_year
+    );
+  if (isVerified) {
+    return true;
+  }
+  if (!isVerified) {
+    return false;
+  }
+};
+
 module.exports = {
   createRealIncomesAfterExpectedIncomeCreation,
   addingAWeekRealIncomeAmountAndUpdatingRealIncomeTotalAmount,
   createRealIncomeIfItDoesNotExists,
   addingACashIncomeAmountAndUpdatingRealIncomeTotalAmount,
+  verifyingIfRealIncomeExistsByUserIdAndMonthYear,
 };

@@ -18,7 +18,7 @@ export const getCategoryData_By_UserID_MonthYearRequest = async (
         "CATEGORY DATA ERROR STATUS AT SERVICES:",
         error.response.status
       );
-      return error.response.status;
+      return error.response;
     });
 };
 export const getAllCategoriesData_By_UserID_Request = async (user_id) => {

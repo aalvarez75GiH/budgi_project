@@ -40,6 +40,7 @@ const getRealIncome_ByUser_ID_And_MonthYear = async (user_id, month_year) => {
 
 const createRealIncome = async (real_income_ToCreate) => {
   const { creation_date, month_year } = real_income_ToCreate;
+  console.log("REAL INCOME TO CREATE AT CONTROLLER:", real_income_ToCreate);
 
   const real_income_id = uuidv4();
   const real_income = {
@@ -48,12 +49,12 @@ const createRealIncome = async (real_income_ToCreate) => {
     month_year: month_year,
     creation_date,
   };
-
+  console.log("REAL INCOME JUST BEFORE DB AT CONTROLLER:", real_income);
   await db
     .collection("real_income")
     .doc(`/${real_income_id}/`)
     .create(real_income);
-  return real_income;
+  return real_income_ToCreate;
 };
 
 const createRealIncomesAutomaticallyForNewUsers = async (real_income) => {

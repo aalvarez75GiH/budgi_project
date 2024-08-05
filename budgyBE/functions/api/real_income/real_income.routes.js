@@ -5,6 +5,7 @@ const {
   addingAWeekRealIncomeAmountAndUpdatingRealIncomeTotalAmount,
   createRealIncomeIfItDoesNotExists,
   addingACashIncomeAmountAndUpdatingRealIncomeTotalAmount,
+  verifyingIfRealIncomeExistsByUserIdAndMonthYear,
 } = require("./real_income.handlers");
 const workingAppsController = require("../working_apps/working_apps.controllers");
 
@@ -47,7 +48,7 @@ app.get("/realIncomeByUserId_MonthYear", (req, res) => {
               });
         });
     } catch (error) {
-      return res.status(401).send({
+      return res.status(404).send({
         status: "500",
         msg: error,
       });
@@ -109,32 +110,6 @@ app.get("/income_comparison_by_monthYear", (req, res) => {
   })();
 });
 
-// const createRealIncomesAfterExpectedIncomeCreation = async (
-//   expected_income_created
-// ) => {
-//   const { creation_date, user_id } = expected_income_created;
-//   const month_year = creatingMonthYear(creation_date);
-//   console.log(month_year);
-
-//   const getting_working_apps = await workingAppsController.getAllWorkApps();
-
-//   console.log("WORKING APPS IN REAL INCOME HANDLER:", getting_working_apps);
-
-//   const real_income_ToCreate = {
-//     user_id: user_id,
-//     month_year,
-//     total_amount: 0,
-//     work_apps: getting_working_apps,
-//     creation_date,
-//   };
-//   const real_incomes_created =
-//     await realIncomeController.createRealIncomesAutomaticallyForNewUsers(
-//       real_income_ToCreate
-//     );
-
-//   return real_incomes_created;
-// };
-
 app.post("/createRealIncome", (req, res) => {
   const user_id = req.body.user_id;
   const creation_date = req.body.creation_date;
@@ -142,20 +117,38 @@ app.post("/createRealIncome", (req, res) => {
 
   (async () => {
     try {
-      const getting_working_apps = await workingAppsController.getAllWorkApps();
-
-      const real_income_ToCreate = {
-        user_id: user_id,
-        month_year,
-        total_amount: 0,
-        work_apps: getting_working_apps,
-        creation_date,
-      };
-
-      const real_income_created = await realIncomeController.createRealIncome(
-        real_income_ToCreate
+      const isVerified = await verifyingIfRealIncomeExistsByUserIdAndMonthYear(
+        user_id,
+        month_year
       );
-      res.status(200).json(real_income_created);
+      console.log("IS REAL INCOME VERIFIED:", isVerified);
+      if (isVerified) {
+        return res.status(200).send({
+          status: "200",
+          msg: "REAL INCOME ALREADY EXISTS",
+        });
+      }
+      if (!isVerified) {
+        console.log("REAL INCOME DOES NOT EXIST SO WE CONTINUE WITH CREATION");
+        const getting_working_apps =
+          await workingAppsController.getAllWorkApps();
+        console.log("THESE ARE THE WORK APPS:", getting_working_apps);
+
+        const real_income_ToCreate = {
+          user_id: user_id,
+          month_year,
+          total_amount: 0,
+          work_apps: getting_working_apps,
+          creation_date,
+        };
+        console.log("THIS IS REAL INCOME TIO CREATE:", real_income_ToCreate);
+
+        const real_income_created = await realIncomeController.createRealIncome(
+          real_income_ToCreate
+        );
+        console.log("REAL INCOME CREATED AT ROUTE:", real_income_created);
+        res.status(201).json(real_income_created);
+      }
     } catch (error) {
       return res.status(500).send({
         status: "Failed",

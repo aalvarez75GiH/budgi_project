@@ -46,8 +46,11 @@ export const RealIncomeContextProvider = ({ children }) => {
           user_id,
           month_year
         );
-        console.log("REAL INCOME...", JSON.stringify(real_income, null, 2));
-        if (real_income.code === "ERR_BAD_REQUEST") {
+        console.log(
+          "REAL INCOME...",
+          JSON.stringify(real_income.status, null, 2)
+        );
+        if (real_income.status === 404) {
           const real_income_toCreate = await post_real_income_Request(
             user_id,
             system_date,
@@ -91,17 +94,12 @@ export const RealIncomeContextProvider = ({ children }) => {
 
   const gettingRealIncomeForEachButton = (month_name) => {
     const month_year_by_each_button = gettingAcronym(month_name);
-    // console.log("MONTH YEAR AT BUTTON:", month_year_by_each_button);
     const index = realIncomes.findIndex(
       (real_income) => real_income.month_year === month_year_by_each_button
     );
     if (index === -1) {
-      // console.log("NO REAL INCOME FOR THAT MONTH");
       return -1;
     } else {
-      // console.log("INDEX AT BUTTON:", index);
-      // console.log("REAL INCOME AT BUTTON:", realIncomes[index].total_amount);
-      //   setRealIncomeByMonth(realIncomes[index]);
       return realIncomes[index];
     }
   };
@@ -138,7 +136,9 @@ export const RealIncomeContextProvider = ({ children }) => {
         response ? setIsLoading(false) : setIsLoading(true);
         (await response) ? listenForNewChangesAtDB() : null;
         // console.log("REAL INCOME RESPONSE:", response.data);
-        navigation.navigate("income_confirmation_view");
+        navigation.navigate("income_confirmation_view", {
+          comingFrom: "comingFromCash",
+        });
       } catch (error) {
         console.log("THERE WAS AN ERROR:", error);
       }
