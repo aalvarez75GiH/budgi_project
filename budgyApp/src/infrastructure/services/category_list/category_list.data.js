@@ -21,4 +21,5 @@ export const updateCategoryListExpenseCategoryObject = (
   new_short_name: "",
   month_year: month_year,
   updated_on: "",
+  category_id: "",
 });

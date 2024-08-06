@@ -11,7 +11,7 @@ import { Text } from "../../../infrastructure/typography/text.component";
 
 import { CategoryListContext } from "../../../infrastructure/services/category_list/category_list.context";
 
-export const TextFormInputComponent = (comingFrom) => {
+export const TextFormInputComponent = (action_to_do) => {
   const { new_categoryName, setNew_CategoryName } =
     useContext(CategoryListContext);
 

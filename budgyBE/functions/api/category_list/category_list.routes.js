@@ -127,6 +127,7 @@ app.put("/", (req, res) => {
     category_id,
     month_year,
     updated_on,
+    new_short_name,
   } = req.body;
 
   (async () => {
@@ -138,7 +139,8 @@ app.put("/", (req, res) => {
           new_limit_amount,
           category_id,
           month_year,
-          updated_on
+          updated_on,
+          new_short_name
         );
 
       // *********************************************************************
@@ -148,7 +150,8 @@ app.put("/", (req, res) => {
         category_list_by_user_id,
         new_category_name,
         category_id,
-        new_limit_amount
+        new_limit_amount,
+        new_short_name
       );
 
       await category_listController.updateCategoryList(category_list_toUpdate);

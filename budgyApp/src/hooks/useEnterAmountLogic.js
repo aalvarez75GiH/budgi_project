@@ -40,8 +40,16 @@ export const useEnterAmountLogic = (comingFrom) => {
     "EXPECTED INCOME AMOUNT AT ENTER AMOUNT LOGIC:",
     JSON.stringify(new_expected_income_amount, null, 2)
   );
+  console.log(
+    "ACTION TO DO AT ENTER AMOUNT LOGIC:",
+    JSON.stringify(action_to_do, null, 2)
+  );
 
-  const { setCategory_list_info_forRequest } = useContext(CategoryListContext);
+  const {
+    setCategory_list_info_forRequest,
+    action_to_do,
+    setCategory_list_info_forUpdate,
+  } = useContext(CategoryListContext);
 
   const stringedExpectedIncomeAmount = fixingANumberToTwoDecimalsAndString(
     new_expected_income_amount
@@ -62,6 +70,10 @@ export const useEnterAmountLogic = (comingFrom) => {
 
   const cta_action = (navigation, comingFrom) => {
     console.log("COMING FROM AT CTA ACTION FUNCTION:", comingFrom);
+    console.log(
+      "ACTION TO DO AT ENTER AMOUNT LOGIC:",
+      JSON.stringify(action_to_do, null, 2)
+    );
     if (comingFrom === "AnyTransactionDetailsView") {
       setTransactionInfoForUpdate({
         ...transactionInfoForUpdate,
@@ -104,17 +116,40 @@ export const useEnterAmountLogic = (comingFrom) => {
       });
     }
     if (comingFrom === "GeneralNewNameView") {
-      setCategory_list_info_forRequest((prevState) => ({
-        ...prevState,
-        new_expense_category_node: {
-          ...prevState.new_expense_category_node,
-          limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
-        },
-      }));
-      navigation.navigate("New_category_summary_view", {
-        comingFrom: comingFrom,
-      });
+      if (action_to_do === "new_expense_category") {
+        setCategory_list_info_forRequest((prevState) => ({
+          ...prevState,
+          new_expense_category_node: {
+            ...prevState.new_expense_category_node,
+            limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
+          },
+        }));
+        navigation.navigate("New_category_summary_view", {
+          comingFrom: comingFrom,
+        });
+      }
+      if (action_to_do === "update_expense_category") {
+        setCategory_list_info_forUpdate((prevState) => ({
+          ...prevState,
+          new_limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
+        }));
+        navigation.navigate("New_category_summary_view", {
+          comingFrom: comingFrom,
+        });
+      }
     }
+    // if (comingFrom === "GeneralNewNameView") {
+    //   setCategory_list_info_forRequest((prevState) => ({
+    //     ...prevState,
+    //     new_expense_category_node: {
+    //       ...prevState.new_expense_category_node,
+    //       limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
+    //     },
+    //   }));
+    //   navigation.navigate("New_category_summary_view", {
+    //     comingFrom: comingFrom,
+    //   });
+    // }
   };
 
   console.log(

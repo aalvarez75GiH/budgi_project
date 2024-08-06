@@ -236,6 +236,7 @@ const updatingCategoryDataAfterTransactionsOrCategoryListUpdates = async (
   category_id,
   category_data
 ) => {
+  console.log("CATEGORY DATA TO UPDATE:", category_data);
   const { category_data_expenseCategories } = category_data;
 
   category_data_expenseCategories.map((node) => {
@@ -268,7 +269,8 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
   new_limit_amount,
   category_id,
   month_year,
-  updated_on
+  updated_on,
+  new_short_name
 ) => {
   const categories_data_toUpdate =
     await categoryDataController.getCategoryDataByUserID(user_id);
@@ -285,6 +287,7 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
 
     if (node.category_name !== new_category_name) {
       node.category_name = new_category_name;
+      node.short_name = new_short_name;
       node.updated = true;
       node.updated_on = updated_on;
       updatingCategoryDataAfterTransactionsOrCategoryListUpdates(
@@ -293,6 +296,7 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
       );
     } else {
       node.category_name = node.category_name;
+      node.short_name = node.short_name;
     }
 
     if (

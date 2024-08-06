@@ -29,3 +29,17 @@ export const registerNewExpenseCategoryRequest = async (
       return error;
     });
 };
+
+export const updatingExpenseCategoryRequest = async (
+  expense_category_toUpdate
+) => {
+  const { categoryListEndPoint } = environment;
+  return await axios
+    .put(`${categoryListEndPoint}`, expense_category_toUpdate)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};

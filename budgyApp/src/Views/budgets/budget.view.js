@@ -31,14 +31,14 @@ export const BudgetView = ({ navigation }) => {
     categoryData,
     gettingCategoryData_onDemand,
   } = useContext(CategoryDataContext);
-  console.log(
-    "CATEGORY DFATA AT BUDGETS VIEW:",
-    JSON.stringify(categoryData, null, 2)
-  );
-  console.log(
-    "CATEGORY DATA STATUS REQUEST:",
-    JSON.stringify(categoryDataRequestStatus, null, 2)
-  );
+  // console.log(
+  //   "CATEGORY DATA AT BUDGETS VIEW:",
+  //   JSON.stringify(categoryData, null, 2)
+  // );
+  // console.log(
+  //   "CATEGORY DATA STATUS REQUEST:",
+  //   JSON.stringify(categoryDataRequestStatus, null, 2)
+  // );
   const { category_data_expenseCategories, month_year } = categoryData;
   const firstCategoryDataExpenseCategories = category_data_expenseCategories[0];
   const firsCategoryDataExpenseCategoryName =
@@ -63,15 +63,21 @@ export const BudgetView = ({ navigation }) => {
 
   const { transactionsByMonthYear } = useContext(TransactionsContext);
 
-  const { category_list_info_forUpdate, setCategory_list_info_forUpdate } =
-    useContext(CategoryListContext);
+  setAction_to_do;
+  const {
+    category_list_info_forUpdate,
+    setCategory_list_info_forUpdate,
+    setAction_to_do,
+  } = useContext(CategoryListContext);
 
   // console.log(
   //   "TOTAL AMOUNT TO RENDER AT BUDGET VIEW:",
   //   JSON.stringify(totalAmountToRenderForBudgets, null, 2)
   // );
   // const { transactionsByMonthYear } = useContext(TransactionsContext);
-  const [categorySelected, setCategorySelected] = useState(null);
+  const [categorySelected, setCategorySelected] = useState(
+    firstCategoryDataExpenseCategories
+  );
   const [percentageCompleted, setPercentageCompleted] = useState(0);
   const [overSpentAmountInNegative, setOverSpentAmountInNegative] = useState(0);
   const [overSpentAmountInPositive, setOverSpentAmountInPositive] = useState(0);
@@ -233,20 +239,19 @@ export const BudgetView = ({ navigation }) => {
     });
   };
   const movingForwardToNewCategoryNameView = () => {
-    navigation.navigate("New_category_name_View", {
-      comingFrom: "BudgetsView",
-    });
+    setAction_to_do("new_expense_category");
+    navigation.navigate("New_category_name_View");
   };
   const movingForwardToNewCategoryNameViewForUpdatingCategory = () => {
+    setAction_to_do("update_expense_category");
     setCategory_list_info_forUpdate({
       ...category_list_info_forUpdate,
       new_category_name: categorySelected.category_name,
       new_limit_amount: categorySelected.limit_amount,
       new_short_name: categorySelected.short_name,
+      category_id: categorySelected.category_id,
     });
-    navigation.navigate("New_category_name_View", {
-      comingFrom: "BudgetsView",
-    });
+    navigation.navigate("New_category_name_View");
   };
 
   return screenIsLoading ? (

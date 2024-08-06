@@ -16,9 +16,9 @@ import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 
 export const GeneralNewNameView = ({ navigation, route }) => {
-  const { comingFrom } = route.params;
+  // const { action_to_do } = route.params;
 
-  console.log("COMING FROM AT ENTER AMOUNT VIEW:", comingFrom);
+  // console.log("ACTION TO DO AT EXPENSE CATEGORY NAME VIEW:", action_to_do);
   // const [categoryName, setCategoryName] = useState("");
   const {
     clearingCategoryNameAndBack,
@@ -64,7 +64,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
           <Spacer position="top" size="xxl" />
           <Spacer position="top" size="xxl" />
           <TextFormInputComponent
-            comingFrom={comingFrom}
+            // action_to_do={action_to_do}
             setNew_CategoryName={setNew_CategoryName}
             new_categoryName={new_categoryName}
           />
