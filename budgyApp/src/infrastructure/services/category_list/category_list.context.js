@@ -1,5 +1,8 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
-import { getCategoryList_By_UserID_Request } from "./category_list.services";
+import {
+  getCategoryList_By_UserID_Request,
+  deleteExpenseCategoryRequest,
+} from "./category_list.services";
 import {
   registerNewExpenseCategoryRequest,
   updatingExpenseCategoryRequest,
@@ -16,6 +19,7 @@ export const CategoryListContext = createContext();
 export const CategoryListContextProvider = ({ children }) => {
   const [categoryList, setCategoryList] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [categorySelected, setCategorySelected] = useState(null);
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
@@ -154,6 +158,29 @@ export const CategoryListContextProvider = ({ children }) => {
       }
     }, 3000);
   };
+  const deletingOrSuspendingExpenseCategory = async (
+    navigation,
+    category_id,
+    user_id,
+    comingFrom
+  ) => {
+    console.log("CATEGORY ID AT CONTEXT:", category_id);
+    setIsLoading(true);
+    setTimeout(async () => {
+      try {
+        const response = await deleteExpenseCategoryRequest(
+          category_id,
+          user_id
+        );
+        if (response) {
+          setIsLoading(false);
+          navigation.navigate("HomeView");
+        }
+      } catch (error) {
+        console.log("THERE WAS AN ERROR:", error);
+      }
+    }, 3000);
+  };
 
   const clearingCategoryNameAndBack = (navigation) => {
     setNew_CategoryName("");
@@ -206,6 +233,9 @@ export const CategoryListContextProvider = ({ children }) => {
         setAction_to_do,
         action_to_do,
         updatingExpenseCategory,
+        deletingOrSuspendingExpenseCategory,
+        setCategorySelected,
+        categorySelected,
       }}
     >
       {children}

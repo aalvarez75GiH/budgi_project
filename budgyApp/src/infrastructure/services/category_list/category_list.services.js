@@ -43,3 +43,39 @@ export const updatingExpenseCategoryRequest = async (
       return error;
     });
 };
+
+export const deleteExpenseCategoryRequest = async (category_id, user_id) => {
+  console.log("CATEGORY LIST INFO AT SERVICES:", category_id, user_id);
+  const { categoryListEndPoint } = environment;
+  return await axios
+    .delete(
+      // `http://10.0.2.2:5001/budgy-bd9b1/us-central1/categoryListEndPoint/deleteExpenseCategory?category_id=270d66ac-7229-455e-b445-e3b302f62654&user_id=7125c49e-987d-4aa1-944c-0d5dce4bf303`
+      `${categoryListEndPoint}/deleteExpenseCategory?category_id=${category_id}&user_id=${user_id}`
+    )
+    .then((response) => {
+      // console.log(
+      //   "RESPONSE AT DELETE TRANSACTION SERVICE:",
+      //   JSON.stringify(response, null, 2)
+      // );
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+export const deleteTransactionRequest = async (transaction_id) => {
+  // console.log("TRANSACTION INFO AT SERVICES:", transactionInfoForUpdate);
+  const { transactionEndPoint } = environment;
+  return await axios
+    .delete(`${transactionEndPoint}?transaction_id=${transaction_id}`)
+    .then((response) => {
+      // console.log(
+      //   "RESPONSE AT DELETE TRANSACTION SERVICE:",
+      //   JSON.stringify(response, null, 2)
+      // );
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};

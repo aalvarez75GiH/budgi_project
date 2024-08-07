@@ -19,11 +19,8 @@ export const useMonthPadLogic = () => {
     getting_transactions_budgeted_and_real_income_totalAmounts,
   } = useContext(TransactionsContext);
 
-  const {
-    gettingCategoryData_onDemand,
-    isLoadingCategoryDataContext,
-    selectingCategory,
-  } = useContext(CategoryDataContext);
+  const { gettingCategoryData_onDemand, isLoadingCategoryDataContext } =
+    useContext(CategoryDataContext);
 
   const [isChosen, setIsChosen] = useState({
     month_selected: month_selected,
@@ -37,8 +34,6 @@ export const useMonthPadLogic = () => {
     setMonthSelected(month);
     setMonthYearOnDemand(month_year_for_request);
     set_month_year_toRender(month_year_for_request);
-    // setCategorySelected(null);
-    // selectingCategory();
   };
 
   // *********************************************************************

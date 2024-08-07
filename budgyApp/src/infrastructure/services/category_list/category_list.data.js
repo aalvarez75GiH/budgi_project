@@ -11,6 +11,7 @@ export const getCategoryListInitialInfo = (user_id) => ({
     status: "active",
   },
 });
+
 export const updateCategoryListExpenseCategoryObject = (
   user_id,
   month_year

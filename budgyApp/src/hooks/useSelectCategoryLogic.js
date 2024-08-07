@@ -87,45 +87,6 @@ export const useSelectCategoryLogic = () => {
       navigation.navigate("Transaction_summary");
     }
   };
-  // //**** HERE WE SET THE CATEGORY SELECTED AND SET TRANSACTION INFO FOR REQUEST WITH INFO NEEDED ****
-  // const selectingCategory = (navigation, item, comingFrom) => {
-  //   console.log(" COMING FROM AT SELECTING CATEGORY:", comingFrom);
-  //   const { category_id, category_name, short_name, icon_name } = item;
-
-  //   selectedItem === category_id;
-  //   setSelectedItem(item.category_id);
-  //   // console.log("SELECTED ITEM:", selectedItem);
-  //   comingFrom === "AnyTransactionDetailsView"
-  //     ? setTransactionInfoForUpdate({
-  //         ...transactionInfoForUpdate,
-  //         category_name: category_name,
-  //         category_id: category_id,
-  //         icon_name: icon_name,
-  //         short_name: short_name,
-  //       })
-  //     : setTransactionInfoForRequest({
-  //         ...transactionInfoForRequest,
-  //         category_name: category_name,
-  //         category_id: category_id,
-  //         icon_name: icon_name,
-  //         short_name: short_name,
-  //         amount: fixingANumberToTwoDecimals(amount),
-  //       });
-
-  //   if (comingFrom === "AnyTransactionDetailsView") {
-  //     setReadyToUpdate(true);
-  //     navigation.navigate("Transaction_details_view");
-  //   }
-  //   // if (comingFrom === "Home_View") {
-  //   //   setReadyToUpdate(true);
-  //   //   navigation.navigate("Transaction_details_view", {
-  //   //     comingFrom: "Home_View",
-  //   //   });
-  //   // }
-  //   // comingFrom === "AnyTransactionDetailsView"
-  //   //   ? navigation.navigate("Transaction_details_view")
-  //   //   : navigation.navigate("Transaction_summary");
-  // };
 
   const goingBack = (navigation) => {
     navigation.goBack();
@@ -134,9 +95,12 @@ export const useSelectCategoryLogic = () => {
   const renderItem =
     (navigation, comingFrom) =>
     ({ item }) => {
-      const { category_id } = item;
+      const { category_id, status } = item;
       const isSelected = selectedItem === category_id;
       // console.log("ITEM AT RENDER ITEM:", item);
+      if (status === "suspended") {
+        return null;
+      }
       return (
         <RegularCategoryTile
           category_name={item.category_name}

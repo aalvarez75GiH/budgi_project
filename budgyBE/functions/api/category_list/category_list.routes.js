@@ -6,11 +6,13 @@ const {
   updateCategoryDataWithNewExpenseCategoryNameAndAmount,
   adding_a_single_new_expense_category_node_at_user_category_data,
   createCategoryDataAfterCategoryListCreation,
+  preparingBudgetedAndSpentTotalAmountsOfACategoryData,
 } = require("../category_data/category_data.handlers");
 
 const {
   adding_a_single_new_expense_category_node_at_user_category_list,
   switchingExpenseCategoryNodeToSuspendedAtCategoryList,
+  removingExpenseCategoryNodeFromCategoryList,
 } = require("./category_list.handlers");
 
 const { updateUserFirstTimeField } = require("../users/triggers.operations");
@@ -18,6 +20,9 @@ const { updateUserFirstTimeField } = require("../users/triggers.operations");
 const category_listController = require("./category_list.controllers");
 const categoryDataController = require("../category_data/category_data.controllers");
 const { updateCategoryListNode } = require("./category_list.handlers");
+const {
+  getTransactions_ByUser_ID_Cat_ID,
+} = require("../transactions/transactions.controllers");
 
 //** Getting all Category List
 app.get("/", (req, res) => {
@@ -240,7 +245,7 @@ const suspendingExpenseCategoryNodeAtUserCategoriesData = async (
     const categories_data_toUpdate =
       await categoryDataController.getCategoryDataByUserID(user_id);
 
-    categories_data_toUpdate.map((category_data) => {
+    categories_data_toUpdate.map(async (category_data) => {
       const { category_data_expenseCategories } = category_data;
       const index = category_data_expenseCategories.findIndex(
         (obj) => obj.category_id === category_id
@@ -248,8 +253,55 @@ const suspendingExpenseCategoryNodeAtUserCategoriesData = async (
       const node = category_data_expenseCategories[index];
       if (node.category_id === category_id) {
         node.status = "suspended";
+        node.limit_amount = 0;
       }
-      categoryDataController.updateCategoryData(category_data);
+      const prepared_total_amounts =
+        await preparingBudgetedAndSpentTotalAmountsOfACategoryData(
+          category_data_expenseCategories
+        );
+      const category_data_width_total_amounts = {
+        ...category_data,
+        total_amount_budgeted: prepared_total_amounts.total_amount_budgeted,
+      };
+      categoryDataController.updateCategoryData(
+        category_data_width_total_amounts
+      );
+    });
+    return categories_data_toUpdate;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const removingExpenseCategoryNodeAtUserCategoriesData = async (
+  user_id,
+  category_id
+) => {
+  try {
+    const categories_data_toUpdate =
+      await categoryDataController.getCategoryDataByUserID(user_id);
+
+    categories_data_toUpdate.map(async (category_data) => {
+      const { category_data_expenseCategories } = category_data;
+      const index = category_data_expenseCategories.findIndex(
+        (obj) => obj.category_id === category_id
+      );
+      const node = category_data_expenseCategories[index];
+      if (node.category_id === category_id) {
+        // node.status = "suspended";
+        category_data_expenseCategories.splice(index, 1);
+      }
+      const prepared_total_amounts =
+        await preparingBudgetedAndSpentTotalAmountsOfACategoryData(
+          category_data_expenseCategories
+        );
+      const category_data_width_total_amounts = {
+        ...category_data,
+        total_amount_budgeted: prepared_total_amounts.total_amount_budgeted,
+      };
+      categoryDataController.updateCategoryData(
+        category_data_width_total_amounts
+      );
     });
     return categories_data_toUpdate;
   } catch (error) {
@@ -286,6 +338,78 @@ app.put("/suspendExpenseCategory", (req, res) => {
         categories_data_updated: categories_data_updated,
       };
       res.status(200).json(categoryListAndCategoriesDataUpdatedResponse);
+      // ******************************************
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
+        msg: error,
+      });
+    }
+  })();
+});
+app.delete("/deleteExpenseCategory", (req, res) => {
+  const user_id = req.query.user_id;
+  const category_id = req.query.category_id;
+  console.log("USER ID AT DELETE EXPENSE CATEGORY ENDPOINT:", user_id);
+  console.log("CATEGORY ID AT DELETE EXPENSE CATEGORY ENDPOINT:", category_id);
+  (async () => {
+    try {
+      const transactions_by_category_id =
+        await getTransactions_ByUser_ID_Cat_ID(user_id, category_id);
+      // ** Suspending expense category node if we find transactions by category id
+      if (transactions_by_category_id.length) {
+        // *********************************************************
+        const categories_data_updated =
+          await suspendingExpenseCategoryNodeAtUserCategoriesData(
+            user_id,
+            category_id
+          );
+
+        const category_list_by_user_id =
+          await category_listController.getCategoryListByUserID(user_id);
+        const category_list_toUpdate =
+          switchingExpenseCategoryNodeToSuspendedAtCategoryList(
+            category_id,
+            category_list_by_user_id
+          );
+
+        await category_listController.updateCategoryList(
+          category_list_toUpdate
+        );
+
+        const categoryListAndCategoriesDataUpdatedResponse = {
+          category_list_updated: category_list_toUpdate,
+          categories_data_updated: categories_data_updated,
+        };
+        // *********************************************************
+        res.status(201).json(categoryListAndCategoriesDataUpdatedResponse);
+      }
+      // ** Deleting expense category node if we DO NOT find transactions by category id
+      if (!transactions_by_category_id.length) {
+        const categories_data_updated =
+          await removingExpenseCategoryNodeAtUserCategoriesData(
+            user_id,
+            category_id
+          );
+
+        const category_list_by_user_id =
+          await category_listController.getCategoryListByUserID(user_id);
+
+        const category_list_toUpdate =
+          removingExpenseCategoryNodeFromCategoryList(
+            category_id,
+            category_list_by_user_id
+          );
+        await category_listController.updateCategoryList(
+          category_list_toUpdate
+        );
+        const categoryListAndCategoriesDataUpdatedResponse = {
+          category_list_updated: category_list_toUpdate,
+          categories_data_updated: categories_data_updated,
+        };
+        res.status(201).json(categoryListAndCategoriesDataUpdatedResponse);
+      }
+
       // ******************************************
     } catch (error) {
       return res.status(500).send({
@@ -343,17 +467,3 @@ app.delete("/deleteCategoryListByUserID", (req, res) => {
   })();
 });
 module.exports = app;
-
-// ******* Working in progress ************************
-// const { limit_amount } = new_category;
-// console.log((Math.round(limit_amount * 100) / 100).toFixed(2));
-// let USDollar = new Intl.NumberFormat("en-US", {
-//   style: "currency",
-//   currency: "USD",
-// });
-// console.log(
-//   `The formated version of ${limit_amount} is ${USDollar.format(
-//     limit_amount
-//   )}`
-// );
-// ******************************************************

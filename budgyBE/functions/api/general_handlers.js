@@ -1,6 +1,30 @@
 const category_listController = require("../api/category_list/category_list.controllers");
 const categoryDataController = require("../api/category_data/category_data.controllers");
+// const {
+//   preparingBudgetedAndSpentTotalAmountsOfACategoryData,
+// } = require("../api/category_data/category_data.handlers");
 
+const preparingBudgetedAndSpentTotalAmountsOfACategoryData = async (
+  category_data_expenseCategories
+) => {
+  return Promise.resolve().then(() => {
+    let total_amount_budgeted = category_data_expenseCategories.reduce(
+      (a, b) => a + b.limit_amount,
+      0
+    );
+    let total_amount_spent = category_data_expenseCategories.reduce(
+      (a, b) => a + b.amount_spent,
+      0
+    );
+
+    const prepared_total_amounts = {
+      total_amount_budgeted: total_amount_budgeted,
+      total_amount_spent: total_amount_spent,
+    };
+
+    return prepared_total_amounts;
+  });
+};
 module.exports.validation_and_update_process_of_a_new_expense_category_node =
   async (
     mandatory,
@@ -29,7 +53,22 @@ module.exports.validation_and_update_process_of_a_new_expense_category_node =
             );
         }
         if (type_controller === "category_data") {
-          await categoryDataController.updateCategoryData(document_to_update);
+          // ********************************************************
+          const prepared_total_amounts =
+            await preparingBudgetedAndSpentTotalAmountsOfACategoryData(
+              expense_category_array
+            );
+
+          const category_data_width_total_amounts = {
+            ...document_to_update,
+            total_amount_budgeted: prepared_total_amounts.total_amount_budgeted,
+            // total_amount_spent: prepared_total_amounts.total_amount_spent,
+          };
+          // const { category_data_expenseCategories } = category_data_width_total_amounts;
+          // ********************************************************
+          await categoryDataController.updateCategoryData(
+            category_data_width_total_amounts
+          );
         }
         return {
           status: "Success",

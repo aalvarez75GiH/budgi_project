@@ -52,7 +52,7 @@ export const useAnyTransactionDetailsLogic = () => {
       //   transaction_id
     ) => {
       navigation.navigate(toNavigate, {
-        transaction_id: transaction_id,
+        document_id: transaction_id,
         comingFrom: comingFrom,
       });
     };

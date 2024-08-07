@@ -68,13 +68,10 @@ export const BudgetView = ({ navigation }) => {
     category_list_info_forUpdate,
     setCategory_list_info_forUpdate,
     setAction_to_do,
+    // setCategorySelected,
+    // categorySelected,
   } = useContext(CategoryListContext);
 
-  // console.log(
-  //   "TOTAL AMOUNT TO RENDER AT BUDGET VIEW:",
-  //   JSON.stringify(totalAmountToRenderForBudgets, null, 2)
-  // );
-  // const { transactionsByMonthYear } = useContext(TransactionsContext);
   const [categorySelected, setCategorySelected] = useState(
     firstCategoryDataExpenseCategories
   );
@@ -100,6 +97,7 @@ export const BudgetView = ({ navigation }) => {
   useEffect(() => {
     // setMonthSelected(month_name);
     const initialAmountsMathLogicForFirstCategoryData = async () => {
+      setCategorySelected(firstCategoryDataExpenseCategories);
       packagingAndFilteringTransactionsAndAmountByCategoryBudget(
         firstCategoryDataExpenseCategories.category_id,
         transactionsByMonthYear
@@ -213,8 +211,11 @@ export const BudgetView = ({ navigation }) => {
 
   const renderCategoryItem = ({ item }) => {
     // console.log("ITEM:", item);
-    const { category_id, icon_name, short_name } = item;
+    const { category_id, icon_name, short_name, status } = item;
     const isSelected = selectedItem === category_id;
+    if (status === "suspended") {
+      return null;
+    }
     return (
       <CircularButtonOptionComponent
         caption={short_name}
@@ -324,7 +325,12 @@ export const BudgetView = ({ navigation }) => {
           }
           // action2={() => movingForwardToTransactions(navigation)}
           action2={() => navigation.navigate("Transactions_by_category_View")}
-          action3={() => null}
+          action3={() =>
+            navigation.navigate("Delete_confirmation_view", {
+              comingFrom: "BudgetsView",
+              document_id: categorySelected.category_id,
+            })
+          }
         />
 
         <FlexibleContainer
@@ -498,212 +504,3 @@ export const BudgetView = ({ navigation }) => {
     </SafeArea>
   );
 };
-
-// return screenIsLoading ? (
-//   <FlexibleContainer
-//     color={theme.colors.bg.p_FFFFFF}
-//     // color={"#FAD"}
-//     direction="row"
-//     flexibility={1}
-//     justify={"center"}
-//     isBordered={false}
-//     alignment={"center"}
-//   >
-//     <IsLoadingContainer
-//       size="large"
-//       color={theme.colors.brand.primary}
-//       caption=""
-//     />
-//   </FlexibleContainer>
-// ) : (
-//   <SafeArea background_color="#FFFFFF">
-//     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-//       <BudgetsHeader
-//         navigation={navigation}
-//         color={theme.colors.bg.p_FFFFFF}
-//         //   color={"#FAA"}
-//         flexibility={0.15}
-//         direction={"row"}
-//         caption={month_year_toRender ? month_year_toRender : month_year}
-//         action1={() =>
-//           movingForwardToMonthsPadView(
-//             navigation,
-//             user_id,
-//             set_month_year_toRender
-//           )
-//         }
-//         // action2={() => movingForwardToTransactions(navigation)}
-//         action2={() => navigation.navigate("Transactions_by_category_View")}
-//         action3={() => null}
-//       />
-
-//       <FlexibleContainer
-//         direction={"row"}
-//         color={theme.colors.bg.p_FFFFFF}
-//         //   color={"lightblue"}
-//         flexibility={0.1}
-//         justify={"space-evenly"}
-//         alignment={"center"}
-//         isBordered={false}
-//       >
-//         <ControlledContainer
-//           width={"10%"}
-//           height={"60%"}
-//           // color={"blue"}
-//           justify="center"
-//           alignment="center"
-//           direction="row"
-//         >
-//           <SVGComponent
-//             onPress={() => null}
-//             icon_width={30}
-//             icon_height={30}
-//             position={"static"}
-//             left={"0%"}
-//             top={"0%"}
-//             justify={"center"}
-//             icon_name={
-//               categorySelected === null
-//                 ? firsCategoryDataExpenseCategoryIconName
-//                 : categorySelected.icon_name
-//             }
-//             icon_color={"#14223C"}
-//           />
-//         </ControlledContainer>
-//         <Text text_variant="bold_text_20">
-//           {categorySelected === null
-//             ? firsCategoryDataExpenseCategoryName
-//             : categorySelected.category_name}
-//         </Text>
-//         <ClickableControlledContainer
-//           width={"10%"}
-//           height={"60%"}
-//           // color={"blue"}
-//           justify="center"
-//           alignment="center"
-//           direction="row"
-//           onPress={() =>
-//             movingForwardToNewCategoryNameViewForUpdatingCategory()
-//           }
-//         >
-//           <SVGComponent
-//             onPress={() => null}
-//             icon_width={25}
-//             icon_height={25}
-//             position={"static"}
-//             left={"0%"}
-//             top={"0%"}
-//             justify={"center"}
-//             icon_name={"EditIcon"}
-//             icon_color={"#898989"}
-//           />
-//         </ClickableControlledContainer>
-//       </FlexibleContainer>
-
-//       <FlexibleContainer
-//         direction={"row"}
-//         // color={theme.colors.bg.p_FFFFFF}
-//         // color={"lightblue"}
-//         flexibility={0.4}
-//         justify={"space-between"}
-//         alignment={"center"}
-//         isBordered={true}
-//       >
-//         <ControlledContainer
-//           width={"20%"}
-//           height={"60%"}
-//           // color={"blue"}
-//           justify="center"
-//           alignment="center"
-//           direction="row"
-//         ></ControlledContainer>
-//         <BudgetsCircularChartComponent
-//           primaryAmount={
-//             categorySelected ? categorySelected.amount_spent : amount_spent
-//           }
-//           secondaryAmount={
-//             categorySelected ? categorySelected.amount_avail : amount_avail
-//           }
-//           percentageCompleted={percentageCompleted}
-//           secondaryLabel={
-//             overSpentAmountInNegative ? "Over Spent: " : "Avail: "
-//           }
-//           overSpentAmountInNegative={overSpentAmountInNegative}
-//           isSpinnerLoading={isLoading}
-//         />
-//         <ControlledContainer
-//           width={"20%"}
-//           height={"60%"}
-//           // color={"blue"}
-//           justify="center"
-//           alignment="center"
-//           direction="column"
-//         >
-//           <Text text_variant="bold_text_14">Max:</Text>
-//           <Text text_variant="bold_text_12">
-//             {categorySelected
-//               ? new Intl.NumberFormat("en-US", {
-//                   style: "currency",
-//                   currency: "USD",
-//                 }).format(categorySelected.limit_amount)
-//               : new Intl.NumberFormat("en-US", {
-//                   style: "currency",
-//                   currency: "USD",
-//                 }).format(firstCategoryDataExpenseCategories.limit_amount)}
-//           </Text>
-//           {/* <Text text_variant="bold_text_12">{`Max: $420`}</Text> */}
-//         </ControlledContainer>
-//       </FlexibleContainer>
-
-//       <FlexibleContainer
-//         direction={"column"}
-//         color={theme.colors.bg.p_FFFFFF}
-//         //   color={"lightblue"}
-//         flexibility={0.25}
-//         justify={"flex-start"}
-//         alignment={"flex-start"}
-//       >
-//         <Spacer size="large" position="top" />
-//         <Spacer size="extraLarge" position="left">
-//           <Text text_variant="bold_text_16">Categories</Text>
-//         </Spacer>
-//         <Spacer size="large" position="bottom" />
-//         <ControlledContainer
-//           width={"400px"}
-//           height={"100px"}
-//           justify="center"
-//           alignment="center"
-//           // color="red"
-//           direction="column"
-//         >
-//           <FlatList
-//             horizontal={true}
-//             showsHorizontalScrollIndicator={false}
-//             data={category_data_expenseCategories}
-//             renderItem={(item) => renderCategoryItem(item)}
-//             keyExtractor={(item, id) => {
-//               return item.category_id;
-//             }}
-//           />
-//         </ControlledContainer>
-//       </FlexibleContainer>
-//       <FlexibleContainer
-//         direction={"column"}
-//         //   color={theme.colors.bg.s_142223C}
-//         color={theme.colors.bg.p_FFFFFF}
-//         flexibility={0.15}
-//         justify={"center"}
-//         alignment={"center"}
-//       >
-//         <CircularButtonOptionComponent
-//           caption={""}
-//           icon_name={"PlusIcon"}
-//           action={() => movingForwardToNewCategoryNameView()}
-//           isSelected={false}
-//           icon_width={25}
-//           // isSelected={}
-//         />
-//       </FlexibleContainer>
-//     </GeneralFlexContainer>
-//   </SafeArea>
-// );

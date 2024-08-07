@@ -9,7 +9,7 @@ import {
 } from "./category_data.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
-import { categoryDataCleanObject } from "./category_data.data";
+// import { categoryDataCleanObject } from "./category_data.data";
 
 export const CategoryDataContextProvider = ({ children }) => {
   const [categoriesData, setCategoriesData] = useState([]);
@@ -25,20 +25,7 @@ export const CategoryDataContextProvider = ({ children }) => {
   const { user_id } = user;
 
   const { month_year, system_date } = useContext(DateOperationsContext);
-  const categoryDataExpenseCategoryNodeTest = [
-    {
-      amount_avail: 0,
-      amount_spent: 0,
-      category_id: "",
-      category_name: "",
-      icon_name: "",
-      limit_amount: 0,
-      short_name: "",
-      status: "",
-      updated: false,
-      updated_on: "",
-    },
-  ];
+
   useEffect(() => {
     (async () => {
       setIsLoadingCategoryDataContext(true);
@@ -47,10 +34,6 @@ export const CategoryDataContextProvider = ({ children }) => {
           user_id,
           month_year
         );
-        // console.log(
-        //   "CATEGORY DATA AT CONTEXT:",
-        //   JSON.stringify(category_data, null, 2)
-        // );
 
         if (category_data.status === 404) {
           const category_data_created = await post_category_data_Request(
@@ -58,10 +41,7 @@ export const CategoryDataContextProvider = ({ children }) => {
             system_date,
             month_year
           );
-          // console.log(
-          //   " CATEGORY DATA CREATED:",
-          //   JSON.stringify(category_data_created.data, null, 2)
-          // );
+
           setCategoryData(category_data_created.data);
           // setCategoryData(categoryDataCleanObject(user_id, month_year));
           return;
@@ -90,15 +70,6 @@ export const CategoryDataContextProvider = ({ children }) => {
       // gettingCurrentCategoryDataAndAllCategoriesData(user_id, month_year);
     })();
   }, []);
-
-  // console.log(
-  //   "CATEGORY DATA AT CONTEXT OUTSIDE:",
-  //   JSON.stringify(categoryData, null, 2)
-  // );
-  // console.log(
-  //   "STATUS OUTSIDE:",
-  //   JSON.stringify(categoryDataRequestStatus, null, 2)
-  // );
 
   const gettingCategoryData_onDemand = async (month_year_onDemand) => {
     setIsLoadingCategoryDataContext(true);

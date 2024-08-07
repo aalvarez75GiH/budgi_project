@@ -62,7 +62,6 @@ export const TransactionContextProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       try {
-        // setIsLoading(true);
         const transactionsAndAmount =
           await getTransactionsAndTotalAmountRequestOrderedByTimeStamp(
             user_id,
@@ -84,11 +83,6 @@ export const TransactionContextProvider = ({ children }) => {
       }
     })();
   }, []);
-
-  // console.log(
-  //   "TRANSACTIONS BY MONTH YEAR AT CONTEXT:",
-  //   JSON.stringify(transactionsByMonthYear, null, 2)
-  // );
 
   const gettingTransactions_byUserID_MonthYear_onDemand = async (
     user_id,
@@ -154,11 +148,7 @@ export const TransactionContextProvider = ({ children }) => {
   };
 
   const fixingANumberToTwoDecimals = (number) => {
-    // console.log("NUMBER AT FUNCTION:", number);
-    // console.log("NUMBER TYPE AT FUNCTION:", typeof number);
-
     const numberFixed = Math.round(number * 100) / 100;
-    // console.log("NUMBER FIXED AT FUNCTION:", numberFixed);
     return numberFixed;
   };
 
@@ -168,17 +158,12 @@ export const TransactionContextProvider = ({ children }) => {
   };
 
   const updatingCategoryDataAfterTransactions = async (user_id, month_year) => {
-    // console.log(" UPDATING CATEGORY DATA AFTER TRANSACTIONS....");
     try {
       // ********** GETTING CATEGORY CURRENT CATEGORY DATA PROCESS  **********
       const category_data = await getCategoryData_By_UserID_MonthYearRequest(
         user_id,
         month_year
       );
-      // console.log(
-      //   " NEW CATEGORY DATA AT UPDATING CATEGORY DATA AFTER TRANSACTION:",
-      //   JSON.stringify(category_data.data, null, 2)
-      // );
 
       if (category_data.status === 404) {
         setCategoryData({
@@ -256,7 +241,6 @@ export const TransactionContextProvider = ({ children }) => {
           const { transactions, total_amount } = transactionsAndAmount;
           setTransactionsTotalAmount(total_amount);
           setTransactionsByMonthYear(transactions);
-
           await updatingCategoryDataAfterTransactions(user_id, month_year);
         } catch (error) {
           console.log(error);

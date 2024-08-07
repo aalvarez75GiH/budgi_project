@@ -58,7 +58,7 @@ export const BudgetsHeader = ({
           <CircularButtonOptionComponent
             caption={""}
             icon_name={"RemoveIcon"}
-            action={() => null}
+            action={action3}
             isSelected={false}
             icon_width={20}
             // isSelected={}

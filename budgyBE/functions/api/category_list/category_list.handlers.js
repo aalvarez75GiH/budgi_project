@@ -66,3 +66,18 @@ module.exports.switchingExpenseCategoryNodeToSuspendedAtCategoryList = (
   });
   return category_list_by_user_id;
 };
+
+module.exports.removingExpenseCategoryNodeFromCategoryList = (
+  category_id,
+  category_list_by_user_id
+) => {
+  const { expense_categories } = category_list_by_user_id;
+  const index = expense_categories.findIndex(
+    (obj) => obj.category_id == category_id
+  );
+  const node = expense_categories[index];
+  if (node.category_id === category_id) {
+    expense_categories.splice(index, 1);
+  }
+  return category_list_by_user_id;
+};
