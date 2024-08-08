@@ -23,22 +23,26 @@ export const GeneralNewNameView = ({ navigation, route }) => {
   const {
     clearingCategoryNameAndBack,
     category_list_info_forRequest,
-    new_categoryName,
-    setNew_CategoryName,
+    text_input_value,
+    set_text_input_value,
+
     settingNewCategoryName,
     category_list_info_forUpdate,
   } = useContext(CategoryListContext);
+  // const { new_category_name } = category_list_info_forUpdate;
+
   console.log(
-    "CATEGORY LIST INFO FOR REQUEST AT GENERAL VIEW:",
-    JSON.stringify(category_list_info_forRequest, null, 2)
-  );
-  console.log(
-    "CATEGORY LIST INFO FOR UPDATE AT GENERAL VIEW:",
+    "CATEGORY LIST INFO FOR UPDATE AT GENERAL NEW NAME VIEW:",
     JSON.stringify(category_list_info_forUpdate, null, 2)
   );
+  const new_category_name = category_list_info_forUpdate.new_category_name;
   console.log(
-    "NEW CATEGORY NAME AT GENERAL VIEW:",
-    JSON.stringify(new_categoryName, null, 2)
+    "CATEGORY TO UPDATE NAME AT GENERAL VIEW:",
+    JSON.stringify(new_category_name, null, 2)
+  );
+  console.log(
+    "CATEGORY TO CREATE NAME AT GENERAL VIEW:",
+    JSON.stringify(text_input_value, null, 2)
   );
   // console.log("CATEGORY LIST INFO FOR REQUEST:", category_list_info_forRequest);
 
@@ -64,9 +68,10 @@ export const GeneralNewNameView = ({ navigation, route }) => {
           <Spacer position="top" size="xxl" />
           <Spacer position="top" size="xxl" />
           <TextFormInputComponent
-            // action_to_do={action_to_do}
-            setNew_CategoryName={setNew_CategoryName}
-            new_categoryName={new_categoryName}
+            set_text_input_value={set_text_input_value}
+            new_category_name={
+              new_category_name !== "" ? new_category_name : text_input_value
+            }
           />
         </FlexibleContainer>
         <FlexibleContainer
@@ -77,7 +82,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
           justify={"center"}
           alignment={"center"}
         >
-          {new_categoryName.length > 0 ? (
+          {text_input_value.length > 0 ? (
             <RegularCTAButton
               caption="Next"
               width={310}
@@ -85,7 +90,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
               action={() =>
-                settingNewCategoryName(new_categoryName, navigation)
+                settingNewCategoryName(text_input_value, navigation)
               }
               text_variant="bold_text_20"
             />

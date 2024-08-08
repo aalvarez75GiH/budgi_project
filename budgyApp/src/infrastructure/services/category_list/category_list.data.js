@@ -1,4 +1,4 @@
-export const getCategoryListInitialInfo = (user_id) => ({
+export const newCategoryListExpenseCategoryObject = (user_id) => ({
   user_id: user_id,
   mandatory: false,
   new_expense_category_node: {

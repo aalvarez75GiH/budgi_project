@@ -8,11 +8,12 @@ import {
   updatingExpenseCategoryRequest,
 } from "./category_list.services";
 import {
-  getCategoryListInitialInfo,
+  newCategoryListExpenseCategoryObject,
   updateCategoryListExpenseCategoryObject,
 } from "./category_list.data";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
+import { CategoryDataContext } from "../category_data/category_data.context";
 
 export const CategoryListContext = createContext();
 
@@ -26,13 +27,45 @@ export const CategoryListContextProvider = ({ children }) => {
 
   const { month_year } = useContext(DateOperationsContext);
 
-  const [new_categoryName, setNew_CategoryName] = useState("");
+  const { categoryData } = useContext(CategoryDataContext);
+
+  const {
+    category_data_expenseCategories,
+    month_year: category_data_month_year,
+  } = categoryData || {};
+
+  let firstCategoryDataExpenseCategories;
+  let firsCategoryDataExpenseCategoryName;
+  let firsCategoryDataExpenseCategoryIconName;
+
+  if (
+    Array.isArray(category_data_expenseCategories) &&
+    category_data_expenseCategories.length > 0
+  ) {
+    firstCategoryDataExpenseCategories = category_data_expenseCategories[0];
+    firsCategoryDataExpenseCategoryName =
+      category_data_expenseCategories[0].category_name;
+    firsCategoryDataExpenseCategoryIconName =
+      category_data_expenseCategories[0].icon_name;
+  }
+
+  const [text_input_value, set_text_input_value] = useState("");
   const [category_list_info_forRequest, setCategory_list_info_forRequest] =
-    useState(getCategoryListInitialInfo(user_id));
+    useState(newCategoryListExpenseCategoryObject(user_id));
   const [category_list_info_forUpdate, setCategory_list_info_forUpdate] =
-    useState(updateCategoryListExpenseCategoryObject(user_id, month_year));
+    useState(
+      updateCategoryListExpenseCategoryObject(user_id, category_data_month_year)
+    );
   const [newCategoryAdded, setNewCategoryAdded] = useState(false);
   const [action_to_do, setAction_to_do] = useState("");
+
+  // user_id: user_id,
+  // new_category_name: "",
+  // new_limit_amount: 0,
+  // new_short_name: "",
+  // month_year: month_year,
+  // updated_on: "",
+  // category_id: "",
 
   useEffect(() => {
     (async () => {
@@ -55,7 +88,7 @@ export const CategoryListContextProvider = ({ children }) => {
     const words = newName.split(" ");
     if (words.length < 2) {
       if (action_to_do === "new_expense_category") {
-        setNew_CategoryName(newName);
+        set_text_input_value(newName);
         setCategory_list_info_forRequest((prevState) => ({
           ...prevState,
           new_expense_category_node: {
@@ -68,16 +101,9 @@ export const CategoryListContextProvider = ({ children }) => {
           comingFrom: "GeneralNewNameView",
         });
       }
-      // user_id: user_id,
-      // new_category_name: "",
-      // new_limit_amount: 0,
-      // new_short_name: "",
-      // month_year: month_year,
-      // updated_on: "",
-      // category_id: "",
 
       if (action_to_do === "update_expense_category") {
-        setNew_CategoryName(newName);
+        set_text_input_value(newName);
         setCategory_list_info_forUpdate((prevState) => ({
           ...prevState,
           new_category_name: newName,
@@ -183,33 +209,32 @@ export const CategoryListContextProvider = ({ children }) => {
   };
 
   const clearingCategoryNameAndBack = (navigation) => {
-    setNew_CategoryName("");
+    set_text_input_value("");
     navigation.goBack();
   };
   const resettingInfoForRequestsAndMovingToBudgets = (navigation) => {
     if (action_to_do === "new_expense_category") {
-      setNew_CategoryName("");
-      setCategory_list_info_forRequest(getCategoryListInitialInfo(user_id));
+      set_text_input_value("");
+      setCategory_list_info_forRequest(
+        newCategoryListExpenseCategoryObject(user_id)
+      );
       navigation.navigate("BudgetView");
     }
     if (action_to_do === "update_expense_category") {
-      setNew_CategoryName("");
+      set_text_input_value("");
       setCategory_list_info_forUpdate(
         updateCategoryListExpenseCategoryObject(user_id, month_year)
       );
       navigation.navigate("BudgetView");
     }
-    // setCategory_list_info_forRequest(getCategoryListInitialInfo(user_id));
   };
-  // const resettingCategoryListInfoForRequest = (navigation) => {
-  //   setNew_CategoryName("");
-  //   setCategory_list_info_forRequest(getCategoryListInitialInfo(user_id));
-  // };
 
   const goingHome = (navigation) => {
     setNewCategoryAdded(false);
-    setNew_CategoryName("");
-    setCategory_list_info_forRequest(getCategoryListInitialInfo(user_id));
+    set_text_input_value("");
+    setCategory_list_info_forRequest(
+      newCategoryListExpenseCategoryObject(user_id)
+    );
     navigation.navigate("Home");
   };
 
@@ -218,8 +243,8 @@ export const CategoryListContextProvider = ({ children }) => {
       value={{
         categoryList,
         isLoading,
-        new_categoryName,
-        setNew_CategoryName,
+        text_input_value,
+        set_text_input_value,
         clearingCategoryNameAndBack,
         category_list_info_forRequest,
         settingNewCategoryName,
@@ -235,7 +260,16 @@ export const CategoryListContextProvider = ({ children }) => {
         updatingExpenseCategory,
         deletingOrSuspendingExpenseCategory,
         setCategorySelected,
+        // ********************************************
         categorySelected,
+        firstCategoryDataExpenseCategories,
+        firsCategoryDataExpenseCategoryName,
+        firsCategoryDataExpenseCategoryIconName,
+        category_data_month_year,
+        category_data_expenseCategories,
+        // firstCategoryDataExpenseCategoryInfo,
+
+        // ********************************************
       }}
     >
       {children}

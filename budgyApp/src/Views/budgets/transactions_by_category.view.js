@@ -150,7 +150,7 @@ export const TransactionsByCategoryView = ({ navigation, route }) => {
           <Spacer position="top" size="small" />
           <Spacer position="top" size="small" />
           <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
             // color={"lightblue"}
             direction="column"
             flexibility={1}

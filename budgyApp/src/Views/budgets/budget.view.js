@@ -39,12 +39,12 @@ export const BudgetView = ({ navigation }) => {
   //   "CATEGORY DATA STATUS REQUEST:",
   //   JSON.stringify(categoryDataRequestStatus, null, 2)
   // );
-  const { category_data_expenseCategories, month_year } = categoryData;
-  const firstCategoryDataExpenseCategories = category_data_expenseCategories[0];
-  const firsCategoryDataExpenseCategoryName =
-    category_data_expenseCategories[0].category_name;
-  const firsCategoryDataExpenseCategoryIconName =
-    category_data_expenseCategories[0].icon_name;
+  // const { category_data_expenseCategories, month_year } = categoryData;
+  // const firstCategoryDataExpenseCategories = category_data_expenseCategories[0];
+  // const firsCategoryDataExpenseCategoryName =
+  //   category_data_expenseCategories[0].category_name;
+  // const firsCategoryDataExpenseCategoryIconName =
+  //   category_data_expenseCategories[0].icon_name;
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
@@ -63,18 +63,25 @@ export const BudgetView = ({ navigation }) => {
 
   const { transactionsByMonthYear } = useContext(TransactionsContext);
 
-  setAction_to_do;
+  // setAction_to_do;
   const {
     category_list_info_forUpdate,
     setCategory_list_info_forUpdate,
     setAction_to_do,
-    // setCategorySelected,
-    // categorySelected,
+    setCategorySelected,
+    // *******************************************
+    categorySelected,
+    firstCategoryDataExpenseCategories,
+    firsCategoryDataExpenseCategoryName,
+    firsCategoryDataExpenseCategoryIconName,
+    category_data_month_year,
+    category_data_expenseCategories,
+    // *******************************************
   } = useContext(CategoryListContext);
 
-  const [categorySelected, setCategorySelected] = useState(
-    firstCategoryDataExpenseCategories
-  );
+  // const [categorySelected, setCategorySelected] = useState(
+  //   firstCategoryDataExpenseCategories
+  // );
   const [percentageCompleted, setPercentageCompleted] = useState(0);
   const [overSpentAmountInNegative, setOverSpentAmountInNegative] = useState(0);
   const [overSpentAmountInPositive, setOverSpentAmountInPositive] = useState(0);
@@ -117,6 +124,7 @@ export const BudgetView = ({ navigation }) => {
 
     return async () => {
       setMonthSelected(month_name);
+      setCategorySelected(firstCategoryDataExpenseCategories);
       resetMonth_year_toRender();
       await gettingCategoryData_onDemand(current_month_year);
     };
@@ -315,7 +323,9 @@ export const BudgetView = ({ navigation }) => {
           //   color={"#FAA"}
           flexibility={0.15}
           direction={"row"}
-          caption={month_year_toRender ? month_year_toRender : month_year}
+          caption={
+            month_year_toRender ? month_year_toRender : category_data_month_year
+          }
           action1={() =>
             movingForwardToMonthsPadView(
               navigation,
