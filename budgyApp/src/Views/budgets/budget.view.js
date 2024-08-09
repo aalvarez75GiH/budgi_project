@@ -76,6 +76,9 @@ export const BudgetView = ({ navigation }) => {
     firsCategoryDataExpenseCategoryIconName,
     category_data_month_year,
     category_data_expenseCategories,
+    set_update_category_name,
+    setCategoryDeleted,
+    setNewCategoryAdded,
     // *******************************************
   } = useContext(CategoryListContext);
 
@@ -95,6 +98,10 @@ export const BudgetView = ({ navigation }) => {
   console.log(
     "CATEGORY SELECTED AT BUDGET VIEW:",
     JSON.stringify(categorySelected, null, 2)
+  );
+  console.log(
+    "CATEGORY LIST INFO FOR UPDATE AT BUDGET VIEW:",
+    JSON.stringify(category_list_info_forUpdate, null, 2)
   );
   // console.log(
   //   "CATEGORY DATA AT BUDGET VIEW:",
@@ -123,6 +130,8 @@ export const BudgetView = ({ navigation }) => {
     initialAmountsMathLogicForFirstCategoryData();
 
     return async () => {
+      setCategoryDeleted(false);
+      setNewCategoryAdded(false);
       setMonthSelected(month_name);
       setCategorySelected(firstCategoryDataExpenseCategories);
       resetMonth_year_toRender();
@@ -249,10 +258,13 @@ export const BudgetView = ({ navigation }) => {
   };
   const movingForwardToNewCategoryNameView = () => {
     setAction_to_do("new_expense_category");
-    navigation.navigate("New_category_name_View");
+    navigation.navigate("New_category_name_View", {
+      action_to_do: "new_expense_category",
+    });
   };
   const movingForwardToNewCategoryNameViewForUpdatingCategory = () => {
     setAction_to_do("update_expense_category");
+    set_update_category_name(categorySelected.category_name);
     setCategory_list_info_forUpdate({
       ...category_list_info_forUpdate,
       new_category_name: categorySelected.category_name,
@@ -260,7 +272,9 @@ export const BudgetView = ({ navigation }) => {
       new_short_name: categorySelected.short_name,
       category_id: categorySelected.category_id,
     });
-    navigation.navigate("New_category_name_View");
+    navigation.navigate("New_category_name_View", {
+      action_to_do: "update_expense_category",
+    });
   };
 
   return screenIsLoading ? (

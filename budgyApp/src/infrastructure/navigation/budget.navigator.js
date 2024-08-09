@@ -27,7 +27,6 @@ export const BudgetNavigator = () => {
       }}
     >
       <BudgetStack.Screen name="BudgetView" component={BudgetView} />
-      <BudgetStack.Screen name="HomeView" component={Home} />
 
       <BudgetStack.Screen
         name="Months_Pad_View"

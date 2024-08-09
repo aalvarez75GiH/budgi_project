@@ -28,6 +28,7 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
     goingHome,
     action_to_do,
     updatingExpenseCategory,
+    movingBackToHome,
   } = useContext(CategoryListContext);
   console.log(
     "CATEGORY LIST INFO FOR REQUEST AT SUMMARY VIEW:",
@@ -35,6 +36,10 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
   );
   const { new_expense_category_node } = category_list_info_forRequest;
   const { category_name, limit_amount } = new_expense_category_node;
+  console.log(
+    "CATEGORY LIST INFO FOR UPDATE AT SUMMARY VIEW:",
+    JSON.stringify(category_list_info_forUpdate, null, 2)
+  );
 
   const { new_category_name, new_limit_amount } = category_list_info_forUpdate;
 
@@ -43,7 +48,7 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
 
   useEffect(() => {
     return () => {
-      goingHome(navigation);
+      movingBackToHome(navigation);
     };
   }, []);
 
@@ -156,7 +161,7 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
         isBordered={false}
       >
         <RegularCTAButton
-          caption="Register"
+          caption="Create category"
           width={310}
           height={50}
           color={theme.colors.buttons.p_FC9827}
@@ -277,7 +282,7 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
         isBordered={false}
       >
         <RegularCTAButton
-          caption="Update"
+          caption="Update category"
           width={310}
           height={50}
           color={theme.colors.buttons.p_FC9827}

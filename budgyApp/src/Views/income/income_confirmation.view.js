@@ -44,7 +44,7 @@ export const IncomeConfirmationView = ({ navigation, route }) => {
   };
 
   console.log("MONTH YEAR SELECTED", month_selected);
-  console.log("MONTH YEAR FROM REAL INCOME REQUEST", month_year);
+  // console.log("MONTH YEAR FROM REAL INCOME REQUEST", month_year);
 
   if (comingFrom === "addExpectedIncomeTile") {
     return (

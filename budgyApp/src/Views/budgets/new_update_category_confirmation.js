@@ -16,7 +16,7 @@ import { DoneHeaderComponent } from "../../global_components/organisms/headers/d
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 
-export const NewOrUpdateCategoryConfirmationView = ({ navigation, route }) => {
+export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
   // ****************LOGIC FROM HOOK ********
   const {
     category_list_info_forRequest,
@@ -25,6 +25,7 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation, route }) => {
     // resettingCategoryListInfoForRequest,
     goingHome,
     action_to_do,
+    movingBackToHome,
   } = useContext(CategoryListContext);
   console.log(
     "CATEGORY LIST INFO FOR REQUEST AT SUMMARY VIEW:",
@@ -40,14 +41,14 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation, route }) => {
 
   useEffect(() => {
     return () => {
-      goingHome(navigation);
+      movingBackToHome(navigation);
     };
   }, []);
 
   return action_to_do === "new_expense_category" ? (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
       <DoneHeaderComponent
-        action={() => goingHome(navigation)}
+        action={() => movingBackToHome(navigation)}
         direction={"row"}
         color={theme.colors.bg.p_FFFFFF}
         flexibility={0.14}
@@ -148,7 +149,7 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation, route }) => {
           height={60}
           color={theme.colors.buttons.t_E5E5E5}
           borderRadius={0}
-          action={() => goingHome(navigation)}
+          action={() => movingBackToHome(navigation)}
           text_variant="bold_text_16"
         />
       </FlexibleContainer>
@@ -156,7 +157,7 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation, route }) => {
   ) : (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
       <DoneHeaderComponent
-        action={() => goingHome(navigation)}
+        action={() => movingBackToHome(navigation)}
         direction={"row"}
         color={theme.colors.bg.p_FFFFFF}
         flexibility={0.14}
@@ -257,7 +258,7 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation, route }) => {
           height={60}
           color={theme.colors.buttons.t_E5E5E5}
           borderRadius={0}
-          action={() => goingHome(navigation)}
+          action={() => movingBackToHome(navigation)}
           text_variant="bold_text_16"
         />
       </FlexibleContainer>

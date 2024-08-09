@@ -31,29 +31,20 @@ export const useEnterAmountLogic = (comingFrom) => {
   const { amount: new_expected_income_amount } = new_expected_income;
 
   const { setMonthSelected, month_name } = useContext(DateOperationsContext);
-  console.log(
-    "EXPECTED INCOME FOR REQUEST AT ENTER AMOUNT LOGIC:",
-    JSON.stringify(expectedIncomeForRequest, null, 2)
-  );
-
-  console.log(
-    "EXPECTED INCOME AMOUNT AT ENTER AMOUNT LOGIC:",
-    JSON.stringify(new_expected_income_amount, null, 2)
-  );
-  console.log(
-    "ACTION TO DO AT ENTER AMOUNT LOGIC:",
-    JSON.stringify(action_to_do, null, 2)
-  );
 
   const {
     setCategory_list_info_forRequest,
     action_to_do,
     setCategory_list_info_forUpdate,
   } = useContext(CategoryListContext);
-
+  console.log(
+    "ACTION TO DO AT ENTER AMOUNT LOGIC:",
+    JSON.stringify(action_to_do, null, 2)
+  );
   const stringedExpectedIncomeAmount = fixingANumberToTwoDecimalsAndString(
     new_expected_income_amount
   );
+
   const [amountToSet, setAmountToSet] = useState(
     String(
       `$${
@@ -138,24 +129,7 @@ export const useEnterAmountLogic = (comingFrom) => {
         });
       }
     }
-    // if (comingFrom === "GeneralNewNameView") {
-    //   setCategory_list_info_forRequest((prevState) => ({
-    //     ...prevState,
-    //     new_expense_category_node: {
-    //       ...prevState.new_expense_category_node,
-    //       limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
-    //     },
-    //   }));
-    //   navigation.navigate("New_category_summary_view", {
-    //     comingFrom: comingFrom,
-    //   });
-    // }
   };
-
-  console.log(
-    "EXPECTED INCOME FOR REQUEST AT ENTER AMOUNT LOGIC:",
-    JSON.stringify(expectedIncomeForRequest, null, 2)
-  );
 
   const formatCurrency = (value) => {
     const digits = value.replace(/[^0-9]/g, "");

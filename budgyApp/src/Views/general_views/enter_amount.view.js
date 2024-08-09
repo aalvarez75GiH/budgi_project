@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Platform } from "react-native";
 
 import { SafeArea } from "../../global_components/safe-area.component";
@@ -25,9 +25,16 @@ export const EnterAmountView = ({ navigation, route }) => {
     clearingText,
     formatCurrency,
     exitingToRoot,
+    categoryListContextStateReset,
   } = useEnterAmountLogic(comingFrom);
   console.log("AMOUNT TO SET AT ENTER AMOUNT VIEW:", amountToSet);
   console.log("COMING FROM AT ENTER AMOUNT VIEW:", comingFrom);
+
+  //In case of leaving away from the screen, we clean the new and update category name
+  useEffect(() => {
+    return () => categoryListContextStateReset();
+  }, []);
+
   return (
     <SafeArea background_color={"#FFFFFF"}>
       <GeneralFlexContainer>

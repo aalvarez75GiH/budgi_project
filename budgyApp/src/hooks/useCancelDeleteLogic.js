@@ -31,24 +31,10 @@ export const useCancelDeleteLogic = () => {
       : null;
   };
 
-  const deletingCategoryProcess = async (
-    navigation,
-    category_id,
-    user_id,
-    comingFrom
-  ) => {
-    const response = await deletingOrSuspendingExpenseCategory(
-      navigation,
-      category_id,
-      user_id
-    );
-    response ? navigation.navigate("home") : null;
-  };
-
   return {
     deletingTransactionProcess,
     isLoading,
-    deletingCategoryProcess,
+    // deletingCategoryProcess,
     isLoadingFromCategoryListContext,
   };
 };

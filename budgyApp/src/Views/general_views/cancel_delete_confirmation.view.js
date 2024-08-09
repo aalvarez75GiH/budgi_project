@@ -12,6 +12,7 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 import { useCancelDeleteLogic } from "../../hooks/useCancelDeleteLogic";
 import { LinkButton } from "../../global_components/buttons/link_button";
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
+import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 
 export const CancelDeleteConfirmationView = ({ navigation, route }) => {
   // const { transaction_id, comingFrom } = route.params;
@@ -21,9 +22,11 @@ export const CancelDeleteConfirmationView = ({ navigation, route }) => {
   const {
     deletingTransactionProcess,
     isLoading,
-    deletingCategoryProcess,
+    // deletingCategoryProcess,
     isLoadingFromCategoryListContext,
   } = useCancelDeleteLogic();
+  const { deletingOrSuspendingExpenseCategory } =
+    useContext(CategoryListContext);
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
   return (
@@ -63,7 +66,7 @@ export const CancelDeleteConfirmationView = ({ navigation, route }) => {
                 color={theme.colors.ui.error_cancels}
                 borderRadius={50}
                 action={() =>
-                  deletingCategoryProcess(
+                  deletingOrSuspendingExpenseCategory(
                     navigation,
                     document_id,
                     user_id,

@@ -12,12 +12,12 @@ import { Text } from "../../../infrastructure/typography/text.component";
 import { CategoryListContext } from "../../../infrastructure/services/category_list/category_list.context";
 
 export const TextFormInputComponent = ({
-  new_category_name,
+  text_input_value,
   set_text_input_value,
 }) => {
   console.log(
-    "CATEGORY TO UPDATE NAME AT TEXT INPUT:",
-    JSON.stringify(new_category_name, null, 2)
+    "TEXT INPUT VALUE AT TEXT INPUT:",
+    JSON.stringify(text_input_value, null, 2)
   );
   // const { new_categoryName, setNew_CategoryName } =
   //   useContext(CategoryListContext);
@@ -66,7 +66,7 @@ export const TextFormInputComponent = ({
             placeholder={""}
             font_size={theme.fontSizes.text_16}
             onChangeText={(value) => set_text_input_value(value)}
-            value={new_category_name}
+            value={text_input_value}
             style={{
               fontFamily: theme.fonts.bold,
               justifyContent: "flex-start",
