@@ -34,7 +34,7 @@ import GrubHubIcon from "../../assets/icons/svgs/grubhub_icon.svg";
 import LyftIcon from "../../assets/icons/svgs/lyft_icon.svg";
 import PlusIcon from "../../assets/icons/svgs/plus_icon.svg";
 // import CustomByUserIcon from "../../assets/icons/svgs/custom_by_user_icon.svg";
-import CustomByUserIcon from "../../assets/icons/svgs/user_icon_2.svg";
+import CustomByUserIcon from "../../assets/icons/svgs/star_icon.svg";
 import LeftArrowIcon from "../../assets/icons/svgs/left_arrow.svg";
 
 export const useSVGComponent = (icon_name) => {

@@ -57,14 +57,7 @@ export const useTransactionSummaryLogic = () => {
         // console.log("RESPONSE:", JSON.stringify(response, null, 2));
         response ? setIsLoading(false) : setIsLoading(true);
         response ? setIsConfirmed(true) : setIsConfirmed(false);
-        response
-          ? listenForNewChangesAtDB(db)
-          : // listenForNewChangesAtDB(
-            //     setTransactionsByMonthYear,
-            //     setTransactionsTotalAmount,
-            //     db
-            //   )
-            null;
+        response ? listenForNewChangesAtDB(db) : null;
         navigation.navigate("Transaction_confirmation");
       } catch (error) {
         console.log("THERE WAS AN ERROR:", error);

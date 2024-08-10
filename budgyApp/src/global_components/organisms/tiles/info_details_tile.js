@@ -22,6 +22,7 @@ export const InfoDetailsTile = ({
   action,
   icon_width,
   icon_height,
+  category_status,
 }) => {
   return (
     <InfoDetailsTileContainer
@@ -76,7 +77,19 @@ export const InfoDetailsTile = ({
         align={"flex-end"}
         onPress={action}
       >
-        <SVGComponent
+        {category_status === "active" && (
+          <SVGComponent
+            icon_width={icon_width}
+            icon_height={icon_height}
+            position={"static"}
+            left={0}
+            top={0}
+            justify={"center"}
+            icon_name={icon_name}
+            icon_color={"#14223C"}
+          />
+        )}
+        {/* <SVGComponent
           icon_width={icon_width}
           icon_height={icon_height}
           position={"static"}
@@ -85,7 +98,7 @@ export const InfoDetailsTile = ({
           justify={"center"}
           icon_name={icon_name}
           icon_color={"#14223C"}
-        />
+        /> */}
       </InfoDetailsTileIconContainer>
     </InfoDetailsTileContainer>
   );

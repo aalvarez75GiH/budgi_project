@@ -6,10 +6,8 @@ import { CategoryListContext } from "../infrastructure/services/category_list/ca
 export const useCancelDeleteLogic = () => {
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const { deletingTransaction, isLoading } = useContext(TransactionsContext);
-  const {
-    deletingOrSuspendingExpenseCategory,
-    isLoading: isLoadingFromCategoryListContext,
-  } = useContext(CategoryListContext);
+  const { isLoading: isLoadingFromCategoryListContext } =
+    useContext(CategoryListContext);
 
   const deletingTransactionProcess = async (
     navigation,
@@ -21,7 +19,6 @@ export const useCancelDeleteLogic = () => {
       transaction_id
     );
     const response = await deletingTransaction(transaction_id);
-    // response ? navigation.navigate("My transactions") : null;
     response
       ? navigation.navigate(
           comingFrom === "My transactions"
@@ -34,7 +31,6 @@ export const useCancelDeleteLogic = () => {
   return {
     deletingTransactionProcess,
     isLoading,
-    // deletingCategoryProcess,
     isLoadingFromCategoryListContext,
   };
 };

@@ -13,7 +13,6 @@ import {
 import { CheckIconComponent } from "../../check_icon_component";
 
 export const TransactionTile = ({
-  navigation,
   icon_name,
   action,
   amount,

@@ -149,7 +149,10 @@ export const CategoryListContextProvider = ({ children }) => {
     }
   }; // <-- Missing closing brace added here
 
-  console.log("ACTION TO DO AT CONTEXT:", action_to_do);
+  console.log(
+    "CATEGORY_LIST AT CONTEXT:",
+    JSON.stringify(categoryList, null, 2)
+  );
 
   const registeringNewExpenseCategory = async (navigation) => {
     setIsLoading(true);

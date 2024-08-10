@@ -11,8 +11,14 @@ export const useAnyTransactionDetailsLogic = () => {
     setReadyToUpdate,
     readyToUpdate,
   } = useContext(TransactionsContext);
-  const { amount, transaction_date, short_name, description, transaction_id } =
-    transactionInfoForUpdate;
+  const {
+    amount,
+    transaction_date,
+    short_name,
+    description,
+    transaction_id,
+    category_status,
+  } = transactionInfoForUpdate;
   const stringedAmount = fixingANumberToTwoDecimalsAndString(amount);
 
   const navigationLogic = (navigation, toNavigate, comingFrom) => {
@@ -57,16 +63,6 @@ export const useAnyTransactionDetailsLogic = () => {
       });
     };
 
-    const updatingTransactionProcess = async (navigation) => {
-      const response = await updatingTransaction();
-      setReadyToUpdate(false);
-      response ? navigation.goBack() : null;
-    };
-    // const updatingTransactionProcess = async (navigation) => {
-    //   const response = await updatingTransaction();
-    //   response ? navigation.navigate("My transactions") : null;
-    // };
-
     const closingMenu = (navigation) => {
       navigation.goBack();
     };
@@ -75,9 +71,14 @@ export const useAnyTransactionDetailsLogic = () => {
       movingForwardToSelectCategoryView,
       movingForwardToGeneralCalendarView,
       movingForwardToDeleteConfirmationView,
-      updatingTransactionProcess,
       closingMenu,
     };
+  };
+
+  const updatingTransactionProcess = async (navigation) => {
+    const response = await updatingTransaction();
+    setReadyToUpdate(false);
+    response ? navigation.goBack() : null;
   };
 
   return {
@@ -86,7 +87,9 @@ export const useAnyTransactionDetailsLogic = () => {
     transaction_date,
     short_name,
     description,
+    category_status,
     isLoading,
     readyToUpdate,
+    updatingTransactionProcess,
   };
 };

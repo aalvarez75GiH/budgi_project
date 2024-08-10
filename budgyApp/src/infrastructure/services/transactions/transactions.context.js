@@ -84,6 +84,11 @@ export const TransactionContextProvider = ({ children }) => {
     })();
   }, []);
 
+  console.log(
+    "TRANSACTION INFO FOR UPDATE:",
+    JSON.stringify(transactionInfoForUpdate, null, 2)
+  );
+
   const gettingTransactions_byUserID_MonthYear_onDemand = async (
     user_id,
     month_year_onDemand
@@ -251,6 +256,38 @@ export const TransactionContextProvider = ({ children }) => {
     });
   };
 
+  // *********************  THIS FUNCTION IS USED TO CREATE A TRANSACTION *******************
+  // const registeringTransaction = async (
+  //   navigation,
+  //   // transactionInfoForRequest,
+  //   // setIsConfirmed,
+  //   // setTransactionsByMonthYear,
+  //   // setTransactionsTotalAmount
+  // ) => {
+  //   setIsLoading(true);
+  //   const transactionInfoForRequestWithTS = {
+  //     ...transactionInfoForRequest,
+  //     timeStamp: transactionInfoForRequest.timeStamp
+  //       ? transactionInfoForRequest.timeStamp
+  //       : Date.now(),
+  //   };
+
+  //   setTimeout(async () => {
+  //     try {
+  //       const response = await registerTransactionRequest(
+  //         transactionInfoForRequestWithTS
+  //       );
+  //       // console.log("RESPONSE:", JSON.stringify(response, null, 2));
+  //       response ? setIsLoading(false) : setIsLoading(true);
+  //       response ? setIsConfirmed(true) : setIsConfirmed(false);
+  //       response ? listenForNewChangesAtDB(db) : null;
+  //       navigation.navigate("Transaction_confirmation");
+  //     } catch (error) {
+  //       console.log("THERE WAS AN ERROR:", error);
+  //     }
+  //   }, 3000);
+  // };
+
   // *********************  THIS FUNCTION IS USED TO UPDATE A TRANSACTION *******************
   const updatingTransaction = async () => {
     // Set the loading state to true.
@@ -290,7 +327,6 @@ export const TransactionContextProvider = ({ children }) => {
 
   const deletingTransaction = async (transaction_id) => {
     setIsLoading(true);
-
     try {
       const response = await new Promise((resolve, reject) => {
         setTimeout(async () => {

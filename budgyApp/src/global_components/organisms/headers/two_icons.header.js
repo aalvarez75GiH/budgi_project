@@ -17,6 +17,7 @@ export const TwoIconsHeaderComponent = ({
   icon_left_left,
   icon_top_right,
   icon_left_right,
+  category_status,
 }) => {
   return (
     <FlexibleContainer
@@ -36,16 +37,18 @@ export const TwoIconsHeaderComponent = ({
         icon_top={icon_top_left}
         justify="flex-end"
       />
-      <SVG_Clickable_Component
-        action={action_icon_right}
-        icon_name={icon_name_right}
-        icon_width={23}
-        icon_height={23}
-        position={"absolute"}
-        icon_left={icon_left_right}
-        icon_top={icon_top_right}
-        justify="flex-end"
-      />
+      {category_status === "active" && (
+        <SVG_Clickable_Component
+          action={action_icon_right}
+          icon_name={icon_name_right}
+          icon_width={23}
+          icon_height={23}
+          position={"absolute"}
+          icon_left={icon_left_right}
+          icon_top={icon_top_right}
+          justify="flex-end"
+        />
+      )}
     </FlexibleContainer>
   );
 };

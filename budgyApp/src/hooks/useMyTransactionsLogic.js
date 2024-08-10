@@ -47,7 +47,10 @@ export const useMyTransactionsLogic = () => {
   const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
     []
   );
-
+  console.log(
+    "CATEGORY_LIST AT MY TRANSACTIONS LOGIC:",
+    JSON.stringify(categoryList, null, 2)
+  );
   // Step 3 & 4: Use useEffect to detect when state variables revert to their initial state
   useEffect(() => {
     if (transactionsToRender === transactionsByMonthYear) {
@@ -253,10 +256,34 @@ export const useMyTransactionsLogic = () => {
     setTransactionInfoForUpdate,
     comingFrom
   ) => {
-    setTransactionInfoForUpdate(item);
-    navigation.navigate("Transaction_details_view", {
-      comingFrom: comingFrom,
-    });
+    // ****************************************
+    const index = categoryList.expense_categories.findIndex(
+      (category) => category.category_id === item.category_id
+    );
+    const node = categoryList.expense_categories[index];
+    console.log("INDEX:", index);
+    console.log("STATUS:", node.status);
+    if (node.status === "suspended") {
+      setTransactionInfoForUpdate({
+        ...item,
+        category_status: "suspended",
+      });
+      // console.log("CATEGORY SUSPENDED");
+      navigation.navigate("Transaction_details_view", {
+        comingFrom: comingFrom,
+      });
+      // return;
+    }
+    if (node.status === "active") {
+      setTransactionInfoForUpdate({
+        ...item,
+        category_status: "active",
+      });
+      navigation.navigate("Transaction_details_view", {
+        comingFrom: comingFrom,
+      });
+    }
+    // ****************************************
   };
 
   const movingForwardToMonthsPadView = (
@@ -274,19 +301,13 @@ export const useMyTransactionsLogic = () => {
   // ********* RENDER LOGIC ********* //
 
   //   ********* RENDERING TRANSACTIONS ********* //
+
   const renderItem =
     (navigation, setTransactionInfoForUpdate, comingFrom) =>
     ({ item }) => {
       return (
         <TransactionTile
-          caption={item.category_name}
-          navigation={navigation}
           icon_name={item.icon_name}
-          active_icon={true}
-          amount={item.amount}
-          transaction_date={item.transaction_date}
-          most_recent={item.most_recent}
-          short_name={item.short_name}
           action={() =>
             movingForwardToDetailsView(
               navigation,
@@ -295,6 +316,12 @@ export const useMyTransactionsLogic = () => {
               comingFrom
             )
           }
+          amount={item.amount}
+          transaction_date={item.transaction_date}
+          caption={item.category_name}
+          most_recent={item.most_recent}
+          short_name={item.short_name}
+          active_icon={true}
         />
       );
     };

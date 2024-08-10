@@ -36,6 +36,7 @@ export const useEnterAmountLogic = (comingFrom) => {
     setCategory_list_info_forRequest,
     action_to_do,
     setCategory_list_info_forUpdate,
+    categoryListContextStateReset,
   } = useContext(CategoryListContext);
   console.log(
     "ACTION TO DO AT ENTER AMOUNT LOGIC:",
@@ -160,7 +161,6 @@ export const useEnterAmountLogic = (comingFrom) => {
 
   const exitingToRoot = (navigation) => {
     setMonthSelected(month_name);
-    // cleaningState();
     navigation.popToTop();
   };
   return {
@@ -170,5 +170,6 @@ export const useEnterAmountLogic = (comingFrom) => {
     clearingText,
     formatCurrency,
     exitingToRoot,
+    categoryListContextStateReset,
   };
 };

@@ -113,7 +113,7 @@ export const CancelDeleteConfirmationView = ({ navigation, route }) => {
                   )
                 }
                 text_variant="white_bold_text_20"
-                isLoading={isLoadingFromCategoryListContext}
+                isLoading={isLoading}
               />
             </ControlledContainer>
           </FlexibleContainer>
@@ -147,12 +147,12 @@ export const CancelDeleteConfirmationView = ({ navigation, route }) => {
                   deletingTransactionProcess(
                     navigation,
                     document_id,
-                    user_id,
+
                     comingFrom
                   )
                 }
                 text_variant="white_bold_text_20"
-                isLoading={isLoadingFromCategoryListContext}
+                isLoading={isLoading}
               />
             </ControlledContainer>
           </FlexibleContainer>

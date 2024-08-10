@@ -8,7 +8,13 @@ import { Spacer } from "../../optimized.spacer.component";
 import { SVGComponent } from "../../image_components/svg.component";
 import { theme } from "../../../infrastructure/theme";
 
-export const DescriptionTile = ({ description, action, width, height }) => {
+export const DescriptionTile = ({
+  description,
+  action,
+  width,
+  height,
+  category_status,
+}) => {
   return (
     // <ControlledContainer>
     <ControlledContainer
@@ -60,14 +66,16 @@ export const DescriptionTile = ({ description, action, width, height }) => {
                       // color="yellow"
                       onPress={action}
                     >
-                      <SVGComponent
-                        icon_width={"30px"}
-                        icon_height={"30px"}
-                        position={"static"}
-                        justify={"center"}
-                        icon_name={"DescriptionIcon"}
-                        icon_color={theme.colors.buttons.s_142223C}
-                      />
+                      {category_status === "active" && (
+                        <SVGComponent
+                          icon_width={"30px"}
+                          icon_height={"30px"}
+                          position={"static"}
+                          justify={"center"}
+                          icon_name={"DescriptionIcon"}
+                          icon_color={theme.colors.buttons.s_142223C}
+                        />
+                      )}
                     </ClickableControlledContainer>
                   </Spacer>
                 </Spacer>
@@ -82,7 +90,7 @@ export const DescriptionTile = ({ description, action, width, height }) => {
         justify="flex-start"
         alignment="flex-start"
         // color={theme.colors.bg.e_F4F4F4}
-        onPress={action}
+        onPress={category_status === "active" ? action : null}
       >
         {description.length < 1 ? (
           <Spacer position="left" size="xs">

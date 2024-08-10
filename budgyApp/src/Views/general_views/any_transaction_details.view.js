@@ -11,7 +11,6 @@ import { ControlledContainer } from "../../global_components/containers/controll
 import { DescriptionTile } from "../../global_components/organisms/tiles/description_tile";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useAnyTransactionDetailsLogic } from "../../hooks/useAnyTransactionDetailsLogic";
-import { useMonthPadLogic } from "../../hooks/useMonthPadLogic";
 
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
@@ -24,6 +23,8 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     description,
     isLoading,
     readyToUpdate,
+    updatingTransactionProcess,
+    category_status,
   } = useAnyTransactionDetailsLogic();
 
   const {
@@ -31,10 +32,10 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     movingForwardToSelectCategoryView,
     movingForwardToGeneralCalendarView,
     movingForwardToDeleteConfirmationView,
-    updatingTransactionProcess,
+    // updatingTransactionProcess,
     closingMenu,
   } = navigationLogic();
-
+  console.log("CATEGORY STATUS AT VIEW:", category_status);
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
       <TwoIconsHeaderComponent
@@ -58,6 +59,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         icon_left_left={"2%"}
         icon_top_right={"0%"}
         icon_left_right={"80%"}
+        category_status={category_status}
       />
 
       <ControlledContainer
@@ -99,12 +101,20 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           icon_name={"EditIcon"}
           active_icon={true}
           action={() => {
-            navigation.navigate("Enter_amount_view", {
-              comingFrom: "AnyTransactionDetailsView",
-            });
+            if (category_status === "active") {
+              navigation.navigate("Enter_amount_view", {
+                comingFrom: "AnyTransactionDetailsView",
+              });
+            }
           }}
+          // action={() => {
+          //   navigation.navigate("Enter_amount_view", {
+          //     comingFrom: "AnyTransactionDetailsView",
+          //   });
+          // }}
           icon_width={25}
           icon_height={25}
+          category_status={category_status}
         />
         <InfoDetailsTile
           caption={"Category:"}
@@ -112,15 +122,18 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           navigation={navigation}
           icon_name={"EditIcon"}
           active_icon={true}
-          action={() =>
-            movingForwardToSelectCategoryView(
-              navigation,
-              "General_select_category_view",
-              "AnyTransactionDetailsView"
-            )
-          }
+          action={() => {
+            if (category_status === "active") {
+              movingForwardToSelectCategoryView(
+                navigation,
+                "General_select_category_view",
+                "AnyTransactionDetailsView"
+              );
+            }
+          }}
           icon_width={25}
           icon_height={25}
+          category_status={category_status}
         />
         <InfoDetailsTile
           caption={"Exp. date:"}
@@ -130,19 +143,23 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           active_icon={true}
           icon_width={25}
           icon_height={25}
-          action={() =>
-            movingForwardToGeneralCalendarView(
-              navigation,
-              "General_calendar_view",
-              "AnyTransactionDetailsView"
-            )
-          }
+          action={() => {
+            if (category_status === "active") {
+              movingForwardToGeneralCalendarView(
+                navigation,
+                "General_calendar_view",
+                "AnyTransactionDetailsView"
+              );
+            }
+          }}
+          category_status={category_status}
         />
 
         <DescriptionTile
           width="100%"
           heigh="50%"
           description={description}
+          category_status={category_status}
           action={() =>
             movingForwardToAddDescription(
               navigation,

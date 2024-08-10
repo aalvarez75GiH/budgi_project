@@ -93,7 +93,7 @@ export const MyTransactionsView = ({ navigation }) => {
           // color={"#FAA"}
           // flexibility={0.14}
           flexibility={0.14}
-          justify={"center"}
+          justify={"flex-start"}
           icon_left={"80%"}
           icon_top={"30%"}
         />
