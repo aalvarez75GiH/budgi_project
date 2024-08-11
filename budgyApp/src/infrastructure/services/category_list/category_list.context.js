@@ -46,7 +46,7 @@ export const CategoryListContextProvider = ({ children }) => {
       category_data_expenseCategories[0].icon_name;
   }
 
-  const [update_category_name, set_update_category_name] = useState();
+  const [update_category_name, set_update_category_name] = useState("");
   const [new_category_name, set_new_category_name] = useState("");
   console.log("UPDATE CATEGORY NAME AT CONTEXT:", update_category_name);
   // const [text_input_value, set_text_input_value] = useState("");
@@ -90,7 +90,7 @@ export const CategoryListContextProvider = ({ children }) => {
     const words = newName.split(" ");
     if (words.length < 2) {
       if (action_to_do === "new_expense_category") {
-        set_text_input_value(newName);
+        set_new_category_name(newName);
         setCategory_list_info_forRequest((prevState) => ({
           ...prevState,
           new_expense_category_node: {
@@ -105,7 +105,7 @@ export const CategoryListContextProvider = ({ children }) => {
       }
 
       if (action_to_do === "update_expense_category") {
-        set_text_input_value(newName);
+        set_update_category_name(newName);
         setCategory_list_info_forUpdate((prevState) => ({
           ...prevState,
           new_category_name: newName,
@@ -278,7 +278,6 @@ export const CategoryListContextProvider = ({ children }) => {
         // text_input_value,
         // set_text_input_value,
         clearingCategoryNameAndBack,
-        category_list_info_forRequest,
         settingNewCategoryName,
         setCategory_list_info_forRequest,
         category_list_info_forRequest,

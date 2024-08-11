@@ -18,6 +18,7 @@ import { SVGComponent } from "../../global_components/image_components/svg.compo
 import { useMyTransactionsLogic } from "../../hooks/useMyTransactionsLogic";
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
+import { CategoriesScrollComponent } from "../../global_components/organisms/scroll components/categories_scroll.component";
 
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
@@ -226,24 +227,24 @@ export const BudgetView = ({ navigation }) => {
     refreshDonutChartMathOnDemand(item);
   };
 
-  const renderCategoryItem = ({ item }) => {
-    // console.log("ITEM:", item);
-    const { category_id, icon_name, short_name, status } = item;
-    const isSelected = selectedItem === category_id;
-    if (status === "suspended") {
-      return null;
-    }
-    return (
-      <CircularButtonOptionComponent
-        caption={short_name}
-        icon_name={icon_name}
-        action={() => selectingCategory(item)}
-        isSelected={isSelected}
-        icon_width={25}
-        // isSelected={}
-      />
-    );
-  };
+  // const renderCategoryItem = ({ item }) => {
+  //   // console.log("ITEM:", item);
+  //   const { category_id, icon_name, short_name, status } = item;
+  //   const isSelected = selectedItem === category_id;
+  //   if (status === "suspended") {
+  //     return null;
+  //   }
+  //   return (
+  //     <CircularButtonOptionComponent
+  //       caption={short_name}
+  //       icon_name={icon_name}
+  //       action={() => selectingCategory(item)}
+  //       isSelected={isSelected}
+  //       icon_width={25}
+  //       // isSelected={}
+  //     />
+  //   );
+  // };
 
   const movingForwardToMonthsPadView = (
     navigation,
@@ -500,7 +501,13 @@ export const BudgetView = ({ navigation }) => {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               data={category_data_expenseCategories}
-              renderItem={(item) => renderCategoryItem(item)}
+              renderItem={({ item }) => (
+                <CategoriesScrollComponent
+                  item={item}
+                  selectedItem={selectedItem}
+                  action={selectingCategory}
+                />
+              )}
               keyExtractor={(item, id) => {
                 return item.category_id;
               }}

@@ -6,6 +6,7 @@ import { FlexibleContainer } from "../../global_components/containers/flexible_c
 import { theme } from "../../infrastructure/theme";
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
+import { CategoriesScrollComponent } from "../../global_components/organisms/scroll components/categories_scroll.component";
 
 import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
 import { CheckIconComponent } from "../../global_components/check_icon_component";
@@ -24,7 +25,7 @@ export const MyTransactionsView = ({ navigation }) => {
     settingUpTransactionsFromContextForAllOptionButton,
     settingUpTransactionsFromContext,
     renderItem,
-    renderCategoryItem,
+    // renderCategoryItem,
     isPressed,
     month_year,
     setMonthSelected,
@@ -47,6 +48,8 @@ export const MyTransactionsView = ({ navigation }) => {
     resetMonth_year_toRender,
     set_month_year_toRender,
     month_year_toRender,
+    selectedItem,
+    selectingCategoryAndPackagingRespectiveTransactions,
   } = useMyTransactionsLogic();
 
   useEffect(() => {
@@ -204,7 +207,18 @@ export const MyTransactionsView = ({ navigation }) => {
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               data={expenseCategoriesToRender}
-              renderItem={renderCategoryItem(transactionsByMonthYear)}
+              renderItem={({ item }) => (
+                <CategoriesScrollComponent
+                  item={item}
+                  selectedItem={selectedItem}
+                  action={() =>
+                    selectingCategoryAndPackagingRespectiveTransactions(
+                      item,
+                      transactionsByMonthYear
+                    )
+                  }
+                />
+              )}
               keyExtractor={(item, id) => {
                 return item.category_id;
               }}

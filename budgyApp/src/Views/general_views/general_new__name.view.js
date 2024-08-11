@@ -9,11 +9,13 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 import { theme } from "../../infrastructure/theme";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
+import { LinkButton } from "../../global_components/buttons/link_button";
 
 import { TextFormInputComponent } from "../../global_components/organisms/inputs/textFormInput.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
+import { set } from "date-fns";
 
 export const GeneralNewNameView = ({ navigation, route }) => {
   const { action_to_do } = route.params;
@@ -23,7 +25,6 @@ export const GeneralNewNameView = ({ navigation, route }) => {
     set_new_category_name,
     update_category_name,
     set_update_category_name,
-
     settingNewCategoryName,
     category_list_info_forUpdate,
     categoryListContextStateReset,
@@ -75,6 +76,14 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                 set_text_input_value={set_new_category_name}
                 text_input_value={new_category_name}
               />
+              {new_category_name.length > 0 && (
+                <LinkButton
+                  caption="Clear"
+                  action={() => {
+                    set_new_category_name("");
+                  }}
+                />
+              )}
             </FlexibleContainer>
             <FlexibleContainer
               direction={"column"}
@@ -117,6 +126,14 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                 set_text_input_value={set_update_category_name}
                 text_input_value={update_category_name}
               />
+              {update_category_name.length > 0 && (
+                <LinkButton
+                  caption="Clear"
+                  action={() => {
+                    set_update_category_name("");
+                  }}
+                />
+              )}
             </FlexibleContainer>
             <FlexibleContainer
               direction={"column"}

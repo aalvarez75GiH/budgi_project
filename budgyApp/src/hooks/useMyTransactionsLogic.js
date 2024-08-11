@@ -327,27 +327,27 @@ export const useMyTransactionsLogic = () => {
     };
 
   //**** HERE WE RENDER CATEGORIES AT CATEGORIES BELT SELECTOR  ****
-  const renderCategoryItem =
-    (transactionsByMonthYear) =>
-    ({ item }) => {
-      // console.log("ITEM:", item);
-      const { category_id } = item;
-      const isSelected = selectedItem === category_id;
-      return (
-        <CircularButtonOptionComponent
-          caption={item.short_name}
-          icon_name={item.icon_name}
-          action={() =>
-            selectingCategoryAndPackagingRespectiveTransactions(
-              item,
-              transactionsByMonthYear
-            )
-          }
-          isSelected={isSelected}
-          icon_width={25}
-        />
-      );
-    };
+  // const renderCategoryItem =
+  //   (transactionsByMonthYear) =>
+  //   ({ item }) => {
+  //     // console.log("ITEM:", item);
+  //     const { category_id } = item;
+  //     const isSelected = selectedItem === category_id;
+  //     return (
+  //       <CircularButtonOptionComponent
+  //         caption={item.short_name}
+  //         icon_name={item.icon_name}
+  //         action={() =>
+  //           selectingCategoryAndPackagingRespectiveTransactions(
+  //             item,
+  //             transactionsByMonthYear
+  //           )
+  //         }
+  //         isSelected={isSelected}
+  //         icon_width={25}
+  //       />
+  //     );
+  //   };
 
   return {
     movingForwardToDetailsView,
@@ -355,8 +355,7 @@ export const useMyTransactionsLogic = () => {
     settingUpTransactionsFromContextForAllOptionButton,
     settingUpTransactionsFromContext,
     renderItem,
-    renderCategoryItem,
-    selectedItem,
+    // renderCategoryItem,
     isPressed,
     setIsPressed,
     month_year,
@@ -384,5 +383,7 @@ export const useMyTransactionsLogic = () => {
     resetMonth_year_toRender,
     set_month_year_toRender,
     month_year_toRender,
+    selectedItem,
+    selectingCategoryAndPackagingRespectiveTransactions,
   };
 };

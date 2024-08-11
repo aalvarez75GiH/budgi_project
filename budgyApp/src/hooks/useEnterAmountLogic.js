@@ -6,8 +6,6 @@ import { DateOperationsContext } from "../infrastructure/services/date_operation
 import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
 
 export const useEnterAmountLogic = (comingFrom) => {
-  console.log("COMING FROM:", comingFrom);
-
   const {
     fixingANumberToTwoDecimalsAndString,
     transactionInfoForUpdate,
@@ -34,14 +32,32 @@ export const useEnterAmountLogic = (comingFrom) => {
 
   const {
     setCategory_list_info_forRequest,
+    category_list_info_forRequest,
     action_to_do,
     setCategory_list_info_forUpdate,
+    category_list_info_forUpdate,
     categoryListContextStateReset,
   } = useContext(CategoryListContext);
-  console.log(
-    "ACTION TO DO AT ENTER AMOUNT LOGIC:",
-    JSON.stringify(action_to_do, null, 2)
+
+  const { new_limit_amount: limit_amount_of_update_category } =
+    category_list_info_forUpdate;
+
+  const { new_expense_category_node } = category_list_info_forRequest;
+  const { limit_amount: limit_amount_of_new_category } =
+    new_expense_category_node;
+
+  const stringedNewCategoryLimitAmount = fixingANumberToTwoDecimalsAndString(
+    limit_amount_of_new_category
   );
+  const stringedUpdateCategoryLimitAmount = fixingANumberToTwoDecimalsAndString(
+    limit_amount_of_update_category
+  );
+
+  const stringedCategoryLimitAmount =
+    action_to_do === "new_expense_category"
+      ? stringedNewCategoryLimitAmount
+      : stringedUpdateCategoryLimitAmount;
+
   const stringedExpectedIncomeAmount = fixingANumberToTwoDecimalsAndString(
     new_expected_income_amount
   );
@@ -53,13 +69,26 @@ export const useEnterAmountLogic = (comingFrom) => {
           ? stringedAmount
           : comingFrom === "Select_week_view"
           ? stringedRealIncomeAmount
+          : comingFrom === "GeneralNewNameView"
+          ? stringedCategoryLimitAmount
           : stringedExpectedIncomeAmount
       }`
     )
   );
-
-  console.log("REAL INCOME AMOUNT TO SET AT LOGIC:", stringedRealIncomeAmount);
-
+  console.log(
+    "ACTION TO DO AT ENTER AMOUNT LOGIC:",
+    JSON.stringify(action_to_do, null, 2)
+  );
+  console.log(
+    "LIMIT AMOUNT OF UPDATE CATEGORY:",
+    JSON.stringify(limit_amount_of_update_category, null, 2)
+  );
+  console.log(
+    "LIMIT AMOUNT OF NEW CATEGORY:",
+    JSON.stringify(limit_amount_of_new_category, null, 2)
+  );
+  console.log("COMING FROM:", comingFrom);
+  console.log("AMOUNT TO SET AT LOGIC:", JSON.stringify(amountToSet, null, 2));
   const cta_action = (navigation, comingFrom) => {
     console.log("COMING FROM AT CTA ACTION FUNCTION:", comingFrom);
     console.log(
