@@ -25,7 +25,6 @@ export const MyTransactionsView = ({ navigation }) => {
     settingUpTransactionsFromContextForAllOptionButton,
     settingUpTransactionsFromContext,
     renderItem,
-    // renderCategoryItem,
     isPressed,
     month_year,
     setMonthSelected,
@@ -94,7 +93,6 @@ export const MyTransactionsView = ({ navigation }) => {
           direction={"column"}
           color={theme.colors.bg.p_FFFFFF}
           // color={"#FAA"}
-          // flexibility={0.14}
           flexibility={0.14}
           justify={"flex-start"}
           icon_left={"80%"}
@@ -178,8 +176,8 @@ export const MyTransactionsView = ({ navigation }) => {
           color={theme.colors.bg.p_FFFFFF}
           // color={"lightblue"}
           direction="row"
-          // flexibility={0.16}
           flexibility={0.16}
+          // flexibility={0.25}
           justify={"flex-start"}
           isBordered={false}
           alignment={"center"}
@@ -235,7 +233,7 @@ export const MyTransactionsView = ({ navigation }) => {
               color={theme.colors.bg.p_FFFFFF}
               // color={"#FAD"}
               direction="row"
-              flexibility={1}
+              flexibility={0.9}
               justify={"center"}
               isBordered={false}
             >
@@ -252,10 +250,8 @@ export const MyTransactionsView = ({ navigation }) => {
             <Spacer position="top" size="small" />
             <Spacer position="top" size="small" />
             <FlexibleContainer
-              //   color={theme.colors.bg.e_F4F4F4}
-              //   color={"lightblue"}
               direction="column"
-              flexibility={1}
+              flexibility={0.9}
               justify={"flex-start"}
               isBordered={false}
             >

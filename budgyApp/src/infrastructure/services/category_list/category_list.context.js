@@ -27,12 +27,10 @@ export const CategoryListContextProvider = ({ children }) => {
   const { month_year } = useContext(DateOperationsContext);
 
   const { categoryData } = useContext(CategoryDataContext);
-  // const { month_year } = categoryData;
   const { category_data_expenseCategories } = categoryData || {};
   let firstCategoryDataExpenseCategories;
   let firsCategoryDataExpenseCategoryName;
   let firsCategoryDataExpenseCategoryIconName;
-  // let category_data_month_year = "AUG 2024";
   let category_data_month_year = month_year;
 
   if (
@@ -49,7 +47,6 @@ export const CategoryListContextProvider = ({ children }) => {
   const [update_category_name, set_update_category_name] = useState("");
   const [new_category_name, set_new_category_name] = useState("");
   console.log("UPDATE CATEGORY NAME AT CONTEXT:", update_category_name);
-  // const [text_input_value, set_text_input_value] = useState("");
   const [category_list_info_forRequest, setCategory_list_info_forRequest] =
     useState(newCategoryListExpenseCategoryObject(user_id));
   const [category_list_info_forUpdate, setCategory_list_info_forUpdate] =
@@ -253,15 +250,6 @@ export const CategoryListContextProvider = ({ children }) => {
     }
   };
 
-  // const goingHome = (navigation) => {
-  //   setNewCategoryAdded(false);
-  //   // set_text_input_value("");
-  //   setCategory_list_info_forRequest(
-  //     newCategoryListExpenseCategoryObject(user_id)
-  //   );
-  //   navigation.navigate("HomeView");
-  // };
-
   const movingBackToHome = (navigation) => {
     categoryListContextStateReset();
     navigation.reset({
@@ -275,15 +263,12 @@ export const CategoryListContextProvider = ({ children }) => {
       value={{
         categoryList,
         isLoading,
-        // text_input_value,
-        // set_text_input_value,
         clearingCategoryNameAndBack,
         settingNewCategoryName,
         setCategory_list_info_forRequest,
         category_list_info_forRequest,
         resettingInfoForRequestsAndMovingToBudgets,
         registeringNewExpenseCategory,
-        // goingHome,
         category_list_info_forUpdate,
         setCategory_list_info_forUpdate,
         setAction_to_do,
@@ -291,7 +276,6 @@ export const CategoryListContextProvider = ({ children }) => {
         updatingExpenseCategory,
         deletingOrSuspendingExpenseCategory,
         setCategorySelected,
-        // ********************************************
         categorySelected,
         firstCategoryDataExpenseCategories,
         firsCategoryDataExpenseCategoryName,
@@ -306,9 +290,6 @@ export const CategoryListContextProvider = ({ children }) => {
         setNewCategoryAdded,
         categoryListContextStateReset,
         movingBackToHome,
-        // firstCategoryDataExpenseCategoryInfo,
-
-        // ********************************************
       }}
     >
       {children}

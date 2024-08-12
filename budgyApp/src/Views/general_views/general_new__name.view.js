@@ -16,6 +16,7 @@ import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { set } from "date-fns";
+import { ControlledContainer } from "../../global_components/containers/controlled_container";
 
 export const GeneralNewNameView = ({ navigation, route }) => {
   const { action_to_do } = route.params;
@@ -65,31 +66,42 @@ export const GeneralNewNameView = ({ navigation, route }) => {
             <FlexibleContainer
               direction={"column"}
               color={theme.colors.bg.p_FFFFFF}
-              // color={"brown"}
+              // color={"lightblue"}
               // flexibility={Platform.OS === "ios" ? 0.25 : 0.3}
               flexibility={Platform.OS === "ios" ? 0.25 : 0.5}
               justify={"center"}
             >
               <Spacer position="top" size="xxl" />
               <Spacer position="top" size="xxl" />
+
               <TextFormInputComponent
                 set_text_input_value={set_new_category_name}
                 text_input_value={new_category_name}
               />
-              {new_category_name.length > 0 && (
-                <LinkButton
-                  caption="Clear"
-                  action={() => {
-                    set_new_category_name("");
-                  }}
-                />
-              )}
+
+              <ControlledContainer
+                width={"100%"}
+                height={"50%"}
+                justify="center"
+                alignment="center"
+                direction="column"
+                // color="red"
+              >
+                {new_category_name.length > 0 && (
+                  <LinkButton
+                    caption="Clear"
+                    action={() => {
+                      set_new_category_name("");
+                    }}
+                  />
+                )}
+              </ControlledContainer>
             </FlexibleContainer>
             <FlexibleContainer
               direction={"column"}
               color={theme.colors.bg.p_FFFFFF}
               // color={"brown"}
-              flexibility={Platform.OS === "ios" ? 0.3 : 0.55}
+              flexibility={Platform.OS === "ios" ? 0.3 : 0.45}
               justify={"center"}
               alignment={"center"}
             >
