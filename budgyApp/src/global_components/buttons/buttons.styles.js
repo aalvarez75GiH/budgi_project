@@ -120,10 +120,12 @@ export const OPTButton = Styled(TouchableOpacity)`
 
 // ********************* Link Button
 export const LinkBtnContainer = Styled(View)`
+/* width: 50%; */
 width: 70%;
 height: auto;
 justify-content: center;
 align-items: center;
+/* background-color: red */
 `;
 
 export const LinkBtn = Styled(TouchableOpacity)`

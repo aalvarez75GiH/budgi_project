@@ -19,6 +19,7 @@ import { useMyTransactionsLogic } from "../../hooks/useMyTransactionsLogic";
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { CategoriesScrollComponent } from "../../global_components/organisms/scroll components/categories_scroll.component";
+import { RoundedOptionButton } from "../../global_components/buttons/rounded_option_button";
 
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
@@ -32,20 +33,6 @@ export const BudgetView = ({ navigation }) => {
     categoryData,
     gettingCategoryData_onDemand,
   } = useContext(CategoryDataContext);
-  // console.log(
-  //   "CATEGORY DATA AT BUDGETS VIEW:",
-  //   JSON.stringify(categoryData, null, 2)
-  // );
-  // console.log(
-  //   "CATEGORY DATA STATUS REQUEST:",
-  //   JSON.stringify(categoryDataRequestStatus, null, 2)
-  // );
-  // const { category_data_expenseCategories, month_year } = categoryData;
-  // const firstCategoryDataExpenseCategories = category_data_expenseCategories[0];
-  // const firsCategoryDataExpenseCategoryName =
-  //   category_data_expenseCategories[0].category_name;
-  // const firsCategoryDataExpenseCategoryIconName =
-  //   category_data_expenseCategories[0].icon_name;
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
@@ -64,7 +51,6 @@ export const BudgetView = ({ navigation }) => {
 
   const { transactionsByMonthYear } = useContext(TransactionsContext);
 
-  // setAction_to_do;
   const {
     category_list_info_forUpdate,
     setCategory_list_info_forUpdate,
@@ -80,12 +66,11 @@ export const BudgetView = ({ navigation }) => {
     set_update_category_name,
     setCategoryDeleted,
     setNewCategoryAdded,
+    suspendedCategories,
+    sortingExpenseCategoriesForBudgetView,
     // *******************************************
   } = useContext(CategoryListContext);
 
-  // const [categorySelected, setCategorySelected] = useState(
-  //   firstCategoryDataExpenseCategories
-  // );
   const [percentageCompleted, setPercentageCompleted] = useState(0);
   const [overSpentAmountInNegative, setOverSpentAmountInNegative] = useState(0);
   const [overSpentAmountInPositive, setOverSpentAmountInPositive] = useState(0);
@@ -104,6 +89,10 @@ export const BudgetView = ({ navigation }) => {
     "CATEGORY LIST INFO FOR UPDATE AT BUDGET VIEW:",
     JSON.stringify(category_list_info_forUpdate, null, 2)
   );
+  console.log(
+    "CATEGORIES SUSPENDED AT BUDGET VIEW:",
+    JSON.stringify(suspendedCategories, null, 2)
+  );
   // console.log(
   //   "CATEGORY DATA AT BUDGET VIEW:",
   //   JSON.stringify(categoryData, null, 2)
@@ -111,7 +100,10 @@ export const BudgetView = ({ navigation }) => {
 
   useEffect(() => {
     // setMonthSelected(month_name);
+    sortingExpenseCategoriesForBudgetView();
+    // sortingExpenseCategories();
     const initialAmountsMathLogicForFirstCategoryData = async () => {
+      // sortingExpenseCategories();
       setCategorySelected(firstCategoryDataExpenseCategories);
       packagingAndFilteringTransactionsAndAmountByCategoryBudget(
         firstCategoryDataExpenseCategories.category_id,
@@ -139,6 +131,22 @@ export const BudgetView = ({ navigation }) => {
       await gettingCategoryData_onDemand(current_month_year);
     };
   }, []);
+
+  // const sortingExpenseCategories = () => {
+  //   category_data_expenseCategories.sort((a, b) => {
+  //     const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
+  //     const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
+  //     if (category_nameA < category_nameB) {
+  //       return -1;
+  //     }
+  //     if (category_nameA > category_nameB) {
+  //       return 1;
+  //     }
+
+  //     // names must be equal
+  //     return 0;
+  //   });
+  // };
 
   useEffect(() => {
     const testMath = async () => {
@@ -226,25 +234,6 @@ export const BudgetView = ({ navigation }) => {
     setCategorySelected(item);
     refreshDonutChartMathOnDemand(item);
   };
-
-  // const renderCategoryItem = ({ item }) => {
-  //   // console.log("ITEM:", item);
-  //   const { category_id, icon_name, short_name, status } = item;
-  //   const isSelected = selectedItem === category_id;
-  //   if (status === "suspended") {
-  //     return null;
-  //   }
-  //   return (
-  //     <CircularButtonOptionComponent
-  //       caption={short_name}
-  //       icon_name={icon_name}
-  //       action={() => selectingCategory(item)}
-  //       isSelected={isSelected}
-  //       icon_width={25}
-  //       // isSelected={}
-  //     />
-  //   );
-  // };
 
   const movingForwardToMonthsPadView = (
     navigation,
@@ -479,16 +468,50 @@ export const BudgetView = ({ navigation }) => {
         <FlexibleContainer
           direction={"column"}
           color={theme.colors.bg.p_FFFFFF}
-          //   color={"lightblue"}
+          // color={"lightblue"}
           flexibility={0.25}
           justify={"flex-start"}
           alignment={"flex-start"}
         >
           <Spacer size="large" position="top" />
-          <Spacer size="extraLarge" position="left">
-            <Text text_variant="bold_text_16">Categories</Text>
-          </Spacer>
-          <Spacer size="large" position="bottom" />
+          {/* ********************************************** */}
+
+          <ControlledContainer
+            // color="brown"
+            width={"100%"}
+            height={"15%"}
+            justify="space-between"
+            alignment="center"
+            direction="row"
+          >
+            <Spacer size="extraLarge" position="left">
+              <Text text_variant="bold_text_16">Categories</Text>
+            </Spacer>
+            {suspendedCategories.length > 0 && (
+              <Spacer size="large" position="right">
+                <RoundedOptionButton
+                  color={theme.colors.ui.error_cancels}
+                  width={"220px"}
+                  action={() =>
+                    navigation.navigate("Suspended_categories_view", {
+                      comingFrom: "suspendedCategoriesButton",
+                    })
+                  }
+                  height={"35px"}
+                  borderRadius={25}
+                  caption={"You have suspended categories"}
+                  underlined={true}
+                  type="red_option_button"
+                />
+              </Spacer>
+            )}
+          </ControlledContainer>
+          {/* ********************************************** */}
+          {suspendedCategories.length > 0 && (
+            <>
+              <Spacer size="large" position="bottom" />
+            </>
+          )}
           <ControlledContainer
             width={"400px"}
             height={"100px"}

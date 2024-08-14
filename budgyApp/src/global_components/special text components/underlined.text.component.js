@@ -20,6 +20,12 @@ font-size: ${(props) => props.size}px;
 color: ${theme.colors.text.p_142223C};
 text-decoration: underline;
 `;
+export const UnderlinedBoldWhiteCaption = Styled(Text)`
+font-family: ${theme.fonts.bold};
+font-size: ${(props) => props.size}px;
+color: ${theme.colors.text.s_FFFFFF};
+/* text-decoration: underline; */
+`;
 
 export const UnderlinedBoldCaptionLightColor = Styled(Text)`
 font-family: ${theme.fonts.bold};

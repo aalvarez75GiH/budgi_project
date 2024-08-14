@@ -16,6 +16,7 @@ import { EnterAmountWithOptionsView } from "../../Views/budgets/enter_amount_wit
 import { NewOrUpdateCategorySummaryView } from "../../Views/budgets/new_update_category_summary.view";
 import { Home } from "../../Views/home/home.view";
 import { NewOrUpdateCategoryConfirmationView } from "../../Views/budgets/new_update_category_confirmation";
+import { SuspendedCategoriesView } from "../../Views/budgets/suspended_categories.view";
 
 const BudgetStack = createNativeStackNavigator();
 
@@ -100,6 +101,12 @@ export const BudgetNavigator = () => {
       <BudgetStack.Screen
         name="New_category_confirmation_view"
         component={NewOrUpdateCategoryConfirmationView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <BudgetStack.Screen
+        name="Suspended_categories_view"
+        component={SuspendedCategoriesView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

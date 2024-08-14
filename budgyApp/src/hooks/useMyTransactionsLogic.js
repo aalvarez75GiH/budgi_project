@@ -24,7 +24,8 @@ export const useMyTransactionsLogic = () => {
   const { user_id } = user;
 
   //   ****** DATA FROM CATEGORY LIST CONTEXT ************
-  const { categoryList } = useContext(CategoryListContext);
+  const { categoryList, sortingExpenseCategories } =
+    useContext(CategoryListContext);
   const expenseCategories = categoryList.expense_categories;
 
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
@@ -326,36 +327,12 @@ export const useMyTransactionsLogic = () => {
       );
     };
 
-  //**** HERE WE RENDER CATEGORIES AT CATEGORIES BELT SELECTOR  ****
-  // const renderCategoryItem =
-  //   (transactionsByMonthYear) =>
-  //   ({ item }) => {
-  //     // console.log("ITEM:", item);
-  //     const { category_id } = item;
-  //     const isSelected = selectedItem === category_id;
-  //     return (
-  //       <CircularButtonOptionComponent
-  //         caption={item.short_name}
-  //         icon_name={item.icon_name}
-  //         action={() =>
-  //           selectingCategoryAndPackagingRespectiveTransactions(
-  //             item,
-  //             transactionsByMonthYear
-  //           )
-  //         }
-  //         isSelected={isSelected}
-  //         icon_width={25}
-  //       />
-  //     );
-  //   };
-
   return {
     movingForwardToDetailsView,
     movingForwardToMonthsPadView,
     settingUpTransactionsFromContextForAllOptionButton,
     settingUpTransactionsFromContext,
     renderItem,
-    // renderCategoryItem,
     isPressed,
     setIsPressed,
     month_year,
@@ -385,5 +362,6 @@ export const useMyTransactionsLogic = () => {
     month_year_toRender,
     selectedItem,
     selectingCategoryAndPackagingRespectiveTransactions,
+    sortingExpenseCategories,
   };
 };

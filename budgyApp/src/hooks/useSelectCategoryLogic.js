@@ -10,7 +10,8 @@ export const useSelectCategoryLogic = () => {
   const { system_date, expenseDate } = useContext(DateOperationsContext);
 
   //   ****** DATA FROM CATEGORY LIST CONTEXT ************
-  const { categoryList, isLoading } = useContext(CategoryListContext);
+  const { categoryList, isLoading, sortingExpenseCategories } =
+    useContext(CategoryListContext);
   const { expense_categories } = categoryList;
 
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
@@ -28,21 +29,6 @@ export const useSelectCategoryLogic = () => {
   const { amount } = transactionInfoForRequest;
 
   //   ******** THIS LOGIC SORTS EXPENSE CATEGORIES ALPHABETICALLY ********
-  const sortingExpenseCategories = () => {
-    expense_categories.sort((a, b) => {
-      const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
-      const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
-      if (category_nameA < category_nameB) {
-        return -1;
-      }
-      if (category_nameA > category_nameB) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
-    });
-  };
 
   const settingSystemDateAndExpenseDateOnTransactionInfoForRequest = () => {
     setTransactionInfoForRequest({

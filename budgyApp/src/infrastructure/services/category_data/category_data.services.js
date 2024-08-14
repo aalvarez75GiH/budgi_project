@@ -37,7 +37,6 @@ export const getAllCategoriesData_By_UserID_Request = async (user_id) => {
     });
 };
 export const post_category_data_Request = async (
-  // categoryDataInfoNeededForRequest,
   user_id,
   creation_date,
   month_year
@@ -50,7 +49,6 @@ export const post_category_data_Request = async (
   };
 
   return await axios
-    // .post(`${categoryDataEndPoint}`, categoryDataInfoNeededForRequest)
     .post(`${categoryDataEndPoint}`, categoryDataInfoNeededForRequest)
     .then((response) => {
       return response;

@@ -41,7 +41,7 @@ export const BudgetsHeader = ({
           height={"55px"}
           borderRadius={25}
           caption={caption}
-          underlined={true}
+          type="grey_option_button"
         />
         <Spacer size="large" position="left" />
         <RoundedOptionButton
@@ -51,8 +51,7 @@ export const BudgetsHeader = ({
           height={"55px"}
           borderRadius={25}
           caption={"Transactions"}
-          //   caption={"MAY 2024"}
-          underlined={true}
+          type="grey_option_button"
         />
         <Spacer size="large" position="top">
           <CircularButtonOptionComponent

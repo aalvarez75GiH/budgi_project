@@ -270,7 +270,8 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
   category_id,
   month_year,
   updated_on,
-  new_short_name
+  new_short_name,
+  status
 ) => {
   const categories_data_toUpdate =
     await categoryDataController.getCategoryDataByUserID(user_id);
@@ -290,6 +291,7 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
       node.short_name = new_short_name;
       node.updated = true;
       node.updated_on = updated_on;
+      node.status = status;
       updatingCategoryDataAfterTransactionsOrCategoryListUpdates(
         category_id,
         category_data
@@ -307,6 +309,7 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
       node.amount_avail = new_limit_amount - node.amount_spent;
       node.updated = true;
       node.updated_on = updated_on;
+      node.status = status;
 
       // *****************************************************
       const prepared_total_amounts =

@@ -9,7 +9,8 @@ module.exports.updateCategoryListNode = async (
   category_name,
   category_id,
   limit_amount,
-  new_short_name
+  new_short_name,
+  status
 ) => {
   const { expense_categories } = category_list_by_user_id;
 
@@ -23,6 +24,7 @@ module.exports.updateCategoryListNode = async (
       expense_categories[index].category_name = category_name;
       expense_categories[index].limit_amount = limit_amount;
       expense_categories[index].short_name = new_short_name;
+      expense_categories[index].status = status;
     }
   });
 

@@ -66,8 +66,7 @@ export const ExitHeaderWithMonthsOptionButtonComponent = ({
           height={"55px"}
           borderRadius={25}
           caption={month_year_toRender ? month_year_toRender : month_year}
-          //   caption={"MAY 2024"}
-          underlined={true}
+          type="grey_option_button"
         />
       </ControlledContainer>
     </FlexibleContainer>

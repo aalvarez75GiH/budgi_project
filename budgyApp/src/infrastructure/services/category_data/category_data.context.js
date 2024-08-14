@@ -1,7 +1,6 @@
 import React, { useState, createContext, useEffect, useContext } from "react";
 
 export const CategoryDataContext = createContext();
-// import { getCategoryList_By_UserID_Request } from "./category_list.services";
 import {
   getCategoryData_By_UserID_MonthYearRequest,
   getAllCategoriesData_By_UserID_Request,
@@ -9,11 +8,9 @@ import {
 } from "./category_data.services";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
-// import { categoryDataCleanObject } from "./category_data.data";
 
 export const CategoryDataContextProvider = ({ children }) => {
   const [categoriesData, setCategoriesData] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
   const [isLoadingCategoryDataContext, setIsLoadingCategoryDataContext] =
     useState(false);
   const [category_data_onDemand, setCategory_data_onDemand] = useState(null);
@@ -43,31 +40,25 @@ export const CategoryDataContextProvider = ({ children }) => {
           );
 
           setCategoryData(category_data_created.data);
-          // setCategoryData(categoryDataCleanObject(user_id, month_year));
           return;
         }
 
         if (category_data.status === 200) {
           setCategoryData(category_data.data);
         }
-        // **********************************************************************
         const categories_data = await getAllCategoriesData_By_UserID_Request(
           user_id
         );
         if (!categories_data || categories_data.length === 0) {
-          // console.log("CATEGORIES DATA STATUS 404");
           setCategoriesData([]);
         } else {
           setCategoriesData(categories_data);
         }
-        // **********************************************************************
       } catch (error) {
         console.log(" CATEGORY DATA ERROR:", error.data);
       } finally {
         setIsLoadingCategoryDataContext(false);
       }
-
-      // gettingCurrentCategoryDataAndAllCategoriesData(user_id, month_year);
     })();
   }, []);
 
@@ -87,8 +78,6 @@ export const CategoryDataContextProvider = ({ children }) => {
       if (category_data.status === 200) {
         setCategoryData(category_data.data);
       }
-      // return index;
-      // setCategoryData(categoriesData.data[index]);
     } catch (error) {
       console.log("ERROR:", error);
     } finally {

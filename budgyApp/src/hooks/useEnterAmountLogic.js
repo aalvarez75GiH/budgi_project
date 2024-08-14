@@ -69,12 +69,14 @@ export const useEnterAmountLogic = (comingFrom) => {
           ? stringedAmount
           : comingFrom === "Select_week_view"
           ? stringedRealIncomeAmount
-          : comingFrom === "GeneralNewNameView"
+          : comingFrom === "GeneralNewNameView" ||
+            comingFrom === "suspendedCategoryButton"
           ? stringedCategoryLimitAmount
           : stringedExpectedIncomeAmount
       }`
     )
   );
+
   console.log(
     "ACTION TO DO AT ENTER AMOUNT LOGIC:",
     JSON.stringify(action_to_do, null, 2)
@@ -149,6 +151,29 @@ export const useEnterAmountLogic = (comingFrom) => {
           comingFrom: comingFrom,
         });
       }
+      if (action_to_do === "update_expense_category") {
+        setCategory_list_info_forUpdate((prevState) => ({
+          ...prevState,
+          new_limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
+        }));
+        navigation.navigate("New_category_summary_view", {
+          comingFrom: comingFrom,
+        });
+      }
+    }
+    if (comingFrom === "suspendedCategoryButton") {
+      // if (action_to_do === "new_expense_category") {
+      //   setCategory_list_info_forRequest((prevState) => ({
+      //     ...prevState,
+      //     new_expense_category_node: {
+      //       ...prevState.new_expense_category_node,
+      //       limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
+      //     },
+      //   }));
+      //   navigation.navigate("New_category_summary_view", {
+      //     comingFrom: comingFrom,
+      //   });
+      // }
       if (action_to_do === "update_expense_category") {
         setCategory_list_info_forUpdate((prevState) => ({
           ...prevState,

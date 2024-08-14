@@ -27,12 +27,17 @@ export const EnterAmountWithOptionsView = ({ navigation, route }) => {
     formatCurrency,
     exitingToRoot,
   } = useEnterAmountLogic(comingFrom);
-  const { category_list_info_forRequest } = useContext(CategoryListContext);
+  const { category_list_info_forRequest, category_list_info_forUpdate } =
+    useContext(CategoryListContext);
   console.log("AMOUNT TO SET AT ENTER AMOUNT VIEW:", amountToSet);
   console.log("COMING FROM AT ENTER AMOUNT VIEW:", comingFrom);
   console.log(
     "CATEGORY LIST INFO FOR REQUEST AT GENERAL VIEW:",
     JSON.stringify(category_list_info_forRequest, null, 2)
+  );
+  console.log(
+    "CATEGORY LIST INFO FOR UPDATE AT ENTER AMOUNT WITH OPTIONS VIEW:",
+    JSON.stringify(category_list_info_forUpdate, null, 2)
   );
   return (
     <SafeArea background_color={"#FFFFFF"}>

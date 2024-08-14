@@ -40,7 +40,7 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
   const { new_category_name, new_limit_amount } = category_list_info_forUpdate;
 
   const { expenseDate } = useContext(DateOperationsContext);
-
+  console.log("ACTION TO DO AT SUMMARY VIEW:", action_to_do);
   return action_to_do === "new_expense_category" ? (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
       <TwoIconsHeaderComponent
