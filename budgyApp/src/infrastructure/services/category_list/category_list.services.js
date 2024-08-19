@@ -57,14 +57,14 @@ export const deleteExpenseCategoryRequest = async (category_id, user_id) => {
       return error;
     });
 };
-export const deleteTransactionRequest = async (transaction_id) => {
-  const { transactionEndPoint } = environment;
-  return await axios
-    .delete(`${transactionEndPoint}?transaction_id=${transaction_id}`)
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      return error;
-    });
-};
+// export const deleteTransactionRequest = async (transaction_id) => {
+//   const { transactionEndPoint } = environment;
+//   return await axios
+//     .delete(`${transactionEndPoint}?transaction_id=${transaction_id}`)
+//     .then((response) => {
+//       return response;
+//     })
+//     .catch((error) => {
+//       return error;
+//     });
+// };

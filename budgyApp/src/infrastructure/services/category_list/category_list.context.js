@@ -20,6 +20,7 @@ export const CategoryListContext = createContext();
 export const CategoryListContextProvider = ({ children }) => {
   const [categoryList, setCategoryList] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [modalActive, setModalActive] = useState(false);
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
@@ -54,6 +55,7 @@ export const CategoryListContextProvider = ({ children }) => {
   const [newCategoryAdded, setNewCategoryAdded] = useState(false);
   const [categoryDeleted, setCategoryDeleted] = useState(false);
   const [categoryActivated, setCategoryActivated] = useState(false);
+  const [categorySuspended, setCategorySuspended] = useState(false);
   const [action_to_do, setAction_to_do] = useState("");
   const [categorySelected, setCategorySelected] = useState(
     firstCategoryDataExpenseCategories
@@ -65,7 +67,7 @@ export const CategoryListContextProvider = ({ children }) => {
       fetchingCategoryListByUserID();
       sortingExpenseCategoriesForBudgetView();
     })();
-  }, [newCategoryAdded, categoryDeleted]);
+  }, [newCategoryAdded, categoryDeleted, categorySuspended]);
 
   const fetchingCategoryListByUserID = async () => {
     setIsLoading(true);
@@ -198,10 +200,10 @@ export const CategoryListContextProvider = ({ children }) => {
     "CATEGORY_LIST ADDED AT CATEGORY LIST CONTEXT:",
     JSON.stringify(newCategoryAdded, null, 2)
   );
-  console.log(
-    "CATEGORY_LIST AT CATEGORY LIST CONTEXT:",
-    JSON.stringify(categoryList, null, 2)
-  );
+  // console.log(
+  //   "CATEGORY_LIST AT CATEGORY LIST CONTEXT:",
+  //   JSON.stringify(categoryList, null, 2)
+  // );
   console.log(
     "SUSPENDED CATEGORIES AT CATEGORY LIST CONTEXT:",
     JSON.stringify(suspendedCategories, null, 2)
@@ -257,11 +259,18 @@ export const CategoryListContextProvider = ({ children }) => {
           category_id,
           user_id
         );
-        if (response) {
+        console.log(
+          "RESPONSE AT CONTEXT:",
+          JSON.stringify(response.data.operation_status, null, 2)
+        );
+        if (response.data.operation_status === "expense_category_removed") {
           setIsLoading(false);
+          setModalActive(true);
           setCategoryDeleted(true);
-          movingBackToHome(navigation);
-          // navigation.navigate("HomeView");
+        } else {
+          setIsLoading(false);
+          setModalActive(true);
+          setCategorySuspended(true);
         }
       } catch (error) {
         console.log("THERE WAS AN ERROR:", error);
@@ -279,9 +288,11 @@ export const CategoryListContextProvider = ({ children }) => {
 
   const categoryListContextStateReset = () => {
     set_new_category_name("");
+    setModalActive(false);
     set_update_category_name("");
     setNewCategoryAdded(false);
     setCategoryDeleted(false);
+    setCategorySuspended(false);
     setCategory_list_info_forRequest(
       newCategoryListExpenseCategoryObject(user_id)
     );
@@ -351,6 +362,10 @@ export const CategoryListContextProvider = ({ children }) => {
         suspendedCategories,
         sortingExpenseCategories,
         sortingExpenseCategoriesForBudgetView,
+        modalActive,
+        setModalActive,
+        categorySuspended,
+        categoryDeleted,
       }}
     >
       {children}

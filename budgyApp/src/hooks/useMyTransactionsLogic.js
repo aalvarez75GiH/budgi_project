@@ -48,10 +48,10 @@ export const useMyTransactionsLogic = () => {
   const [expenseCategoriesToRender, setExpenseCategoriesToRender] = useState(
     []
   );
-  console.log(
-    "CATEGORY_LIST AT MY TRANSACTIONS LOGIC:",
-    JSON.stringify(categoryList, null, 2)
-  );
+  // console.log(
+  //   "CATEGORY_LIST AT MY TRANSACTIONS LOGIC:",
+  //   JSON.stringify(categoryList, null, 2)
+  // );
   // Step 3 & 4: Use useEffect to detect when state variables revert to their initial state
   useEffect(() => {
     if (transactionsToRender === transactionsByMonthYear) {

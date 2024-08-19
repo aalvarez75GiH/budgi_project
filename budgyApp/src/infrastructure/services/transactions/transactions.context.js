@@ -58,6 +58,7 @@ export const TransactionContextProvider = ({ children }) => {
   const [totalAmountToRenderForBudgets, setTotalAmountToRenderForBudgets] =
     useState(0);
   const [readyToUpdate, setReadyToUpdate] = useState(false);
+
   // ******************** Work in progress ************************
   useEffect(() => {
     (async () => {
@@ -115,6 +116,11 @@ export const TransactionContextProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
+
+  console.log(
+    "TRANSACTIONS BY MONTH YEAR:",
+    JSON.stringify(transactionsByMonthYear, null, 2)
+  );
 
   const getting_transactions_budgeted_and_real_income_totalAmounts = async (
     user_id,
@@ -332,13 +338,12 @@ export const TransactionContextProvider = ({ children }) => {
         setTimeout(async () => {
           try {
             const response = await deleteTransactionRequest(transaction_id);
+
             (await response.status) === 200
               ? listenForNewChangesAtDB(db)
               : null;
-            // response ? setIsLoading(false) : setIsLoading(true);
             !isLoading ? resolve(response) : null;
           } catch (error) {
-            // console.log("THERE WAS AN ERROR:", error);
             reject(error);
           }
         }, 3000);

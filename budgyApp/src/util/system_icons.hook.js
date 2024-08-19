@@ -36,7 +36,7 @@ import PlusIcon from "../../assets/icons/svgs/plus_icon.svg";
 // import CustomByUserIcon from "../../assets/icons/svgs/custom_by_user_icon.svg";
 import CustomByUserIcon from "../../assets/icons/svgs/star_icon.svg";
 import LeftArrowIcon from "../../assets/icons/svgs/left_arrow.svg";
-
+import SuspendedIcon from "../../assets/icons/svgs/suspended_icon.svg";
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
     {
@@ -174,6 +174,10 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "LeftArrowIcon",
       icon: LeftArrowIcon,
+    },
+    {
+      icon_name: "SuspendedIcon",
+      icon: SuspendedIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";

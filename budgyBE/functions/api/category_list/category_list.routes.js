@@ -383,6 +383,7 @@ app.delete("/deleteExpenseCategory", (req, res) => {
         const categoryListAndCategoriesDataUpdatedResponse = {
           category_list_updated: category_list_toUpdate,
           categories_data_updated: categories_data_updated,
+          operation_status: "expense_category_suspended",
         };
         // *********************************************************
         res.status(201).json(categoryListAndCategoriesDataUpdatedResponse);
@@ -409,6 +410,7 @@ app.delete("/deleteExpenseCategory", (req, res) => {
         const categoryListAndCategoriesDataUpdatedResponse = {
           category_list_updated: category_list_toUpdate,
           categories_data_updated: categories_data_updated,
+          operation_status: "expense_category_removed",
         };
         res.status(201).json(categoryListAndCategoriesDataUpdatedResponse);
       }
