@@ -12,7 +12,7 @@ import { useCalendarLogic } from "../../hooks/useCalendarLogic";
 
 export const GeneralCalendarView = ({ navigation, route }) => {
   const { setButton1Pressed, setButton2Pressed, comingFrom } = route.params;
-
+  console.log("COMING FROM AT CALENDAR VIEW:", comingFrom);
   const {
     comingBackToSummary,
     movingBackToTransactionDetails,
@@ -102,6 +102,10 @@ export const GeneralCalendarView = ({ navigation, route }) => {
                       setButton2Pressed
                     )
                 : () => movingBackToTransactionDetails(navigation)
+              // () =>
+              //   navigation.navigate("Transaction_details_view", {
+              //     comingFrom: "AnyTransactionDetailsView",
+              //   })
             }
             text_variant="bold_text_20"
           />

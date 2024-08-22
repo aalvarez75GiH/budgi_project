@@ -32,8 +32,6 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     movingForwardToSelectCategoryView,
     movingForwardToGeneralCalendarView,
     movingForwardToDeleteConfirmationView,
-    // updatingTransactionProcess,
-    closingMenu,
   } = navigationLogic();
   console.log("CATEGORY STATUS AT VIEW:", category_status);
   return (
@@ -52,7 +50,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
             // transaction_id
           )
         }
-        action_icon_left={() => closingMenu(navigation)}
+        action_icon_left={() => navigation.goBack()}
         icon_name_right={"RemoveIcon"}
         icon_name_left={"ExitIcon"}
         icon_top_left={"0%"}
@@ -88,8 +86,6 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         color={theme.colors.bg.e_F4F4F4}
         // color={"lightblue"}
         direction="column"
-        // flexibility={description ? 0.46 : 0.53}
-        // flexibility={description ? 0.46 : 0.98}
         flexibility={0.55}
         justify={"center"}
         isBordered={false}
@@ -107,11 +103,6 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
               });
             }
           }}
-          // action={() => {
-          //   navigation.navigate("Enter_amount_view", {
-          //     comingFrom: "AnyTransactionDetailsView",
-          //   });
-          // }}
           icon_width={25}
           icon_height={25}
           category_status={category_status}
@@ -173,7 +164,6 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"brown"}
         direction="column"
-        // flexibility={description ? 0.46 : 0.53}
         flexibility={0.2}
         justify={"center"}
         isBordered={false}

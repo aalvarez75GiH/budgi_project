@@ -21,6 +21,7 @@ export const useCalendarLogic = () => {
     setTransactionInfoForUpdate,
     transactionsByMonthYear,
     gettingTransactions_byUserID_MonthYear_onDemand,
+    setReadyToUpdate,
   } = useContext(TransactionsContext);
 
   const [selected, setSelected] = useState(null);
@@ -97,6 +98,7 @@ export const useCalendarLogic = () => {
     setButton2Pressed,
     comingFrom
   ) => {
+    console.log("COMING FROM AT USE CALENDAR LOGIC:", comingFrom);
     const { expenseDate, month_year } =
       packingExpenseDateForDifferentDay(system_date);
 
@@ -130,6 +132,9 @@ export const useCalendarLogic = () => {
             setButton2Pressed
           )
         : movingBackToTransactionDetails(navigation);
+      // navigation.navigate("Transaction_details_view", {
+      //   comingFrom: "AnyTransactionDetailsView",
+      // });
     }
   };
 
@@ -154,7 +159,10 @@ export const useCalendarLogic = () => {
   };
 
   const movingBackToTransactionDetails = (navigation) => {
-    navigation.navigate("Transaction_details_view");
+    setReadyToUpdate(true);
+    navigation.navigate("Transaction_details_view", {
+      comingFrom: "AnyTransactionDetailsView",
+    });
   };
 
   return {

@@ -132,10 +132,13 @@ export const useMyTransactionsLogic = () => {
     month_year_toRender,
     transactionsByMonthYear
   ) => {
-    // console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
-    console.log("MONTH YEAR TO RENDER AT FUNCTION VIEW:", month_year_toRender);
-    console.log("USER_ID AT FUNCTION VIEW:", user_id);
-    console.log("CATEGORY SELECTED AT FUNCTION VIEW:", category_id);
+    console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
+    console.log(
+      "MONTH YEAR TO RENDER AT MY TRANSACTIONS LOGIC VIEW:",
+      month_year_toRender
+    );
+    console.log("USER_ID AT MY TRANSACTIONS LOGIC:", user_id);
+    console.log("CATEGORY SELECTED AT MY TRANSACTIONS LOGIC:", category_id);
 
     // Set the button to not pressed and start loading.
     setIsPressed(false);

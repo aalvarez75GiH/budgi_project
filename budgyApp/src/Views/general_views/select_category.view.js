@@ -13,7 +13,6 @@ import { useSelectCategoryLogic } from "../../hooks/useSelectCategoryLogic";
 export const GeneralSelectCategoryView = ({ navigation, route }) => {
   // ******* LOGIC FROM HOOK ********
   const {
-    sortingExpenseCategories,
     goingBack,
     renderItem,
     expense_categories,
@@ -26,7 +25,6 @@ export const GeneralSelectCategoryView = ({ navigation, route }) => {
   console.log(" EXPENSES CATEGORIES:", expense_categories);
 
   useEffect(() => {
-    sortingExpenseCategories();
     {
       comingFrom === "Home_View"
         ? settingSystemDateAndExpenseDateOnTransactionInfoForRequest()

@@ -35,7 +35,10 @@ export const updatingExpenseCategoryRequest = async (
 ) => {
   const { categoryListEndPoint } = environment;
   return await axios
-    .put(`${categoryListEndPoint}`, expense_category_toUpdate)
+    .put(
+      `${categoryListEndPoint}/updateUserExpenseCategory`,
+      expense_category_toUpdate
+    )
     .then((response) => {
       return response;
     })

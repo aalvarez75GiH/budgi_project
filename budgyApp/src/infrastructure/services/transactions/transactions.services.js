@@ -37,10 +37,10 @@ export const getTransactionsAndTotalAmountRequestOrderedByTimeStamp = async (
     )
     .then((response) => {
       // console.log("RESPONSE STATUS:", response.status);
-      console.log(
-        "TRANSACTIONS TOTAL AMOUNT AT SERVICES: ",
-        response.data.total_amount
-      );
+      // console.log(
+      //   "TRANSACTIONS TOTAL AMOUNT AT SERVICES: ",
+      //   response.data.total_amount
+      // );
       return response.data;
     })
     .catch((error) => {

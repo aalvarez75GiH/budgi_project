@@ -64,7 +64,7 @@ export const ConfirmationInfoComponent = ({
           <Text2Container>
             <Text text_variant="regular_text_16">{short_name}</Text>
           </Text2Container>
-          {isConfirmed && <CheckIconComponent width={30} height={30} />}
+          {isConfirmed && <CheckIconComponent width={15} height={15} />}
         </ConfirmationTextContainer>
       </Spacer>
 

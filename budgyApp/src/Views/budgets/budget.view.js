@@ -56,7 +56,6 @@ export const BudgetView = ({ navigation }) => {
     setCategory_list_info_forUpdate,
     setAction_to_do,
     setCategorySelected,
-    // *******************************************
     categorySelected,
     firstCategoryDataExpenseCategories,
     firsCategoryDataExpenseCategoryName,
@@ -67,8 +66,6 @@ export const BudgetView = ({ navigation }) => {
     setCategoryDeleted,
     setNewCategoryAdded,
     suspendedCategories,
-    sortingExpenseCategoriesForBudgetView,
-    // *******************************************
   } = useContext(CategoryListContext);
 
   const [percentageCompleted, setPercentageCompleted] = useState(0);
@@ -81,18 +78,7 @@ export const BudgetView = ({ navigation }) => {
   const { amount_avail, amount_spent, limit_amount } =
     firstCategoryDataExpenseCategories;
   const [screenIsLoading, setScreenIsLoading] = useState(true);
-  console.log(
-    "CATEGORY SELECTED AT BUDGET VIEW:",
-    JSON.stringify(categorySelected, null, 2)
-  );
-  console.log(
-    "CATEGORY LIST INFO FOR UPDATE AT BUDGET VIEW:",
-    JSON.stringify(category_list_info_forUpdate, null, 2)
-  );
-  console.log(
-    "CATEGORIES SUSPENDED AT BUDGET VIEW:",
-    JSON.stringify(suspendedCategories, null, 2)
-  );
+
   // console.log(
   //   "CATEGORY DATA AT BUDGET VIEW:",
   //   JSON.stringify(categoryData, null, 2)
@@ -100,16 +86,13 @@ export const BudgetView = ({ navigation }) => {
 
   useEffect(() => {
     // setMonthSelected(month_name);
-    sortingExpenseCategoriesForBudgetView();
-    // sortingExpenseCategories();
     const initialAmountsMathLogicForFirstCategoryData = async () => {
-      // sortingExpenseCategories();
+      setSelectedItem(firstCategoryDataExpenseCategories.category_id);
       setCategorySelected(firstCategoryDataExpenseCategories);
       packagingAndFilteringTransactionsAndAmountByCategoryBudget(
         firstCategoryDataExpenseCategories.category_id,
         transactionsByMonthYear
       );
-      // setScreenIsLoading(true);
       setTimeout(() => {
         setPercentageCompleted(
           firstCategoryDataExpenseCategories.percentageCompleted
@@ -132,38 +115,21 @@ export const BudgetView = ({ navigation }) => {
     };
   }, []);
 
-  // const sortingExpenseCategories = () => {
-  //   category_data_expenseCategories.sort((a, b) => {
-  //     const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
-  //     const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
-  //     if (category_nameA < category_nameB) {
-  //       return -1;
-  //     }
-  //     if (category_nameA > category_nameB) {
-  //       return 1;
-  //     }
-
-  //     // names must be equal
-  //     return 0;
-  //   });
-  // };
-
   useEffect(() => {
     const testMath = async () => {
-      console.log("EXECUTING...");
       if (!categorySelected || categorySelected.category_id == null) {
         console.log(
           "categorySelected or categorySelected.category_id is null or undefined"
         );
 
         setPercentageCompleted(
-          firsCategoryDataExpenseCategoryName.percentageCompleted
+          firstCategoryDataExpenseCategories.percentageCompleted
         );
         setOverSpentAmountInNegative(
-          firsCategoryDataExpenseCategoryName.overSpentAmountInNegative
+          firstCategoryDataExpenseCategories.overSpentAmountInNegative
         );
         setOverSpentAmountInPositive(
-          firsCategoryDataExpenseCategoryName.overSpentAmountInPositive
+          firstCategoryDataExpenseCategories.overSpentAmountInPositive
         );
         return; // Exit the useEffect if the check fails
       }
@@ -175,14 +141,6 @@ export const BudgetView = ({ navigation }) => {
       const index = categoryData.category_data_expenseCategories.findIndex(
         (category_data) =>
           category_data.category_id === categorySelected.category_id
-      );
-      console.log(
-        "CATEGORY SELECTED AT TEST MATH:",
-        JSON.stringify(
-          categoryData.category_data_expenseCategories[index],
-          null,
-          2
-        )
       );
 
       if (index === -1) {

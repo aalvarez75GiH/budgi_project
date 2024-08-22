@@ -390,18 +390,6 @@ const adding_a_single_new_expense_category_node_at_user_category_data = async (
   categories_data_toUpdate.map(async (category_data) => {
     const { category_data_expenseCategories } = category_data;
 
-    // ********************************************************
-    // const prepared_total_amounts =
-    //   await preparingBudgetedAndSpentTotalAmountsOfACategoryData(
-    //     category_data_expenseCategories
-    //   );
-
-    // const category_data_width_total_amounts = {
-    //   ...category_data,
-    //   total_amount_budgeted: prepared_total_amounts.total_amount_budgeted,
-    // };
-    // ********************************************************
-
     await validation_and_update_process_of_a_new_expense_category_node(
       mandatory,
       category_data_expenseCategories,

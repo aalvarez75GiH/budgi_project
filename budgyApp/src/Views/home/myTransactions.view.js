@@ -49,13 +49,11 @@ export const MyTransactionsView = ({ navigation }) => {
     month_year_toRender,
     selectedItem,
     selectingCategoryAndPackagingRespectiveTransactions,
-    sortingExpenseCategories,
   } = useMyTransactionsLogic();
 
   useEffect(() => {
     settingUpTransactionsFromContext();
     setExpenseCategoriesToRender(expenseCategories);
-    sortingExpenseCategories();
 
     return async () => {
       setMonthSelected(month_name);

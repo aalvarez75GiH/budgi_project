@@ -65,7 +65,7 @@ export const CategoryListContextProvider = ({ children }) => {
   useEffect(() => {
     (async () => {
       fetchingCategoryListByUserID();
-      sortingExpenseCategoriesForBudgetView();
+      // sortingExpenseCategoriesForBudgetView();
     })();
   }, [newCategoryAdded, categoryDeleted, categorySuspended]);
 
@@ -97,40 +97,6 @@ export const CategoryListContextProvider = ({ children }) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const sortingExpenseCategories = () => {
-    const { expense_categories } = categoryList;
-    expense_categories.sort((a, b) => {
-      const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
-      const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
-      if (category_nameA < category_nameB) {
-        return -1;
-      }
-      if (category_nameA > category_nameB) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
-    });
-  };
-
-  const sortingExpenseCategoriesForBudgetView = () => {
-    // const { expense_categories } = categoryList;
-    category_data_expenseCategories.sort((a, b) => {
-      const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
-      const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
-      if (category_nameA < category_nameB) {
-        return -1;
-      }
-      if (category_nameA > category_nameB) {
-        return 1;
-      }
-
-      // names must be equal
-      return 0;
-    });
   };
 
   const settingNewCategoryName = (newName, navigation) => {
@@ -196,18 +162,18 @@ export const CategoryListContextProvider = ({ children }) => {
     }
   }; // <-- Missing closing brace added here
 
-  console.log(
-    "CATEGORY_LIST ADDED AT CATEGORY LIST CONTEXT:",
-    JSON.stringify(newCategoryAdded, null, 2)
-  );
+  // console.log(
+  //   "CATEGORY_LIST ADDED AT CATEGORY LIST CONTEXT:",
+  //   JSON.stringify(newCategoryAdded, null, 2)
+  // );
   // console.log(
   //   "CATEGORY_LIST AT CATEGORY LIST CONTEXT:",
   //   JSON.stringify(categoryList, null, 2)
   // );
-  console.log(
-    "SUSPENDED CATEGORIES AT CATEGORY LIST CONTEXT:",
-    JSON.stringify(suspendedCategories, null, 2)
-  );
+  // console.log(
+  //   "SUSPENDED CATEGORIES AT CATEGORY LIST CONTEXT:",
+  //   JSON.stringify(suspendedCategories, null, 2)
+  // );
 
   const registeringNewExpenseCategory = async (navigation) => {
     setIsLoading(true);
@@ -251,7 +217,6 @@ export const CategoryListContextProvider = ({ children }) => {
     user_id,
     comingFrom
   ) => {
-    console.log("CATEGORY ID AT CONTEXT:", category_id);
     setIsLoading(true);
     setTimeout(async () => {
       try {
@@ -259,10 +224,7 @@ export const CategoryListContextProvider = ({ children }) => {
           category_id,
           user_id
         );
-        console.log(
-          "RESPONSE AT CONTEXT:",
-          JSON.stringify(response.data.operation_status, null, 2)
-        );
+
         if (response.data.operation_status === "expense_category_removed") {
           setIsLoading(false);
           setModalActive(true);
@@ -360,8 +322,6 @@ export const CategoryListContextProvider = ({ children }) => {
         categoryListContextStateReset,
         movingBackToHome,
         suspendedCategories,
-        sortingExpenseCategories,
-        sortingExpenseCategoriesForBudgetView,
         modalActive,
         setModalActive,
         categorySuspended,

@@ -10,8 +10,7 @@ export const useSelectCategoryLogic = () => {
   const { system_date, expenseDate } = useContext(DateOperationsContext);
 
   //   ****** DATA FROM CATEGORY LIST CONTEXT ************
-  const { categoryList, isLoading, sortingExpenseCategories } =
-    useContext(CategoryListContext);
+  const { categoryList, isLoading } = useContext(CategoryListContext);
   const { expense_categories } = categoryList;
 
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
@@ -98,7 +97,6 @@ export const useSelectCategoryLogic = () => {
     };
 
   return {
-    sortingExpenseCategories,
     selectingCategory,
     goingBack,
     renderItem,

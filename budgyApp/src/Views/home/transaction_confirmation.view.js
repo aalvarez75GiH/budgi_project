@@ -61,10 +61,10 @@ export const TransactionConfirmationView = ({ navigation }) => {
           caption="Done"
           width={290}
           height={60}
-          color={theme.colors.buttons.t_E5E5E5}
+          color={theme.colors.ui.success}
           borderRadius={0}
           action={() => goingHome(navigation)}
-          text_variant="bold_text_16"
+          text_variant="white_bold_text_16"
         />
       </FlexibleContainer>
       <FlexibleContainer
@@ -74,7 +74,7 @@ export const TransactionConfirmationView = ({ navigation }) => {
         flexibility={1}
         justify={"center"}
       >
-        <FooterMenuContainer color={theme.colors.neutrals.e2_F5F5F5} />
+        <FooterMenuContainer color={theme.colors.bg.p_FFFFFF} />
       </FlexibleContainer>
     </SafeArea>
   );

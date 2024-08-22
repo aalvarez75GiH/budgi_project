@@ -46,10 +46,10 @@ export const RealIncomeContextProvider = ({ children }) => {
           user_id,
           month_year
         );
-        console.log(
-          "REAL INCOME...",
-          JSON.stringify(real_income.status, null, 2)
-        );
+        // console.log(
+        //   "REAL INCOME...",
+        //   JSON.stringify(real_income.status, null, 2)
+        // );
         if (real_income.status === 404) {
           const real_income_toCreate = await post_real_income_Request(
             user_id,

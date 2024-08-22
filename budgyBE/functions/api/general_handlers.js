@@ -25,6 +25,23 @@ const preparingBudgetedAndSpentTotalAmountsOfACategoryData = async (
     return prepared_total_amounts;
   });
 };
+
+const sortingExpensesCategories = (expense_categories) => {
+  expense_categories.sort((a, b) => {
+    const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
+    const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
+    if (category_nameA < category_nameB) {
+      return -1;
+    }
+    if (category_nameA > category_nameB) {
+      return 1;
+    }
+
+    // names must be equal
+    return 0;
+  });
+};
+
 module.exports.validation_and_update_process_of_a_new_expense_category_node =
   async (
     mandatory,
@@ -46,6 +63,7 @@ module.exports.validation_and_update_process_of_a_new_expense_category_node =
 
       if (index === -1) {
         expense_category_array.push(new_node);
+        sortingExpensesCategories(expense_category_array);
         if (type_controller === "category_list") {
           category_list_updated =
             await category_listController.updateCategoryList(
@@ -91,6 +109,7 @@ module.exports.validation_and_update_process_of_a_new_expense_category_node =
 
       if (index === -1) {
         expense_category_array.push(new_node);
+        sortingExpensesCategories(expense_category_array);
         if (type_controller === "category_list") {
           category_list_updated =
             await category_listController.updateCategoryList(

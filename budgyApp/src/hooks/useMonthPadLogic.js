@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
 
+import { useMyTransactionsLogic } from "./useMyTransactionsLogic";
+
 import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
 import { CategoryDataContext } from "../infrastructure/services/category_data/category_data.context";
+import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
 
 export const useMonthPadLogic = () => {
   const {
@@ -13,10 +16,16 @@ export const useMonthPadLogic = () => {
     monthsUntilNow,
   } = useContext(DateOperationsContext);
 
+  const { packagingAndFilteringTransactionsAndAmountByCategoryBudget } =
+    useMyTransactionsLogic();
+  const { firstCategoryDataExpenseCategories } =
+    useContext(CategoryListContext);
   const {
     gettingTransactions_byUserID_MonthYear_onDemand,
     isLoading,
     getting_transactions_budgeted_and_real_income_totalAmounts,
+    transactionsByMonthYear,
+    transactionsToRenderForBudgets,
   } = useContext(TransactionsContext);
 
   const { gettingCategoryData_onDemand, isLoadingCategoryDataContext } =
@@ -35,7 +44,6 @@ export const useMonthPadLogic = () => {
     setMonthYearOnDemand(month_year_for_request);
     set_month_year_toRender(month_year_for_request);
   };
-
   // *********************************************************************
 
   const confirmingIfMonthIsEnabled = (month) => {
@@ -52,6 +60,7 @@ export const useMonthPadLogic = () => {
     setTotalAmountBudgeted,
     setRealIncomeTotalAmountOnDemand
   ) => {
+    console.log("COMING FROM AT MONTH PAD LOGIC:", comingFrom);
     if (comingFrom === "MyTransactionsView") {
       await gettingTransactions_byUserID_MonthYear_onDemand(
         user_id,
@@ -72,10 +81,26 @@ export const useMonthPadLogic = () => {
       navigation.goBack();
     }
     if (comingFrom === "BudgetsView") {
+      console.log(
+        "MONTH YEAR ON DEMAND AT MONTH PAD LOGIC:",
+        month_year_onDemand
+      );
       await gettingCategoryData_onDemand(month_year_onDemand);
       await gettingTransactions_byUserID_MonthYear_onDemand(
         user_id,
         month_year_onDemand
+      );
+      console.log(
+        "TRANSACTIONS BY MONTH YEAR INSIDE CTA ACTION:",
+        transactionsByMonthYear
+      );
+      console.log(
+        "TRANSACTIONS BY MONTH && CATEGORY INSIDE CTA ACTION:",
+        transactionsToRenderForBudgets
+      );
+      packagingAndFilteringTransactionsAndAmountByCategoryBudget(
+        firstCategoryDataExpenseCategories.category_id,
+        transactionsToRenderForBudgets
       );
 
       navigation.goBack();

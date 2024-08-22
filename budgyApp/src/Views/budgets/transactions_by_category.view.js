@@ -19,7 +19,10 @@ export const TransactionsByCategoryView = ({ navigation, route }) => {
   //   const { amount_wanted } = route.params;
   const { transactionsToRenderForBudgets, totalAmountToRenderForBudgets } =
     useContext(TransactionsContext);
-
+  console.log(
+    "TRANSACTIONS TO RENDER FOR BUDGETS:",
+    transactionsToRenderForBudgets
+  );
   // ************** LOGIC FROM HOOK **************
   const { renderItem, isLoadingByCat, isLoading, setTransactionInfoForUpdate } =
     useMyTransactionsLogic();

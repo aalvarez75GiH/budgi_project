@@ -85,11 +85,6 @@ export const TransactionContextProvider = ({ children }) => {
     })();
   }, []);
 
-  console.log(
-    "TRANSACTION INFO FOR UPDATE:",
-    JSON.stringify(transactionInfoForUpdate, null, 2)
-  );
-
   const gettingTransactions_byUserID_MonthYear_onDemand = async (
     user_id,
     month_year_onDemand
@@ -117,11 +112,6 @@ export const TransactionContextProvider = ({ children }) => {
     }
   };
 
-  console.log(
-    "TRANSACTIONS BY MONTH YEAR:",
-    JSON.stringify(transactionsByMonthYear, null, 2)
-  );
-
   const getting_transactions_budgeted_and_real_income_totalAmounts = async (
     user_id,
     month_year_onDemand
@@ -137,8 +127,6 @@ export const TransactionContextProvider = ({ children }) => {
         user_id,
         month_year_onDemand
       );
-
-      console.log("REAL INCOME:", real_income.data.total_amount);
 
       return {
         transactions_total_amount: category_data.data.total_amount_spent,
@@ -190,7 +178,6 @@ export const TransactionContextProvider = ({ children }) => {
         user_id
       );
       if (!categories_data || categories_data.length === 0) {
-        console.log("CATEGORIES DATA STATUS AT TRANSACTIONS CONTEXT 404");
         setCategoriesData([]);
       } else {
         setCategoriesData(categories_data);
@@ -210,7 +197,6 @@ export const TransactionContextProvider = ({ children }) => {
 
       snapshot.docChanges().forEach((change) => {
         if (change.type === "added") {
-          console.log("DATA WAS ADDED....");
           const newData = change.doc.data();
           // console.log("NEW TRANSACTION IS:", newData);
           if (newData) {
@@ -218,7 +204,6 @@ export const TransactionContextProvider = ({ children }) => {
           }
         }
         if (change.type === "modified") {
-          console.log("DATA WAS MODIFIED....");
           const newData = change.doc.data();
           // console.log("NEW TRANSACTION IS:", newData);
           if (newData) {
@@ -226,9 +211,7 @@ export const TransactionContextProvider = ({ children }) => {
           }
         }
         if (change.type === "removed") {
-          console.log("DATA WAS REMOVED....");
           const newData = change.doc.data();
-          console.log("NEW TRANSACTION IS:", newData);
           if (newData) {
             hasNewData = true;
           }
@@ -261,38 +244,6 @@ export const TransactionContextProvider = ({ children }) => {
       }
     });
   };
-
-  // *********************  THIS FUNCTION IS USED TO CREATE A TRANSACTION *******************
-  // const registeringTransaction = async (
-  //   navigation,
-  //   // transactionInfoForRequest,
-  //   // setIsConfirmed,
-  //   // setTransactionsByMonthYear,
-  //   // setTransactionsTotalAmount
-  // ) => {
-  //   setIsLoading(true);
-  //   const transactionInfoForRequestWithTS = {
-  //     ...transactionInfoForRequest,
-  //     timeStamp: transactionInfoForRequest.timeStamp
-  //       ? transactionInfoForRequest.timeStamp
-  //       : Date.now(),
-  //   };
-
-  //   setTimeout(async () => {
-  //     try {
-  //       const response = await registerTransactionRequest(
-  //         transactionInfoForRequestWithTS
-  //       );
-  //       // console.log("RESPONSE:", JSON.stringify(response, null, 2));
-  //       response ? setIsLoading(false) : setIsLoading(true);
-  //       response ? setIsConfirmed(true) : setIsConfirmed(false);
-  //       response ? listenForNewChangesAtDB(db) : null;
-  //       navigation.navigate("Transaction_confirmation");
-  //     } catch (error) {
-  //       console.log("THERE WAS AN ERROR:", error);
-  //     }
-  //   }, 3000);
-  // };
 
   // *********************  THIS FUNCTION IS USED TO UPDATE A TRANSACTION *******************
   const updatingTransaction = async () => {

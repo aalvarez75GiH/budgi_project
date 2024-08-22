@@ -124,7 +124,7 @@ app.post("/", async (req, res) => {
 
 //******************** PUTS *****************************************************************
 //** Update a Category List Expense Category node and Category Data's expense category node
-app.put("/", (req, res) => {
+app.put("/updateUserExpenseCategory", (req, res) => {
   const {
     user_id,
     new_category_name,
@@ -312,44 +312,85 @@ const removingExpenseCategoryNodeAtUserCategoriesData = async (
   }
 };
 
-app.put("/suspendExpenseCategory", (req, res) => {
-  const { user_id, category_id } = req.body;
+// This endpoint was used just one time in order to sort the categories in alphabetic order
+// app.put("/sortingExpensesCategories", (req, res) => {
+//   const user_id = req.query.user_id;
 
-  (async () => {
-    try {
-      // ** Suspending expense category node at Categories Data
-      const categories_data_updated =
-        await suspendingExpenseCategoryNodeAtUserCategoriesData(
-          user_id,
-          category_id
-        );
+//   (async () => {
+//     try {
+//       // ** Suspending expense category node at Category List
+//       const category_list_by_user_id =
+//         await category_listController.getCategoryListByUserID(user_id);
 
-      // ** Suspending expense category node at Category List
-      const category_list_by_user_id =
-        await category_listController.getCategoryListByUserID(user_id);
-      const category_list_toUpdate =
-        switchingExpenseCategoryNodeToSuspendedAtCategoryList(
-          category_id,
-          category_list_by_user_id
-        );
+//       const { expense_categories } = category_list_by_user_id;
 
-      await category_listController.updateCategoryList(category_list_toUpdate);
+//       // const sortingExpenseCategories = () => {
+//       // const { expense_categories } = categoryList;
+//       expense_categories.sort((a, b) => {
+//         const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
+//         const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
+//         if (category_nameA < category_nameB) {
+//           return -1;
+//         }
+//         if (category_nameA > category_nameB) {
+//           return 1;
+//         }
 
-      // ** Responding with categories Data and Category List
-      const categoryListAndCategoriesDataUpdatedResponse = {
-        category_list_updated: category_list_toUpdate,
-        categories_data_updated: categories_data_updated,
-      };
-      res.status(200).json(categoryListAndCategoriesDataUpdatedResponse);
-      // ******************************************
-    } catch (error) {
-      return res.status(500).send({
-        status: "Failed",
-        msg: error,
-      });
-    }
-  })();
-});
+//         // names must be equal
+//         return 0;
+//       });
+
+//       console.log(
+//         "SORTED CATEGORIES:",
+//         JSON.stringify(expense_categories, null, 2)
+//       );
+//       // };
+
+//       await category_listController.updateCategoryList(
+//         category_list_by_user_id
+//       );
+
+//       const categoriesDataByUserID =
+//         await categoryDataController.getCategoryDataByUserID(user_id);
+
+//       categoriesDataByUserID.map(async (category_data) => {
+//         const { category_data_expenseCategories } = category_data;
+//         category_data_expenseCategories.sort((a, b) => {
+//           const category_nameA = a.category_name.toUpperCase(); // ignore upper and lowercase
+//           const category_nameB = b.category_name.toUpperCase(); // ignore upper and lowercase
+//           if (category_nameA < category_nameB) {
+//             return -1;
+//           }
+//           if (category_nameA > category_nameB) {
+//             return 1;
+//           }
+
+//           // names must be equal
+//           return 0;
+//         });
+//         await categoryDataController.updateCategoryData(category_data);
+//       });
+
+//       const responseSortedCategories = {
+//         status: "Success",
+//         msg: "Categories sorted successfully...",
+//         category_list_by_user_id: category_list_by_user_id,
+//         categoriesDataByUserID: categoriesDataByUserID,
+//       };
+
+//       // ** Responding with categories Data and Category List
+
+//       res.status(200).json(responseSortedCategories);
+//       // ******************************************
+//     } catch (error) {
+//       return res.status(500).send({
+//         status: "Failed",
+//         msg: error,
+//       });
+//     }
+//   })();
+// });
+
 app.delete("/deleteExpenseCategory", (req, res) => {
   const user_id = req.query.user_id;
   const category_id = req.query.category_id;

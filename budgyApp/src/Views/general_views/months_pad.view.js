@@ -31,12 +31,12 @@ export const MonthsPadView = ({ navigation, route }) => {
     confirmingIfMonthIsEnabled,
   } = useMonthPadLogic();
 
-  console.log("IS LOADING:", isLoading);
+  // console.log("IS LOADING:", isLoading);
   const { isLoadingCategoryDataContext } = useContext(CategoryDataContext);
-  console.log(
-    "IS LOADING CATEGORY DATA CONTEXT:",
-    isLoadingCategoryDataContext
-  );
+  // console.log(
+  //   "IS LOADING CATEGORY DATA CONTEXT:",
+  //   isLoadingCategoryDataContext
+  // );
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
       <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
