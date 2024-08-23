@@ -31,6 +31,7 @@ export const useMyTransactionsLogic = () => {
   //   ****** DATA FROM TRANSACTIONS CONTEXT ************
   const {
     transactionsByMonthYear,
+    transactionsToRenderForBudgets,
     total_amount,
     isLoading,
     setIsLoading,
@@ -53,14 +54,14 @@ export const useMyTransactionsLogic = () => {
   //   JSON.stringify(categoryList, null, 2)
   // );
   // Step 3 & 4: Use useEffect to detect when state variables revert to their initial state
-  useEffect(() => {
-    if (transactionsToRender === transactionsByMonthYear) {
-      // Step 5: Perform desired action
-      console.log(
-        "Both transactionsToRender and totalAmountToRender are set to their initial state."
-      );
-    }
-  }, [transactionsToRender, totalAmountToRender]); // Dependencies array, effect runs on changes to these variables
+  // useEffect(() => {
+  //   if (transactionsToRender === transactionsByMonthYear) {
+  //     // Step 5: Perform desired action
+  //     console.log(
+  //       "Both transactionsToRender and totalAmountToRender are set to their initial state."
+  //     );
+  //   }
+  // }, [transactionsToRender, totalAmountToRender]); // Dependencies array, effect runs on changes to these variables
 
   const settingUpTransactions_byCategory_by_MonthYear = async (
     user_id,
@@ -132,11 +133,18 @@ export const useMyTransactionsLogic = () => {
     month_year_toRender,
     transactionsByMonthYear
   ) => {
-    console.log("TRANSACTIONS BY MONTH YEAR:", transactionsByMonthYear);
-    console.log(
-      "MONTH YEAR TO RENDER AT MY TRANSACTIONS LOGIC VIEW:",
-      month_year_toRender
-    );
+    // console.log(
+    //   "TRANSACTIONS BY MONTH YEAR INSIDE SETTING UP FUNCTION:",
+    //   transactionsByMonthYear
+    // );
+    // console.log(
+    //   "TRANSACTIONS TO RENDER  INSIDE SETTING UP FUNCTION:",
+    //   transactionsToRenderForBudgets
+    // );
+    // console.log(
+    //   "MONTH YEAR TO RENDER AT MY TRANSACTIONS LOGIC VIEW:",
+    //   month_year_toRender
+    // );
     console.log("USER_ID AT MY TRANSACTIONS LOGIC:", user_id);
     console.log("CATEGORY SELECTED AT MY TRANSACTIONS LOGIC:", category_id);
 

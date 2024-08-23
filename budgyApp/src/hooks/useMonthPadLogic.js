@@ -85,26 +85,38 @@ export const useMonthPadLogic = () => {
         "MONTH YEAR ON DEMAND AT MONTH PAD LOGIC:",
         month_year_onDemand
       );
-      await gettingCategoryData_onDemand(month_year_onDemand);
-      await gettingTransactions_byUserID_MonthYear_onDemand(
-        user_id,
-        month_year_onDemand
-      );
-      console.log(
-        "TRANSACTIONS BY MONTH YEAR INSIDE CTA ACTION:",
-        transactionsByMonthYear
-      );
-      console.log(
-        "TRANSACTIONS BY MONTH && CATEGORY INSIDE CTA ACTION:",
-        transactionsToRenderForBudgets
-      );
-      packagingAndFilteringTransactionsAndAmountByCategoryBudget(
-        firstCategoryDataExpenseCategories.category_id,
-        transactionsToRenderForBudgets
-      );
+      try {
+        await gettingCategoryData_onDemand(month_year_onDemand);
+        await gettingTransactions_byUserID_MonthYear_onDemand(
+          user_id,
+          month_year_onDemand
+        );
+      } catch (error) {
+        console.log("ERROR AT MONTH PAD LOGIC:", error);
+      }
+      // console.log(
+      //   "TRANSACTIONS BY MONTH YEAR INSIDE CTA ACTION:",
+      //   transactionsByMonthYear
+      // );
+      // console.log(
+      //   "TRANSACTIONS TO RENDER FOR BUDGETS INSIDE CTA ACTION:",
+      //   transactionsToRenderForBudgets
+      // );
+      // packagingAndFilteringTransactionsAndAmountByCategoryBudget(
+      //   firstCategoryDataExpenseCategories.category_id,
+      //   transactionsToRenderForBudgets
+      // );
 
       navigation.goBack();
     }
+    // console.log(
+    //   "TRANSACTIONS BY MONTH YEAR OUTSIDE CTA ACTION:",
+    //   transactionsByMonthYear
+    // );
+    // console.log(
+    //   "TRANSACTIONS TO RENDER FOR BUDGETS OUTSIDESIDE CTA ACTION:",
+    //   transactionsToRenderForBudgets
+    // );
   };
   return {
     selectingMonth,

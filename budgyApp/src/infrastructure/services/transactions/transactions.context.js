@@ -89,6 +89,7 @@ export const TransactionContextProvider = ({ children }) => {
     user_id,
     month_year_onDemand
   ) => {
+    console.log("MONTH YEAR ON DEMAND AT CONTEXT:", month_year_onDemand);
     try {
       setIsLoading(true);
       const transactionsAndAmount =
@@ -103,6 +104,7 @@ export const TransactionContextProvider = ({ children }) => {
         return;
       }
       const { transactions, total_amount } = transactionsAndAmount;
+      // console.log("TRANSACTIONS AT CONTEXT:", transactions);
       setTransactionsTotalAmount(total_amount);
       setTransactionsByMonthYear(transactions);
     } catch (error) {

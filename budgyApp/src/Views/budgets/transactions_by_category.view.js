@@ -17,10 +17,13 @@ import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 export const TransactionsByCategoryView = ({ navigation, route }) => {
   //   const { amount_wanted } = route.params;
-  const { transactionsToRenderForBudgets, totalAmountToRenderForBudgets } =
-    useContext(TransactionsContext);
+  const {
+    transactionsToRenderForBudgets,
+    totalAmountToRenderForBudgets,
+    transactionsByMonthYear,
+  } = useContext(TransactionsContext);
   console.log(
-    "TRANSACTIONS TO RENDER FOR BUDGETS:",
+    "TRANSACTIONS TO RENDER FOR BUDGETS AT VIEW:",
     transactionsToRenderForBudgets
   );
   // ************** LOGIC FROM HOOK **************
