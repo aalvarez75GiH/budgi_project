@@ -90,7 +90,7 @@ export const BudgetView = ({ navigation }) => {
       transactionsByMonthYear
     );
     // setMonthSelected(month_name);
-    const initialAmountsMathLogicForFirstCategoryData = async () => {
+    const initialDonutChartGraphicNumbersForFirstCategoryData = async () => {
       setSelectedItem(firstCategoryDataExpenseCategories.category_id);
       setCategorySelected(firstCategoryDataExpenseCategories);
       packagingAndFilteringTransactionsAndAmountByCategoryBudget(
@@ -107,7 +107,7 @@ export const BudgetView = ({ navigation }) => {
         setScreenIsLoading(false);
       }, 500);
     };
-    initialAmountsMathLogicForFirstCategoryData();
+    initialDonutChartGraphicNumbersForFirstCategoryData();
 
     return async () => {
       setCategoryDeleted(false);
@@ -124,7 +124,7 @@ export const BudgetView = ({ navigation }) => {
       "TRANSACTIONS BY MONTH YEAR INSIDE USE EFFECT 2:",
       transactionsByMonthYear
     );
-    const testMath = async () => {
+    const donutChartGraphicNumbersWhenCategoryIsSelected = async () => {
       if (!categorySelected || categorySelected.category_id == null) {
         console.log(
           "categorySelected or categorySelected.category_id is null or undefined"
@@ -174,7 +174,7 @@ export const BudgetView = ({ navigation }) => {
         );
       }
     };
-    testMath();
+    donutChartGraphicNumbersWhenCategoryIsSelected();
   }, [categorySelected, categoryData, transactionsByMonthYear]);
 
   const refreshDonutChartMathOnDemand = (categorySelected) => {

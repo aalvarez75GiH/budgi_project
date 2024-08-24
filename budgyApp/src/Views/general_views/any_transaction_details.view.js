@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
@@ -12,6 +12,7 @@ import { DescriptionTile } from "../../global_components/organisms/tiles/descrip
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useAnyTransactionDetailsLogic } from "../../hooks/useAnyTransactionDetailsLogic";
 
+import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
   // ****************LOGIC FROM HOOK ********
@@ -26,7 +27,7 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     updatingTransactionProcess,
     category_status,
   } = useAnyTransactionDetailsLogic();
-
+  const { transactionInfoForUpdate } = useContext(TransactionsContext);
   const {
     movingForwardToAddDescription,
     movingForwardToSelectCategoryView,
@@ -34,6 +35,10 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
     movingForwardToDeleteConfirmationView,
   } = navigationLogic();
   console.log("CATEGORY STATUS AT VIEW:", category_status);
+  console.log(
+    "TRANSACTION INFO FOR UPDATE AT VIEW:",
+    JSON.stringify(transactionInfoForUpdate, null, 2)
+  );
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
       <TwoIconsHeaderComponent

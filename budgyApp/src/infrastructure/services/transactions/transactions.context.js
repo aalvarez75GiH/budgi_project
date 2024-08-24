@@ -6,15 +6,13 @@ import { AuthenticationContext } from "../authentication/authentication.context"
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 import { CategoryDataContext } from "../category_data/category_data.context";
 
-import {
-  getTransactionsAndTotalAmountRequestOrderedByTimeStamp,
-  getTransactionsTotalAmountByMonthYearAndUser_ID,
-} from "./transactions.services";
+import { getTransactionsAndTotalAmountRequestOrderedByTimeStamp } from "./transactions.services";
 import {
   registerTransactionRequest,
   updateTransactionRequest,
   deleteTransactionRequest,
 } from "./transactions.services";
+import { transactionInfoInitialObject } from "./transactions.data";
 import {
   getCategoryData_By_UserID_MonthYearRequest,
   getAllCategoriesData_By_UserID_Request,

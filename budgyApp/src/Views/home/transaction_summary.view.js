@@ -40,7 +40,10 @@ export const TransactionSummaryView = ({ navigation }) => {
     description,
     stringedAmount,
   } = useTransactionSummaryLogic();
-
+  console.log(
+    "TRANSACTION INFO FOR REQUEST AT SUMMARY VIEW:",
+    transactionInfoForRequest
+  );
   return (
     <SafeArea background_color={"#FFFFFF"}>
       <GeneralFlexContainer>
