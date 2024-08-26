@@ -8,6 +8,7 @@ export const useAddDescriptionLogic = () => {
     setTransactionInfoForRequest,
     transactionInfoForUpdate,
     setTransactionInfoForUpdate,
+    setReadyToUpdate,
   } = useContext(TransactionsContext);
 
   const [description, setDescription] = useState(
@@ -28,12 +29,14 @@ export const useAddDescriptionLogic = () => {
   const goingBack = (navigation, comingFrom) => {
     switch (comingFrom) {
       case "AnyTransactionDetailsView":
+        setReadyToUpdate(true);
         setTransactionInfoForUpdate({
           ...transactionInfoForUpdate,
           description: descriptionToUpdate,
         });
         break;
       case "TransactionSummaryView":
+        setReadyToUpdate(true);
         setTransactionInfoForRequest({
           ...transactionInfoForRequest,
           description: description,

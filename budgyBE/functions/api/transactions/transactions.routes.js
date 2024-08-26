@@ -319,7 +319,7 @@ app.put("/", (req, res) => {
   (async () => {
     try {
       await transactionsController
-        .updateTransaction(transaction, transaction.transaction_id)
+        .updateTransaction(transaction)
         .then((data) => {
           res.json(transaction);
           console.log("DATA", data);

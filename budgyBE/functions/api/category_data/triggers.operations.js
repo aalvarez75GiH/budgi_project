@@ -50,3 +50,39 @@ module.exports.updateCategoryData_expenseCategory_amounts = async (
     };
   }
 };
+
+module.exports.updateCategoryData_two_expensesCategories_amounts = async (
+  category_id,
+  category_id_before,
+  new_category_transactions_amount,
+  previous_category_transactions_amount,
+  category_data,
+  creation_date
+) => {
+  const category_data_toUpdate_new_expense_category =
+    await updatingExpenseCategoryNodeUsingTransactionsAmount(
+      category_data,
+      category_id,
+      new_category_transactions_amount,
+      creation_date
+    );
+  const category_data_toUpdate_previous_expense_category =
+    await updatingExpenseCategoryNodeUsingTransactionsAmount(
+      category_data,
+      category_id_before,
+      previous_category_transactions_amount,
+      creation_date
+    );
+
+  try {
+    updatingCategoryDataAfterTransactionsOrCategoryListUpdates(
+      category_id,
+      category_data_toUpdate_previous_expense_category
+    );
+  } catch (error) {
+    return {
+      status: "500",
+      msg: error,
+    };
+  }
+};
