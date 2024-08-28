@@ -11,6 +11,8 @@ import { ControlledContainer } from "../../global_components/containers/controll
 import { DescriptionTile } from "../../global_components/organisms/tiles/description_tile";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useAnyTransactionDetailsLogic } from "../../hooks/useAnyTransactionDetailsLogic";
+import { SVGComponent } from "../../global_components/image_components/svg.component";
+import { InformationTileComponent } from "../../global_components/organisms/tiles/information_tile";
 
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 export const AnyTransactionDetailsView = ({ navigation, route }) => {
@@ -88,8 +90,8 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
       </ControlledContainer>
 
       <FlexibleContainer
-        color={theme.colors.bg.e_F4F4F4}
-        // color={"lightblue"}
+        // color={theme.colors.bg.e_F4F4F4}
+        color={"lightblue"}
         direction="column"
         flexibility={0.55}
         justify={"center"}
@@ -165,6 +167,11 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
           }
         />
       </FlexibleContainer>
+
+      {category_status === "suspended" && (
+        <InformationTileComponent caption="This transaction belongs to a suspended category. It can not be deleted or updated" />
+      )}
+
       <FlexibleContainer
         color={theme.colors.bg.p_FFFFFF}
         // color={"brown"}

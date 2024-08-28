@@ -14,8 +14,6 @@ import { useSelectCategoryLogic } from "../../hooks/useSelectCategoryLogic";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 
 export const SuspendedCategoriesView = ({ navigation, route }) => {
-  const { sortingExpenseCategories } = useSelectCategoryLogic();
-
   const {
     suspendedCategories,
     setAction_to_do,
@@ -26,11 +24,6 @@ export const SuspendedCategoriesView = ({ navigation, route }) => {
   let isLoading = false;
   const { comingFrom } = route.params;
   console.log(" COMING FROM AT SELECT CATEGORY VIEW:", comingFrom);
-  //   console.log(" EXPENSES CATEGORIES:", expense_categories);
-
-  useEffect(() => {
-    sortingExpenseCategories();
-  }, []);
 
   const movingToEnterAmountView = (item) => {
     setAction_to_do("update_expense_category");

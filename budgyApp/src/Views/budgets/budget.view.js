@@ -440,7 +440,6 @@ export const BudgetView = ({ navigation }) => {
           alignment={"flex-start"}
         >
           <Spacer size="large" position="top" />
-          {/* ********************************************** */}
 
           <ControlledContainer
             // color="brown"
@@ -472,7 +471,6 @@ export const BudgetView = ({ navigation }) => {
               </Spacer>
             )}
           </ControlledContainer>
-          {/* ********************************************** */}
           {suspendedCategories.length > 0 && (
             <>
               <Spacer size="large" position="bottom" />
