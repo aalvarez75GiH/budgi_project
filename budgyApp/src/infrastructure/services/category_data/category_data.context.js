@@ -11,6 +11,7 @@ import { DateOperationsContext } from "../date_operations/date_operations.contex
 
 export const CategoryDataContextProvider = ({ children }) => {
   const [categoriesData, setCategoriesData] = useState([]);
+  const [modalActive, setModalActive] = useState(false);
   const [isLoadingCategoryDataContext, setIsLoadingCategoryDataContext] =
     useState(false);
   const [category_data_onDemand, setCategory_data_onDemand] = useState(null);
@@ -95,6 +96,8 @@ export const CategoryDataContextProvider = ({ children }) => {
         setCategoryData,
         setCategoriesData,
         categoryDataRequestStatus,
+        modalActive,
+        setModalActive,
       }}
     >
       {children}

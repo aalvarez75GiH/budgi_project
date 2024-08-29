@@ -106,7 +106,6 @@ export const CancelDeleteConfirmationView = ({ navigation, route }) => {
                     movingBackToHome={movingBackToHome}
                   />
                 )}
-                {/* ******************************************* */}
                 <CategoryDeletedBottomSheet
                   navigation={navigation}
                   movingBackToHome={movingBackToHome}
