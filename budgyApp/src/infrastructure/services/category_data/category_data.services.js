@@ -61,3 +61,25 @@ export const post_category_data_Request = async (
       return error.response.status;
     });
 };
+
+export const put_categories_money_transfer_Request = async (
+  categoryDataInfoForMoneyTransfer
+) => {
+  const { categoryDataEndPoint } = environment;
+
+  return await axios
+    .put(
+      `${categoryDataEndPoint}/categories_money_transfer`,
+      categoryDataInfoForMoneyTransfer
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(
+        "CATEGORY DATA ERROR STATUS AT SERVICES:",
+        error.response.status
+      );
+      return error.response.status;
+    });
+};

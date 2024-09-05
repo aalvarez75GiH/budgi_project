@@ -17,6 +17,9 @@ import { NewOrUpdateCategorySummaryView } from "../../Views/budgets/new_update_c
 import { Home } from "../../Views/home/home.view";
 import { NewOrUpdateCategoryConfirmationView } from "../../Views/budgets/new_update_category_confirmation";
 import { SuspendedCategoriesView } from "../../Views/budgets/suspended_categories.view";
+import { PositiveAvailAmountCategoriesView } from "../../Views/budgets/categories_with_positive_avail_amount.view";
+import { TransferMoneySummaryView } from "../../Views/budgets/money_transfer_summary";
+import { MoneyTransferConfirmationView } from "../../Views/budgets/money_transfer_confirmation";
 
 const BudgetStack = createNativeStackNavigator();
 
@@ -107,6 +110,24 @@ export const BudgetNavigator = () => {
       <BudgetStack.Screen
         name="Suspended_categories_view"
         component={SuspendedCategoriesView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <BudgetStack.Screen
+        name="positive_avail_amount_categories_view"
+        component={PositiveAvailAmountCategoriesView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <BudgetStack.Screen
+        name="transfer_money_summary_view"
+        component={TransferMoneySummaryView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <BudgetStack.Screen
+        name="money_transfer_confirmation_view"
+        component={MoneyTransferConfirmationView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

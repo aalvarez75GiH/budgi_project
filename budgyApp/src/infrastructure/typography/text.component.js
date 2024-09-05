@@ -115,6 +115,12 @@ font-size: ${theme.fontSizes.text_16};
 color: ${theme.colors.neutrals.p_B7B7B7};
 font-weight: ${theme.fontWeights.bold};
 `;
+const green_bold_text_16 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_16};
+color: ${theme.colors.ui.success};
+font-weight: ${theme.fontWeights.bold};
+`;
 
 // ********* 14  ********************
 const regular_text_14 = (theme) => `
@@ -175,6 +181,12 @@ font-size: ${theme.fontSizes.text_12};
 color: ${theme.colors.buttons.e2_5B6477};
 font-weight: ${theme.fontWeights.regular};
 `;
+const error_bold_text_12 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_12};
+color: ${theme.colors.ui.error_cancels};
+font-weight: ${theme.fontWeights.regular};
+`;
 
 const variants = {
   defaultTextStyles,
@@ -193,6 +205,7 @@ const variants = {
   regular_text_16,
   white_bold_text_16,
   neutral_bold_text_16,
+  green_bold_text_16,
   regular_text_14,
   bold_text_14,
   gold_bold_text_14,
@@ -202,6 +215,7 @@ const variants = {
   bold_text_12,
   white_bold_text_12,
   neutral_bold_text_12,
+  error_bold_text_12,
 };
 
 export const Text = styled.Text`

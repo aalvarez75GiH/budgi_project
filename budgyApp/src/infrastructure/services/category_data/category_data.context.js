@@ -5,12 +5,19 @@ import {
   getCategoryData_By_UserID_MonthYearRequest,
   getAllCategoriesData_By_UserID_Request,
   post_category_data_Request,
+  put_categories_money_transfer_Request,
 } from "./category_data.services";
+import { categoryDataInfoForMoneyTransferRequest } from "./category_data.data";
+
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 
 export const CategoryDataContextProvider = ({ children }) => {
   const [categoriesData, setCategoriesData] = useState([]);
+  const [
+    categoriesDataWithPositiveSpentAmount,
+    setCategoriesDataWithPositiveSpentAmount,
+  ] = useState([]);
   const [modalActive, setModalActive] = useState(false);
   const [isLoadingCategoryDataContext, setIsLoadingCategoryDataContext] =
     useState(false);
@@ -23,6 +30,11 @@ export const CategoryDataContextProvider = ({ children }) => {
   const { user_id } = user;
 
   const { month_year, system_date } = useContext(DateOperationsContext);
+
+  const [
+    categoryDataInfoForMoneyTransfer,
+    setCategoryDataInfoForMoneyTransfer,
+  ] = useState(categoryDataInfoForMoneyTransferRequest(user_id, month_year));
 
   useEffect(() => {
     (async () => {
@@ -50,10 +62,11 @@ export const CategoryDataContextProvider = ({ children }) => {
         const categories_data = await getAllCategoriesData_By_UserID_Request(
           user_id
         );
-        if (!categories_data || categories_data.length === 0) {
+
+        if (!categories_data.data || categories_data.data.length === 0) {
           setCategoriesData([]);
         } else {
-          setCategoriesData(categories_data);
+          setCategoriesData(categories_data.data);
         }
       } catch (error) {
         console.log(" CATEGORY DATA ERROR:", error.data);
@@ -86,6 +99,69 @@ export const CategoryDataContextProvider = ({ children }) => {
     }
   };
 
+  const arrayingCategoriesDataWithAmountsDifferentToZeroOrOverSpent = () => {
+    const array = categoryData.category_data_expenseCategories.filter(
+      (category) => category.amount_avail > 0
+    );
+
+    setCategoriesDataWithPositiveSpentAmount(array);
+  };
+
+  // export const put_categories_money_transfer_Request = async (
+  //   categoryDataInfoForMoneyTransfer
+  // ) => {
+  //   const { categoryDataEndPoint } = environment;
+
+  //   return await axios
+  //     .post(
+  //       `${categoryDataEndPoint}/categories_money_transfer`,
+  //       categoryDataInfoForMoneyTransfer
+  //     )
+  //     .then((response) => {
+  //       return response;
+  //     })
+  //     .catch((error) => {
+  //       console.log(
+  //         "CATEGORY DATA ERROR STATUS AT SERVICES:",
+  //         error.response.status
+  //       );
+  //       return error.response.status;
+  //     });
+  // };
+
+  const doingCategoriesMoneyTransfer = async (navigation) => {
+    setIsLoadingCategoryDataContext(true);
+    console.log(
+      "CATEGORY DATA INFO FOR MONEY TRANSFER AT CONTEXT BEFORE REQUEST:",
+      categoryDataInfoForMoneyTransfer
+    );
+    try {
+      const money_transfer_response =
+        await put_categories_money_transfer_Request(
+          categoryDataInfoForMoneyTransfer
+        );
+
+      console.log("MONEY TRANSFER RESPONSE:", money_transfer_response);
+
+      if (money_transfer_response.status === 200) {
+        console.log("MONEY TRANSFER SUCCESSFUL");
+        navigation.navigate("money_transfer_confirmation_view");
+      }
+    } catch (error) {
+      console.log("ERROR:", error);
+    } finally {
+      setIsLoadingCategoryDataContext(false);
+    }
+  };
+
+  const movingBackToHome = (navigation) => {
+    // categoryListContextStateReset();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Home" }],
+    });
+  };
+
   return (
     <CategoryDataContext.Provider
       value={{
@@ -98,6 +174,12 @@ export const CategoryDataContextProvider = ({ children }) => {
         categoryDataRequestStatus,
         modalActive,
         setModalActive,
+        arrayingCategoriesDataWithAmountsDifferentToZeroOrOverSpent,
+        categoriesDataWithPositiveSpentAmount,
+        setCategoryDataInfoForMoneyTransfer,
+        categoryDataInfoForMoneyTransfer,
+        doingCategoriesMoneyTransfer,
+        movingBackToHome,
       }}
     >
       {children}

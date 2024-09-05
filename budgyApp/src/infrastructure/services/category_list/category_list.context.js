@@ -160,20 +160,7 @@ export const CategoryListContextProvider = ({ children }) => {
         });
       }
     }
-  }; // <-- Missing closing brace added here
-
-  // console.log(
-  //   "CATEGORY_LIST ADDED AT CATEGORY LIST CONTEXT:",
-  //   JSON.stringify(newCategoryAdded, null, 2)
-  // );
-  // console.log(
-  //   "CATEGORY_LIST AT CATEGORY LIST CONTEXT:",
-  //   JSON.stringify(categoryList, null, 2)
-  // );
-  // console.log(
-  //   "SUSPENDED CATEGORIES AT CATEGORY LIST CONTEXT:",
-  //   JSON.stringify(suspendedCategories, null, 2)
-  // );
+  };
 
   const registeringNewExpenseCategory = async (navigation) => {
     setIsLoading(true);

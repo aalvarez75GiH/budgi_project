@@ -19,8 +19,13 @@ export const TransferMoneyExplanationBottomSheet = ({
   navigation,
   movingBackToHome,
 }) => {
-  const { modalActive, setModalActive } = useContext(CategoryDataContext);
+  const { modalActive, setModalActive, categoriesDataWithPositiveSpentAmount } =
+    useContext(CategoryDataContext);
   console.log("MODAL ACTIVE AT COMPONENT:", modalActive);
+  console.log(
+    "CATEGORIES DATA WITH SPENT MONEY DIFFERENT TO ZERO:",
+    categoriesDataWithPositiveSpentAmount
+  );
 
   const bottomSheetModalRef = useRef(null);
   const snapPoints = ["35%", "50%", "75%", "100%"];
@@ -72,7 +77,7 @@ export const TransferMoneyExplanationBottomSheet = ({
             icon_height={70}
             position={"static"}
             justify={"center"}
-            icon_name={"DescriptionIcon"}
+            icon_name={"TransferIcon"}
             // icon_color={theme.colors.buttons.s_142223C}
             icon_color={"#000000"}
           />
@@ -178,7 +183,9 @@ export const TransferMoneyExplanationBottomSheet = ({
             height={50}
             color={theme.colors.ui.t_FC9827}
             borderRadius={50}
-            action={() => movingBackToHome(navigation)}
+            action={() =>
+              navigation.navigate("positive_avail_amount_categories_view")
+            }
             text_variant="bold_text_20"
             isLoading={false}
           />

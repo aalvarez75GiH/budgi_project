@@ -26,6 +26,8 @@ export const EnterAmountView = ({ navigation, route }) => {
     formatCurrency,
     exitingToRoot,
     categoryListContextStateReset,
+    transferAmountError,
+    transmitter_available_amount,
   } = useEnterAmountLogic(comingFrom);
   console.log("AMOUNT TO SET AT ENTER AMOUNT VIEW:", amountToSet);
   console.log("COMING FROM AT ENTER AMOUNT VIEW:", comingFrom);
@@ -107,6 +109,7 @@ export const EnterAmountView = ({ navigation, route }) => {
                 onFocus={() => setAmountToSet(0)}
                 textBreakStrategy="simple"
               />
+
               <ClickableControlledContainer
                 width={"17%"}
                 height={"80%"}
@@ -130,6 +133,33 @@ export const EnterAmountView = ({ navigation, route }) => {
             </ControlledContainer>
           </ControlledContainer>
         </FlexibleContainer>
+
+        {transferAmountError && (
+          <FlexibleContainer
+            direction={"column"}
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"brown"}
+            flexibility={Platform.OS === "ios" ? 0.05 : 0.1}
+            justify={"center"}
+          >
+            <>
+              <Text
+                text_variant="error_bold_text_12"
+                color={theme.colors.buttons.p_FC9827}
+              >
+                {transferAmountError}
+              </Text>
+              <Text
+                text_variant="error_bold_text_12"
+                color={theme.colors.buttons.p_FC9827}
+              >
+                {" "}
+                Amount avail: ${}
+                {transmitter_available_amount}
+              </Text>
+            </>
+          </FlexibleContainer>
+        )}
         <FlexibleContainer
           direction={"column"}
           color={theme.colors.bg.p_FFFFFF}

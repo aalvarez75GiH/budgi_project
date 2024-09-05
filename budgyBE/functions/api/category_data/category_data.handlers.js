@@ -62,6 +62,8 @@ const updatingExpenseCategoryNodeUsingTransactionsAmount = (
           (expenseCategoryNodeToUpdate.amount_spent * 100) /
           expenseCategoryNodeToUpdate.limit_amount /
           100;
+        expenseCategoryNodeToUpdate.overSpentAmountInNegative = 0;
+        expenseCategoryNodeToUpdate.overSpentAmountInPositive = 0;
       }
       if (
         expenseCategoryNodeToUpdate.limit_amount <
@@ -310,7 +312,23 @@ const updateCategoryDataWithNewExpenseCategoryNameAndAmount = async (
       node.updated = true;
       node.updated_on = updated_on;
       node.status = status;
+      // *****************************************************
 
+      if (node.limit_amount > node.amount_spent) {
+        node.percentageCompleted =
+          (node.amount_spent * 100) / node.limit_amount / 100;
+        node.overSpentAmountInNegative = 0;
+        node.overSpentAmountInPositive = 0;
+      }
+
+      if (node.limit_amount < node.amount_spent) {
+        node.overSpentAmountInNegative = node.limit_amount - node.amount_spent;
+        node.overSpentAmountInPositive = node.amount_spent - node.limit_amount;
+        node.percentageCompleted =
+          node.overSpentAmountInPositive / node.limit_amount;
+      }
+
+      // *****************************************************
       // *****************************************************
       const prepared_total_amounts =
         await preparingBudgetedAndSpentTotalAmountsOfACategoryData(
@@ -450,16 +468,6 @@ const createCategoryDataAfterCategoryListCreation = async (category_list) => {
   }
 };
 
-// const settingTotalBudgetedOfACategoryData = (
-//   category_data_expenseCategories
-// ) => {
-//   let total_amount_budgeted = category_data_expenseCategories.reduce(
-//     (a, b) => a + b.limit_amount,
-//     0
-//   );
-//   return total_amount_budgeted;
-// };
-
 const preparingBudgetedAndSpentTotalAmountsOfACategoryData = async (
   category_data_expenseCategories
 ) => {
@@ -482,6 +490,93 @@ const preparingBudgetedAndSpentTotalAmountsOfACategoryData = async (
   });
 };
 
+const updatingTransmitterExpenseCategoryNodeWhenMoneyTransfers = (
+  category_data,
+  transmitter_category_id,
+  transmitter_available_amount
+) => {
+  const expense_categories = category_data.category_data_expenseCategories;
+
+  const transmitterAvailableAmountFixedRounded = (
+    Math.round(transmitter_available_amount * 100) / 100
+  ).toFixed(2);
+  const transactionsAmountFixedRoundedAndParsed = parseFloat(
+    transmitterAvailableAmountFixedRounded
+  );
+
+  expense_categories.map(async (expense_category) => {
+    if (expense_category.category_id === transmitter_category_id) {
+      console.log(expense_category);
+      index = expense_categories.findIndex(
+        (obj) => obj.category_id == transmitter_category_id
+      );
+      console.log("BEFORE UPDATE", expense_categories[index]);
+      const expenseCategoryNodeToUpdate = expense_categories[index];
+
+      expenseCategoryNodeToUpdate.limit_amount =
+        expenseCategoryNodeToUpdate.limit_amount -
+        transactionsAmountFixedRoundedAndParsed;
+      expenseCategoryNodeToUpdate.amount_avail =
+        expenseCategoryNodeToUpdate.amount_avail -
+        transactionsAmountFixedRoundedAndParsed;
+      expenseCategoryNodeToUpdate.updated = true;
+
+      expenseCategoryNodeToUpdate.percentageCompleted =
+        (expenseCategoryNodeToUpdate.amount_spent * 100) /
+        expenseCategoryNodeToUpdate.limit_amount /
+        100;
+      console.log("AFTER UPDATE", expense_categories[index]);
+      expenseCategoryNodeToUpdate.overSpentAmountInNegative = 0;
+      expenseCategoryNodeToUpdate.overSpentAmountInPositive = 0;
+
+      console.log("AFTER UPDATE", expense_categories[index]);
+    }
+  });
+  return category_data;
+};
+const updatingReceiverExpenseCategoryNodeWhenMoneyTransfers = (
+  category_data,
+  receiver_category_id,
+  transmitter_available_amount
+) => {
+  const expense_categories = category_data.category_data_expenseCategories;
+
+  const transmitterAvailableAmountFixedRounded = (
+    Math.round(transmitter_available_amount * 100) / 100
+  ).toFixed(2);
+  const transactionsAmountFixedRoundedAndParsed = parseFloat(
+    transmitterAvailableAmountFixedRounded
+  );
+
+  expense_categories.map(async (expense_category) => {
+    if (expense_category.category_id === receiver_category_id) {
+      console.log(expense_category);
+      index = expense_categories.findIndex(
+        (obj) => obj.category_id == receiver_category_id
+      );
+      console.log("BEFORE UPDATE", expense_categories[index]);
+      const expenseCategoryNodeToUpdate = expense_categories[index];
+
+      expenseCategoryNodeToUpdate.limit_amount =
+        expenseCategoryNodeToUpdate.limit_amount +
+        transactionsAmountFixedRoundedAndParsed;
+      expenseCategoryNodeToUpdate.amount_avail =
+        expenseCategoryNodeToUpdate.amount_avail +
+        transactionsAmountFixedRoundedAndParsed;
+      expenseCategoryNodeToUpdate.updated = true;
+
+      expenseCategoryNodeToUpdate.percentageCompleted =
+        (expenseCategoryNodeToUpdate.amount_spent * 100) /
+        expenseCategoryNodeToUpdate.limit_amount /
+        100;
+      console.log("AFTER UPDATE", expense_categories[index]);
+      expenseCategoryNodeToUpdate.overSpentAmountInNegative = 0;
+      expenseCategoryNodeToUpdate.overSpentAmountInPositive = 0;
+    }
+  });
+  return category_data;
+};
+
 module.exports = {
   updatingExpenseCategoryNodeUsingTransactionsAmount,
   verifyingIfCategoryDataExistsByUserId,
@@ -493,4 +588,6 @@ module.exports = {
   createCategoryDataAfterCategoryListCreation,
   preparingNewCategoryDataToCreate,
   preparingBudgetedAndSpentTotalAmountsOfACategoryData,
+  updatingTransmitterExpenseCategoryNodeWhenMoneyTransfers,
+  updatingReceiverExpenseCategoryNodeWhenMoneyTransfers,
 };

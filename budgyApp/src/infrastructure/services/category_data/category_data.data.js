@@ -20,3 +20,16 @@ export const categoryDataCleanObject = (user_id, month_year) => ({
     },
   ],
 });
+
+export const categoryDataInfoForMoneyTransferRequest = (
+  user_id,
+  month_year
+) => ({
+  transmitter_category_id: "",
+  transmitter_category_name: "",
+  transmitter_available_amount: 0,
+  receiver_category_id: "",
+  receiver_category_name: "",
+  month_year: month_year,
+  user_id: user_id,
+});

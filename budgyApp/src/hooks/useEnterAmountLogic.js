@@ -4,6 +4,7 @@ import { RealIncomeContext } from "../infrastructure/services/real_income/real_i
 import { ExpectedIncomeContext } from "../infrastructure/services/expected _income/expected_income.context";
 import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
+import { CategoryDataContext } from "../infrastructure/services/category_data/category_data.context";
 
 export const useEnterAmountLogic = (comingFrom) => {
   const {
@@ -62,6 +63,16 @@ export const useEnterAmountLogic = (comingFrom) => {
     new_expected_income_amount
   );
 
+  const {
+    categoryDataInfoForMoneyTransfer,
+    setCategoryDataInfoForMoneyTransfer,
+  } = useContext(CategoryDataContext);
+
+  const { transmitter_available_amount } = categoryDataInfoForMoneyTransfer;
+  const stringedTransmitter_available_amount =
+    fixingANumberToTwoDecimalsAndString(transmitter_available_amount);
+
+  const [transferAmountError, setTransferAmountError] = useState("");
   const [amountToSet, setAmountToSet] = useState(
     String(
       `$${
@@ -72,25 +83,13 @@ export const useEnterAmountLogic = (comingFrom) => {
           : comingFrom === "GeneralNewNameView" ||
             comingFrom === "suspendedCategoryButton"
           ? stringedCategoryLimitAmount
+          : comingFrom === "positive_avail_amount_categories_view"
+          ? stringedTransmitter_available_amount
           : stringedExpectedIncomeAmount
       }`
     )
   );
 
-  console.log(
-    "ACTION TO DO AT ENTER AMOUNT LOGIC:",
-    JSON.stringify(action_to_do, null, 2)
-  );
-  console.log(
-    "LIMIT AMOUNT OF UPDATE CATEGORY:",
-    JSON.stringify(limit_amount_of_update_category, null, 2)
-  );
-  console.log(
-    "LIMIT AMOUNT OF NEW CATEGORY:",
-    JSON.stringify(limit_amount_of_new_category, null, 2)
-  );
-  console.log("COMING FROM:", comingFrom);
-  console.log("AMOUNT TO SET AT LOGIC:", JSON.stringify(amountToSet, null, 2));
   const cta_action = (navigation, comingFrom) => {
     console.log("COMING FROM AT CTA ACTION FUNCTION:", comingFrom);
     console.log(
@@ -162,18 +161,6 @@ export const useEnterAmountLogic = (comingFrom) => {
       }
     }
     if (comingFrom === "suspendedCategoryButton") {
-      // if (action_to_do === "new_expense_category") {
-      //   setCategory_list_info_forRequest((prevState) => ({
-      //     ...prevState,
-      //     new_expense_category_node: {
-      //       ...prevState.new_expense_category_node,
-      //       limit_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
-      //     },
-      //   }));
-      //   navigation.navigate("New_category_summary_view", {
-      //     comingFrom: comingFrom,
-      //   });
-      // }
       if (action_to_do === "update_expense_category") {
         setCategory_list_info_forUpdate((prevState) => ({
           ...prevState,
@@ -184,7 +171,33 @@ export const useEnterAmountLogic = (comingFrom) => {
         });
       }
     }
+    if (comingFrom === "positive_avail_amount_categories_view") {
+      const amountToSetNumeric = parseFloat(
+        amountToSet.replace(/[^0-9.]/g, "")
+      );
+      if (amountToSetNumeric > transmitter_available_amount) {
+        console.log(
+          `AMOUNT: ${amountToSet} IS GREATER THAN AMOUNT AVAILABLE: ${transmitter_available_amount}`
+        );
+        setTransferAmountError(
+          `Amount entered is greater than available amount`
+        );
+      }
+      if (amountToSetNumeric <= transmitter_available_amount) {
+        setCategoryDataInfoForMoneyTransfer({
+          ...categoryDataInfoForMoneyTransfer,
+          transmitter_available_amount: amountToSetNumeric,
+        });
+        navigation.navigate("transfer_money_summary_view", {
+          comingFrom: "positive_avail_amount_categories_view",
+        });
+      }
+    }
   };
+  console.log(
+    "CATEGORY DATA INFO FOR MONEY REQUEST AT LOGIC:",
+    JSON.stringify(categoryDataInfoForMoneyTransfer, null, 2)
+  );
 
   const formatCurrency = (value) => {
     const digits = value.replace(/[^0-9]/g, "");
@@ -210,6 +223,7 @@ export const useEnterAmountLogic = (comingFrom) => {
   };
 
   const clearingText = () => {
+    setTransferAmountError("");
     setAmountToSet("");
   };
 
@@ -225,5 +239,7 @@ export const useEnterAmountLogic = (comingFrom) => {
     formatCurrency,
     exitingToRoot,
     categoryListContextStateReset,
+    transferAmountError,
+    transmitter_available_amount,
   };
 };

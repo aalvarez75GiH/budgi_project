@@ -1,7 +1,8 @@
 const app = require("../../express")();
 const category_dataController = require("./category_data.controllers");
 const {
-  preparingCategoryDataAfterTransactionForExistingUser,
+  updatingTransmitterExpenseCategoryNodeWhenMoneyTransfers,
+  updatingReceiverExpenseCategoryNodeWhenMoneyTransfers,
 } = require("./category_data.handlers");
 const {
   categoryDataController,
@@ -10,6 +11,10 @@ const {
   preparingNewCategoryDataToCreate,
   verifyingIfCategoryDataExistsByUserId,
 } = require("./category_data.handlers");
+
+const {
+  gettingCategoryDataToUpdateWithTransactionsMoneyAmount,
+} = require("./triggers.operations");
 
 //******************** GETS ****************************************
 //** Getting all Category Data
@@ -142,6 +147,65 @@ app.post("/", (req, res) => {
 
         res.json(data);
         console.log("DATA", data);
+      }
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
+        msg: error,
+      });
+    }
+  })();
+});
+
+app.put("/categories_money_transfer", (req, res) => {
+  const user_id = req.body.user_id;
+  const transmitter_category_id = req.body.transmitter_category_id;
+  const transmitter_category_name = req.body.transmitter_category_name;
+  const receiver_category_id = req.body.receiver_category_id;
+  const receiver_category_name = req.body.receiver_category_name;
+  const transmitter_available_amount = req.body.transmitter_available_amount;
+  const month_year = req.body.month_year;
+
+  (async () => {
+    try {
+      const category_data =
+        await gettingCategoryDataToUpdateWithTransactionsMoneyAmount(
+          user_id,
+          month_year
+        );
+      console.log("CATEGORY DATA FOUND:", category_data);
+      const category_data_transmitter_toUpdate =
+        updatingTransmitterExpenseCategoryNodeWhenMoneyTransfers(
+          category_data,
+          transmitter_category_id,
+          transmitter_available_amount
+        );
+      console.log(
+        "CATEGORY DATA AFTER MONEY TRANSFER:",
+        JSON.stringify(category_data_transmitter_toUpdate, null, 2)
+      );
+      const category_data_receiver_toUpdate =
+        updatingReceiverExpenseCategoryNodeWhenMoneyTransfers(
+          category_data,
+          receiver_category_id,
+          transmitter_available_amount
+        );
+      console.log(
+        "CATEGORY DATA AFTER RECEIVER MONEY TRANSFER:",
+        JSON.stringify(category_data_receiver_toUpdate, null, 2)
+      );
+
+      const category_data_updated =
+        await category_dataController.updateCategoryData(
+          category_data_receiver_toUpdate
+        );
+
+      if (category_data_updated) {
+        res.status(200).json(category_data_updated);
+        // .send({
+        //   status: "Success",
+        //   msg: "Money Transfer between categories was successful...",
+        // })
       }
     } catch (error) {
       return res.status(500).send({

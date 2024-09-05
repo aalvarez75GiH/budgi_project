@@ -36,6 +36,9 @@ export const BudgetView = ({ navigation }) => {
     categoryData,
     gettingCategoryData_onDemand,
     setModalActive,
+    arrayingCategoriesDataWithAmountsDifferentToZeroOrOverSpent,
+    setCategoryDataInfoForMoneyTransfer,
+    categoryDataInfoForMoneyTransfer,
   } = useContext(CategoryDataContext);
 
   const { user } = useContext(AuthenticationContext);
@@ -89,10 +92,10 @@ export const BudgetView = ({ navigation }) => {
   // );
 
   useEffect(() => {
-    console.log(
-      "TRANSACTIONS BY MONTH YEAR INSIDE USE EFFECT 1:",
-      transactionsByMonthYear
-    );
+    // console.log(
+    //   "TRANSACTIONS BY MONTH YEAR INSIDE USE EFFECT 1:",
+    //   transactionsByMonthYear
+    // );
     // setMonthSelected(month_name);
     const initialDonutChartGraphicNumbersForFirstCategoryData = async () => {
       setSelectedItem(firstCategoryDataExpenseCategories.category_id);
@@ -124,10 +127,10 @@ export const BudgetView = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    console.log(
-      "TRANSACTIONS BY MONTH YEAR INSIDE USE EFFECT 2:",
-      transactionsByMonthYear
-    );
+    // console.log(
+    //   "TRANSACTIONS BY MONTH YEAR INSIDE USE EFFECT 2:",
+    //   transactionsByMonthYear
+    // );
     const donutChartGraphicNumbersWhenCategoryIsSelected = async () => {
       if (!categorySelected || categorySelected.category_id == null) {
         console.log(
@@ -238,6 +241,16 @@ export const BudgetView = ({ navigation }) => {
   };
   const movingBackToHome = () => {
     navigation.navigate("Home");
+  };
+
+  const movingForwardToTransferBottomSheet = async () => {
+    setCategoryDataInfoForMoneyTransfer({
+      ...categoryDataInfoForMoneyTransfer,
+      receiver_category_id: categorySelected.category_id,
+      receiver_category_name: categorySelected.category_name,
+    });
+    await arrayingCategoriesDataWithAmountsDifferentToZeroOrOverSpent();
+    setModalActive(true);
   };
   return screenIsLoading ? (
     <GestureHandlerRootView>
@@ -574,7 +587,8 @@ export const BudgetView = ({ navigation }) => {
                     <CircularButtonOptionComponent
                       caption={""}
                       icon_name={"TransferIcon"}
-                      action={() => setModalActive(true)}
+                      // action={() => setModalActive(true)}
+                      action={() => movingForwardToTransferBottomSheet()}
                       isSelected={false}
                       icon_width={25}
                       // isSelected={}
