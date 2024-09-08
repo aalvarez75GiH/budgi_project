@@ -109,6 +109,7 @@ const preparing_multiple_expense_category_nodes_and_category_data = async (
       percentageCompleted: 0,
       overSpentAmountInNegative: 0,
       overSpentAmountInPositive: 0,
+      type: expense_category.type,
     };
     expense_categories.push(expense_category_for_categoryData);
   });
@@ -370,6 +371,7 @@ const preparing_a_single_new_category_data_expense_category_node = (
     status,
     short_name,
     icon_name,
+    type,
   } = new_expense_category_node;
 
   const expenseCategoryNodeForCategoryData = {
@@ -386,6 +388,7 @@ const preparing_a_single_new_category_data_expense_category_node = (
     percentageCompleted: 0,
     overSpentAmountInNegative: 0,
     overSpentAmountInPositive: 0,
+    type: type,
   };
   return expenseCategoryNodeForCategoryData;
 };

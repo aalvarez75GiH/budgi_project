@@ -37,6 +37,8 @@ import TransferIcon from "../../assets/icons/svgs/transfer_icon.svg";
 import CustomByUserIcon from "../../assets/icons/svgs/star_icon.svg";
 import LeftArrowIcon from "../../assets/icons/svgs/left_arrow.svg";
 import SuspendedIcon from "../../assets/icons/svgs/suspended_icon.svg";
+import SuccessIlustration from "../../assets/icons/svgs/success_ilustration.svg";
+import AchievementIcon from "../../assets/icons/svgs/achievement_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -183,6 +185,14 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "TransferIcon",
       icon: TransferIcon,
+    },
+    {
+      icon_name: "SuccessIlustration",
+      icon: SuccessIlustration,
+    },
+    {
+      icon_name: "AchievementIcon",
+      icon: AchievementIcon,
     },
   ];
   // const svg_path = "../../../../assets/icons/svgs";

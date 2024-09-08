@@ -234,6 +234,7 @@ export const BudgetView = ({ navigation }) => {
       new_limit_amount: categorySelected.limit_amount,
       new_short_name: categorySelected.short_name,
       category_id: categorySelected.category_id,
+      type: categorySelected.type,
     });
     navigation.navigate("New_category_name_View", {
       action_to_do: "update_expense_category",

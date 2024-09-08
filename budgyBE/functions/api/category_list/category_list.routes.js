@@ -125,59 +125,6 @@ app.post("/", async (req, res) => {
 });
 
 //******************** PUTS *****************************************************************
-//** Update a Category List Expense Category node and Category Data's expense category node
-app.put("/updateUserExpenseCategory", (req, res) => {
-  const {
-    user_id,
-    new_category_name,
-    new_limit_amount,
-    category_id,
-    month_year,
-    updated_on,
-    new_short_name,
-    status,
-  } = req.body;
-
-  (async () => {
-    try {
-      const categories_data_updated =
-        await updateCategoryDataWithNewExpenseCategoryNameAndAmount(
-          user_id,
-          new_category_name,
-          new_limit_amount,
-          category_id,
-          month_year,
-          updated_on,
-          new_short_name,
-          status
-        );
-
-      // *********************************************************************
-      const category_list_by_user_id =
-        await category_listController.getCategoryListByUserID(user_id);
-      const category_list_toUpdate = await updateCategoryListNode(
-        category_list_by_user_id,
-        new_category_name,
-        category_id,
-        new_limit_amount,
-        new_short_name,
-        status
-      );
-
-      await category_listController.updateCategoryList(category_list_toUpdate);
-      const category_list_update_response = {
-        category_list_updated: category_list_toUpdate,
-        categories_data_updated: categories_data_updated,
-      };
-      res.status(200).json(category_list_update_response);
-    } catch (error) {
-      return res.status(500).send({
-        status: "Failed",
-        msg: error,
-      });
-    }
-  })();
-});
 
 //** Updating Category List with new Expense Category node
 app.put("/newUserExpenseCategory", (req, res) => {
@@ -241,6 +188,62 @@ app.put("/newUserExpenseCategory", (req, res) => {
     }
   })();
 });
+
+//** Update a Category List Expense Category node and Category Data's expense category node
+app.put("/updateUserExpenseCategory", (req, res) => {
+  const {
+    user_id,
+    new_category_name,
+    new_limit_amount,
+    category_id,
+    month_year,
+    updated_on,
+    new_short_name,
+    status,
+  } = req.body;
+
+  (async () => {
+    try {
+      const categories_data_updated =
+        await updateCategoryDataWithNewExpenseCategoryNameAndAmount(
+          user_id,
+          new_category_name,
+          new_limit_amount,
+          category_id,
+          month_year,
+          updated_on,
+          new_short_name,
+          status
+        );
+
+      // *********************************************************************
+      const category_list_by_user_id =
+        await category_listController.getCategoryListByUserID(user_id);
+      const category_list_toUpdate = await updateCategoryListNode(
+        category_list_by_user_id,
+        new_category_name,
+        category_id,
+        new_limit_amount,
+        new_short_name,
+        status
+      );
+
+      await category_listController.updateCategoryList(category_list_toUpdate);
+      const category_list_update_response = {
+        category_list_updated: category_list_toUpdate,
+        categories_data_updated: categories_data_updated,
+      };
+      res.status(200).json(category_list_update_response);
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
+        msg: error,
+      });
+    }
+  })();
+});
+
+//******************** DELETES *****************************************************************
 
 app.delete("/deleteExpenseCategory", (req, res) => {
   const user_id = req.query.user_id;

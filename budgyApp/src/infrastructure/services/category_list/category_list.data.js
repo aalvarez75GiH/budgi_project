@@ -24,4 +24,5 @@ export const updateCategoryListExpenseCategoryObject = (
   updated_on: "",
   category_id: "",
   status: "active",
+  type: "",
 });

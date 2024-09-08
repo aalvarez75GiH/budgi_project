@@ -99,7 +99,8 @@ export const CategoryListContextProvider = ({ children }) => {
     }
   };
 
-  const settingNewCategoryName = (newName, navigation) => {
+  const settingNewCategoryName = (navigation, newName, type, short_name) => {
+    console.log("SHORT NAME AT SETIING:", short_name);
     const words = newName.split(" ");
     if (words.length < 2) {
       if (action_to_do === "new_expense_category") {
@@ -130,7 +131,7 @@ export const CategoryListContextProvider = ({ children }) => {
       }
     }
 
-    if (words.length >= 2) {
+    if (words.length >= 2 && type === "by_user") {
       const firstInitial = words[0][0].toUpperCase();
       const secondWordInitialLetter = words[1].charAt(0).toUpperCase();
       const secondWord = secondWordInitialLetter + words[1].slice(1);
@@ -154,6 +155,31 @@ export const CategoryListContextProvider = ({ children }) => {
           ...prevState,
           new_category_name: newName,
           new_short_name: shortName,
+        }));
+        navigation.navigate("Enter_amount_with_options_view", {
+          comingFrom: "GeneralNewNameView",
+        });
+      }
+    }
+    if (words.length >= 2 && type === "Default") {
+      if (action_to_do === "new_expense_category") {
+        setCategory_list_info_forRequest((prevState) => ({
+          ...prevState,
+          new_expense_category_node: {
+            ...prevState.new_expense_category_node,
+            category_name: newName,
+            short_name: short_name,
+          },
+        }));
+        navigation.navigate("Enter_amount_with_options_view", {
+          comingFrom: "GeneralNewNameView",
+        });
+      }
+      if (action_to_do === "update_expense_category") {
+        setCategory_list_info_forUpdate((prevState) => ({
+          ...prevState,
+          new_category_name: newName,
+          new_short_name: short_name,
         }));
         navigation.navigate("Enter_amount_with_options_view", {
           comingFrom: "GeneralNewNameView",

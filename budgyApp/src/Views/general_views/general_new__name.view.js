@@ -30,7 +30,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
     category_list_info_forUpdate,
     categoryListContextStateReset,
   } = useContext(CategoryListContext);
-  // const { new_category_name } = category_list_info_forUpdate;
+  const { type, new_short_name } = category_list_info_forUpdate;
   useEffect(() => {
     return () => categoryListContextStateReset();
   }, []);
@@ -113,7 +113,12 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                   color={theme.colors.buttons.p_FC9827}
                   borderRadius={50}
                   action={() =>
-                    settingNewCategoryName(new_category_name, navigation)
+                    settingNewCategoryName(
+                      navigation,
+                      new_category_name,
+                      "by_user",
+                      ""
+                    )
                   }
                   text_variant="bold_text_20"
                 />
@@ -163,7 +168,12 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                   color={theme.colors.buttons.p_FC9827}
                   borderRadius={50}
                   action={() =>
-                    settingNewCategoryName(update_category_name, navigation)
+                    settingNewCategoryName(
+                      navigation,
+                      update_category_name,
+                      type,
+                      new_short_name
+                    )
                   }
                   text_variant="bold_text_20"
                 />
