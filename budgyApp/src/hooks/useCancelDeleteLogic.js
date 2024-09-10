@@ -20,12 +20,17 @@ export const useCancelDeleteLogic = () => {
     );
     const response = await deletingTransaction(transaction_id);
     response
-      ? navigation.navigate(
-          comingFrom === "My transactions"
-            ? "My transactions"
-            : "Transactions_by_category_View"
-        )
+      ? navigation.navigate("Transaction_confirmation", {
+          action_to_do: "delete_transaction",
+        })
       : null;
+    // response
+    //   ? navigation.navigate(
+    //       comingFrom === "My transactions"
+    //         ? "My transactions"
+    //         : "Transactions_by_category_View"
+    //     )
+    //   : null;
   };
 
   return {

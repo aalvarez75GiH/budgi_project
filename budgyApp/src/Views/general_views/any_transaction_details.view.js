@@ -90,8 +90,8 @@ export const AnyTransactionDetailsView = ({ navigation, route }) => {
       </ControlledContainer>
 
       <FlexibleContainer
-        // color={theme.colors.bg.e_F4F4F4}
-        color={"lightblue"}
+        color={theme.colors.bg.e_F4F4F4}
+        // color={"lightblue"}
         direction="column"
         flexibility={0.55}
         justify={"center"}

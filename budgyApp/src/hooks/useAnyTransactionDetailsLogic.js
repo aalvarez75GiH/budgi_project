@@ -78,8 +78,17 @@ export const useAnyTransactionDetailsLogic = () => {
   const updatingTransactionProcess = async (navigation) => {
     const response = await updatingTransaction();
     setReadyToUpdate(false);
-    response ? navigation.goBack() : null;
+    response
+      ? navigation.navigate("Transaction_confirmation", {
+          action_to_do: "update_transaction",
+        })
+      : null;
   };
+  // const updatingTransactionProcess = async (navigation) => {
+  //   const response = await updatingTransaction();
+  //   setReadyToUpdate(false);
+  //   response ? navigation.goBack() : null;
+  // };
 
   return {
     navigationLogic,

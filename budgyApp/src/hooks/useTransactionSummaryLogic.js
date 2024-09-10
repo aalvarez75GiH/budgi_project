@@ -58,7 +58,9 @@ export const useTransactionSummaryLogic = () => {
         response ? setIsLoading(false) : setIsLoading(true);
         response ? setIsConfirmed(true) : setIsConfirmed(false);
         response ? listenForNewChangesAtDB(db) : null;
-        navigation.navigate("Transaction_confirmation");
+        navigation.navigate("Transaction_confirmation", {
+          action_to_do: "new_transaction",
+        });
       } catch (error) {
         console.log("THERE WAS AN ERROR:", error);
       }

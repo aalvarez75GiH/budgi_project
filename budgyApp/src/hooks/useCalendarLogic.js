@@ -117,7 +117,6 @@ export const useCalendarLogic = () => {
           })
         : setTransactionInfoForUpdate({
             ...transactionInfoForUpdate,
-            transaction_date: expenseDate,
             month_year: month_year,
             timeStamp: timeStampForDifferentDayTransaction
               ? timeStampForDifferentDayTransaction

@@ -39,6 +39,8 @@ import LeftArrowIcon from "../../assets/icons/svgs/left_arrow.svg";
 import SuspendedIcon from "../../assets/icons/svgs/suspended_icon.svg";
 import SuccessIlustration from "../../assets/icons/svgs/success_ilustration.svg";
 import AchievementIcon from "../../assets/icons/svgs/achievement_icon.svg";
+import DeletedIllustration from "../../assets/icons/svgs/deleted_illustration.svg";
+import AchievementIllustration from "../../assets/icons/svgs/achievement_illustration.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -191,15 +193,17 @@ export const useSVGComponent = (icon_name) => {
       icon: SuccessIlustration,
     },
     {
-      icon_name: "AchievementIcon",
-      icon: AchievementIcon,
+      icon_name: "DeletedIllustration",
+      icon: DeletedIllustration,
+    },
+    {
+      icon_name: "AchievementIllustration",
+      icon: AchievementIllustration,
     },
   ];
-  // const svg_path = "../../../../assets/icons/svgs";
   const index = defaultSVGIcons.findIndex((obj) => obj.icon_name === icon_name);
   const SVGIconComponent = defaultSVGIcons[index].icon;
   return {
-    // svg_path,
     SVGIconComponent,
   };
 };
