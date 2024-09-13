@@ -1,15 +1,13 @@
 import React, { useContext } from "react";
+import { Platform } from "react-native";
 
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { Text } from "../../infrastructure/typography/text.component";
-import { Spacer } from "../../global_components/optimized.spacer.component";
-import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
-import { InfoDetailsTile } from "../../global_components/organisms/tiles/info_details_tile";
-import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
-import { DoneHeaderComponent } from "../../global_components/organisms/headers/done_heaer.component";
 import { SafeArea } from "../../global_components/safe-area.component";
+import { IncomeAccordionComponent } from "../../global_components/organisms/animated components/income_accordion_component";
+import { SVGComponent } from "../../global_components/image_components/svg.component";
 
 import { RealIncomeContext } from "../../infrastructure/services/real_income/real_income.context";
 import { ExpectedIncomeContext } from "../../infrastructure/services/expected _income/expected_income.context";
@@ -27,6 +25,14 @@ export const IncomeConfirmationView = ({ navigation, route }) => {
   const { new_expected_income } = expectedIncomeForRequest;
   const { amount, month_year: month_year_expected } = new_expected_income;
 
+  const stringedEarnedAmount = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(earned_amount);
+  const stringedExpectedIncomeAmount = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(amount);
   const {
     month_year: month_year_to_restablish,
     setMonthSelected,
@@ -44,336 +50,146 @@ export const IncomeConfirmationView = ({ navigation, route }) => {
   };
 
   console.log("MONTH YEAR SELECTED", month_selected);
-  // console.log("MONTH YEAR FROM REAL INCOME REQUEST", month_year);
-
-  if (comingFrom === "addExpectedIncomeTile") {
-    return (
-      <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
-        <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-          <DoneHeaderComponent
-            action={() => goingHome(navigation)}
-            direction={"row"}
+  return (
+    <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
+      {comingFrom === "addExpectedIncomeTile" && (
+        <>
+          <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
-            flexibility={0.1}
-            //   color={"#FAD"}
-          />
-
-          <ControlledContainer
-            color={theme.colors.bg.p_FFFFFF}
-            // color={"red"}
-            width={"100%"}
-            height={"100px"}
-            justify="center"
-            alignment="flex-start"
+            // color={"lightblue"}
+            direction="column"
+            flexibility={Platform.OS === "android" ? 0.15 : 0.15}
+            justify={"flex-end"}
+            isBordered={false}
           >
-            <ControlledContainer
-              color={theme.colors.bg.p_FFFFFF}
-              // color={"red"}
-              width={"100%"}
-              height={"100px"}
-              justify="center"
-              alignment="flex-start"
-            >
-              <Spacer position="left" size="extraLarge">
-                <Text text_variant="bold_text_20">Income summary</Text>
-              </Spacer>
-            </ControlledContainer>
-          </ControlledContainer>
+            <Text text_variant="bold_text_20">Expected income done!</Text>
+            {/* <Text text_variant="bold_text_20">Transaction update done!</Text> */}
+          </FlexibleContainer>
+          <FlexibleContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"brown"}
+            direction="column"
+            flexibility={Platform.OS === "android" ? 0.7 : 0.7}
+            justify={"center"}
+            align={"center"}
+            isBordered={false}
+          >
+            <SVGComponent
+              icon_width={220}
+              icon_height={220}
+              position={"static"}
+              justify={"center"}
+              icon_name={"RealIncomeIcon"}
+              icon_color={"#000000"}
+            />
+          </FlexibleContainer>
 
           <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
-            // color={"lightblue"}
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
+            direction="column"
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
+            justify={"center"}
+            isBordered={false}
+          >
+            <IncomeAccordionComponent
+              navigation={navigation}
+              stringedAmount={stringedExpectedIncomeAmount}
+              month_year_and_week={month_year_expected}
+              type={"expected_income"}
+              //transaction_date={transaction_date}
+            />
+          </FlexibleContainer>
+
+          <FlexibleContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"brown"}
             direction="column"
             flexibility={0.3}
             justify={"center"}
             isBordered={false}
           >
-            <InfoDetailsTile
-              caption={"Amount:"}
-              //   caption2={`$${amount}`}
-              caption2={new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(amount)}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={false}
-              action={() => {
-                navigation.navigate("Enter_amount_view", {
-                  comingFrom: "income_details_view",
-                });
-              }}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Desc:"}
-              caption2="Expected income"
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"For:"}
-              // caption2={"JUN 2024 - Week 3"}
-              caption2={`${month_year_expected} `}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
-            />
-          </FlexibleContainer>
-          <FlexibleContainer
-            color={theme.colors.bg.p_FFFFFF}
-            // color={"brown"}
-            direction="column"
-            // flexibility={description ? 0.46 : 0.53}
-            flexibility={0.46}
-            justify={"center"}
-            isBordered={false}
-          >
             <RegularCTAButton
               caption="Done"
-              width={290}
-              height={60}
+              width={310}
+              height={50}
               color={theme.colors.ui.success}
-              borderRadius={0}
-              action={goingHome}
+              borderRadius={50}
+              action={() => goingHome(navigation)}
               text_variant="white_bold_text_16"
             />
           </FlexibleContainer>
-        </GeneralFlexContainer>
-      </SafeArea>
-    );
-  }
-  if (comingFrom === "Select_week_view") {
-    return (
-      <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
-        <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-          <DoneHeaderComponent
-            action={() => goingHome(navigation)}
-            direction={"row"}
-            color={theme.colors.bg.p_FFFFFF}
-            flexibility={0.1}
-            //   color={"#FAD"}
-          />
-
-          <ControlledContainer
-            color={theme.colors.bg.p_FFFFFF}
-            // color={"red"}
-            width={"100%"}
-            height={"100px"}
-            justify="center"
-            alignment="flex-start"
-          >
-            <ControlledContainer
-              color={theme.colors.bg.p_FFFFFF}
-              // color={"red"}
-              width={"100%"}
-              height={"100px"}
-              justify="center"
-              alignment="flex-start"
-            >
-              <Spacer position="left" size="extraLarge">
-                <Text text_variant="bold_text_20">Income summary</Text>
-              </Spacer>
-            </ControlledContainer>
-          </ControlledContainer>
-
+        </>
+      )}
+      {comingFrom === "Select_week_view" && (
+        <>
           <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
             // color={"lightblue"}
             direction="column"
-            flexibility={0.4}
-            justify={"center"}
+            flexibility={Platform.OS === "android" ? 0.15 : 0.15}
+            justify={"flex-end"}
             isBordered={false}
           >
-            <InfoDetailsTile
-              caption={"Amount:"}
-              caption2={`$${earned_amount}`}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={false}
-              action={() => {
-                navigation.navigate("Enter_amount_view", {
-                  comingFrom: "income_details_view",
-                });
-              }}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Desc:"}
-              caption2="New real income"
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"For:"}
-              // caption2={"JUN 2024 - Week 3"}
-              caption2={`${month_year} - ${week_name}`}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
-            />
-            <InfoDetailsTile
-              caption={"App:"}
-              // caption2={"Uber"}
-              caption2={app_name}
-              navigation={navigation}
-              icon_name={logo_path}
-              active_icon={false}
-              icon_width={25}
-              icon_height={25}
-              action={() => null}
-            />
+            <Text text_variant="bold_text_20">New Real Income done!</Text>
+            {/* <Text text_variant="bold_text_20">Transaction update done!</Text> */}
           </FlexibleContainer>
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
-            // color={"brown"}
-            direction="column"
-            // flexibility={description ? 0.46 : 0.53}
-            flexibility={0.46}
-            justify={"center"}
-            isBordered={false}
-          >
-            <RegularCTAButton
-              caption="Done"
-              width={290}
-              height={60}
-              color={theme.colors.ui.success}
-              borderRadius={0}
-              action={goingHome}
-              text_variant="white_bold_text_16"
-            />
-          </FlexibleContainer>
-        </GeneralFlexContainer>
-      </SafeArea>
-    );
-  }
-  if (comingFrom === "comingFromCash") {
-    return (
-      <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
-        <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-          <DoneHeaderComponent
-            action={() => goingHome(navigation)}
-            direction={"row"}
-            color={theme.colors.bg.p_FFFFFF}
-            flexibility={0.1}
-            //   color={"#FAD"}
-          />
-
-          <ControlledContainer
-            color={theme.colors.bg.p_FFFFFF}
-            // color={"red"}
-            width={"100%"}
-            height={"100px"}
-            justify="center"
-            alignment="flex-start"
-          >
-            <ControlledContainer
-              color={theme.colors.bg.p_FFFFFF}
-              // color={"red"}
-              width={"100%"}
-              height={"100px"}
-              justify="center"
-              alignment="flex-start"
-            >
-              <Spacer position="left" size="extraLarge">
-                <Text text_variant="bold_text_20">Income summary</Text>
-              </Spacer>
-            </ControlledContainer>
-          </ControlledContainer>
-
-          <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
             // color={"lightblue"}
             direction="column"
-            flexibility={0.4}
+            flexibility={Platform.OS === "android" ? 0.7 : 0.7}
             justify={"center"}
             isBordered={false}
           >
-            <InfoDetailsTile
-              caption={"Amount:"}
-              //   caption2={`$${stringedAmount}`}
-              caption2={`$${earned_amount}`}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => {
-                navigation.navigate("Enter_amount_view", {
-                  comingFrom: "income_details_view",
-                });
-              }}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Desc:"}
-              caption2="New real income"
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"For:"}
-              // caption2={"JUN 2024 - Week 3"}
-              caption2={`${month_year} - ${week_name}`}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
-            />
-            <InfoDetailsTile
-              caption={"App:"}
-              // caption2={"Uber"}
-              caption2={app_name}
-              navigation={navigation}
-              icon_name={logo_path}
-              active_icon={false}
-              icon_width={25}
-              icon_height={25}
-              action={() => null}
+            <SVGComponent
+              icon_width={220}
+              icon_height={220}
+              position={"static"}
+              justify={"center"}
+              icon_name={"RealIncomeIcon"}
+              icon_color={"#000000"}
             />
           </FlexibleContainer>
+          <FlexibleContainer
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
+            direction="column"
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
+            justify={"center"}
+            isBordered={false}
+          >
+            <IncomeAccordionComponent
+              navigation={navigation}
+              stringedAmount={stringedEarnedAmount}
+              month_year_and_week={`${month_year} - ${week_name}`}
+              app={app_name}
+              type="real_income"
+            />
+          </FlexibleContainer>
+
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
             // color={"brown"}
             direction="column"
-            // flexibility={description ? 0.46 : 0.53}
-            flexibility={0.46}
+            flexibility={0.3}
             justify={"center"}
             isBordered={false}
           >
             <RegularCTAButton
               caption="Done"
-              width={290}
-              height={60}
+              width={310}
+              height={50}
               color={theme.colors.ui.success}
-              borderRadius={0}
-              action={goingHome}
+              borderRadius={50}
+              action={() => goingHome(navigation)}
               text_variant="white_bold_text_16"
             />
           </FlexibleContainer>
-        </GeneralFlexContainer>
-      </SafeArea>
-    );
-  }
+        </>
+      )}
+    </SafeArea>
+  );
 };

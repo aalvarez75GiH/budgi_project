@@ -7,19 +7,17 @@ import { theme } from "../../infrastructure/theme";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { useTransactionConfirmationLogic } from "../../hooks/useTransactionConfirmationLogic";
 import { Text } from "../../infrastructure/typography/text.component";
-import { InfoDetailsTile } from "../../global_components/organisms/tiles/info_details_tile";
 import { SVGComponent } from "../../global_components/image_components/svg.component";
+import { AccordionComponent } from "../../global_components/organisms/animated components/accordion.component";
 
 export const TransactionConfirmationView = ({ navigation, route }) => {
   const {
     goingHome,
-    isConfirmed,
     transaction_date,
     short_name,
     stringedAmount,
     transaction_date_updated,
     short_name_updated,
-    amount_updated,
     stringedAmountUpdated,
   } = useTransactionConfirmationLogic();
   const { action_to_do } = route.params;
@@ -43,61 +41,40 @@ export const TransactionConfirmationView = ({ navigation, route }) => {
           </FlexibleContainer>
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
-            // color={"lightblue"}
+            // color={"brown"}
             direction="column"
-            flexibility={Platform.OS === "android" ? 0.45 : 0.4}
+            flexibility={Platform.OS === "android" ? 0.7 : 0.7}
             justify={"center"}
+            align={"center"}
             isBordered={false}
           >
             <SVGComponent
-              icon_width={180}
-              icon_height={180}
+              icon_width={220}
+              icon_height={220}
               position={"static"}
               justify={"center"}
               icon_name={"AchievementIllustration"}
               icon_color={theme.colors.buttons.s_142223C}
             />
           </FlexibleContainer>
+
           <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
-            //color={"lightblue"}
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
             direction="column"
-            flexibility={Platform.OS === "android" ? 0.39 : 0.32}
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
             justify={"center"}
             isBordered={false}
           >
-            <InfoDetailsTile
-              caption={"Amount:"}
-              caption2={stringedAmount}
+            <AccordionComponent
               navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Category:"}
-              //   caption2={category_name}
-              caption2={short_name}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Date:"}
-              caption2={transaction_date}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
+              stringedAmount={stringedAmount}
+              short_name={short_name}
+              transaction_date={transaction_date}
             />
           </FlexibleContainer>
+
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
             // color={"brown"}
@@ -149,45 +126,22 @@ export const TransactionConfirmationView = ({ navigation, route }) => {
             />
           </FlexibleContainer>
           <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
-            //color={"lightblue"}
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
             direction="column"
-            flexibility={Platform.OS === "android" ? 0.39 : 0.32}
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
             justify={"center"}
             isBordered={false}
           >
-            <InfoDetailsTile
-              caption={"Amount:"}
-              caption2={`$${stringedAmountUpdated}`}
+            <AccordionComponent
               navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Category:"}
-              //   caption2={category_name}
-              caption2={short_name_updated}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Date:"}
-              caption2={transaction_date_updated}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
+              stringedAmount={stringedAmountUpdated}
+              short_name={short_name_updated}
+              transaction_date={transaction_date_updated}
             />
           </FlexibleContainer>
+
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
             // color={"brown"}
@@ -230,8 +184,8 @@ export const TransactionConfirmationView = ({ navigation, route }) => {
             isBordered={false}
           >
             <SVGComponent
-              icon_width={180}
-              icon_height={180}
+              icon_width={200}
+              icon_height={200}
               position={"static"}
               justify={"center"}
               icon_name={"DeletedIllustration"}
@@ -239,45 +193,22 @@ export const TransactionConfirmationView = ({ navigation, route }) => {
             />
           </FlexibleContainer>
           <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
-            //color={"lightblue"}
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
             direction="column"
-            flexibility={Platform.OS === "android" ? 0.39 : 0.32}
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
             justify={"center"}
             isBordered={false}
           >
-            <InfoDetailsTile
-              caption={"Amount:"}
-              caption2={`$${stringedAmountUpdated}`}
+            <AccordionComponent
               navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Category:"}
-              //   caption2={category_name}
-              caption2={short_name_updated}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Date:"}
-              caption2={transaction_date_updated}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
+              stringedAmount={stringedAmountUpdated}
+              short_name={short_name_updated}
+              transaction_date={transaction_date_updated}
             />
           </FlexibleContainer>
+
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
             // color={"brown"}

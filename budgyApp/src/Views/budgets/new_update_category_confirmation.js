@@ -14,10 +14,11 @@ import { useEnterAmountLogic } from "../../hooks/useEnterAmountLogic";
 import { DoneHeaderComponent } from "../../global_components/organisms/headers/done_heaer.component";
 import { SVGComponent } from "../../global_components/image_components/svg.component";
 import { useSVGComponent } from "../../util/system_icons.hook";
+import { AccordionComponent } from "../../global_components/organisms/animated components/accordion.component";
 
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
-
+import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
   // ****************LOGIC FROM HOOK ********
   const {
@@ -29,6 +30,8 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
     action_to_do,
     movingBackToHome,
   } = useContext(CategoryListContext);
+  const { fixingANumberToTwoDecimalsAndString } =
+    useContext(TransactionsContext);
   console.log(
     "CATEGORY LIST INFO FOR REQUEST AT SUMMARY VIEW:",
     JSON.stringify(category_list_info_forRequest, null, 2)
@@ -40,6 +43,9 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
   const { amountToSet } = useEnterAmountLogic();
 
   const { new_category_name, new_limit_amount } = category_list_info_forUpdate;
+  const stringedLimitAmount = fixingANumberToTwoDecimalsAndString(limit_amount);
+  const stringed_new_limit_amount =
+    fixingANumberToTwoDecimalsAndString(new_limit_amount);
 
   useEffect(() => {
     return () => {
@@ -72,57 +78,31 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
               isBordered={false}
             >
               <SVGComponent
-                icon_width={160}
-                icon_height={160}
+                icon_width={220}
+                icon_height={220}
                 position={"static"}
                 justify={"center"}
-                icon_name={"SuccessIlustration"}
+                icon_name={"AchievementIllustration"}
                 icon_color={theme.colors.buttons.s_142223C}
               />
             </FlexibleContainer>
             <FlexibleContainer
-              color={theme.colors.bg.e_F4F4F4}
-              //color={"lightblue"}
+              // color={theme.colors.bg.e_F4F4F4}
+              color={theme.colors.bg.p_FFFFFF}
               direction="column"
-              flexibility={Platform.OS === "android" ? 0.37 : 0.3}
+              // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+              flexibility={Platform.OS === "android" ? 0.25 : 0.25}
               justify={"center"}
               isBordered={false}
             >
-              <InfoDetailsTile
-                caption={"Amount:"}
-                caption2={new Intl.NumberFormat("en-US", {
-                  style: "currency",
-                  currency: "USD",
-                }).format(limit_amount)}
+              <AccordionComponent
                 navigation={navigation}
-                icon_name={"EditIcon"}
-                active_icon={true}
-                action={() => null}
-                icon_width={0}
-                icon_height={0}
-              />
-              <InfoDetailsTile
-                caption={"Category:"}
-                //   caption2={category_name}
-                caption2={category_name}
-                navigation={navigation}
-                icon_name={"EditIcon"}
-                active_icon={true}
-                action={() => null}
-                icon_width={0}
-                icon_height={0}
-              />
-              <InfoDetailsTile
-                caption={"Date:"}
-                caption2={expenseDate}
-                navigation={navigation}
-                icon_name={"CalendarIcon"}
-                active_icon={true}
-                icon_width={0}
-                icon_height={0}
-                action={() => null}
+                stringedAmount={stringedLimitAmount}
+                short_name={category_name}
+                transaction_date={expenseDate}
               />
             </FlexibleContainer>
+
             <FlexibleContainer
               color={theme.colors.bg.p_FFFFFF}
               // color={"brown"}
@@ -142,105 +122,6 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
               />
             </FlexibleContainer>
           </>
-
-          {/* <ControlledContainer
-            color={theme.colors.bg.p_FFFFFF}
-            // color={"red"}
-            width={"100%"}
-            height={"100px"}
-            justify="center"
-            alignment="flex-start"
-          >
-            <ControlledContainer
-              color={theme.colors.bg.p_FFFFFF}
-              // color={"red"}
-              width={"100%"}
-              height={"100px"}
-              justify="center"
-              alignment="flex-start"
-            >
-              <Spacer position="left" size="extraLarge">
-                <Text text_variant="bold_text_20">Updated successfully</Text>
-              </Spacer>
-            </ControlledContainer>
-          </ControlledContainer>
-
-          <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
-            //color={"lightblue"}
-            direction="column"
-            // flexibility={description ? 0.46 : 0.53}
-            // flexibility={description ? 0.46 : 0.98}
-            flexibility={Platform.OS === "android" ? 0.45 : 0.4}
-            justify={"center"}
-            isBordered={false}
-          >
-            <InfoDetailsTile
-              caption={"Amount:"}
-              //   caption2={`$${stringedAmount}`}
-              //   caption2={`$${limit_amount}`}
-              caption2={new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(limit_amount)}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Category:"}
-              //   caption2={category_name}
-              caption2={category_name}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Date:"}
-              caption2={expenseDate}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
-            />
-            <InfoDetailsTile
-              caption={"Desc:"}
-              caption2={"New category"}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
-            />
-          </FlexibleContainer>
-          <FlexibleContainer
-            color={theme.colors.bg.p_FFFFFF}
-            // color={"brown"}
-            direction="column"
-            // flexibility={description ? 0.46 : 0.53}
-            flexibility={0.45}
-            justify={"center"}
-            isBordered={false}
-          >
-            <RegularCTAButton
-              caption="Done"
-              width={290}
-              height={60}
-              color={theme.colors.ui.success}
-              borderRadius={50}
-              action={() => movingBackToHome(navigation)}
-              text_variant="white_bold_text_16"
-            />
-          </FlexibleContainer> */}
         </>
       )}
       {action_to_do === "update_expense_category" && (
@@ -265,8 +146,8 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
             isBordered={false}
           >
             <SVGComponent
-              icon_width={160}
-              icon_height={160}
+              icon_width={180}
+              icon_height={180}
               position={"static"}
               justify={"center"}
               icon_name={"SuccessIlustration"}
@@ -274,48 +155,22 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
             />
           </FlexibleContainer>
           <FlexibleContainer
-            color={theme.colors.bg.e_F4F4F4}
-            //color={"lightblue"}
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
             direction="column"
-            flexibility={Platform.OS === "android" ? 0.37 : 0.3}
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
             justify={"center"}
             isBordered={false}
           >
-            <InfoDetailsTile
-              caption={"Amount:"}
-              caption2={new Intl.NumberFormat("en-US", {
-                style: "currency",
-                currency: "USD",
-              }).format(new_limit_amount)}
+            <AccordionComponent
               navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Category:"}
-              //   caption2={category_name}
-              caption2={new_category_name}
-              navigation={navigation}
-              icon_name={"EditIcon"}
-              active_icon={true}
-              action={() => null}
-              icon_width={0}
-              icon_height={0}
-            />
-            <InfoDetailsTile
-              caption={"Date:"}
-              caption2={expenseDate}
-              navigation={navigation}
-              icon_name={"CalendarIcon"}
-              active_icon={true}
-              icon_width={0}
-              icon_height={0}
-              action={() => null}
+              stringedAmount={stringed_new_limit_amount}
+              short_name={new_category_name}
+              transaction_date={expenseDate}
             />
           </FlexibleContainer>
+
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
             // color={"brown"}
