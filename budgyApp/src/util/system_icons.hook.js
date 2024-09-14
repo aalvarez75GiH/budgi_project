@@ -42,6 +42,7 @@ import AchievementIcon from "../../assets/icons/svgs/achievement_icon.svg";
 import DeletedIllustration from "../../assets/icons/svgs/deleted_illustration.svg";
 import AchievementIllustration from "../../assets/icons/svgs/achievement_illustration.svg";
 import RealIncomeIcon from "../../assets/icons/svgs/real_income_icon.svg";
+import BillsIcon from "../../assets/icons/svgs/bills_icon_2.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -204,6 +205,10 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "RealIncomeIcon",
       icon: RealIncomeIcon,
+    },
+    {
+      icon_name: "BillsIcon",
+      icon: BillsIcon,
     },
   ];
   const index = defaultSVGIcons.findIndex((obj) => obj.icon_name === icon_name);

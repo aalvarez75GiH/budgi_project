@@ -100,7 +100,7 @@ export const AccountAndThingsView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="column"
-        flexibility={0.28}
+        flexibility={0.38}
         justify={"center"}
         isBordered={false}
       >
@@ -126,6 +126,14 @@ export const AccountAndThingsView = ({ navigation }) => {
           caption={"App preference"}
           navigation={navigation}
           icon_name={"PreferencesIcon"}
+          active_icon={true}
+          borderTopWidth={"1px"}
+          borderBottomWidth={"2px"}
+        />
+        <AccountAndThingsTile
+          caption={"Bills to pay"}
+          navigation={navigation}
+          icon_name={"RealIncomeIcon"}
           active_icon={true}
           borderTopWidth={"1px"}
           borderBottomWidth={"2px"}
