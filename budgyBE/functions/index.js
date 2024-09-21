@@ -10,8 +10,7 @@ const usersRouter = require("./api/users/users.routes");
 const expectedIncomeRouter = require("./api/expected income/expected_income.routes");
 const workingAppsRouter = require("./api/working_apps/working_apps.routes");
 const realIncomeRouter = require("./api/real_income/real_income.routes");
-
-const { updateUserFirstTimeField } = require("./api/users/triggers.operations");
+const billsRouter = require("./api/bills/bills.routes");
 
 const {
   gettingTransactionsMoneyAmountByMonthYear_CategoryID_UserID,
@@ -32,6 +31,7 @@ exports.usersEndPoint = fcn.https.onRequest(usersRouter);
 exports.expectedIncomeEndPoint = fcn.https.onRequest(expectedIncomeRouter);
 exports.workingAppsEndPoint = fcn.https.onRequest(workingAppsRouter);
 exports.realIncomeEndPoint = fcn.https.onRequest(realIncomeRouter);
+exports.billsEndPoint = fcn.https.onRequest(billsRouter);
 
 // // ******************** TRIGGERS ****************************************
 

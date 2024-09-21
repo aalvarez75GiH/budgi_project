@@ -14,6 +14,7 @@ export const AccountAndThingsView = ({ navigation }) => {
   const {
     movingToMyTransactions,
     movingToHowYourMonthIsGoing,
+    movingToBillsToPayView,
     fullName,
     email,
   } = useAccountAndThingsLogic();
@@ -25,7 +26,7 @@ export const AccountAndThingsView = ({ navigation }) => {
         direction={"column"}
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
-        flexibility={0.1}
+        flexibility={0.13}
         justify={"center"}
         icon_left={"80%"}
         icon_top={"30%"}
@@ -131,12 +132,13 @@ export const AccountAndThingsView = ({ navigation }) => {
           borderBottomWidth={"2px"}
         />
         <AccountAndThingsTile
-          caption={"Bills to pay"}
+          caption={"Bills"}
           navigation={navigation}
           icon_name={"RealIncomeIcon"}
           active_icon={true}
           borderTopWidth={"1px"}
           borderBottomWidth={"2px"}
+          action={() => movingToBillsToPayView(navigation)}
         />
       </FlexibleContainer>
     </GeneralFlexContainer>

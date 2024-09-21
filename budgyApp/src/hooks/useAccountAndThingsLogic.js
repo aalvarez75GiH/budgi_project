@@ -14,9 +14,13 @@ export const useAccountAndThingsLogic = () => {
   const movingToHowYourMonthIsGoing = (navigation) => {
     navigation.navigate("How month is going");
   };
+  const movingToBillsToPayView = (navigation) => {
+    navigation.navigate("Bills_to_pay_View");
+  };
   return {
     movingToMyTransactions,
     movingToHowYourMonthIsGoing,
+    movingToBillsToPayView,
     fullName,
     email,
   };

@@ -12,4 +12,5 @@ border-top-left-radius: ${(props) => props.borderTopLeftRadius || 0}px;
 border-bottom-left-radius: ${(props) => props.borderBottomLeftRadius || 0}px;
 border-top-right-radius: ${(props) => props.borderTopRightRadius || 0}px;
 border-bottom-right-radius: ${(props) => props.borderBottomRightRadius || 0}px;
+margin-bottom: ${(props) => props.marginBottom || 0}px;
 `;

@@ -129,6 +129,12 @@ font-size: ${theme.fontSizes.text_14};
 color: ${theme.colors.text.p_142223C};
 font-weight: ${theme.fontWeights.regular};
 `;
+const green_bold_text_14 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_14};
+color: ${theme.colors.ui.success};
+font-weight: ${theme.fontWeights.bold};
+`;
 const bold_text_14 = (theme) => `
 font-family: ${theme.fonts.bold};
 font-size: ${theme.fontSizes.text_14};
@@ -169,6 +175,14 @@ font-size: ${theme.fontSizes.text_12};
 color: ${theme.colors.text.p_142223C};
 font-weight: ${theme.fontWeights.bold};
 `;
+
+const green_bold_text_12 = (theme) => `
+font-family: ${theme.fonts.bold};
+font-size: ${theme.fontSizes.text_12};
+color: ${theme.colors.ui.success};
+font-weight: ${theme.fontWeights.bold};
+`;
+
 const white_bold_text_12 = (theme) => `
 font-family: ${theme.fonts.bold};
 font-size: ${theme.fontSizes.text_12};
@@ -176,7 +190,7 @@ color: ${theme.colors.text.s_FFFFFF};
 font-weight: ${theme.fontWeights.bold};
 `;
 const neutral_bold_text_12 = (theme) => `
-font-family: ${theme.fonts.regular};
+font-family: ${theme.fonts.bold};
 font-size: ${theme.fontSizes.text_12};
 color: ${theme.colors.buttons.e2_5B6477};
 font-weight: ${theme.fontWeights.regular};
@@ -209,6 +223,7 @@ const variants = {
   regular_text_14,
   bold_text_14,
   gold_bold_text_14,
+  green_bold_text_14,
   neutral_bold_text_14,
   white_bold_text_14,
   regular_text_12,
@@ -216,6 +231,7 @@ const variants = {
   white_bold_text_12,
   neutral_bold_text_12,
   error_bold_text_12,
+  green_bold_text_12,
 };
 
 export const Text = styled.Text`

@@ -14,4 +14,7 @@ border-top-left-radius: ${(props) => props.borderTopLeftRadius || 0}px;
 border-bottom-left-radius: ${(props) => props.borderBottomLeftRadius || 0}px;
 border-top-right-radius: ${(props) => props.borderTopRightRadius || 0}px;
 border-bottom-right-radius: ${(props) => props.borderBottomRightRadius || 0}px;
+borderBottomWidth: ${(props) => props.borderBottomWidth || 0}px;
+borderTopWidth: ${(props) => props.borderTopWidth || 0}px;
+borderColor: ${(props) => props.borderColor || "transparent"};
 `;

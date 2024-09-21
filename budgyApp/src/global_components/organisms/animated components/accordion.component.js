@@ -1,17 +1,11 @@
 import React, { useState } from "react";
-import {
-  //   Text,
-  View,
-  TouchableWithoutFeedback,
-  Animated,
-  StyleSheet,
-} from "react-native";
-import AntDesign from "react-native-vector-icons/AntDesign";
+import { Animated } from "react-native";
+
 import { Text } from "../../../infrastructure/typography/text.component";
 import { LinkButton } from "../../buttons/link_button";
-import { InfoDetailsTile } from "../../organisms/tiles/info_details_tile";
-import { Spacer } from "../../optimized.spacer.component";
-import { SVGComponent } from "../../image_components/svg.component";
+import { ControlledContainer } from "../../containers/controlled_container";
+import { theme } from "../../../infrastructure/theme";
+import { AnimatedContainer } from "../../containers/animated_container";
 
 export const AccordionComponent = ({
   navigation,
@@ -45,102 +39,111 @@ export const AccordionComponent = ({
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <ControlledContainer
+      width={"90%"}
+      height={"100%"}
+      color={theme.colors.bg.p_FFFFFF}
+      direction={"column"}
+      justify={"center"}
+      alignment={"center"}
+      style={{ borderRadius: 5 }}
+    >
+      <ControlledContainer
+        width={"70%"}
+        height={"30%"}
+        color={theme.colors.bg.p_FFFFFF}
+        direction={"row"}
+        justify={"center"}
+        alignment={"center"}
+        style={{ padding: 10 }}
+      >
         <LinkButton
           caption={!opened ? "View details" : "Close details"}
           action={toggleAccordion}
         />
-      </View>
+      </ControlledContainer>
 
-      <Animated.View
-        style={[styles.content, { height: heightAnimationInterpolation }]}
+      <AnimatedContainer
+        width={"80%"}
+        height={"20%"}
+        marginTop={8}
+        direction={"column"}
+        interpolation={heightAnimationInterpolation}
+        style={{ height: heightAnimationInterpolation }}
       >
-        <View style={styles.row}>
-          <View style={styles.column1}>
+        <ControlledContainer
+          width={"100%"}
+          height={"25%"}
+          color={theme.colors.bg.p_FFFFFF}
+          direction={"row"}
+          marginBottom={5}
+        >
+          <ControlledContainer
+            width={"50%"}
+            height={"80%"}
+            alignment={"center"}
+            justify={"center"}
+            color={theme.colors.bg.p_FFFFFF}
+          >
             <Text text_variant="bold_text_14">Amount:</Text>
-          </View>
-          <View style={styles.column2}>
+          </ControlledContainer>
+          <ControlledContainer
+            width={"50%"}
+            height={"80%"}
+            color={theme.colors.bg.p_FFFFFF}
+          >
             <Text text_variant="regular_text_14">${stringedAmount}</Text>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.column1}>
+          </ControlledContainer>
+        </ControlledContainer>
+        <ControlledContainer
+          width={"100%"}
+          height={"25%"}
+          color={theme.colors.bg.p_FFFFFF}
+          direction={"row"}
+          marginBottom={5}
+        >
+          <ControlledContainer
+            width={"50%"}
+            height={"80%"}
+            alignment={"center"}
+            justify={"center"}
+            color={theme.colors.bg.p_FFFFFF}
+          >
             <Text text_variant="bold_text_14">Category:</Text>
-          </View>
-          <View style={styles.column2}>
+          </ControlledContainer>
+          <ControlledContainer
+            width={"50%"}
+            height={"80%"}
+            color={theme.colors.bg.p_FFFFFF}
+          >
             <Text text_variant="regular_text_14">{short_name}</Text>
-          </View>
-        </View>
-        <View style={styles.row}>
-          <View style={styles.column1}>
+          </ControlledContainer>
+        </ControlledContainer>
+        <ControlledContainer
+          width={"100%"}
+          height={"25%"}
+          color={theme.colors.bg.p_FFFFFF}
+          direction={"row"}
+          marginBottom={5}
+        >
+          <ControlledContainer
+            width={"50%"}
+            height={"80%"}
+            alignment={"center"}
+            justify={"center"}
+            color={theme.colors.bg.p_FFFFFF}
+          >
             <Text text_variant="bold_text_14">Date:</Text>
-          </View>
-          <View style={styles.column2}>
+          </ControlledContainer>
+          <ControlledContainer
+            width={"50%"}
+            height={"80%"}
+            color={theme.colors.bg.p_FFFFFF}
+          >
             <Text text_variant="regular_text_14">{transaction_date}</Text>
-          </View>
-        </View>
-      </Animated.View>
-    </View>
+          </ControlledContainer>
+        </ControlledContainer>
+      </AnimatedContainer>
+    </ControlledContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    // margin: 10,
-    // padding: 0,
-    // backgroundColor: "#FAD",
-    backgroundColor: "#FFFFFF",
-    borderRadius: 5,
-    width: "90%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-  content: {
-    marginTop: 8,
-    width: "80%",
-    height: "20%",
-    // backgroundColor: "lightgrey",
-    // borderWidth: 1,
-    // borderColor: "#FFFFFF",
-    // borderRadius: 5,
-    flexDirection: "column",
-    // backgroundColor: "#FFFFFF",
-  },
-  row: {
-    width: "100%",
-    height: "25%",
-    // backgroundColor: "brown",
-    backgroundColor: "#FFFFFF",
-    flexDirection: "row",
-    marginBottom: 5,
-  },
-  column1: {
-    width: "50%",
-    height: "80%",
-    // backgroundColor: "lightgreen",
-    justifyContent: "center",
-    alignItems: "center",
-    // backgroundColor: "#FFFFFF",
-    // flexDirection: "row",
-  },
-  column2: {
-    width: "50%",
-    height: "80%",
-    // backgroundColor: "green",
-    backgroundColor: "#FFFFFF",
-    // flexDirection: "row",
-  },
-  header: {
-    width: "70%",
-    height: "30%",
-    // backgroundColor: "green",
-    backgroundColor: "#FFFFFF",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-  },
-});

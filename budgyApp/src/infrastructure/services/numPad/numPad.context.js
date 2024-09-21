@@ -1,13 +1,35 @@
-import React, { useState, createContext, useContext } from "react";
-// import { TransactionsContext } from "../transactions/transactions.context";
-// import { CategoryListContext } from "../category_list/category_list.context";
+import React, { useState, createContext, useContext, useEffect } from "react";
+import { AuthenticationContext } from "../authentication/authentication.context";
+import { getBillsList_By_UserID_Request } from "./numPad.services";
 
 export const NumPadContext = createContext();
 
 export const NumPadContextProvider = ({ children }) => {
+  const { user } = useContext(AuthenticationContext);
+  const { user_id } = user;
   const [number, setNumber] = useState("0");
+
   const clean = () => {
     setNumber("0");
+  };
+
+  useEffect(() => {
+    (async () => {
+      fetchingBillsByUser();
+    })();
+  }, []);
+
+  const [bills_by_default, setBillsByDefault] = useState([]);
+  const [bills_by_user, setBillsByUser] = useState([]);
+
+  const fetchingBillsByUser = async () => {
+    try {
+      const bills_list_by_user = await getBillsList_By_UserID_Request(user_id);
+      const { bills_by_user } = bills_list_by_user.data;
+      setBillsByUser(bills_by_user);
+    } catch (error) {
+      console.log("ERROR FETCHING BILLS BY DEFAULT:", error);
+    }
   };
 
   const btnDelete = () => {
@@ -61,6 +83,7 @@ export const NumPadContextProvider = ({ children }) => {
         assemblingNumber,
         clean,
         btnDelete,
+        bills_by_user,
       }}
     >
       {children}

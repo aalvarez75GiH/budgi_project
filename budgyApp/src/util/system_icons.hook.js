@@ -38,11 +38,18 @@ import CustomByUserIcon from "../../assets/icons/svgs/star_icon.svg";
 import LeftArrowIcon from "../../assets/icons/svgs/left_arrow.svg";
 import SuspendedIcon from "../../assets/icons/svgs/suspended_icon.svg";
 import SuccessIlustration from "../../assets/icons/svgs/success_ilustration.svg";
-import AchievementIcon from "../../assets/icons/svgs/achievement_icon.svg";
+import CreditCardIcon from "../../assets/icons/svgs/credit_card_icon.svg";
 import DeletedIllustration from "../../assets/icons/svgs/deleted_illustration.svg";
 import AchievementIllustration from "../../assets/icons/svgs/achievement_illustration.svg";
 import RealIncomeIcon from "../../assets/icons/svgs/real_income_icon.svg";
 import BillsIcon from "../../assets/icons/svgs/bills_icon_2.svg";
+import HousingIcon from "../../assets/icons/svgs/housing_icon.svg";
+import CarBillIcon from "../../assets/icons/svgs/car_bill_icon.svg";
+import PhoneBillIcon from "../../assets/icons/svgs/phone_bill_icon.svg";
+import PowerBillIcon from "../../assets/icons/svgs/power_bill_icon.svg";
+import WaterBillIcon from "../../assets/icons/svgs/water_bill_icon.svg";
+import TrashBillIcon from "../../assets/icons/svgs/trash_truck_icon.svg";
+import StreamingIcon from "../../assets/icons/svgs/streaming_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -209,6 +216,38 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "BillsIcon",
       icon: BillsIcon,
+    },
+    {
+      icon_name: "HousingIcon",
+      icon: HousingIcon,
+    },
+    {
+      icon_name: "CarBillIcon",
+      icon: CarBillIcon,
+    },
+    {
+      icon_name: "PhoneBillIcon",
+      icon: PhoneBillIcon,
+    },
+    {
+      icon_name: "PowerBillIcon",
+      icon: PowerBillIcon,
+    },
+    {
+      icon_name: "WaterBillIcon",
+      icon: WaterBillIcon,
+    },
+    {
+      icon_name: "TrashBillIcon",
+      icon: TrashBillIcon,
+    },
+    {
+      icon_name: "CreditCardIcon",
+      icon: CreditCardIcon,
+    },
+    {
+      icon_name: "StreamingIcon",
+      icon: StreamingIcon,
     },
   ];
   const index = defaultSVGIcons.findIndex((obj) => obj.icon_name === icon_name);
