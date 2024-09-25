@@ -4,10 +4,10 @@ import { NumPadContainer } from "./num_pad.styles";
 import { Row } from "./num_pad.styles";
 import { NumPadButton } from "../../buttons/num_pad_button";
 import { theme } from "../../../infrastructure/theme";
-import { NumPadContext } from "../../../infrastructure/services/numPad/numPad.context";
+import { HomeContext } from "../../../infrastructure/services/Home services/home.context";
 
 export const NumPadComponent = () => {
-  const { assemblingNumber, clean } = useContext(NumPadContext);
+  const { assemblingNumber, clean } = useContext(HomeContext);
 
   return (
     <>

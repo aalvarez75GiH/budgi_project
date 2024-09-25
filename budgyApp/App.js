@@ -13,7 +13,7 @@ import { ThemeProvider } from "styled-components/native";
 
 import { theme } from "./src/infrastructure/theme";
 import { AuthenticationContextProvider } from "./src/infrastructure/services/authentication/authentication.context";
-import { NumPadContextProvider } from "./src/infrastructure/services/numPad/numPad.context";
+import { HomeContextProvider } from "./src/infrastructure/services/Home services/home.context";
 import { TransactionContextProvider } from "./src/infrastructure/services/transactions/transactions.context";
 import { CategoryListContextProvider } from "./src/infrastructure/services/category_list/category_list.context";
 import { DateOperationsContextProvider } from "./src/infrastructure/services/date_operations/date_operations.context";
@@ -51,7 +51,7 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <AuthenticationContextProvider>
           <DateOperationsContextProvider>
-            <NumPadContextProvider>
+            <HomeContextProvider>
               <CategoryDataContextProvider>
                 <TransactionContextProvider>
                   <CategoryListContextProvider>
@@ -63,7 +63,7 @@ export default function App() {
                   </CategoryListContextProvider>
                 </TransactionContextProvider>
               </CategoryDataContextProvider>
-            </NumPadContextProvider>
+            </HomeContextProvider>
           </DateOperationsContextProvider>
         </AuthenticationContextProvider>
       </ThemeProvider>

@@ -15,11 +15,23 @@ import { TextFormInputComponent } from "../../global_components/organisms/inputs
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
-import { set } from "date-fns";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
+import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 
 export const GeneralNewNameView = ({ navigation, route }) => {
-  const { action_to_do } = route.params;
+  // const { action_to_do } = route.params;
+  const {
+    updateBillName,
+    updateBillInfoForRequest,
+    setUpdateBillName,
+    settingNewBillName,
+    action_to_do,
+  } = useContext(HomeContext);
+  const { type: bill_type, bill_short_name } = updateBillInfoForRequest;
+  console.log(
+    " UPDATE BILL INFO FOR REQUEST AT GENERAL NEW NAME VIEW:",
+    JSON.stringify(updateBillInfoForRequest, null, 2)
+  );
 
   const {
     new_category_name,
@@ -47,7 +59,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
   //   "CATEGORY TO CREATE NAME AT GENERAL VIEW:",
   //   JSON.stringify(new_category_name, null, 2)
   // );
-  // console.log("CATEGORY LIST INFO FOR REQUEST:", category_list_info_forRequest);
+  console.log("ACTION TO DO:", action_to_do);
 
   return (
     <SafeArea background_color={"#FFFFFF"}>
@@ -77,6 +89,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
               <TextFormInputComponent
                 set_text_input_value={set_new_category_name}
                 text_input_value={new_category_name}
+                type={"by_user"}
               />
 
               <ControlledContainer
@@ -142,6 +155,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
               <TextFormInputComponent
                 set_text_input_value={set_update_category_name}
                 text_input_value={update_category_name}
+                type={"by_user"}
               />
               {update_category_name.length > 0 && (
                 <LinkButton
@@ -182,7 +196,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
             </FlexibleContainer>
           </>
         )}
-        {action_to_do === "set_bill_name" && (
+        {action_to_do === "update_bill" && (
           <>
             <FlexibleContainer
               direction={"column"}
@@ -195,10 +209,11 @@ export const GeneralNewNameView = ({ navigation, route }) => {
               <Spacer position="top" size="xxl" />
               <Spacer position="top" size="xxl" />
               <TextFormInputComponent
-                set_text_input_value={set_update_category_name}
-                text_input_value={update_category_name}
+                set_text_input_value={setUpdateBillName}
+                text_input_value={updateBillName}
+                type={bill_type}
               />
-              {update_category_name.length > 0 && (
+              {updateBillName.length > 0 && (
                 <LinkButton
                   caption="Clear"
                   action={() => {
@@ -215,7 +230,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
               justify={"center"}
               alignment={"center"}
             >
-              {update_category_name.length > 0 ? (
+              {updateBillName.length > 0 ? (
                 <RegularCTAButton
                   caption="Next"
                   width={310}
@@ -223,11 +238,11 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                   color={theme.colors.buttons.p_FC9827}
                   borderRadius={50}
                   action={() =>
-                    settingNewCategoryName(
+                    settingNewBillName(
                       navigation,
-                      update_category_name,
-                      type,
-                      new_short_name
+                      updateBillName,
+                      bill_type,
+                      bill_short_name
                     )
                   }
                   text_variant="bold_text_20"

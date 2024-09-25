@@ -14,6 +14,7 @@ import { CategoryListContext } from "../../../infrastructure/services/category_l
 export const TextFormInputComponent = ({
   text_input_value,
   set_text_input_value,
+  type,
 }) => {
   console.log(
     "TEXT INPUT VALUE AT TEXT INPUT:",
@@ -78,6 +79,7 @@ export const TextFormInputComponent = ({
             activeUnderlineColor={theme.colors.neutrals.p_B7B7B7}
             keyboardType={"text"}
             onFocus={() => null}
+            disabled={type === "by_user" ? false : true}
             // textBreakStrategy="simple"
           />
         </ControlledContainer>

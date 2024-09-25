@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
-import { NumPadContext } from "../infrastructure/services/numPad/numPad.context";
+import { HomeContext } from "../infrastructure/services/Home services/home.context";
 export const useHomeLogic = () => {
-  const { number } = useContext(NumPadContext);
+  const { number } = useContext(HomeContext);
   const {
     transactionInfoForRequest,
     setTransactionInfoForRequest,
