@@ -25,7 +25,7 @@ export const BillsToPayListView = ({ navigation }) => {
   const { user_id } = user;
   // const { bills_by_user } = billToPayList;
 
-  const movingForwardToSetBillNameView = (item) => {
+  const movingForwardToNewCategoryNameViewForUpdatingBill = (item) => {
     setActionToDo("update_bill");
     const {
       bill_id,
@@ -60,25 +60,22 @@ export const BillsToPayListView = ({ navigation }) => {
     // });
   };
 
+  const movingForwardToNewCategoryNameViewForCreatingABill = () => {
+    setActionToDo("create_bill");
+    navigation.navigate("bill_name_view");
+  };
+
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-      {/* <ExitHeaderComponent
-        navigation={navigation}
-        direction={"column"}
-        color={theme.colors.bg.p_FFFFFF}
-        // color={"#FAA"}
-        flexibility={0.1}
-        justify={"center"}
-        icon_left={"80%"}
-        icon_top={"30%"}
-      /> */}
       <TwoIconsHeaderComponent
         navigation={navigation}
         direction={"row"}
         color={theme.colors.bg.p_FFFFFF}
         // color={"#FAA"}
         flexibility={0.17}
-        action_icon_right={() => null}
+        action_icon_right={() =>
+          movingForwardToNewCategoryNameViewForCreatingABill()
+        }
         action_icon_left={() => navigation.goBack()}
         icon_name_left={"ExitIcon"}
         icon_name_right={"PlusIcon"}
@@ -136,7 +133,9 @@ export const BillsToPayListView = ({ navigation }) => {
               bill_title={item.bill_short_name}
               bill_amount={item.bill_amount}
               payment_due_date={item.payment_date}
-              action={() => movingForwardToSetBillNameView(item)}
+              action={() =>
+                movingForwardToNewCategoryNameViewForUpdatingBill(item)
+              }
             />
           )}
           keyExtractor={(item, id) => {

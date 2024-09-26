@@ -15,6 +15,7 @@ export const TextFormInputComponent = ({
   text_input_value,
   set_text_input_value,
   type,
+  caption,
 }) => {
   console.log(
     "TEXT INPUT VALUE AT TEXT INPUT:",
@@ -35,7 +36,7 @@ export const TextFormInputComponent = ({
         <Spacer position="left" size="large">
           <Spacer position="left" size="large">
             <Spacer position="left" size="small">
-              <Text text_variant="neutral_bold_text_14">Category name</Text>
+              <Text text_variant="neutral_bold_text_14">{caption}</Text>
             </Spacer>
           </Spacer>
         </Spacer>

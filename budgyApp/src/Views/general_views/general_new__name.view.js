@@ -26,11 +26,18 @@ export const GeneralNewNameView = ({ navigation, route }) => {
     setUpdateBillName,
     settingNewBillName,
     action_to_do,
+    newBillName,
+    setNewBillName,
+    createBillInfoForRequest,
   } = useContext(HomeContext);
   const { type: bill_type, bill_short_name } = updateBillInfoForRequest;
   console.log(
     " UPDATE BILL INFO FOR REQUEST AT GENERAL NEW NAME VIEW:",
     JSON.stringify(updateBillInfoForRequest, null, 2)
+  );
+  console.log(
+    " CREATE BILL INFO FOR REQUEST AT GENERAL NEW NAME VIEW:",
+    JSON.stringify(createBillInfoForRequest, null, 2)
   );
 
   const {
@@ -90,6 +97,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                 set_text_input_value={set_new_category_name}
                 text_input_value={new_category_name}
                 type={"by_user"}
+                caption={"Category name"}
               />
 
               <ControlledContainer
@@ -155,7 +163,8 @@ export const GeneralNewNameView = ({ navigation, route }) => {
               <TextFormInputComponent
                 set_text_input_value={set_update_category_name}
                 text_input_value={update_category_name}
-                type={"by_user"}
+                type={type}
+                caption={"Category name"}
               />
               {update_category_name.length > 0 && (
                 <LinkButton
@@ -212,12 +221,13 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                 set_text_input_value={setUpdateBillName}
                 text_input_value={updateBillName}
                 type={bill_type}
+                caption={"Bill name"}
               />
               {updateBillName.length > 0 && (
                 <LinkButton
                   caption="Clear"
                   action={() => {
-                    set_update_category_name("");
+                    setUpdateBillName("");
                   }}
                 />
               )}
@@ -244,6 +254,58 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                       bill_type,
                       bill_short_name
                     )
+                  }
+                  text_variant="bold_text_20"
+                />
+              ) : null}
+              <Spacer position="top" size="large" />
+            </FlexibleContainer>
+          </>
+        )}
+        {action_to_do === "create_bill" && (
+          <>
+            <FlexibleContainer
+              direction={"column"}
+              color={theme.colors.bg.p_FFFFFF}
+              // color={"brown"}
+              // flexibility={Platform.OS === "ios" ? 0.25 : 0.3}
+              flexibility={Platform.OS === "ios" ? 0.25 : 0.5}
+              justify={"center"}
+            >
+              <Spacer position="top" size="xxl" />
+              <Spacer position="top" size="xxl" />
+              <TextFormInputComponent
+                set_text_input_value={setNewBillName}
+                text_input_value={newBillName}
+                type={"by_user"}
+                caption={"Bill name"}
+              />
+              {newBillName.length > 0 && (
+                <LinkButton
+                  caption="Clear"
+                  action={() => {
+                    setNewBillName("");
+                  }}
+                />
+              )}
+            </FlexibleContainer>
+            <FlexibleContainer
+              direction={"column"}
+              color={theme.colors.bg.p_FFFFFF}
+              // color={"brown"}
+              flexibility={Platform.OS === "ios" ? 0.3 : 0.55}
+              justify={"center"}
+              alignment={"center"}
+            >
+              {newBillName.length > 0 ? (
+                <RegularCTAButton
+                  caption="Next"
+                  width={310}
+                  height={50}
+                  color={theme.colors.buttons.p_FC9827}
+                  borderRadius={50}
+                  action={() =>
+                    settingNewBillName(navigation, newBillName, "by_user", "")
                   }
                   text_variant="bold_text_20"
                 />

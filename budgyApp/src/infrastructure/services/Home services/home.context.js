@@ -1,7 +1,10 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { getBillsList_By_UserID_Request } from "./home.services";
-import { updateBillNodeObject } from "./home.initial_data";
+import {
+  updateBillNodeObject,
+  creationBillNodeObject,
+} from "./home.initial_data";
 
 export const HomeContext = createContext();
 
@@ -24,6 +27,9 @@ export const HomeContextProvider = ({ children }) => {
   const [bills_by_user, setBillsByUser] = useState([]);
   const [updateBillInfoForRequest, setUpdateBillInfoForRequest] = useState(
     updateBillNodeObject(user_id)
+  );
+  const [createBillInfoForRequest, setCreateBillInfoForRequest] = useState(
+    creationBillNodeObject(user_id)
   );
   const [action_to_do, setActionToDo] = useState("");
   const [newBillName, setNewBillName] = useState("");
@@ -84,26 +90,24 @@ export const HomeContextProvider = ({ children }) => {
   };
 
   const settingNewBillName = (navigation, newBillName, type, short_name) => {
-    console.log("SHORT NAME AT SETIING:", short_name);
+    console.log("SHORT NAME AT SETTING:", short_name);
     console.log("NEW NAME AT SETTING:", newBillName);
     console.log("TYPE AT SETTING:", type);
     const words = newBillName.split(" ");
     console.log("WORDS:", words);
+
     if (words.length < 2) {
-      // if (action_to_do === "new_bill") {
-      //   setNewBillName(newName);
-      //   setUpdateBillInfoForRequest((prevState) => ({
-      //     ...prevState,
-      //     new_expense_category_node: {
-      //       ...prevState.new_expense_category_node,
-      //       category_name: newName,
-      //       short_name: newName,
-      //     },
-      //   }));
-      //   navigation.navigate("Enter_amount_with_options_view", {
-      //     comingFrom: "GeneralNewNameView",
-      //   });
-      // }
+      if (action_to_do === "create_bill") {
+        setNewBillName(newBillName);
+        setCreateBillInfoForRequest((prevState) => ({
+          ...prevState,
+          bill_title: newBillName,
+          bill_short_name: newBillName,
+        }));
+        // navigation.navigate("Enter_amount_with_options_view", {
+        //   comingFrom: "GeneralNewNameView",
+        // });
+      }
 
       if (action_to_do === "update_bill") {
         setUpdateBillName(newBillName);
@@ -125,29 +129,23 @@ export const HomeContextProvider = ({ children }) => {
     if (words.length >= 2 && type === "by_user") {
       const firstWord = words[0];
       const secondWordInitial = words[1][0].toUpperCase();
-
       const shortNameBillName = `${firstWord}. ${secondWordInitial}`;
-      // const shortNameBillName = `${firstInitial}. ${secondWord}`;
-      // if (action_to_do === "new_expense_category") {
-      //   setCategory_list_info_forRequest((prevState) => ({
-      //     ...prevState,
-      //     new_expense_category_node: {
-      //       ...prevState.new_expense_category_node,
-      //       category_name: newName,
-      //       short_name: shortName,
-      //     },
-      //   }));
-      //   navigation.navigate("Enter_amount_with_options_view", {
-      //     comingFrom: "GeneralNewNameView",
-      //   });
-      // }
+
+      if (action_to_do === "create_bill") {
+        setNewBillName(newBillName);
+        setCreateBillInfoForRequest((prevState) => ({
+          ...prevState,
+          bill_title: newBillName,
+          bill_short_name: shortNameBillName,
+        }));
+      }
+
       if (action_to_do === "update_bill") {
         setUpdateBillInfoForRequest((prevState) => ({
           ...prevState,
           bill_title: newBillName,
           bill_short_name: shortNameBillName,
         }));
-
         console.log(
           "UPDATE BILL INFO FOR REQUEST:",
           JSON.stringify(updateBillInfoForRequest, null, 2)
@@ -157,6 +155,7 @@ export const HomeContextProvider = ({ children }) => {
         // });
       }
     }
+
     if (words.length >= 2 && type === "Default") {
       setUpdateBillInfoForRequest((prevState) => ({
         ...prevState,
@@ -187,6 +186,10 @@ export const HomeContextProvider = ({ children }) => {
         setUpdateBillInfoForRequest,
         updateBillInfoForRequest,
         settingNewBillName,
+        createBillInfoForRequest,
+        setCreateBillInfoForRequest,
+        newBillName,
+        setNewBillName,
       }}
     >
       {children}
