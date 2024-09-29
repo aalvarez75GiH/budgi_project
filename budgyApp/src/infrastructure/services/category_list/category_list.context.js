@@ -14,6 +14,7 @@ import {
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 import { CategoryDataContext } from "../category_data/category_data.context";
+import { HomeContext } from "../Home services/home.context";
 
 export const CategoryListContext = createContext();
 
@@ -26,6 +27,7 @@ export const CategoryListContextProvider = ({ children }) => {
   const { user_id } = user;
 
   const { month_year } = useContext(DateOperationsContext);
+  const { action_to_do, setActionToDo } = useContext(HomeContext);
 
   const { categoryData } = useContext(CategoryDataContext);
   const { category_data_expenseCategories } = categoryData || {};
@@ -56,7 +58,7 @@ export const CategoryListContextProvider = ({ children }) => {
   const [categoryDeleted, setCategoryDeleted] = useState(false);
   const [categoryActivated, setCategoryActivated] = useState(false);
   const [categorySuspended, setCategorySuspended] = useState(false);
-  const [action_to_do, setAction_to_do] = useState("");
+  // const [action_to_do, setAction_to_do] = useState("");
   const [categorySelected, setCategorySelected] = useState(
     firstCategoryDataExpenseCategories
   );
@@ -101,6 +103,7 @@ export const CategoryListContextProvider = ({ children }) => {
 
   const settingNewCategoryName = (navigation, newName, type, short_name) => {
     console.log("SHORT NAME AT SETIING:", short_name);
+    console.log("TYPE AT SETIING:", type);
     const words = newName.split(" ");
     if (words.length < 2) {
       if (action_to_do === "new_expense_category") {
@@ -314,8 +317,8 @@ export const CategoryListContextProvider = ({ children }) => {
         registeringNewExpenseCategory,
         category_list_info_forUpdate,
         setCategory_list_info_forUpdate,
-        setAction_to_do,
-        action_to_do,
+        // setAction_to_do,
+        // action_to_do,
         updatingExpenseCategory,
         deletingOrSuspendingExpenseCategory,
         setCategorySelected,

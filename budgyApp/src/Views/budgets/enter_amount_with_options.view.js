@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Platform } from "react-native";
 
 import { SafeArea } from "../../global_components/safe-area.component";
@@ -27,9 +27,12 @@ export const EnterAmountWithOptionsView = ({ navigation, route }) => {
     formatCurrency,
     exitingToRoot,
   } = useEnterAmountLogic(comingFrom);
+  useEffect(() => {
+    console.log(" I AM ENTER AMOUNT WITH OPTIONS ");
+  }, []);
   const { category_list_info_forRequest, category_list_info_forUpdate } =
     useContext(CategoryListContext);
-  console.log("AMOUNT TO SET AT ENTER AMOUNT VIEW:", amountToSet);
+  console.log("AMOUNT TO SET AT ENTER AMOUNT VIEW WITH OPTIONS:", amountToSet);
   console.log("COMING FROM AT ENTER AMOUNT VIEW:", comingFrom);
   console.log(
     "CATEGORY LIST INFO FOR REQUEST AT GENERAL VIEW:",
@@ -39,6 +42,7 @@ export const EnterAmountWithOptionsView = ({ navigation, route }) => {
     "CATEGORY LIST INFO FOR UPDATE AT ENTER AMOUNT WITH OPTIONS VIEW:",
     JSON.stringify(category_list_info_forUpdate, null, 2)
   );
+
   return (
     <SafeArea background_color={"#FFFFFF"}>
       <GeneralFlexContainer>

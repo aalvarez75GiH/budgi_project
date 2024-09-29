@@ -34,6 +34,7 @@ export const EnterAmountView = ({ navigation, route }) => {
 
   //In case of leaving away from the screen, we clean the new and update category name
   useEffect(() => {
+    console.log(" I AM ENTER AMOUNT ");
     return () => categoryListContextStateReset();
   }, []);
 

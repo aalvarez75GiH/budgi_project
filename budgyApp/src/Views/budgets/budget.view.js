@@ -29,6 +29,7 @@ import { AuthenticationContext } from "../../infrastructure/services/authenticat
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
+import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 
 export const BudgetView = ({ navigation }) => {
   const {
@@ -61,7 +62,7 @@ export const BudgetView = ({ navigation }) => {
   const {
     category_list_info_forUpdate,
     setCategory_list_info_forUpdate,
-    setAction_to_do,
+    // setAction_to_do,
     setCategorySelected,
     categorySelected,
     firstCategoryDataExpenseCategories,
@@ -74,6 +75,8 @@ export const BudgetView = ({ navigation }) => {
     setNewCategoryAdded,
     suspendedCategories,
   } = useContext(CategoryListContext);
+
+  const { setActionToDo } = useContext(HomeContext);
 
   const [percentageCompleted, setPercentageCompleted] = useState(0);
   const [overSpentAmountInNegative, setOverSpentAmountInNegative] = useState(0);
@@ -220,13 +223,13 @@ export const BudgetView = ({ navigation }) => {
     });
   };
   const movingForwardToNewCategoryNameView = () => {
-    setAction_to_do("new_expense_category");
+    setActionToDo("new_expense_category");
     navigation.navigate("New_category_name_View", {
       action_to_do: "new_expense_category",
     });
   };
   const movingForwardToNewCategoryNameViewForUpdatingCategory = () => {
-    setAction_to_do("update_expense_category");
+    setActionToDo("update_expense_category");
     set_update_category_name(categorySelected.category_name);
     setCategory_list_info_forUpdate({
       ...category_list_info_forUpdate,

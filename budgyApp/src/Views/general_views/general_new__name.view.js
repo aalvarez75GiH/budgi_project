@@ -163,7 +163,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
               <TextFormInputComponent
                 set_text_input_value={set_update_category_name}
                 text_input_value={update_category_name}
-                type={type}
+                type={"by_user"}
                 caption={"Category name"}
               />
               {update_category_name.length > 0 && (
