@@ -124,14 +124,6 @@ export const AccountAndThingsView = ({ navigation }) => {
           borderBottomWidth={"1px"}
         />
         <AccountAndThingsTile
-          caption={"App preference"}
-          navigation={navigation}
-          icon_name={"PreferencesIcon"}
-          active_icon={true}
-          borderTopWidth={"1px"}
-          borderBottomWidth={"2px"}
-        />
-        <AccountAndThingsTile
           caption={"Bills"}
           navigation={navigation}
           icon_name={"RealIncomeIcon"}
@@ -139,6 +131,14 @@ export const AccountAndThingsView = ({ navigation }) => {
           borderTopWidth={"1px"}
           borderBottomWidth={"2px"}
           action={() => movingToBillsToPayView(navigation)}
+        />
+        <AccountAndThingsTile
+          caption={"App preference"}
+          navigation={navigation}
+          icon_name={"PreferencesIcon"}
+          active_icon={true}
+          borderTopWidth={"1px"}
+          borderBottomWidth={"2px"}
         />
       </FlexibleContainer>
     </GeneralFlexContainer>

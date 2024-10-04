@@ -1,6 +1,11 @@
 import React, { createContext, useState } from "react";
 
-import { weekDays, months, month_acronyms } from "./date_operations_data";
+import {
+  weekDays,
+  months,
+  month_acronyms,
+  camel_month_acronyms,
+} from "./date_operations_data";
 export const DateOperationsContext = createContext();
 
 export const DateOperationsContextProvider = ({ children }) => {
@@ -87,6 +92,19 @@ export const DateOperationsContextProvider = ({ children }) => {
   // console.log("MONTHS UNTIL NOW:", monthsUntilNow);
   // ************************************************************************************
 
+  const assemblingMonthAndDayForBillsDueDate = (digit) => {
+    // do not accept double point
+    console.log("DIGIT AT ASSEMBLING:", digit);
+    console.log("MONTH NAME:", month_name);
+    const index = camel_month_acronyms.findIndex(
+      (obj) => obj.month_name === month_name
+    );
+    console.log(camel_month_acronyms[index].month_acronym);
+    const month_day_for_bills_due_date = `${camel_month_acronyms[index].month_acronym} ${digit}`;
+    console.log("MONTH DAY FOR BILLS DUE DATE:", month_day_for_bills_due_date);
+    return month_day_for_bills_due_date;
+  };
+
   return (
     <DateOperationsContext.Provider
       value={{
@@ -104,6 +122,7 @@ export const DateOperationsContextProvider = ({ children }) => {
         month_year_toRender,
         set_month_year_toRender,
         resetMonth_year_toRender,
+        assemblingMonthAndDayForBillsDueDate,
       }}
     >
       {children}

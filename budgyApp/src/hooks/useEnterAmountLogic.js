@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
+
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
 import { RealIncomeContext } from "../infrastructure/services/real_income/real_income.context";
 import { ExpectedIncomeContext } from "../infrastructure/services/expected _income/expected_income.context";
 import { DateOperationsContext } from "../infrastructure/services/date_operations/date_operations.context";
 import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
 import { CategoryDataContext } from "../infrastructure/services/category_data/category_data.context";
+import { HomeContext } from "../infrastructure/services/Home services/home.context";
 
 export const useEnterAmountLogic = (comingFrom) => {
   const {
@@ -34,11 +36,26 @@ export const useEnterAmountLogic = (comingFrom) => {
   const {
     setCategory_list_info_forRequest,
     category_list_info_forRequest,
-    action_to_do,
+    // action_to_do,
     setCategory_list_info_forUpdate,
     category_list_info_forUpdate,
     categoryListContextStateReset,
   } = useContext(CategoryListContext);
+
+  const {
+    action_to_do,
+    updateBillInfoForRequest,
+    createBillInfoForRequest,
+    setUpdateBillInfoForRequest,
+    setCreateBillInfoForRequest,
+  } = useContext(HomeContext);
+  const { bill_amount: bill_amount_toUpdate } = updateBillInfoForRequest;
+  const { bill_amount: bill_amount_toCreate } = createBillInfoForRequest;
+  const stringed_bill_amount_toUpdate =
+    fixingANumberToTwoDecimalsAndString(bill_amount_toUpdate);
+
+  const stringed_bill_amount_toCreate =
+    fixingANumberToTwoDecimalsAndString(bill_amount_toCreate);
 
   const { new_limit_amount: limit_amount_of_update_category } =
     category_list_info_forUpdate;
@@ -85,6 +102,10 @@ export const useEnterAmountLogic = (comingFrom) => {
           ? stringedCategoryLimitAmount
           : comingFrom === "positive_avail_amount_categories_view"
           ? stringedTransmitter_available_amount
+          : comingFrom === "create_bill_name_view"
+          ? stringed_bill_amount_toCreate
+          : comingFrom === "update_bill_name_view"
+          ? stringed_bill_amount_toUpdate
           : stringedExpectedIncomeAmount
       }`
     )
@@ -193,10 +214,32 @@ export const useEnterAmountLogic = (comingFrom) => {
         });
       }
     }
+    if (comingFrom === "create_bill_name_view") {
+      setCreateBillInfoForRequest({
+        ...createBillInfoForRequest,
+        bill_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
+      });
+      navigation.navigate("bill_payment_day_view", {
+        comingFrom: "TransactionSummaryView",
+      });
+    }
+    if (comingFrom === "update_bill_name_view") {
+      setUpdateBillInfoForRequest({
+        ...updateBillInfoForRequest,
+        bill_amount: parseFloat(amountToSet.replace(/[^0-9.]/g, "")),
+      });
+      navigation.navigate("bill_payment_day_view", {
+        comingFrom: "TransactionSummaryView",
+      });
+    }
   };
   console.log(
-    "CATEGORY DATA INFO FOR MONEY REQUEST AT LOGIC:",
-    JSON.stringify(categoryDataInfoForMoneyTransfer, null, 2)
+    "UPDATE BILL INFO FOR REQUEST AT ENTER AMOUNT LOGIC:",
+    JSON.stringify(updateBillInfoForRequest, null, 2)
+  );
+  console.log(
+    "CREATE BILL INFO FOR REQUEST AT ENTER AMOUNT LOGIC:",
+    JSON.stringify(createBillInfoForRequest, null, 2)
   );
 
   const formatCurrency = (value) => {

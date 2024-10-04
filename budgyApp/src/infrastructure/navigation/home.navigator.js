@@ -17,6 +17,7 @@ import { MonthsPadView } from "../../Views/general_views/months_pad.view";
 import { HowMonthIsGoingView } from "../../Views/home/how_your_month_goes";
 import { BillsToPayListView } from "../../Views/home/bills_to_pay_list.view";
 import { GeneralNewNameView } from "../../Views/general_views/general_new__name.view";
+import { BillsPaymentDayView } from "../../Views/home/bills_payment_day.view";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -109,6 +110,12 @@ export const HomeNavigator = () => {
       <HomeStack.Screen
         name="bill_name_view"
         component={GeneralNewNameView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <HomeStack.Screen
+        name="bill_payment_day_view"
+        component={BillsPaymentDayView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

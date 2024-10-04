@@ -89,7 +89,7 @@ export const BillToPayTile = ({
         justify={"center"}
         alignment={"center"}
       >
-        <Spacer position="left" size="large">
+        {/* <Spacer position="left" size="large">
           <PaidOrUnpaidButton
             color={
               tapped
@@ -100,10 +100,10 @@ export const BillToPayTile = ({
             width={"70px"}
             height={"40px"}
             borderRadius={12}
-            caption={tapped ? "Paid" : "Activate"}
+            caption={tapped ? "Paid" : "Unpaid"}
             type={tapped ? "green_option_button" : "grey_option_button"}
           />
-        </Spacer>
+        </Spacer> */}
       </ControlledContainer>
     </ClickableControlledContainer>
   );

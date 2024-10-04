@@ -31,7 +31,7 @@ export const EmptyInfoAlert = ({
       >
         <Text text_variant="neutral_bold_text_16">{caption}</Text>
         <Text text_variant="neutral_bold_text_16">
-          for {month_year_toRender}`
+          for {month_year_toRender}
         </Text>
       </ControlledContainer>
     );

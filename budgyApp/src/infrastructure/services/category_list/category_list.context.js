@@ -116,7 +116,10 @@ export const CategoryListContextProvider = ({ children }) => {
             short_name: newName,
           },
         }));
-        navigation.navigate("Enter_amount_with_options_view", {
+        // navigation.navigate("Enter_amount_with_options_view", {
+        //   comingFrom: "GeneralNewNameView",
+        // });
+        navigation.navigate("Enter_amount_view", {
           comingFrom: "GeneralNewNameView",
         });
       }
@@ -128,7 +131,7 @@ export const CategoryListContextProvider = ({ children }) => {
           new_category_name: newName,
           new_short_name: newName,
         }));
-        navigation.navigate("Enter_amount_with_options_view", {
+        navigation.navigate("Enter_amount_view", {
           comingFrom: "GeneralNewNameView",
         });
       }
@@ -149,7 +152,7 @@ export const CategoryListContextProvider = ({ children }) => {
             short_name: shortName,
           },
         }));
-        navigation.navigate("Enter_amount_with_options_view", {
+        navigation.navigate("Enter_amount_view", {
           comingFrom: "GeneralNewNameView",
         });
       }
@@ -159,7 +162,7 @@ export const CategoryListContextProvider = ({ children }) => {
           new_category_name: newName,
           new_short_name: shortName,
         }));
-        navigation.navigate("Enter_amount_with_options_view", {
+        navigation.navigate("Enter_amount_view", {
           comingFrom: "GeneralNewNameView",
         });
       }
@@ -174,7 +177,7 @@ export const CategoryListContextProvider = ({ children }) => {
             short_name: short_name,
           },
         }));
-        navigation.navigate("Enter_amount_with_options_view", {
+        navigation.navigate("Enter_amount_view", {
           comingFrom: "GeneralNewNameView",
         });
       }
@@ -184,7 +187,7 @@ export const CategoryListContextProvider = ({ children }) => {
           new_category_name: newName,
           new_short_name: short_name,
         }));
-        navigation.navigate("Enter_amount_with_options_view", {
+        navigation.navigate("Enter_amount_view", {
           comingFrom: "GeneralNewNameView",
         });
       }

@@ -7,10 +7,20 @@ export const NumPadContainer = styled(View)`
   height: 360px;
   background-color: ${theme.colors.bg.s_142223C};
 `;
+export const BillsPaymentDayNumPadContainer = styled(View)`
+  width: 400px;
+  height: 430px;
+  background-color: ${theme.colors.ui.s_FFFFFF};
+`;
 
 export const Row = styled(View)`
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 12px;
+`;
+export const BillsPadRow = styled(View)`
+  flex-direction: row;
+  justify-content: space-evenly;
   margin-bottom: 12px;
 `;
 

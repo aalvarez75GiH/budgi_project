@@ -174,6 +174,8 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
         icon_left_left={"2%"}
         icon_top_right={"0%"}
         icon_left_right={"80%"}
+        icon_left_size={23}
+        icon_right_size={23}
       />
 
       <ControlledContainer

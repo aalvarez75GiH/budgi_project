@@ -1,19 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { Platform } from "react-native";
 
-import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { Text } from "../../infrastructure/typography/text.component";
-import { Spacer } from "../../global_components/optimized.spacer.component";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
-import { InfoDetailsTile } from "../../global_components/organisms/tiles/info_details_tile";
-import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 import { useEnterAmountLogic } from "../../hooks/useEnterAmountLogic";
-import { DoneHeaderComponent } from "../../global_components/organisms/headers/done_heaer.component";
 import { SVGComponent } from "../../global_components/image_components/svg.component";
-import { useSVGComponent } from "../../util/system_icons.hook";
 import { AccordionComponent } from "../../global_components/organisms/animated components/accordion.component";
 
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
@@ -24,9 +18,6 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
   const {
     category_list_info_forRequest,
     category_list_info_forUpdate,
-    resettingInfoForRequestsAndMovingToBudgets,
-    // resettingCategoryListInfoForRequest,
-    goingHome,
     action_to_do,
     movingBackToHome,
   } = useContext(CategoryListContext);
@@ -40,7 +31,6 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
   const { category_name, limit_amount } = new_expense_category_node;
 
   const { expenseDate } = useContext(DateOperationsContext);
-  const { amountToSet } = useEnterAmountLogic();
 
   const { new_category_name, new_limit_amount } = category_list_info_forUpdate;
   const stringedLimitAmount = fixingANumberToTwoDecimalsAndString(limit_amount);

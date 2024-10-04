@@ -98,14 +98,6 @@ flex-direction: ${(props) => props.direction};
 justify-content: ${(props) => props.justify};
 align-items: ${(props) => props.align};
 `;
-// export const OptionButtonTextIconContainer = Styled(View)`
-// width: 70%;
-// height: auto;
-// /* background-color: red; */
-// flex-direction: row;
-// justify-content: center;
-// align-items: center;
-// `;
 
 export const OPTButton = Styled(TouchableOpacity)`
   width: ${(props) => props.width}px;
@@ -152,4 +144,15 @@ export const RoundedOPTButton = Styled(TouchableOpacity)`
   align-items: center;
   border-radius: ${(props) => props.borderRadius}px;
   
+`;
+
+export const BillsNumPadBtn = Styled(View)`
+  width: ${(props) => (props.wide ? "80px" : "50px")};
+  height: 50px;
+  /* background-color: ${(props) => props.color}; */
+  background-color: ${(props) => (props.isActive ? "#142223" : props.color)}; 
+  border-radius: 100px;
+  justify-content: center;
+  align-items: center;
+  /* margin-right: 15px; */
 `;

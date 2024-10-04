@@ -5,6 +5,7 @@ import {
   updateBillNodeObject,
   creationBillNodeObject,
 } from "./home.initial_data";
+import { DateOperationsContext } from "../date_operations/date_operations.context";
 
 export const HomeContext = createContext();
 
@@ -13,6 +14,9 @@ export const HomeContextProvider = ({ children }) => {
   const { user_id } = user;
   const [number, setNumber] = useState("0");
 
+  const { assemblingMonthAndDayForBillsDueDate } = useContext(
+    DateOperationsContext
+  );
   const clean = () => {
     setNumber("0");
   };
@@ -23,7 +27,6 @@ export const HomeContextProvider = ({ children }) => {
     })();
   }, []);
 
-  const [bills_by_default, setBillsByDefault] = useState([]);
   const [bills_by_user, setBillsByUser] = useState([]);
   const [updateBillInfoForRequest, setUpdateBillInfoForRequest] = useState(
     updateBillNodeObject(user_id)
@@ -34,6 +37,12 @@ export const HomeContextProvider = ({ children }) => {
   const [action_to_do, setActionToDo] = useState("");
   const [newBillName, setNewBillName] = useState("");
   const [updateBillName, setUpdateBillName] = useState("");
+
+  const [billDayChosen, setBillDayChosen] = useState({
+    day_selected: "1",
+    isActive: false,
+  });
+
   // console.log("NEW BILL OBJECT:", JSON.stringify(newBill, null, 2));
 
   const fetchingBillsByUser = async () => {
@@ -104,9 +113,9 @@ export const HomeContextProvider = ({ children }) => {
           bill_title: newBillName,
           bill_short_name: newBillName,
         }));
-        // navigation.navigate("Enter_amount_with_options_view", {
-        //   comingFrom: "GeneralNewNameView",
-        // });
+        navigation.navigate("Enter_amount_view", {
+          comingFrom: "create_bill_name_view",
+        });
       }
 
       if (action_to_do === "update_bill") {
@@ -120,9 +129,9 @@ export const HomeContextProvider = ({ children }) => {
           "UPDATE BILL INFO FOR REQUEST:",
           JSON.stringify(updateBillInfoForRequest, null, 2)
         );
-        // navigation.navigate("Enter_amount_with_options_view", {
-        //   comingFrom: "GeneralNewNameView",
-        // });
+        navigation.navigate("Enter_amount_view", {
+          comingFrom: "update_bill_name_view",
+        });
       }
     }
 
@@ -138,6 +147,9 @@ export const HomeContextProvider = ({ children }) => {
           bill_title: newBillName,
           bill_short_name: shortNameBillName,
         }));
+        navigation.navigate("Enter_amount_view", {
+          comingFrom: "create_bill_name_view",
+        });
       }
 
       if (action_to_do === "update_bill") {
@@ -150,9 +162,9 @@ export const HomeContextProvider = ({ children }) => {
           "UPDATE BILL INFO FOR REQUEST:",
           JSON.stringify(updateBillInfoForRequest, null, 2)
         );
-        // navigation.navigate("Enter_amount_with_options_view", {
-        //   comingFrom: "GeneralNewNameView",
-        // });
+        navigation.navigate("Enter_amount_view", {
+          comingFrom: "update_bill_name_view",
+        });
       }
     }
 
@@ -160,6 +172,49 @@ export const HomeContextProvider = ({ children }) => {
       setUpdateBillInfoForRequest((prevState) => ({
         ...prevState,
         bill_title: newBillName,
+      }));
+      navigation.navigate("Enter_amount_view", {
+        comingFrom: "update_bill_name_view",
+      });
+      console.log(
+        "UPDATE BILL INFO FOR REQUEST:",
+        JSON.stringify(updateBillInfoForRequest, null, 2)
+      );
+    }
+  };
+
+  const exitingToRoot = (navigation) => {
+    setUpdateBillInfoForRequest(updateBillNodeObject(user_id));
+    setCreateBillInfoForRequest(creationBillNodeObject(user_id));
+    setBillDayChosen({
+      day_selected: "1",
+      isActive: false,
+    });
+    navigation.popToTop();
+  };
+
+  const settingPaymentDueDateForRequest = (digit) => {
+    const payment_due_date = assemblingMonthAndDayForBillsDueDate(digit);
+    setBillDayChosen({
+      day_selected: digit,
+      isActive: true,
+    });
+    console.log("PAYMENT DUE DATE:", payment_due_date);
+    console.log("ACTION TO DO:", action_to_do);
+    if (action_to_do === "create_bill") {
+      setCreateBillInfoForRequest((prevState) => ({
+        ...prevState,
+        payment_date: payment_due_date,
+      }));
+      console.log(
+        "CREATE BILL INFO FOR REQUEST:",
+        JSON.stringify(createBillInfoForRequest, null, 2)
+      );
+    }
+    if (action_to_do === "update_bill") {
+      setUpdateBillInfoForRequest((prevState) => ({
+        ...prevState,
+        payment_date: payment_due_date,
       }));
       console.log(
         "UPDATE BILL INFO FOR REQUEST:",
@@ -177,8 +232,6 @@ export const HomeContextProvider = ({ children }) => {
         clean,
         btnDelete,
         bills_by_user,
-        // newBill,
-        // setNewBill,
         updateBillName,
         setUpdateBillName,
         setActionToDo,
@@ -190,6 +243,9 @@ export const HomeContextProvider = ({ children }) => {
         setCreateBillInfoForRequest,
         newBillName,
         setNewBillName,
+        exitingToRoot,
+        settingPaymentDueDateForRequest,
+        billDayChosen,
       }}
     >
       {children}

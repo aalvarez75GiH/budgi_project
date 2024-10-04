@@ -12,9 +12,7 @@ import { GeneralSelectCategoryView } from "../../Views/general_views/select_cate
 import { GeneralCalendarView } from "../../Views/general_views/calendar.view";
 import { GeneralAddDescriptionView } from "../../Views/general_views/add_description.view";
 import { CancelDeleteConfirmationView } from "../../Views/general_views/cancel_delete_confirmation.view";
-import { EnterAmountWithOptionsView } from "../../Views/budgets/enter_amount_with_options.view";
 import { NewOrUpdateCategorySummaryView } from "../../Views/budgets/new_update_category_summary.view";
-import { Home } from "../../Views/home/home.view";
 import { NewOrUpdateCategoryConfirmationView } from "../../Views/budgets/new_update_category_confirmation";
 import { SuspendedCategoriesView } from "../../Views/budgets/suspended_categories.view";
 import { PositiveAvailAmountCategoriesView } from "../../Views/budgets/categories_with_positive_avail_amount.view";
@@ -90,12 +88,7 @@ export const BudgetNavigator = () => {
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />
-      <BudgetStack.Screen
-        name="Enter_amount_with_options_view"
-        component={EnterAmountWithOptionsView}
-        options={{ animation: "slide_from_right" }}
-        // options={{ gestureDirection: "horizontal-inverted" }}
-      />
+
       <BudgetStack.Screen
         name="New_category_summary_view"
         component={NewOrUpdateCategorySummaryView}
