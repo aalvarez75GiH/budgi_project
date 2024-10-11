@@ -72,6 +72,9 @@ export const TransactionConfirmationView = ({ navigation, route }) => {
               stringedAmount={stringedAmount}
               short_name={short_name}
               transaction_date={transaction_date}
+              caption1={"Amount:"}
+              caption2={"Category:"}
+              caption3={"Date:"}
             />
           </FlexibleContainer>
 
@@ -139,6 +142,9 @@ export const TransactionConfirmationView = ({ navigation, route }) => {
               stringedAmount={stringedAmountUpdated}
               short_name={short_name_updated}
               transaction_date={transaction_date_updated}
+              caption1={"Amount:"}
+              caption2={"Category:"}
+              caption3={"Date:"}
             />
           </FlexibleContainer>
 
@@ -206,6 +212,9 @@ export const TransactionConfirmationView = ({ navigation, route }) => {
               stringedAmount={stringedAmountUpdated}
               short_name={short_name_updated}
               transaction_date={transaction_date_updated}
+              caption1={"Amount:"}
+              caption2={"Category:"}
+              caption3={"Date:"}
             />
           </FlexibleContainer>
 

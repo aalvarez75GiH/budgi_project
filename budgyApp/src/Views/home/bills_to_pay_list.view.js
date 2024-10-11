@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { FlatList, StyleSheet } from "react-native";
 
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
@@ -9,21 +9,33 @@ import { GeneralFlexContainer } from "../../global_components/containers/general
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { BillToPayTile } from "../../global_components/organisms/tiles/bill_to_pay_tile";
 import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
+import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
 
 import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
+import { ControlledContainer } from "../../global_components/containers/controlled_container";
 
 export const BillsToPayListView = ({ navigation }) => {
   const {
     bills_by_user,
     setUpdateBillName,
     setUpdateBillInfoForRequest,
-    updateBillInfoForRequest,
     setActionToDo,
+    isLoadingBillRequest,
+    fetchingBillsByUser,
+    bills_list_by_user,
   } = useContext(HomeContext);
+  console.log(
+    "BILLS LIST BY USER AT BILLS TO PAY LIST VIEW:",
+    JSON.stringify(bills_list_by_user, null, 2)
+  );
+  const { bills_total_amount } = bills_list_by_user;
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
-  // const { bills_by_user } = billToPayList;
+
+  useEffect(() => {
+    fetchingBillsByUser();
+  }, []);
 
   const movingForwardToNewCategoryNameViewForUpdatingBill = (item) => {
     setActionToDo("update_bill");
@@ -65,7 +77,22 @@ export const BillsToPayListView = ({ navigation }) => {
     navigation.navigate("bill_name_view");
   };
 
-  return (
+  return isLoadingBillRequest ? (
+    <FlexibleContainer
+      color={theme.colors.bg.p_FFFFFF}
+      direction="row"
+      flexibility={1}
+      justify={"center"}
+      isBordered={false}
+      alignment={"center"}
+    >
+      <IsLoadingContainer
+        size="large"
+        color={theme.colors.brand.primary}
+        caption="Loading transactions..."
+      />
+    </FlexibleContainer>
+  ) : (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
       <TwoIconsHeaderComponent
         navigation={navigation}
@@ -89,10 +116,10 @@ export const BillsToPayListView = ({ navigation }) => {
       />
 
       <FlexibleContainer
-        // color={"#898989"}
+        //color={"#F5F5F5"}
         color={theme.colors.bg.p_FFFFFF}
         direction="row"
-        flexibility={0.03}
+        flexibility={0.05}
         justify={"flex-start"}
         isBordered={false}
       ></FlexibleContainer>
@@ -143,22 +170,54 @@ export const BillsToPayListView = ({ navigation }) => {
           }}
         />
       </FlexibleContainer>
+      <FlexibleContainer
+        color={"#D6D6D6"}
+        // color={theme.colors.neutrals.p_B7B7B7}
+        direction="row"
+        flexibility={0.1}
+        justify={"space-evenly"}
+        isBordered={false}
+      >
+        <ControlledContainer
+          // color={theme.colors.neutrals.p_B7B7B7}
+          color={"#D6D6D6"}
+          width={"30%"}
+          height={"45px"}
+          justify="center"
+          alignment="flex-start"
+        />
+        <ControlledContainer
+          // color={theme.colors.neutrals.p_B7B7B7}
+          color={"#D6D6D6"}
+          // color={"red"}
+          width={"50%"}
+          height={"45px"}
+          justify="center"
+          alignment="flex-start"
+        >
+          <Text text_variant="bold_text_16">Bills total amount:</Text>
+        </ControlledContainer>
+        {/* </Spacer> */}
+        {/* <Spacer position="left" size="medium"> */}
+        <ControlledContainer
+          color={"#D6D6D6"}
+          // color={theme.colors.neutrals.p_B7B7B7}
+          // color={"lightblue"}
+          width={"45%"}
+          height={"45px"}
+          justify="center"
+          alignment="flex-start"
+        >
+          {/* <Text text_variant="bold_text_16">{bills_total_amount}</Text> */}
+          <Text text_variant="bold_text_16">
+            {new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
+            }).format(bills_total_amount)}
+          </Text>
+        </ControlledContainer>
+        {/* </Spacer> */}
+      </FlexibleContainer>
     </GeneralFlexContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  flatListContent: {
-    // backgroundColor: "red",
-    width: 400,
-    paddingHorizontal: 3,
-    height: "100%",
-  },
-  itemSeparator: {
-    height: 0.5,
-  },
-  columnWrapper: {
-    justifyContent: "space-evenly",
-    paddingVertical: 1,
-  },
-});

@@ -1,10 +1,15 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { AuthenticationContext } from "../authentication/authentication.context";
-import { getBillsList_By_UserID_Request } from "./home.services";
+import {
+  getBillsList_By_UserID_Request,
+  updatingBillRequest,
+  creatingBillRequest,
+} from "./home.services";
 import {
   updateBillNodeObject,
   creationBillNodeObject,
 } from "./home.initial_data";
+
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 
 export const HomeContext = createContext();
@@ -27,6 +32,7 @@ export const HomeContextProvider = ({ children }) => {
     })();
   }, []);
 
+  // ********* STATES *********
   const [bills_by_user, setBillsByUser] = useState([]);
   const [updateBillInfoForRequest, setUpdateBillInfoForRequest] = useState(
     updateBillNodeObject(user_id)
@@ -42,16 +48,21 @@ export const HomeContextProvider = ({ children }) => {
     day_selected: "1",
     isActive: false,
   });
-
+  const [isLoadingBillRequest, setIsLoadingBillRequest] = useState(false);
+  const [bills_list_by_user, setBillsListByUser] = useState({});
   // console.log("NEW BILL OBJECT:", JSON.stringify(newBill, null, 2));
 
   const fetchingBillsByUser = async () => {
+    setIsLoadingBillRequest(true);
     try {
       const bills_list_by_user = await getBillsList_By_UserID_Request(user_id);
       const { bills_by_user } = bills_list_by_user.data;
       setBillsByUser(bills_by_user);
+      setBillsListByUser(bills_list_by_user.data);
     } catch (error) {
       console.log("ERROR FETCHING BILLS BY DEFAULT:", error);
+    } finally {
+      setIsLoadingBillRequest(false);
     }
   };
 
@@ -223,6 +234,50 @@ export const HomeContextProvider = ({ children }) => {
     }
   };
 
+  const creatingBillAtListByUserId = async (navigation) => {
+    setIsLoadingBillRequest(true);
+    console.log(
+      "WE SHOULD BE CREATING THE BILL AT LIST BY USER ID:",
+      JSON.stringify(createBillInfoForRequest, null, 2)
+    );
+    try {
+      const response = await creatingBillRequest(createBillInfoForRequest);
+      if (response) {
+        setIsLoadingBillRequest(false);
+        console.log(
+          "BILL LIST CREATED RESPONSE AT CONTEXT:",
+          JSON.stringify(response.data, null, 2)
+        );
+        // setNewCategoryAdded(true);
+        navigation.navigate("bill_confirmation_view");
+      }
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
+  const updatingBillListByUserId = async (navigation) => {
+    setIsLoadingBillRequest(true);
+    console.log(
+      "WE SHOULD BE UPDATING THE BILL LIST BY USER ID:",
+      JSON.stringify(updateBillInfoForRequest, null, 2)
+    );
+    try {
+      const response = await updatingBillRequest(updateBillInfoForRequest);
+      if (response) {
+        setIsLoadingBillRequest(false);
+        console.log(
+          "BILL LIST UPDATED RESPONSE AT CONTEXT:",
+          JSON.stringify(response.data, null, 2)
+        );
+        // setNewCategoryAdded(true);
+        navigation.navigate("bill_confirmation_view");
+      }
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
   return (
     <HomeContext.Provider
       value={{
@@ -246,6 +301,11 @@ export const HomeContextProvider = ({ children }) => {
         exitingToRoot,
         settingPaymentDueDateForRequest,
         billDayChosen,
+        updatingBillListByUserId,
+        isLoadingBillRequest,
+        fetchingBillsByUser,
+        bills_list_by_user,
+        creatingBillAtListByUserId,
       }}
     >
       {children}

@@ -13,16 +13,19 @@ import { AccordionComponent } from "../../global_components/organisms/animated c
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
+import { HomeContext } from "../../infrastructure/services/Home services/home.context";
+
 export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
   // ****************LOGIC FROM HOOK ********
   const {
     category_list_info_forRequest,
     category_list_info_forUpdate,
-    action_to_do,
     movingBackToHome,
   } = useContext(CategoryListContext);
   const { fixingANumberToTwoDecimalsAndString } =
     useContext(TransactionsContext);
+
+  const { action_to_do } = useContext(HomeContext);
   console.log(
     "CATEGORY LIST INFO FOR REQUEST AT SUMMARY VIEW:",
     JSON.stringify(category_list_info_forRequest, null, 2)
@@ -90,6 +93,9 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
                 stringedAmount={stringedLimitAmount}
                 short_name={category_name}
                 transaction_date={expenseDate}
+                caption1={"Amount:"}
+                caption2={"Category:"}
+                caption3={"Date:"}
               />
             </FlexibleContainer>
 
@@ -158,6 +164,9 @@ export const NewOrUpdateCategoryConfirmationView = ({ navigation }) => {
               stringedAmount={stringed_new_limit_amount}
               short_name={new_category_name}
               transaction_date={expenseDate}
+              caption1={"Amount:"}
+              caption2={"Category:"}
+              caption3={"Date:"}
             />
           </FlexibleContainer>
 

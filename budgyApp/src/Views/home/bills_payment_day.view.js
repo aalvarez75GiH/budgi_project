@@ -82,7 +82,7 @@ export const BillsPaymentDayView = ({ navigation, route }) => {
               height={50}
               color={theme.colors.buttons.p_FC9827}
               borderRadius={50}
-              action={() => null}
+              action={() => navigation.navigate("bill_summary_view")}
               //   action={
               //     comingFrom === "TransactionSummaryView"
               //       ? () =>

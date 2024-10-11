@@ -18,7 +18,8 @@ import { HowMonthIsGoingView } from "../../Views/home/how_your_month_goes";
 import { BillsToPayListView } from "../../Views/home/bills_to_pay_list.view";
 import { GeneralNewNameView } from "../../Views/general_views/general_new__name.view";
 import { BillsPaymentDayView } from "../../Views/home/bills_payment_day.view";
-
+import { NewOrUpdateBillSummaryView } from "../../Views/home/new_or_update_bill_summary.view";
+import { NewOrUpdateBillConfirmationView } from "../../Views/home/new_or_update_bill_confirmation.view";
 const HomeStack = createNativeStackNavigator();
 
 export const HomeNavigator = () => {
@@ -116,6 +117,18 @@ export const HomeNavigator = () => {
       <HomeStack.Screen
         name="bill_payment_day_view"
         component={BillsPaymentDayView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <HomeStack.Screen
+        name="bill_summary_view"
+        component={NewOrUpdateBillSummaryView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <HomeStack.Screen
+        name="bill_confirmation_view"
+        component={NewOrUpdateBillConfirmationView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

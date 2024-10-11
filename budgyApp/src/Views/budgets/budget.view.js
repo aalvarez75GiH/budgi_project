@@ -62,7 +62,6 @@ export const BudgetView = ({ navigation }) => {
   const {
     category_list_info_forUpdate,
     setCategory_list_info_forUpdate,
-    // setAction_to_do,
     setCategorySelected,
     categorySelected,
     firstCategoryDataExpenseCategories,

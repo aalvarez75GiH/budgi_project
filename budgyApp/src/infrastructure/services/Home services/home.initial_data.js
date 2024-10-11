@@ -18,6 +18,6 @@ export const creationBillNodeObject = (user_id) => ({
   type: "by_user",
   bill_amount: 0,
   updated_on: Date.now(),
-  status: "active",
+  status: "Unpaid",
   payment_date: "-",
 });

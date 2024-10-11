@@ -13,6 +13,7 @@ import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
+import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 
 export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
   const { comingFrom } = route.params;
@@ -23,9 +24,9 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
     resettingInfoForRequestsAndMovingToBudgets,
     isLoading,
     registeringNewExpenseCategory,
-    action_to_do,
     updatingExpenseCategory,
   } = useContext(CategoryListContext);
+  const { action_to_do } = useContext(HomeContext);
   console.log(
     "CATEGORY LIST INFO FOR REQUEST AT SUMMARY VIEW:",
     JSON.stringify(category_list_info_forRequest, null, 2)
@@ -59,6 +60,8 @@ export const NewOrUpdateCategorySummaryView = ({ navigation, route }) => {
         icon_left_left={"2%"}
         icon_top_right={"0%"}
         icon_left_right={"80%"}
+        icon_left_size={23}
+        icon_right_size={23}
       />
 
       <ControlledContainer

@@ -12,6 +12,10 @@ export const AccordionComponent = ({
   stringedAmount,
   short_name,
   transaction_date,
+  caption1,
+  caption2,
+  caption3,
+  caption4,
 }) => {
   const [opened, setOpened] = useState(false);
   const [animation, setAnimation] = useState(new Animated.Value(0));
@@ -85,7 +89,8 @@ export const AccordionComponent = ({
             justify={"center"}
             color={theme.colors.bg.p_FFFFFF}
           >
-            <Text text_variant="bold_text_14">Amount:</Text>
+            {/* <Text text_variant="bold_text_14">Amount:</Text> */}
+            <Text text_variant="bold_text_14">{caption1}</Text>
           </ControlledContainer>
           <ControlledContainer
             width={"50%"}
@@ -109,7 +114,8 @@ export const AccordionComponent = ({
             justify={"center"}
             color={theme.colors.bg.p_FFFFFF}
           >
-            <Text text_variant="bold_text_14">Category:</Text>
+            {/* <Text text_variant="bold_text_14">Category:</Text> */}
+            <Text text_variant="bold_text_14">{caption2}</Text>
           </ControlledContainer>
           <ControlledContainer
             width={"50%"}
@@ -133,7 +139,8 @@ export const AccordionComponent = ({
             justify={"center"}
             color={theme.colors.bg.p_FFFFFF}
           >
-            <Text text_variant="bold_text_14">Date:</Text>
+            {/* <Text text_variant="bold_text_14">Date:</Text> */}
+            <Text text_variant="bold_text_14">{caption3}</Text>
           </ControlledContainer>
           <ControlledContainer
             width={"50%"}

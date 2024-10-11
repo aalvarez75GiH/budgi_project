@@ -62,6 +62,15 @@ const createBill = async (bill) => {
   return bill_toCreate;
 };
 
+const updateBillListByUserID = async (bill_list_toUpdate) => {
+  const { bills_list_id } = bill_list_toUpdate;
+  await db
+    .collection("bills_list")
+    .doc(bills_list_id)
+    .update(bill_list_toUpdate);
+  return bill_list_toUpdate;
+};
+
 // ** Create Category List - by http request
 const createBillsList = async (bills_list_toCreate) => {
   const { bills_list_id } = bills_list_toCreate;
@@ -77,4 +86,5 @@ module.exports = {
   getAllBills,
   createBillsList,
   getBillsListByUserID,
+  updateBillListByUserID,
 };
