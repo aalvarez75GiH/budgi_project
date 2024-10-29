@@ -1,6 +1,14 @@
 const app = require("../../express")();
 const { v4: uuidv4 } = require("uuid");
 
+const {
+  doingBillsListTotalAmountMath,
+  removingBillNodeFromBillsList,
+  pausingBillNodeFromBillsList,
+  doingBillsListTotalAmountMathWithoutPausedNodes,
+  activatingBillNodeFromBillsList,
+  selectingBillNodeFromBillsList,
+} = require("./bills.handlers");
 const billController = require("./bills.controllers");
 
 //******************** GETS ****************************************
@@ -104,7 +112,7 @@ app.post("/postMultipleBills", (req, res) => {
   })();
 });
 
-//** Update a Category List Expense Category node and Category Data's expense category node
+//** Update a Bills List's Bill node
 app.put("/updateBillListByUserId", (req, res) => {
   const {
     user_id,
@@ -117,6 +125,7 @@ app.put("/updateBillListByUserId", (req, res) => {
     type,
     updated_on,
     status,
+    payment_date_timeStamp,
   } = req.body;
 
   const bill_toUpdate = {
@@ -130,6 +139,7 @@ app.put("/updateBillListByUserId", (req, res) => {
     type,
     updated_on,
     status,
+    payment_date_timeStamp,
   };
   console.log("BILL TO UPDATE:", bill_toUpdate);
 
@@ -149,21 +159,16 @@ app.put("/updateBillListByUserId", (req, res) => {
       bill_node_toUpdate.type = type;
       bill_node_toUpdate.updated_on = updated_on;
       bill_node_toUpdate.status = status;
+      bill_node_toUpdate.payment_date_timeStamp = payment_date_timeStamp;
       bills_by_user[index] = bill_node_toUpdate;
 
       // ******************** Updating Bills List Total amount ***************
-
-      billsListByUserId.bills_total_amount = bills_by_user.reduce(
-        (acc, obj) => {
-          return acc + obj.bill_amount;
-        },
-        0
-      );
-      console.log("TOTAL AMOUNT:", billsListByUserId.bills_total_amount);
+      const billsListWithTotalAmountUpdated =
+        await doingBillsListTotalAmountMath(billsListByUserId);
 
       // **********************************************************************
       const billListUpdated = await billController.updateBillListByUserID(
-        billsListByUserId
+        billsListWithTotalAmountUpdated
       );
       billListUpdated
         ? res.status(201).json(billListUpdated)
@@ -179,7 +184,7 @@ app.put("/updateBillListByUserId", (req, res) => {
     }
   })();
 });
-//** Update a Category List Expense Category node and Category Data's expense category node
+//** Create a Bills List's Bill node
 app.put("/createBillByUserId", (req, res) => {
   const bill_id = uuidv4();
   const {
@@ -192,6 +197,7 @@ app.put("/createBillByUserId", (req, res) => {
     type,
     updated_on,
     status,
+    payment_date_timeStamp,
   } = req.body;
 
   const bill_toCreate = {
@@ -204,6 +210,7 @@ app.put("/createBillByUserId", (req, res) => {
     updated_on,
     status,
     bill_id,
+    payment_date_timeStamp,
   };
   console.log("BILL TO CREATE:", bill_toCreate);
 
@@ -219,18 +226,11 @@ app.put("/createBillByUserId", (req, res) => {
       }
 
       // ******************** Updating Bills List Total amount ***************
+      const billsListWithTotalAmountUpdated =
+        await doingBillsListTotalAmountMath(billsListByUserId);
 
-      billsListByUserId.bills_total_amount = bills_by_user.reduce(
-        (acc, obj) => {
-          return acc + obj.bill_amount;
-        },
-        0
-      );
-      console.log("TOTAL AMOUNT:", billsListByUserId.bills_total_amount);
-
-      // **********************************************************************
       const billListUpdated = await billController.updateBillListByUserID(
-        billsListByUserId
+        billsListWithTotalAmountUpdated
       );
       billListUpdated
         ? res.status(201).json(billListUpdated)
@@ -247,61 +247,157 @@ app.put("/createBillByUserId", (req, res) => {
   })();
 });
 
-// if (index === -1) {
-//   expense_category_array.push(new_node);
-//   sortingExpensesCategories(expense_category_array);
-//   if (type_controller === "category_list") {
-//     category_list_updated = await category_listController.updateCategoryList(
-//       document_to_update
-//     );
-//   }
-//   if (type_controller === "category_data") {
-//     // ********************************************************
-//     const prepared_total_amounts =
-//       await preparingBudgetedAndSpentTotalAmountsOfACategoryData(
-//         expense_category_array
-//       );
+//** Removing a Bill from Bills List
+app.put("/removingBillByUserIdAndBillId", (req, res) => {
+  const user_id = req.query.user_id;
+  const bill_id = req.query.bill_id;
+  console.log("USER ID AT DELETE BILL ENDPOINT:", user_id);
+  console.log("BILL ID AT DELETE BILL ENDPOINT:", bill_id);
+  (async () => {
+    try {
+      const billsListByUserId = await billController.getBillsListByUserID(
+        user_id
+      );
+      const bills_list_with_bill_removed = await removingBillNodeFromBillsList(
+        bill_id,
+        billsListByUserId
+      );
 
-//     const category_data_width_total_amounts = {
-//       ...document_to_update,
-//       total_amount_budgeted: prepared_total_amounts.total_amount_budgeted,
-//       // total_amount_spent: prepared_total_amounts.total_amount_spent,
-//     };
-//     // const { category_data_expenseCategories } = category_data_width_total_amounts;
-//     // ********************************************************
-//     await categoryDataController.updateCategoryData(
-//       category_data_width_total_amounts
-//     );
-//   }
-//   return {
-//     status: "Success",
-//     msg: "Expense Category added to Category List  successfully...",
-//     category_list_updated: category_list_updated,
-//   };
-// }
+      const billsListWithTotalAmountUpdated =
+        await doingBillsListTotalAmountMath(bills_list_with_bill_removed);
+
+      const billListUpdated = await billController.updateBillListByUserID(
+        billsListWithTotalAmountUpdated
+      );
+      billListUpdated
+        ? res.status(201).json(billListUpdated)
+        : res.status(503).send({
+            status: "503",
+            msg: "ERROR 503 - BILLS LIST WAS NOT UPDATED - SERVER UNAVAILABLE OR NETWORK ERROR",
+          });
+
+      // ******************************************
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
+        msg: error,
+      });
+    }
+  })();
+});
+
+//** Pausing a Bill from Bills List
+app.put("/pausingBillByUserIdAndBillId", (req, res) => {
+  const user_id = req.query.user_id;
+  const bill_id = req.query.bill_id;
+  console.log("USER ID AT PAUSE BILL ENDPOINT:", user_id);
+  console.log("BILL ID AT PAUSE BILL ENDPOINT:", bill_id);
+  (async () => {
+    try {
+      const billsListByUserId = await billController.getBillsListByUserID(
+        user_id
+      );
+      const bills_list_with_bill_paused = await pausingBillNodeFromBillsList(
+        bill_id,
+        billsListByUserId
+      );
+
+      const billsListWithTotalAmountUpdated =
+        await doingBillsListTotalAmountMath(bills_list_with_bill_paused);
+
+      const billListUpdated = await billController.updateBillListByUserID(
+        billsListWithTotalAmountUpdated
+      );
+
+      billListUpdated
+        ? res.status(201).json(billListUpdated)
+        : res.status(503).send({
+            status: "503",
+            msg: "ERROR 503 - BILLS LIST WAS NOT UPDATED - SERVER UNAVAILABLE OR NETWORK ERROR",
+          });
+
+      // ******************************************
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
+        msg: error,
+      });
+    }
+  })();
+});
+//** Pausing a Bill from Bills List
+app.put("/activatingBillByUserIdAndBillId", (req, res) => {
+  const user_id = req.query.user_id;
+  const bill_id = req.query.bill_id;
+  console.log("USER ID AT PAUSE BILL ENDPOINT:", user_id);
+  console.log("BILL ID AT PAUSE BILL ENDPOINT:", bill_id);
+  (async () => {
+    try {
+      const billsListByUserId = await billController.getBillsListByUserID(
+        user_id
+      );
+      const bills_list_with_bill_activated =
+        await activatingBillNodeFromBillsList(bill_id, billsListByUserId);
+
+      const billsListWithTotalAmountUpdated =
+        await doingBillsListTotalAmountMath(bills_list_with_bill_activated);
+
+      const billListUpdated = await billController.updateBillListByUserID(
+        billsListWithTotalAmountUpdated
+      );
+
+      billListUpdated
+        ? res.status(201).json(billListUpdated)
+        : res.status(503).send({
+            status: "503",
+            msg: "ERROR 503 - BILLS LIST WAS NOT UPDATED - SERVER UNAVAILABLE OR NETWORK ERROR",
+          });
+
+      // ******************************************
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
+        msg: error,
+      });
+    }
+  })();
+});
+
+app.put("/selectingBillByUserIdAndBillId", (req, res) => {
+  const user_id = req.query.user_id;
+  const bill_id = req.query.bill_id;
+  console.log("USER ID AT PAUSE BILL ENDPOINT:", user_id);
+  console.log("BILL ID AT PAUSE BILL ENDPOINT:", bill_id);
+  (async () => {
+    try {
+      const billsListByUserId = await billController.getBillsListByUserID(
+        user_id
+      );
+      const bills_list_with_bill_selected =
+        await selectingBillNodeFromBillsList(bill_id, billsListByUserId);
+
+      // const billsListWithTotalAmountUpdated =
+      //   await doingBillsListTotalAmountMath(bills_list_with_bill_activated);
+
+      const billListUpdated = await billController.updateBillListByUserID(
+        bills_list_with_bill_selected
+      );
+
+      billListUpdated
+        ? res.status(200).json(billListUpdated)
+        : res.status(503).send({
+            status: "503",
+            msg: "ERROR 503 - BILLS LIST WAS NOT UPDATED - SERVER UNAVAILABLE OR NETWORK ERROR",
+          });
+
+      // ******************************************
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
+        msg: error,
+      });
+    }
+  })();
+});
 
 module.exports = app;
-
-// {
-//   "updated_on": "2024-10-09T17:16:50.923Z",
-//   "bill_id": "bbc1ecde-1a8a-4d48-89bd-3c340d4329e7",
-//   "bill_amount": 0,
-//   "bill_short_name": "Water",
-//   "type": "Default",
-//   "icon_name": "WaterBillIcon",
-//   "payment_date": "Oct 27",
-//   "status": "Unpaid",
-//   "bill_title": "Water service"
-// },
-// {
-//   "updated_on": "2024-10-10T16:13:29.081Z",
-//   "new_bill_id": "85d7db94-af8d-4d5b-aedb-a03fcc4eea3f"
-//   "bill_amount": 100,
-//   "bill_short_name": "Cat S.",
-//   "type": "by_user",
-//   "icon_name": "CustomIcon",
-//   "payment_date": "Oct 15",
-//   "status": "Unpaid",
-//   "bill_title": "Cat services",
-//   "user_id": "34c110af-5d1e-41ee-948f-ca366ae3c53b",
-// }

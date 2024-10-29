@@ -274,6 +274,7 @@ export const useEnterAmountLogic = (comingFrom) => {
     setMonthSelected(month_name);
     navigation.popToTop();
   };
+
   return {
     cta_action,
     setAmountToSet,

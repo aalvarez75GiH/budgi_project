@@ -50,6 +50,8 @@ import PowerBillIcon from "../../assets/icons/svgs/power_bill_icon.svg";
 import WaterBillIcon from "../../assets/icons/svgs/water_bill_icon.svg";
 import TrashBillIcon from "../../assets/icons/svgs/trash_truck_icon.svg";
 import StreamingIcon from "../../assets/icons/svgs/streaming_icon.svg";
+import PausedIcon from "../../assets/icons/svgs/pause_icon.svg";
+import UnPausedIcon from "../../assets/icons/svgs/unPaused_icon.svg";
 
 export const useSVGComponent = (icon_name) => {
   const defaultSVGIcons = [
@@ -248,6 +250,14 @@ export const useSVGComponent = (icon_name) => {
     {
       icon_name: "StreamingIcon",
       icon: StreamingIcon,
+    },
+    {
+      icon_name: "PausedIcon",
+      icon: PausedIcon,
+    },
+    {
+      icon_name: "UnPausedIcon",
+      icon: UnPausedIcon,
     },
   ];
   const index = defaultSVGIcons.findIndex((obj) => obj.icon_name === icon_name);

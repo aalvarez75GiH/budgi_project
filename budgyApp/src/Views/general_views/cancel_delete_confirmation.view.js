@@ -20,6 +20,7 @@ import { CategorySuspendedBottomSheet } from "../../global_components/bottom_she
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { TransactionsContext } from "../../infrastructure/services/transactions/transactions.context";
+import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 
 export const CancelDeleteConfirmationView = ({ navigation, route }) => {
   const { document_id, comingFrom } = route.params;
@@ -27,15 +28,23 @@ export const CancelDeleteConfirmationView = ({ navigation, route }) => {
   console.log(" DOCUMENT ID AT CANCEL DELETE CONFIRMATION:", document_id);
   const { isLoadingFromCategoryListContext, deletingTransactionProcess } =
     useCancelDeleteLogic();
+
   const {
     deletingOrSuspendingExpenseCategory,
     movingBackToHome,
     categorySuspended,
     categoryDeleted,
   } = useContext(CategoryListContext);
+
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
+
   const { isLoading } = useContext(TransactionsContext);
+  const {
+    removingBillFromBillsListByUserIdAndBillID,
+    isLoadingBillRequest,
+    pausingBillFromBillsListByUserIdAndBillID,
+  } = useContext(HomeContext);
   // console.log("MODAL ACTIVE AT CANCEL DELETE VIEW:", modalActive);
 
   // **********************************************************
@@ -190,6 +199,84 @@ export const CancelDeleteConfirmationView = ({ navigation, route }) => {
                     }
                     text_variant="white_bold_text_20"
                     isLoading={isLoading}
+                  />
+                </ControlledContainer>
+              </FlexibleContainer>
+            )}
+
+            {comingFrom === "bills_to_pay_list_view" && (
+              <FlexibleContainer
+                color={theme.colors.neutrals.p_B7B7B7}
+                direction="row"
+                flexibility={0.8}
+                justify={"flex-start"}
+                isBordered={false}
+                alignment={"center"}
+              >
+                <ControlledContainer
+                  color={theme.colors.neutrals.p_B7B7B7}
+                  width={"100%"}
+                  height={"300px"}
+                  justify="center"
+                  alignment="center"
+                  direction="column"
+                >
+                  <Text text_variant="bold_text_20">Delete this bill?</Text>
+                  <Spacer position="top" size="large" />
+                  <RegularCTAButton
+                    caption="Yes"
+                    width={310}
+                    height={50}
+                    color={theme.colors.ui.error_cancels}
+                    borderRadius={50}
+                    action={() =>
+                      removingBillFromBillsListByUserIdAndBillID(
+                        navigation,
+                        user_id,
+                        document_id
+                      )
+                    }
+                    text_variant="white_bold_text_20"
+                    isLoading={isLoadingBillRequest}
+                  />
+                </ControlledContainer>
+              </FlexibleContainer>
+            )}
+            {comingFrom === "bills_to_pay_list_view_pausing" && (
+              <FlexibleContainer
+                color={theme.colors.neutrals.p_B7B7B7}
+                direction="row"
+                flexibility={0.8}
+                justify={"flex-start"}
+                isBordered={false}
+                alignment={"center"}
+              >
+                <ControlledContainer
+                  color={theme.colors.neutrals.p_B7B7B7}
+                  width={"100%"}
+                  height={"300px"}
+                  justify="center"
+                  alignment="center"
+                  direction="column"
+                >
+                  <Text text_variant="bold_text_20">Pause this bill?</Text>
+                  <Spacer position="top" size="large" />
+                  <RegularCTAButton
+                    caption="Yes"
+                    width={310}
+                    height={50}
+                    color={theme.colors.ui.error_cancels}
+                    borderRadius={50}
+                    // action={() => null}
+                    action={() =>
+                      pausingBillFromBillsListByUserIdAndBillID(
+                        navigation,
+                        user_id,
+                        document_id
+                      )
+                    }
+                    text_variant="white_bold_text_20"
+                    isLoading={isLoadingBillRequest}
                   />
                 </ControlledContainer>
               </FlexibleContainer>

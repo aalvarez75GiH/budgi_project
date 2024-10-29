@@ -121,6 +121,47 @@ export const IncomeAccordionComponent = ({
           </Animated.View>
         </View>
       )}
+      {type === "cash" && (
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <LinkButton
+              caption={!opened ? "View details" : "Close details"}
+              action={toggleAccordion}
+            />
+          </View>
+
+          <Animated.View
+            style={[styles.content, { height: heightAnimationInterpolation }]}
+          >
+            <View style={styles.row}>
+              <View style={styles.column1}>
+                <Text text_variant="bold_text_14">Amount:</Text>
+              </View>
+              <View style={styles.column2}>
+                <Text text_variant="regular_text_14">{stringedAmount}</Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.column1}>
+                <Text text_variant="bold_text_14">For:</Text>
+              </View>
+              <View style={styles.column2}>
+                <Text text_variant="regular_text_14">
+                  {month_year_and_week}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.row}>
+              <View style={styles.column1}>
+                <Text text_variant="bold_text_14">Desc:</Text>
+              </View>
+              <View style={styles.column2}>
+                <Text text_variant="regular_text_14">{app}</Text>
+              </View>
+            </View>
+          </Animated.View>
+        </View>
+      )}
     </>
   );
 };

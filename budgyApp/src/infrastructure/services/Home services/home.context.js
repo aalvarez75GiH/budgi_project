@@ -4,6 +4,10 @@ import {
   getBillsList_By_UserID_Request,
   updatingBillRequest,
   creatingBillRequest,
+  removingBillFromBillsListRequest,
+  pausingBillFromBillsListRequest,
+  activatingBillFromBillsListRequest,
+  selectingBillFromBillsListRequest,
 } from "./home.services";
 import {
   updateBillNodeObject,
@@ -11,6 +15,7 @@ import {
 } from "./home.initial_data";
 
 import { DateOperationsContext } from "../date_operations/date_operations.context";
+import { FlatListComponent } from "react-native";
 
 export const HomeContext = createContext();
 
@@ -19,9 +24,8 @@ export const HomeContextProvider = ({ children }) => {
   const { user_id } = user;
   const [number, setNumber] = useState("0");
 
-  const { assemblingMonthAndDayForBillsDueDate } = useContext(
-    DateOperationsContext
-  );
+  const { assemblingMonthAndDayForBillsDueDate, creatingTimeStampForBill } =
+    useContext(DateOperationsContext);
   const clean = () => {
     setNumber("0");
   };
@@ -34,12 +38,21 @@ export const HomeContextProvider = ({ children }) => {
 
   // ********* STATES *********
   const [bills_by_user, setBillsByUser] = useState([]);
+  const [billsPaused, setBillsPaused] = useState([]);
   const [updateBillInfoForRequest, setUpdateBillInfoForRequest] = useState(
     updateBillNodeObject(user_id)
   );
   const [createBillInfoForRequest, setCreateBillInfoForRequest] = useState(
     creationBillNodeObject(user_id)
   );
+  const deleteBillInitialState = {
+    bill_id: "",
+    bill_title: "",
+    bill_short_name: "",
+    bill_amount: 0,
+    payment_date: "",
+  };
+  const [deleteBillInfo, setDeleteBillInfo] = useState(deleteBillInitialState);
   const [action_to_do, setActionToDo] = useState("");
   const [newBillName, setNewBillName] = useState("");
   const [updateBillName, setUpdateBillName] = useState("");
@@ -50,15 +63,26 @@ export const HomeContextProvider = ({ children }) => {
   });
   const [isLoadingBillRequest, setIsLoadingBillRequest] = useState(false);
   const [bills_list_by_user, setBillsListByUser] = useState({});
-  // console.log("NEW BILL OBJECT:", JSON.stringify(newBill, null, 2));
+
+  const [activatedBill, setActivatedBill] = useState(FlatListComponent);
+  const [modalActive, setModalActive] = useState(false);
+  const [billsSelectedTotalAmount, setBillsSelectedTotalAmount] = useState(0);
 
   const fetchingBillsByUser = async () => {
     setIsLoadingBillRequest(true);
+    let bills_paused_by_user = [];
     try {
       const bills_list_by_user = await getBillsList_By_UserID_Request(user_id);
       const { bills_by_user } = bills_list_by_user.data;
       setBillsByUser(bills_by_user);
       setBillsListByUser(bills_list_by_user.data);
+      bills_by_user.map((bill) => {
+        if (bill.status === "Paused") {
+          bills_paused_by_user.push(bill);
+        }
+      });
+      console.log("BILLS PAUSED BY USER:", bills_paused_by_user);
+      setBillsPaused(bills_paused_by_user);
     } catch (error) {
       console.log("ERROR FETCHING BILLS BY DEFAULT:", error);
     } finally {
@@ -205,17 +229,23 @@ export const HomeContextProvider = ({ children }) => {
   };
 
   const settingPaymentDueDateForRequest = (digit) => {
-    const payment_due_date = assemblingMonthAndDayForBillsDueDate(digit);
+    const { month_day_for_bills_due_date, billTimeStamp } =
+      assemblingMonthAndDayForBillsDueDate(digit);
     setBillDayChosen({
       day_selected: digit,
       isActive: true,
     });
-    console.log("PAYMENT DUE DATE:", payment_due_date);
+    // *******************************************************
+    // const billTimeStamp = creatingTimeStampForBill(day);
+
+    // *******************************************************
+    console.log("PAYMENT DUE DATE:", month_day_for_bills_due_date);
     console.log("ACTION TO DO:", action_to_do);
     if (action_to_do === "create_bill") {
       setCreateBillInfoForRequest((prevState) => ({
         ...prevState,
-        payment_date: payment_due_date,
+        payment_date: month_day_for_bills_due_date,
+        payment_date_timeStamp: billTimeStamp,
       }));
       console.log(
         "CREATE BILL INFO FOR REQUEST:",
@@ -225,7 +255,8 @@ export const HomeContextProvider = ({ children }) => {
     if (action_to_do === "update_bill") {
       setUpdateBillInfoForRequest((prevState) => ({
         ...prevState,
-        payment_date: payment_due_date,
+        payment_date: month_day_for_bills_due_date,
+        payment_date_timeStamp: billTimeStamp,
       }));
       console.log(
         "UPDATE BILL INFO FOR REQUEST:",
@@ -233,7 +264,41 @@ export const HomeContextProvider = ({ children }) => {
       );
     }
   };
+  // const settingPaymentDueDateForRequest = (digit) => {
+  //   const payment_due_date = assemblingMonthAndDayForBillsDueDate(digit);
+  //   setBillDayChosen({
+  //     day_selected: digit,
+  //     isActive: true,
+  //   });
+  //   // *******************************************************
+  //   // const billTimeStamp = creatingTimeStampForBill(day);
 
+  //   // *******************************************************
+  //   console.log("PAYMENT DUE DATE:", payment_due_date);
+  //   console.log("ACTION TO DO:", action_to_do);
+  //   if (action_to_do === "create_bill") {
+  //     setCreateBillInfoForRequest((prevState) => ({
+  //       ...prevState,
+  //       payment_date: payment_due_date,
+  //     }));
+  //     console.log(
+  //       "CREATE BILL INFO FOR REQUEST:",
+  //       JSON.stringify(createBillInfoForRequest, null, 2)
+  //     );
+  //   }
+  //   if (action_to_do === "update_bill") {
+  //     setUpdateBillInfoForRequest((prevState) => ({
+  //       ...prevState,
+  //       payment_date: payment_due_date,
+  //     }));
+  //     console.log(
+  //       "UPDATE BILL INFO FOR REQUEST:",
+  //       JSON.stringify(updateBillInfoForRequest, null, 2)
+  //     );
+  //   }
+  // };
+
+  // ************** BILLS OPERATIONS ****************
   const creatingBillAtListByUserId = async (navigation) => {
     setIsLoadingBillRequest(true);
     console.log(
@@ -278,6 +343,121 @@ export const HomeContextProvider = ({ children }) => {
     }
   };
 
+  const removingBillFromBillsListByUserIdAndBillID = async (
+    navigation,
+    user_id,
+    bill_id
+  ) => {
+    setIsLoadingBillRequest(true);
+
+    try {
+      const response = await removingBillFromBillsListRequest(user_id, bill_id);
+      if (response) {
+        setIsLoadingBillRequest(false);
+        console.log(
+          "BILL LIST UPDATED RESPONSE AT CONTEXT:",
+          JSON.stringify(response.data, null, 2)
+        );
+        navigation.navigate("bill_confirmation_view");
+      }
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
+  const pausingBillFromBillsListByUserIdAndBillID = async (
+    navigation,
+    user_id,
+    bill_id
+  ) => {
+    setIsLoadingBillRequest(true);
+
+    try {
+      const response = await pausingBillFromBillsListRequest(user_id, bill_id);
+      if (response) {
+        setIsLoadingBillRequest(false);
+        console.log(
+          "BILL LIST UPDATED RESPONSE AT CONTEXT:",
+          JSON.stringify(response.data, null, 2)
+        );
+        navigation.navigate("bill_confirmation_view");
+      }
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
+  const activatingBillFromBillsListByUserIdAndBillID = async (
+    navigation,
+    user_id,
+    bill_id
+  ) => {
+    setIsLoadingBillRequest(true);
+
+    try {
+      const response = await activatingBillFromBillsListRequest(
+        user_id,
+        bill_id
+      );
+      if (response) {
+        setIsLoadingBillRequest(false);
+        navigation.navigate("HomeView");
+      }
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
+  const selectingBillFromBillsListByUserIdAndBillID = async (
+    user_id,
+    bill_id
+  ) => {
+    setIsLoadingBillRequest(true);
+    let isSelectedArray = [];
+    try {
+      const response = await selectingBillFromBillsListRequest(
+        user_id,
+        bill_id
+      );
+      if (response.status === 200) {
+        console.log(
+          "RESPONSE AT ACTION AT HOME CONTEXT:",
+          JSON.stringify(response.data, null, 2)
+        );
+        const { bills_by_user } = response.data;
+        // *****************************************
+        bills_by_user.map((bill) => {
+          if (bill.isSelected) {
+            isSelectedArray.push(bill);
+          }
+        });
+        console.log(
+          "IS SELECTED ARRAY:",
+          JSON.stringify(isSelectedArray, null, 2)
+        );
+
+        const isSelectedBillsTotalAmount = isSelectedArray.reduce(
+          (acc, obj) => {
+            return acc + obj.bill_amount;
+          },
+          0
+        );
+        console.log(
+          "IS SELECTED ARRAY TOTAL AMOUNT:",
+          isSelectedBillsTotalAmount
+        );
+        setBillsSelectedTotalAmount(isSelectedBillsTotalAmount);
+
+        // *****************************************
+        setBillsByUser(bills_by_user);
+        setIsLoadingBillRequest(false);
+        // navigation.navigate("HomeView");
+      }
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
   return (
     <HomeContext.Provider
       value={{
@@ -306,6 +486,18 @@ export const HomeContextProvider = ({ children }) => {
         fetchingBillsByUser,
         bills_list_by_user,
         creatingBillAtListByUserId,
+        removingBillFromBillsListByUserIdAndBillID,
+        setDeleteBillInfo,
+        deleteBillInfo,
+        pausingBillFromBillsListByUserIdAndBillID,
+        billsPaused,
+        setActivatedBill,
+        activatedBill,
+        setModalActive,
+        modalActive,
+        activatingBillFromBillsListByUserIdAndBillID,
+        selectingBillFromBillsListByUserIdAndBillID,
+        billsSelectedTotalAmount,
       }}
     >
       {children}

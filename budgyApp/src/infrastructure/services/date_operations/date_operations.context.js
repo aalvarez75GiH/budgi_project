@@ -102,7 +102,42 @@ export const DateOperationsContextProvider = ({ children }) => {
     console.log(camel_month_acronyms[index].month_acronym);
     const month_day_for_bills_due_date = `${camel_month_acronyms[index].month_acronym} ${digit}`;
     console.log("MONTH DAY FOR BILLS DUE DATE:", month_day_for_bills_due_date);
-    return month_day_for_bills_due_date;
+    const billTimeStamp = creatingTimeStampForBill(
+      month_day_for_bills_due_date
+    );
+
+    console.log("BILL TIMESTAMP AT CONTEXT:", billTimeStamp);
+    const month_and_day_for_bills_due_date_info = {
+      month_day_for_bills_due_date,
+      billTimeStamp,
+    };
+    return month_and_day_for_bills_due_date_info;
+  };
+  const creatingTimeStampForBill = (MonthDay) => {
+    //  Parsing a date like 'Oct 20' to a Firestore Timestamp
+    const [month, day] = MonthDay.split(" ");
+    console.log("MONTH, DAY:", [month, day]);
+    // const year = new Date().getFullYear(); // Use the current year
+    console.log("YEAR:", year);
+
+    const index = camel_month_acronyms.findIndex(
+      (obj) => obj.month_acronym === month
+    );
+    const bill_month_number = camel_month_acronyms[index].month_number;
+    const bill_month_number_parsed = parseInt(bill_month_number);
+    console.log("MONTH NUMBER PARSED:", bill_month_number_parsed);
+
+    const date = new Date(year, bill_month_number_parsed, day);
+    // const date = new Date(Date.UTC(year, bill_month_number_parsed, day));
+    // const date = new Date(`${month} ${day}, ${year}`);
+    console.log("DATE:", date);
+    const seconds = Math.floor(date.getTime() / 1000);
+    const nanoseconds = (date.getTime() % 1000) * 1e6;
+
+    return {
+      _seconds: seconds,
+      _nanoseconds: nanoseconds,
+    };
   };
 
   return (

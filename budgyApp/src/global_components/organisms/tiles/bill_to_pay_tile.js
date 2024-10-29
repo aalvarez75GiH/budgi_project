@@ -8,9 +8,9 @@ import { ControlledContainer } from "../../containers/controlled_container";
 import { ClickableControlledContainer } from "../../containers/clickable_controlled_container";
 import { Spacer } from "../../optimized.spacer.component";
 
-// import { SVGIconComponent } from "../../image_components/svg_icon.component";
 import { useSVGComponent } from "../../../util/system_icons.hook";
 import { PaidOrUnpaidButton } from "../../buttons/paid_unpaid_button";
+import { SVGComponent } from "../../image_components/svg.component";
 
 export const BillToPayTile = ({
   bill_title,
@@ -18,9 +18,13 @@ export const BillToPayTile = ({
   bill_amount,
   payment_due_date,
   action,
+  type,
+  action_for_deletion,
+  action_for_pausing,
+  action_for_unpausing,
+  bill_status,
 }) => {
   const { SVGIconComponent } = useSVGComponent(icon_name);
-  const [tapped, setTapped] = useState(false);
   return (
     <ClickableControlledContainer
       width={"370px"}
@@ -38,7 +42,6 @@ export const BillToPayTile = ({
         height={"100%"}
         direction={"column"}
         color={theme.colors.ui.s_FFFFFF}
-        //color="brown"
         justify={"center"}
         alignment={"center"}
       >
@@ -83,45 +86,170 @@ export const BillToPayTile = ({
       <ControlledContainer
         width={"25%"}
         height={"100%"}
-        direction={"column"}
+        direction={"row"}
         color={theme.colors.ui.s_FFFFFF}
-        //color={"blue"}
+        // color={"blue"}
         justify={"center"}
         alignment={"center"}
+        //onPress={() => null}
       >
-        {/* <Spacer position="left" size="large">
-          <PaidOrUnpaidButton
-            color={
-              tapped
-                ? theme.colors.ui.s_FFFFFF
-                : theme.colors.neutrals.e2_F5F5F5
-            }
-            action={() => setTapped(!tapped)}
-            width={"70px"}
-            height={"40px"}
-            borderRadius={12}
-            caption={tapped ? "Paid" : "Unpaid"}
-            type={tapped ? "green_option_button" : "grey_option_button"}
-          />
-        </Spacer> */}
+        {type === "by_user" && bill_status === "Paused" && (
+          <>
+            <ClickableControlledContainer
+              width={"50%"}
+              height={"50%"}
+              direction={"column"}
+              color={theme.colors.ui.s_FFFFFF}
+              // color={"blue"}
+              justify={"center"}
+              alignment={"center"}
+              onPress={action_for_deletion}
+            >
+              <SVGComponent
+                icon_width={25}
+                icon_height={25}
+                position={"static"}
+                left={0}
+                top={0}
+                justify={"center"}
+                icon_name={"RemoveIcon"}
+              />
+            </ClickableControlledContainer>
+            <ClickableControlledContainer
+              width={"50%"}
+              height={"50%"}
+              direction={"column"}
+              color={theme.colors.ui.s_FFFFFF}
+              // color={"yellow"}
+              justify={"center"}
+              alignment={"center"}
+              onPress={action_for_unpausing}
+            >
+              <SVGComponent
+                icon_width={30}
+                icon_height={30}
+                position={"static"}
+                left={0}
+                top={0}
+                justify={"center"}
+                icon_name={"UnPausedIcon"}
+              />
+            </ClickableControlledContainer>
+          </>
+        )}
+        {type === "by_user" && bill_status !== "Paused" && (
+          <>
+            <ClickableControlledContainer
+              width={"50%"}
+              height={"50%"}
+              direction={"column"}
+              color={theme.colors.ui.s_FFFFFF}
+              // color={"blue"}
+              justify={"center"}
+              alignment={"center"}
+              onPress={action_for_deletion}
+            >
+              <SVGComponent
+                icon_width={25}
+                icon_height={25}
+                position={"static"}
+                left={0}
+                top={0}
+                justify={"center"}
+                icon_name={"RemoveIcon"}
+              />
+            </ClickableControlledContainer>
+            <ClickableControlledContainer
+              width={"50%"}
+              height={"50%"}
+              direction={"column"}
+              color={theme.colors.ui.s_FFFFFF}
+              // color={"yellow"}
+              justify={"center"}
+              alignment={"center"}
+              onPress={action_for_pausing}
+            >
+              <SVGComponent
+                icon_width={25}
+                icon_height={25}
+                position={"static"}
+                left={0}
+                top={0}
+                justify={"center"}
+                icon_name={"PausedIcon"}
+              />
+            </ClickableControlledContainer>
+          </>
+        )}
+        {type === "Default" && bill_status === "Paused" && (
+          <>
+            <ClickableControlledContainer
+              width={"50%"}
+              height={"50%"}
+              direction={"column"}
+              color={theme.colors.ui.s_FFFFFF}
+              // color={"blue"}
+              justify={"center"}
+              alignment={"center"}
+              onPress={() => null}
+            ></ClickableControlledContainer>
+            <ClickableControlledContainer
+              width={"50%"}
+              height={"50%"}
+              direction={"column"}
+              color={theme.colors.ui.s_FFFFFF}
+              justify={"center"}
+              alignment={"center"}
+              onPress={action_for_unpausing}
+            >
+              <SVGComponent
+                icon_width={30}
+                icon_height={30}
+                position={"static"}
+                left={0}
+                top={0}
+                justify={"center"}
+                icon_name={"UnPausedIcon"}
+              />
+            </ClickableControlledContainer>
+          </>
+        )}
+
+        {type === "Default" && bill_status !== "Paused" && (
+          <>
+            <ClickableControlledContainer
+              width={"50%"}
+              height={"50%"}
+              direction={"column"}
+              color={theme.colors.ui.s_FFFFFF}
+              // color={"blue"}
+              justify={"center"}
+              alignment={"center"}
+              onPress={action_for_deletion}
+            ></ClickableControlledContainer>
+            <ClickableControlledContainer
+              width={"50%"}
+              height={"50%"}
+              direction={"column"}
+              color={theme.colors.ui.s_FFFFFF}
+              // color={"yellow"}
+              justify={"center"}
+              alignment={"center"}
+              onPress={action_for_pausing}
+            >
+              <SVGComponent
+                icon_width={25}
+                icon_height={25}
+                position={"static"}
+                left={0}
+                top={0}
+                justify={"center"}
+                icon_name={"PausedIcon"}
+              />
+            </ClickableControlledContainer>
+          </>
+        )}
       </ControlledContainer>
     </ClickableControlledContainer>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-  },
-  checkbox: {
-    alignSelf: "center",
-  },
-  label: {
-    margin: 8,
-  },
-});

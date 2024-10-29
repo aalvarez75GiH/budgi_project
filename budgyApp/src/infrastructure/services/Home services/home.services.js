@@ -47,3 +47,58 @@ export const updatingBillRequest = async (updateBillInfoForRequest) => {
       return error;
     });
 };
+
+export const removingBillFromBillsListRequest = async (user_id, bill_id) => {
+  const { billsEndPoint } = environment;
+  return await axios
+    .put(
+      `${billsEndPoint}/removingBillByUserIdAndBillId?bill_id=${bill_id}&user_id=${user_id}`
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
+export const pausingBillFromBillsListRequest = async (user_id, bill_id) => {
+  const { billsEndPoint } = environment;
+  return await axios
+    .put(
+      `${billsEndPoint}/pausingBillByUserIdAndBillId?bill_id=${bill_id}&user_id=${user_id}`
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+export const activatingBillFromBillsListRequest = async (user_id, bill_id) => {
+  const { billsEndPoint } = environment;
+  return await axios
+    .put(
+      `${billsEndPoint}/activatingBillByUserIdAndBillId?bill_id=${bill_id}&user_id=${user_id}`
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
+export const selectingBillFromBillsListRequest = async (user_id, bill_id) => {
+  const { billsEndPoint } = environment;
+  return await axios
+    .put(
+      `${billsEndPoint}/selectingBillByUserIdAndBillId?bill_id=${bill_id}&user_id=${user_id}`
+    )
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};

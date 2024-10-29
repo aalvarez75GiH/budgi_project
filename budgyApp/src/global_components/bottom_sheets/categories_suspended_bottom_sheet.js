@@ -12,8 +12,6 @@ import { Spacer } from "../optimized.spacer.component";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 
 export const CategorySuspendedBottomSheet = ({
-  //   bottomSheetModalRef,
-  //   snapPoints,
   navigation,
   movingBackToHome,
 }) => {
@@ -28,11 +26,8 @@ export const CategorySuspendedBottomSheet = ({
 
   useEffect(() => {
     if (modalActive) {
-      console.log("MODAL SHOULD ACTIVE:", modalActive);
-
       bottomSheetModalRef.current?.present();
     } else {
-      console.log("MODAL SHOULD NOT ACTIVE:", modalActive);
       bottomSheetModalRef.current?.dismiss();
     }
   }, [modalActive]);

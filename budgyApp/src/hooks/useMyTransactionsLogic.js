@@ -6,7 +6,6 @@ import { DateOperationsContext } from "../infrastructure/services/date_operation
 import { AuthenticationContext } from "../infrastructure/services/authentication/authentication.context";
 import { CategoryListContext } from "../infrastructure/services/category_list/category_list.context";
 import { TransactionsContext } from "../infrastructure/services/transactions/transactions.context";
-import { set } from "date-fns";
 
 export const useMyTransactionsLogic = () => {
   //   ****** DATA FROM DATE OPERATIONS CONTEXT ************
@@ -220,8 +219,6 @@ export const useMyTransactionsLogic = () => {
     category_id,
     transactionsByMonthYear
   ) => {
-    // selectedItem === category_id;
-    // setSelectedItem(category_id);
     settingUpTransactions_byCategory_by_MonthYear_onDemand(
       user_id,
       category_id,

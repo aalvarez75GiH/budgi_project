@@ -1,12 +1,3 @@
-// export const REAL_INCOME_INITIAL = {
-//   user_id: "",
-//   month_year: "",
-//   app_id: "",
-//   earned_amount: 0,
-//   week_name: "",
-//   app_name: "",
-//   logo_path: "",
-// };
 export const REAL_INCOME_INITIAL = (user_id) => ({
   user_id: user_id,
   month_year: "",

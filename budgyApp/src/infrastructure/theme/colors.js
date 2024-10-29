@@ -2,7 +2,7 @@ export const colors = {
   brand: {
     primary: "#14223C",
     secondary: "#FC9827",
-    tertiary: "##FFFFFF",
+    tertiary: "#FFFFFF",
     quaternary: "#1F345C",
   },
   ui: {
@@ -25,6 +25,7 @@ export const colors = {
     q_E5E5E5: "#E5E5E5",
     e1_F4F4F4: "#F4F4F4",
     e2_F5F5F5: "#F5F5F5",
+    e3_D6D6D6: "#D6D6D6",
   },
   text: {
     p_142223C: "#14223C",

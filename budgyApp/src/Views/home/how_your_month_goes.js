@@ -33,6 +33,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
     month_name,
     month_year,
     user_id,
+    spentPlusBillsVsIncomeMathLogic,
   } = useHowYourMonthGoesLogic();
   const { percentageCompleted, overSpentAmountInNegative } = amountsMathLogic();
 
@@ -56,6 +57,14 @@ export const HowMonthIsGoingView = ({ navigation }) => {
       settingTransactionsTotalAmountAndTotalBudgeted();
     };
   }, []);
+  console.log(
+    "TOTAL TRANSACTIONS AMOUNT AT 1:",
+    totalTransactionsAmountOnDemand
+  );
+  console.log("REAL INCOME TOTAL AMOUNT AT 1:", realIncomeTotalAmountOnDemand);
+  console.log("PERCENTAGE COMPLETED AT 1:", percentageCompleted);
+  console.log("OVER SPENT AMOUNT IN NEGATIVE AT 1:", overSpentAmountInNegative);
+  console.log("TILE SELECTED AT 1:", tile_selected);
 
   if (totalAmountBudgeted === 0) {
     return (
@@ -129,13 +138,23 @@ export const HowMonthIsGoingView = ({ navigation }) => {
             isSpinnerLoading={isSpinnerLoading}
           />
         )}
+        {tile_selected === "Spent + bills vs income" && (
+          <CircularChartComponent
+            primaryAmount={totalTransactionsAmountOnDemand}
+            secondaryAmount={realIncomeTotalAmountOnDemand}
+            percentageCompleted={percentageCompleted}
+            secondaryLabel="Income: "
+            overSpentAmountInNegative={overSpentAmountInNegative}
+            isSpinnerLoading={isSpinnerLoading}
+          />
+        )}
       </FlexibleContainer>
       <FlexibleContainer
         color={theme.colors.neutrals.e2_F5F5F5}
         // color={"lightblue"}
         direction="column"
         // flexibility={0.185}
-        flexibility={Platform.OS === "ios" ? 0.165 : 0.185}
+        flexibility={Platform.OS === "ios" ? 0.185 : 0.285}
         justify={"center"}
         isBordered={false}
       >
@@ -153,6 +172,26 @@ export const HowMonthIsGoingView = ({ navigation }) => {
           icon_name={"ThinCheckIcon"}
           active_icon={false}
           action={() => switchingOptions("Spent vs income")}
+          tile_selected={tile_selected}
+        />
+        <CenteredTextTileWithIcon
+          caption={"Spent + bills vs income"}
+          navigation={navigation}
+          icon_name={"ThinCheckIcon"}
+          active_icon={false}
+          // action={() => navigation.navigate("Spent_plus_bills_vs_income")}
+          // action={() => switchingOptions("Spent + bills vs income")}
+          action={() => {
+            const { percentageCompleted, overSpentAmountInNegative } =
+              spentPlusBillsVsIncomeMathLogic();
+            switchingOptions("Spent + bills vs income");
+            navigation.navigate("Spent_plus_bills_vs_income", {
+              totalTransactionsAmountOnDemand: totalTransactionsAmountOnDemand,
+              realIncomeTotalAmountOnDemand: realIncomeTotalAmountOnDemand,
+              percentageCompleted: percentageCompleted,
+              overSpentAmountInNegative: overSpentAmountInNegative,
+            });
+          }}
           tile_selected={tile_selected}
         />
       </FlexibleContainer>

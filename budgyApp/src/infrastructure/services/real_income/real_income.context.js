@@ -124,6 +124,7 @@ export const RealIncomeContextProvider = ({ children }) => {
       }
     }, 3000);
   };
+
   const registeringCashIncomeTransaction = async (
     navigation,
     realIncomeForRequest

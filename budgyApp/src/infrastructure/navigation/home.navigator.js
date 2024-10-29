@@ -20,6 +20,9 @@ import { GeneralNewNameView } from "../../Views/general_views/general_new__name.
 import { BillsPaymentDayView } from "../../Views/home/bills_payment_day.view";
 import { NewOrUpdateBillSummaryView } from "../../Views/home/new_or_update_bill_summary.view";
 import { NewOrUpdateBillConfirmationView } from "../../Views/home/new_or_update_bill_confirmation.view";
+import { PausedBillsListView } from "../../Views/home/paused_bills_list.view";
+import { SpentPlusBillsVsIncomeView } from "../../Views/home/spent_plus_bills_vs_income.view";
+
 const HomeStack = createNativeStackNavigator();
 
 export const HomeNavigator = () => {
@@ -61,6 +64,12 @@ export const HomeNavigator = () => {
       <HomeStack.Screen
         name="How month is going"
         component={HowMonthIsGoingView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <HomeStack.Screen
+        name="Spent_plus_bills_vs_income"
+        component={SpentPlusBillsVsIncomeView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />
@@ -129,6 +138,12 @@ export const HomeNavigator = () => {
       <HomeStack.Screen
         name="bill_confirmation_view"
         component={NewOrUpdateBillConfirmationView}
+        options={{ animation: "slide_from_right" }}
+        // options={{ gestureDirection: "horizontal-inverted" }}
+      />
+      <HomeStack.Screen
+        name="paused_bills_list_view"
+        component={PausedBillsListView}
         options={{ animation: "slide_from_right" }}
         // options={{ gestureDirection: "horizontal-inverted" }}
       />

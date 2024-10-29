@@ -1,5 +1,10 @@
 import React, { useContext, useEffect } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from "react-native";
 
 import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
@@ -10,10 +15,13 @@ import { Spacer } from "../../global_components/optimized.spacer.component";
 import { BillToPayTile } from "../../global_components/organisms/tiles/bill_to_pay_tile";
 import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
 import { IsLoadingContainer } from "../../global_components/containers/isLoading_container";
+import { SVGComponent } from "../../global_components/image_components/svg.component";
+import { RNPIconButton } from "../../global_components/buttons/RNP_icon_button";
 
 import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
+import { ClickableControlledContainer } from "../../global_components/containers/clickable_controlled_container";
 
 export const BillsToPayListView = ({ navigation }) => {
   const {
@@ -24,6 +32,8 @@ export const BillsToPayListView = ({ navigation }) => {
     isLoadingBillRequest,
     fetchingBillsByUser,
     bills_list_by_user,
+    setDeleteBillInfo,
+    billsPaused,
   } = useContext(HomeContext);
   console.log(
     "BILLS LIST BY USER AT BILLS TO PAY LIST VIEW:",
@@ -75,6 +85,56 @@ export const BillsToPayListView = ({ navigation }) => {
   const movingForwardToNewCategoryNameViewForCreatingABill = () => {
     setActionToDo("create_bill");
     navigation.navigate("bill_name_view");
+  };
+
+  const movingForwardToDeleteBill = (item) => {
+    setActionToDo("delete_bill");
+    setDeleteBillInfo({
+      bill_id: item.bill_id,
+      bill_title: item.bill_title,
+      bill_short_name: item.bill_short_name,
+      bill_amount: item.bill_amount,
+      payment_date: item.payment_date,
+    });
+    navigation.navigate("Delete_confirmation_view", {
+      document_id: item.bill_id,
+      comingFrom: "bills_to_pay_list_view",
+    });
+  };
+
+  const movingForwardToPauseBill = (item) => {
+    setActionToDo("pause_bill");
+    setDeleteBillInfo({
+      bill_id: item.bill_id,
+      bill_title: item.bill_title,
+      bill_short_name: item.bill_short_name,
+      bill_amount: item.bill_amount,
+      payment_date: item.payment_date,
+    });
+    navigation.navigate("Delete_confirmation_view", {
+      document_id: item.bill_id,
+      comingFrom: "bills_to_pay_list_view_pausing",
+    });
+  };
+
+  const renderBillItem = ({ item }) => {
+    const { status } = item;
+    if (status === "Paused") {
+      return null;
+    }
+    return (
+      <BillToPayTile
+        icon_name={item.icon_name}
+        bill_title={item.bill_short_name}
+        bill_amount={item.bill_amount}
+        payment_due_date={item.payment_date}
+        type={item.type}
+        action={() => movingForwardToNewCategoryNameViewForUpdatingBill(item)}
+        action_for_deletion={() => movingForwardToDeleteBill(item)}
+        action_for_pausing={() => movingForwardToPauseBill(item)}
+        bill_status={item.status}
+      />
+    );
   };
 
   return isLoadingBillRequest ? (
@@ -153,43 +213,28 @@ export const BillsToPayListView = ({ navigation }) => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
           data={bills_by_user}
-          // renderItem={renderItem(navigation, comingFrom)}
-          renderItem={({ item }) => (
-            <BillToPayTile
-              icon_name={item.icon_name}
-              bill_title={item.bill_short_name}
-              bill_amount={item.bill_amount}
-              payment_due_date={item.payment_date}
-              action={() =>
-                movingForwardToNewCategoryNameViewForUpdatingBill(item)
-              }
-            />
-          )}
+          renderItem={renderBillItem}
           keyExtractor={(item, id) => {
             return item.bill_id;
           }}
         />
       </FlexibleContainer>
       <FlexibleContainer
-        color={"#D6D6D6"}
-        // color={theme.colors.neutrals.p_B7B7B7}
+        color={theme.colors.neutrals.e3_D6D6D6}
         direction="row"
         flexibility={0.1}
         justify={"space-evenly"}
         isBordered={false}
       >
         <ControlledContainer
-          // color={theme.colors.neutrals.p_B7B7B7}
-          color={"#D6D6D6"}
+          color={theme.colors.neutrals.e3_D6D6D6}
           width={"30%"}
           height={"45px"}
           justify="center"
           alignment="flex-start"
         />
         <ControlledContainer
-          // color={theme.colors.neutrals.p_B7B7B7}
-          color={"#D6D6D6"}
-          // color={"red"}
+          color={theme.colors.neutrals.e3_D6D6D6}
           width={"50%"}
           height={"45px"}
           justify="center"
@@ -197,12 +242,8 @@ export const BillsToPayListView = ({ navigation }) => {
         >
           <Text text_variant="bold_text_16">Bills total amount:</Text>
         </ControlledContainer>
-        {/* </Spacer> */}
-        {/* <Spacer position="left" size="medium"> */}
         <ControlledContainer
-          color={"#D6D6D6"}
-          // color={theme.colors.neutrals.p_B7B7B7}
-          // color={"lightblue"}
+          color={theme.colors.neutrals.e3_D6D6D6}
           width={"45%"}
           height={"45px"}
           justify="center"
@@ -216,8 +257,61 @@ export const BillsToPayListView = ({ navigation }) => {
             }).format(bills_total_amount)}
           </Text>
         </ControlledContainer>
-        {/* </Spacer> */}
       </FlexibleContainer>
+      {billsPaused.length > 0 && (
+        <TouchableWithoutFeedback
+          onPress={() => navigation.navigate("paused_bills_list_view")}
+        >
+          <FlexibleContainer
+            color={theme.colors.neutrals.e3_D6D6D6}
+            direction="row"
+            flexibility={0.1}
+            justify={"space-evenly"}
+            isBordered={false}
+          >
+            <ControlledContainer
+              color={"#FFF4C2"}
+              // color={"red"}
+              width={"15%"}
+              height={"50px"}
+              justify="center"
+              alignment="flex-start"
+            />
+            <ControlledContainer
+              // color={theme.colors.neutrals.e3_D6D6D6}
+              color={"#FFF4C2"}
+              // color={"brown"}
+              width={"70%"}
+              height={"50px"}
+              justify="center"
+              alignment="flex-start"
+            >
+              <Spacer position="left" size="medium">
+                <Text text_variant="bold_text_16">
+                  You have bills that are paused
+                </Text>
+              </Spacer>
+            </ControlledContainer>
+            <ControlledContainer
+              // color={theme.colors.neutrals.e3_D6D6D6}
+              color={"#FFF4C2"}
+              // color={"blue"}
+              width={"15%"}
+              height={"50px"}
+              justify="center"
+              alignment="center"
+            >
+              <RNPIconButton
+                action={() => navigation.navigate("paused_bills_list_view")}
+                icon="chevron-right"
+                width={"0%"}
+                color={theme.colors.brand.primary}
+                align={"center"}
+              />
+            </ControlledContainer>
+          </FlexibleContainer>
+        </TouchableWithoutFeedback>
+      )}
     </GeneralFlexContainer>
   );
 };

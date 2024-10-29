@@ -11,8 +11,6 @@ import { RegularCTAButton } from "../buttons/cta_btn";
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 
 export const CategoryDeletedBottomSheet = ({
-  //   bottomSheetModalRef,
-  //   snapPoints,
   navigation,
   movingBackToHome,
 }) => {
@@ -27,11 +25,8 @@ export const CategoryDeletedBottomSheet = ({
 
   useEffect(() => {
     if (modalActive) {
-      console.log("MODAL SHOULD ACTIVE:", modalActive);
-
       bottomSheetModalRef.current?.present();
     } else {
-      console.log("MODAL SHOULD NOT ACTIVE:", modalActive);
       bottomSheetModalRef.current?.dismiss();
     }
   }, [modalActive]);

@@ -19,12 +19,19 @@ export const NewOrUpdateBillConfirmationView = ({ navigation, route }) => {
     createBillInfoForRequest,
     action_to_do,
     exitingToRoot,
+    deleteBillInfo,
   } = useContext(HomeContext);
+
   const {
     bill_amount: updated_bill_amount,
     bill_short_name: updated_bill_short_name,
     payment_date: updated_bill_payment_date,
   } = updateBillInfoForRequest;
+  const {
+    bill_amount: bill_deleted_amount,
+    bill_short_name: bill_deleted_short_name,
+    payment_date: bill_deleted_payment_date,
+  } = deleteBillInfo;
 
   const {
     bill_amount: created_bill_amount,
@@ -32,13 +39,14 @@ export const NewOrUpdateBillConfirmationView = ({ navigation, route }) => {
     payment_date: created_bill_payment_date,
   } = createBillInfoForRequest;
 
-  //   const { action_to_do } = route.params;
   const { fixingANumberToTwoDecimalsAndString } =
     useContext(TransactionsContext);
   const stringedBillAmount =
     fixingANumberToTwoDecimalsAndString(updated_bill_amount);
   const stringedBillCreatedAmount =
     fixingANumberToTwoDecimalsAndString(created_bill_amount);
+  const stringedBillDeletedAmount =
+    fixingANumberToTwoDecimalsAndString(bill_deleted_amount);
 
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
@@ -144,6 +152,108 @@ export const NewOrUpdateBillConfirmationView = ({ navigation, route }) => {
               caption1={"Amount:"}
               caption2={"Bill:"}
               caption3={"Due date:"}
+            />
+          </FlexibleContainer>
+        </>
+      )}
+      {action_to_do === "delete_bill" && (
+        <>
+          <FlexibleContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"lightblue"}
+            direction="column"
+            flexibility={Platform.OS === "android" ? 0.15 : 0.15}
+            justify={"flex-end"}
+            isBordered={false}
+          >
+            <Text text_variant="bold_text_20">Bill deleted done!</Text>
+            {/* <Text text_variant="bold_text_20">Transaction update done!</Text> */}
+          </FlexibleContainer>
+          <FlexibleContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"lightblue"}
+            direction="column"
+            flexibility={Platform.OS === "android" ? 0.45 : 0.4}
+            justify={"center"}
+            isBordered={false}
+          >
+            <SVGComponent
+              icon_width={200}
+              icon_height={200}
+              position={"static"}
+              justify={"center"}
+              icon_name={"DeletedIllustration"}
+              icon_color={theme.colors.buttons.s_142223C}
+            />
+          </FlexibleContainer>
+          <FlexibleContainer
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
+            direction="column"
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
+            justify={"center"}
+            isBordered={false}
+          >
+            <AccordionComponent
+              navigation={navigation}
+              stringedAmount={stringedBillDeletedAmount}
+              short_name={bill_deleted_short_name}
+              transaction_date={bill_deleted_payment_date}
+              caption1={"Amount:"}
+              caption2={"Category:"}
+              caption3={"Date:"}
+            />
+          </FlexibleContainer>
+        </>
+      )}
+      {action_to_do === "pause_bill" && (
+        <>
+          <FlexibleContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"lightblue"}
+            direction="column"
+            flexibility={Platform.OS === "android" ? 0.15 : 0.15}
+            justify={"flex-end"}
+            isBordered={false}
+          >
+            <Text text_variant="bold_text_20">Bill pausing done!</Text>
+            {/* <Text text_variant="bold_text_20">Transaction update done!</Text> */}
+          </FlexibleContainer>
+          <FlexibleContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"lightblue"}
+            direction="column"
+            flexibility={Platform.OS === "android" ? 0.45 : 0.4}
+            justify={"center"}
+            isBordered={false}
+          >
+            <SVGComponent
+              icon_width={150}
+              icon_height={150}
+              position={"static"}
+              justify={"center"}
+              icon_name={"PausedIcon"}
+              icon_color={theme.colors.buttons.s_142223C}
+            />
+          </FlexibleContainer>
+          <FlexibleContainer
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
+            direction="column"
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
+            justify={"center"}
+            isBordered={false}
+          >
+            <AccordionComponent
+              navigation={navigation}
+              stringedAmount={stringedBillDeletedAmount}
+              short_name={bill_deleted_short_name}
+              transaction_date={bill_deleted_payment_date}
+              caption1={"Amount:"}
+              caption2={"Category:"}
+              caption3={"Date:"}
             />
           </FlexibleContainer>
         </>

@@ -8,17 +8,11 @@ import { theme } from "../../infrastructure/theme";
 import { FlexibleContainer } from "../containers/flexible_container";
 import { RegularCTAButton } from "../buttons/cta_btn";
 import { Spacer } from "../optimized.spacer.component";
-import { ExitHeaderComponent } from "../organisms/headers/exit_header.component";
-import { BackHeaderComponent } from "../organisms/headers/back_header.component";
 import { BackHeaderWithLabelAndCancelButton } from "../organisms/headers/back_header+label+cancel.header";
 
-import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
 
-export const TransferMoneyExplanationBottomSheet = ({
-  navigation,
-  movingBackToHome,
-}) => {
+export const TransferMoneyExplanationBottomSheet = ({ navigation }) => {
   const { modalActive, setModalActive, categoriesDataWithPositiveSpentAmount } =
     useContext(CategoryDataContext);
   console.log("MODAL ACTIVE AT COMPONENT:", modalActive);

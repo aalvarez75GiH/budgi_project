@@ -6,9 +6,7 @@ const {
   updateCategoryDataWithNewExpenseCategoryNameAndAmount,
   adding_a_single_new_expense_category_node_at_user_category_data,
   createCategoryDataAfterCategoryListCreation,
-  preparingBudgetedAndSpentTotalAmountsOfACategoryData,
 } = require("../category_data/category_data.handlers");
-
 const {
   adding_a_single_new_expense_category_node_at_user_category_list,
   switchingExpenseCategoryNodeToSuspendedAtCategoryList,

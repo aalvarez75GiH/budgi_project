@@ -29,10 +29,12 @@ export const IncomeConfirmationView = ({ navigation, route }) => {
     style: "currency",
     currency: "USD",
   }).format(earned_amount);
+
   const stringedExpectedIncomeAmount = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   }).format(amount);
+
   const {
     month_year: month_year_to_restablish,
     setMonthSelected,
@@ -49,7 +51,6 @@ export const IncomeConfirmationView = ({ navigation, route }) => {
     });
   };
 
-  console.log("MONTH YEAR SELECTED", month_selected);
   return (
     <SafeArea background_color={theme.colors.bg.p_FFFFFF}>
       {comingFrom === "addExpectedIncomeTile" && (
@@ -101,25 +102,6 @@ export const IncomeConfirmationView = ({ navigation, route }) => {
               //transaction_date={transaction_date}
             />
           </FlexibleContainer>
-
-          <FlexibleContainer
-            color={theme.colors.bg.p_FFFFFF}
-            // color={"brown"}
-            direction="column"
-            flexibility={0.3}
-            justify={"center"}
-            isBordered={false}
-          >
-            <RegularCTAButton
-              caption="Done"
-              width={310}
-              height={50}
-              color={theme.colors.ui.success}
-              borderRadius={50}
-              action={() => goingHome(navigation)}
-              text_variant="white_bold_text_16"
-            />
-          </FlexibleContainer>
         </>
       )}
       {comingFrom === "Select_week_view" && (
@@ -169,27 +151,75 @@ export const IncomeConfirmationView = ({ navigation, route }) => {
               type="real_income"
             />
           </FlexibleContainer>
-
+        </>
+      )}
+      {comingFrom === "comingFromCash" && (
+        <>
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
-            // color={"brown"}
+            // color={"lightblue"}
             direction="column"
-            flexibility={0.3}
+            flexibility={Platform.OS === "android" ? 0.15 : 0.15}
+            justify={"flex-end"}
+            isBordered={false}
+          >
+            <Text text_variant="bold_text_20">New cash income done!</Text>
+            {/* <Text text_variant="bold_text_20">Transaction update done!</Text> */}
+          </FlexibleContainer>
+          <FlexibleContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"lightblue"}
+            direction="column"
+            flexibility={Platform.OS === "android" ? 0.7 : 0.7}
             justify={"center"}
             isBordered={false}
           >
-            <RegularCTAButton
-              caption="Done"
-              width={310}
-              height={50}
-              color={theme.colors.ui.success}
-              borderRadius={50}
-              action={() => goingHome(navigation)}
-              text_variant="white_bold_text_16"
+            <SVGComponent
+              icon_width={220}
+              icon_height={220}
+              position={"static"}
+              justify={"center"}
+              icon_name={"RealIncomeIcon"}
+              icon_color={"#000000"}
+            />
+          </FlexibleContainer>
+          <FlexibleContainer
+            // color={theme.colors.bg.e_F4F4F4}
+            color={theme.colors.bg.p_FFFFFF}
+            direction="column"
+            // flexibility={Platform.OS === "android" ? 0.1 : 0.1}
+            flexibility={Platform.OS === "android" ? 0.25 : 0.25}
+            justify={"center"}
+            isBordered={false}
+          >
+            <IncomeAccordionComponent
+              navigation={navigation}
+              stringedAmount={stringedEarnedAmount}
+              month_year_and_week={`${month_year}`}
+              app={app_name}
+              type="cash"
             />
           </FlexibleContainer>
         </>
       )}
+      <FlexibleContainer
+        color={theme.colors.bg.p_FFFFFF}
+        // color={"brown"}
+        direction="column"
+        flexibility={0.3}
+        justify={"center"}
+        isBordered={false}
+      >
+        <RegularCTAButton
+          caption="Done"
+          width={310}
+          height={50}
+          color={theme.colors.ui.success}
+          borderRadius={50}
+          action={() => goingHome(navigation)}
+          text_variant="white_bold_text_16"
+        />
+      </FlexibleContainer>
     </SafeArea>
   );
 };
