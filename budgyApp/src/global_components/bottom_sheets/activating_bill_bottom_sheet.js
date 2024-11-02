@@ -19,6 +19,7 @@ export const ActivatingBillBottomSheet = ({ navigation, movingBackToHome }) => {
     setModalActive,
     activatingBillFromBillsListByUserIdAndBillID,
     isLoadingBillRequest,
+    billToActivate,
   } = useContext(HomeContext);
   console.log("ACTIVATED BILL:", activatedBill);
   console.log("MODAL ACTIVE AT ACTIVATING BILL BOTTOM SHEET:", modalActive);
@@ -102,9 +103,16 @@ export const ActivatingBillBottomSheet = ({ navigation, movingBackToHome }) => {
               activatingBillFromBillsListByUserIdAndBillID(
                 navigation,
                 user_id,
-                "867ab07c-d0e3-4292-9dd4-f7b5dd5de5cb"
+                billToActivate
               )
             }
+            // action={() =>
+            //   activatingBillFromBillsListByUserIdAndBillID(
+            //     navigation,
+            //     user_id,
+            //     "867ab07c-d0e3-4292-9dd4-f7b5dd5de5cb"
+            //   )
+            // }
             text_variant="bold_text_20"
             isLoading={isLoadingBillRequest}
           />

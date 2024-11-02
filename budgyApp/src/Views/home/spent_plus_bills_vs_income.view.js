@@ -15,8 +15,11 @@ import { ControlledContainer } from "../../global_components/containers/controll
 import { Text } from "../../infrastructure/typography/text.component";
 import { Spacer } from "../../global_components/optimized.spacer.component";
 import { SquaredRoundedOptionComponent } from "../../global_components/organisms/clickables options/squared_rounded_option.component";
+import { LinkButton } from "../../global_components/buttons/link_button";
+
 import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 import { AuthenticationContext } from "../../infrastructure/services/authentication/authentication.context";
+import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 
 export const SpentPlusBillsVsIncomeView = ({ navigation, route }) => {
   //   *****************************************************************************************************
@@ -29,6 +32,10 @@ export const SpentPlusBillsVsIncomeView = ({ navigation, route }) => {
 
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
+
+  const { system_date, expenseDate, billCurrentDate } = useContext(
+    DateOperationsContext
+  );
 
   console.log(
     "TOTAL TRANSACTIONS AMOUNT AT 2:",
@@ -60,16 +67,8 @@ export const SpentPlusBillsVsIncomeView = ({ navigation, route }) => {
     spentPlusBillsVsIncomeMathLogic,
   } = useHowYourMonthGoesLogic();
 
-  const {
-    bills_by_user,
-    billsSelectedTotalAmount,
-    // selectingBillFromBillsListByUserIdAndBillID,
-    setActionToDo,
-    // isLoadingBillRequest,
-    fetchingBillsByUser,
-    bills_list_by_user,
-    billsPaused,
-  } = useContext(HomeContext);
+  const { bills_by_user, billsSelectedTotalAmount, isLoadingBillRequest } =
+    useContext(HomeContext);
 
   console.log(
     "IS SELECTED ARRAY TOTAL AMOUNT AT VIEW:",
@@ -95,45 +94,12 @@ export const SpentPlusBillsVsIncomeView = ({ navigation, route }) => {
     const billsAmountPlusTransactionsAmount =
       totalTransactionsAmountOnDemand + billsSelectedTotalAmount;
     setBillsAmountPlusTransactionsAmount(billsAmountPlusTransactionsAmount);
-
-    // This happens when we are living this view
-    // return () => {
-    //   const settingTransactionsTotalAmountAndTotalBudgeted = async () => {
-    //     setMonthSelected(month_name);
-    //     const response =
-    //       await getting_transactions_budgeted_and_real_income_totalAmounts(
-    //         user_id,
-    //         month_year
-    //       );
-    //     console.log(
-    //       "RESPONSE AT HOW YOUR MONTH  GOES:",
-    //       JSON.stringify(response.transactions_total_amount, null, 2)
-    //     );
-    //     setTotalTransactionsAmountOnDemand(response.transactions_total_amount);
-    //     setTotalAmountBudgeted(response.totalBudgeted);
-    //     setRealIncomeTotalAmountOnDemand(response.realIncomeTotalAmount);
-    //   };
-    //   settingTransactionsTotalAmountAndTotalBudgeted();
-    // };
   }, [bills_by_user]);
 
   //   const { percentageCompleted, overSpentAmountInNegative } = amountsMathLogic();
   const [sortedBills, setSortedBills] = useState([]);
   const [billSelected, setBillSelected] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
-
-  //   const actionAtSelectingBill = (item) => {
-  //     // setBillSelected(item.bill_id);
-  //     // setIsSelected(!isSelected);
-  //     const { bill_id } = item;
-  //     const response = selectingBillFromBillsListByUserIdAndBillID(
-  //       user_id,
-  //       bill_id
-  //     );
-  //     if (response.status === 200) {
-  //       console.log("RESPONSE AT ACTION AT SELECTING BILL:", response.data);
-  //     }
-  //   };
 
   const renderUnPaidBillItem = ({ item }) => {
     const { status, bill_id } = item;
@@ -174,24 +140,22 @@ export const SpentPlusBillsVsIncomeView = ({ navigation, route }) => {
 
   return (
     <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
-      <ExitHeaderWithMonthsOptionButtonComponent
+      <ExitHeaderComponent
         navigation={navigation}
         direction={"column"}
         color={theme.colors.bg.p_FFFFFF}
-        // color={"#FAA"}
-        flexibility={0.12}
-        month_year_toRender={month_year_toRender}
-        month_year={month_year}
-        action={() => movingForwardToMonthsPadView(navigation)}
+        //   color={"#FAA"}
+        flexibility={0.15}
+        justify={"flex-end"}
         icon_left={"2%"}
-        icon_top={"10%"}
+        icon_top={"0%"}
       />
 
       <FlexibleContainer
         color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="row"
-        flexibility={Platform.OS === "ios" ? 0.42 : 0.37}
+        flexibility={Platform.OS === "ios" ? 0.42 : 0.45}
         justify={"center"}
         isBordered={false}
       >
@@ -202,7 +166,8 @@ export const SpentPlusBillsVsIncomeView = ({ navigation, route }) => {
           percentageCompleted={percentageCompleted}
           secondaryLabel="Income: "
           overSpentAmountInNegative={overSpentAmountInNegative}
-          isSpinnerLoading={isSpinnerLoading}
+          // isSpinnerLoading={isSpinnerLoading}
+          isSpinnerLoading={isLoadingBillRequest}
         />
       </FlexibleContainer>
       <FlexibleContainer
@@ -229,13 +194,18 @@ export const SpentPlusBillsVsIncomeView = ({ navigation, route }) => {
             height={"20%"}
             justify="center"
             alignment="center"
+            direction="row"
             // color={"orange"}
             color={theme.colors.bg.p_FFFFFF}
           >
             <Spacer position="left" size="large">
               <Text text_variant="bold_text_16">
-                Select bills you have paid:
+                Select bills you have paid till today -
               </Text>
+            </Spacer>
+            <Spacer position="left" size="small">
+              {/* <Text text_variant="bold_text_16">Oct 30, 2024</Text> */}
+              <Text text_variant="bold_text_16">{billCurrentDate}</Text>
             </Spacer>
           </ControlledContainer>
           <Spacer position="top" size="medium" />
@@ -265,6 +235,18 @@ export const SpentPlusBillsVsIncomeView = ({ navigation, route }) => {
                 return item.bill_id;
               }}
             />
+          </ControlledContainer>
+
+          <ControlledContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"lightblue"}
+            width={"100%"}
+            height={"20%"}
+            justify="center"
+            alignment="center"
+            direction="column"
+          >
+            <LinkButton caption={"Clear all bills"} action={() => null} />
           </ControlledContainer>
         </ControlledContainer>
       </FlexibleContainer>

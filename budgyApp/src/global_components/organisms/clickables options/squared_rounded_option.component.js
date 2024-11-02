@@ -26,14 +26,7 @@ export const SquaredRoundedOptionComponent = ({ item, bill_id }) => {
   const actionAtSelectingBill = async () => {
     setIsLoading(true);
     try {
-      const response = await selectingBillFromBillsListByUserIdAndBillID(
-        user_id,
-        bill_id
-      );
-
-      if (response.status === 200) {
-        console.log("RESPONSE AT ACTION AT SELECTING BILL:", response.data);
-      }
+      await selectingBillFromBillsListByUserIdAndBillID(user_id, bill_id);
     } catch (error) {
       console.log("ERROR AT ACTION AT SELECTING BILL:", error);
     } finally {

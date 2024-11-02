@@ -12,9 +12,13 @@ export const DateOperationsContextProvider = ({ children }) => {
   const system_date = new Date();
   const day_week = system_date.getDate().toString(); //this one add a '0' when day < 10
   const month_name = months[system_date.getMonth()];
+  const short_month_name = camel_month_acronyms[system_date.getMonth()];
   const year = system_date.getFullYear().toString();
   const month = system_date.getUTCMonth() + 1;
   const expenseDate = `${month_name + " " + day_week + "," + " " + year}`;
+  const billCurrentDate = `${
+    short_month_name.month_acronym + " " + day_week + "," + " " + year
+  }`;
   const calendar_date_initial_date = `${year}-${month}-${day_week}`;
 
   const gettingAcronym = (month_name) => {
@@ -113,6 +117,7 @@ export const DateOperationsContextProvider = ({ children }) => {
     };
     return month_and_day_for_bills_due_date_info;
   };
+
   const creatingTimeStampForBill = (MonthDay) => {
     //  Parsing a date like 'Oct 20' to a Firestore Timestamp
     const [month, day] = MonthDay.split(" ");
@@ -158,6 +163,7 @@ export const DateOperationsContextProvider = ({ children }) => {
         set_month_year_toRender,
         resetMonth_year_toRender,
         assemblingMonthAndDayForBillsDueDate,
+        billCurrentDate,
       }}
     >
       {children}

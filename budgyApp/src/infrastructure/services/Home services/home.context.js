@@ -1,5 +1,4 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
-import { AuthenticationContext } from "../authentication/authentication.context";
 import {
   getBillsList_By_UserID_Request,
   updatingBillRequest,
@@ -14,26 +13,33 @@ import {
   creationBillNodeObject,
 } from "./home.initial_data";
 
+import { useHowYourMonthGoesLogic } from "../../../hooks/useHowYourMonthGoesLogic";
+
+import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
-import { FlatListComponent } from "react-native";
+// import { RealIncomeContext } from "../real_income/real_income.context";
+// import { FlatListComponent } from "react-native";
 
 export const HomeContext = createContext();
 
 export const HomeContextProvider = ({ children }) => {
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
-  const [number, setNumber] = useState("0");
 
   const { assemblingMonthAndDayForBillsDueDate, creatingTimeStampForBill } =
     useContext(DateOperationsContext);
+
+  // const { realIncomeTotalAmountOnDemand } = useContext(RealIncomeContext);
+
+  // const { spentPlusBillsVsIncomeMathLogic } = useHowYourMonthGoesLogic();
+  const [number, setNumber] = useState("0");
+
   const clean = () => {
     setNumber("0");
   };
 
   useEffect(() => {
-    (async () => {
-      fetchingBillsByUser();
-    })();
+    initialBillsByUserFetchAndRelatedOperations();
   }, []);
 
   // ********* STATES *********
@@ -64,31 +70,88 @@ export const HomeContextProvider = ({ children }) => {
   const [isLoadingBillRequest, setIsLoadingBillRequest] = useState(false);
   const [bills_list_by_user, setBillsListByUser] = useState({});
 
-  const [activatedBill, setActivatedBill] = useState(FlatListComponent);
+  const [activatedBill, setActivatedBill] = useState(false);
   const [modalActive, setModalActive] = useState(false);
   const [billsSelectedTotalAmount, setBillsSelectedTotalAmount] = useState(0);
+  const [billToActivate, setBillToActivate] = useState("");
+  // const [fetchingExecuted, setFetchingExecuted] = useState(false);
 
-  const fetchingBillsByUser = async () => {
+  const initialBillsByUserFetchAndRelatedOperations = async () => {
     setIsLoadingBillRequest(true);
     let bills_paused_by_user = [];
+    let isSelectedArray = [];
     try {
       const bills_list_by_user = await getBillsList_By_UserID_Request(user_id);
       const { bills_by_user } = bills_list_by_user.data;
-      setBillsByUser(bills_by_user);
-      setBillsListByUser(bills_list_by_user.data);
+      console.log(
+        "BILLS BY USER AT CONTEXT:",
+        JSON.stringify(bills_by_user, null, 2)
+      );
       bills_by_user.map((bill) => {
         if (bill.status === "Paused") {
           bills_paused_by_user.push(bill);
         }
       });
-      console.log("BILLS PAUSED BY USER:", bills_paused_by_user);
+      bills_by_user.map((bill) => {
+        if (bill.isSelected) {
+          isSelectedArray.push(bill);
+        }
+      });
+      const isSelectedBillsTotalAmount = isSelectedArray.reduce((acc, obj) => {
+        return acc + obj.bill_amount;
+      }, 0);
+      console.log("isSelectedArray:", JSON.stringify(isSelectedArray, null, 2)); // Log the isSelectedArray
+      console.log(
+        "IS SELECTED BILLS TOTAL AMOUNT AT CONTEXT:",
+        isSelectedBillsTotalAmount
+      );
+      setBillsSelectedTotalAmount(isSelectedBillsTotalAmount);
+      setBillsByUser(bills_by_user);
+      setBillsListByUser(bills_list_by_user.data);
       setBillsPaused(bills_paused_by_user);
+      // console.log("BILLS PAUSED BY USER:", bills_paused_by_user);
     } catch (error) {
       console.log("ERROR FETCHING BILLS BY DEFAULT:", error);
     } finally {
       setIsLoadingBillRequest(false);
     }
   };
+
+  // const spentPlusBillsVsIncomeMathLogic = () => {
+  //   console.log(
+  //     "BILLS SELECTED TOTAL AMOUNT AT USE HOW MONTH GOES:",
+  //     billsSelectedTotalAmount
+  //   );
+  //   if (
+  //     realIncomeTotalAmountOnDemand >
+  //     totalTransactionsAmountOnDemand + billsSelectedTotalAmount
+  //   ) {
+  //     billsPaidPercentageCompleted =
+  //       ((totalTransactionsAmountOnDemand + billsSelectedTotalAmount) * 100) /
+  //       realIncomeTotalAmountOnDemand /
+  //       100;
+  //     overSpentAmountInNegative = 0;
+  //   }
+  //   if (
+  //     realIncomeTotalAmountOnDemand <
+  //     totalTransactionsAmountOnDemand + billsSelectedTotalAmount
+  //   ) {
+  //     overSpentAmountInNegative =
+  //       realIncomeTotalAmountOnDemand -
+  //       (totalTransactionsAmountOnDemand + billsSelectedTotalAmount);
+  //     overSpentAmountInPositive =
+  //       totalTransactionsAmountOnDemand +
+  //       billsSelectedTotalAmount -
+  //       realIncomeTotalAmountOnDemand;
+  //     //   console.log("TEST:", overSpentAmountInPositive);
+  //     billsPaidPercentageCompleted =
+  //       overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
+  //   }
+  //   return {
+  //     billsPaidPercentageCompleted,
+  //     overSpentAmountInNegative,
+  //   };
+  // };
 
   const btnDelete = () => {
     let negative = "";
@@ -130,6 +193,27 @@ export const HomeContextProvider = ({ children }) => {
       }
     } else {
       setNumber(number + digit);
+    }
+  };
+  const fetchingBillsByUser = async () => {
+    setIsLoadingBillRequest(true);
+    let bills_paused_by_user = [];
+    try {
+      const bills_list_by_user = await getBillsList_By_UserID_Request(user_id);
+      const { bills_by_user } = bills_list_by_user.data;
+      setBillsByUser(bills_by_user);
+      setBillsListByUser(bills_list_by_user.data);
+      bills_by_user.map((bill) => {
+        if (bill.status === "Paused") {
+          bills_paused_by_user.push(bill);
+        }
+      });
+      console.log("BILLS PAUSED BY USER:", bills_paused_by_user);
+      setBillsPaused(bills_paused_by_user);
+    } catch (error) {
+      console.log("ERROR FETCHING BILLS BY DEFAULT:", error);
+    } finally {
+      setIsLoadingBillRequest(false);
     }
   };
 
@@ -193,10 +277,6 @@ export const HomeContextProvider = ({ children }) => {
           bill_title: newBillName,
           bill_short_name: shortNameBillName,
         }));
-        console.log(
-          "UPDATE BILL INFO FOR REQUEST:",
-          JSON.stringify(updateBillInfoForRequest, null, 2)
-        );
         navigation.navigate("Enter_amount_view", {
           comingFrom: "update_bill_name_view",
         });
@@ -211,10 +291,6 @@ export const HomeContextProvider = ({ children }) => {
       navigation.navigate("Enter_amount_view", {
         comingFrom: "update_bill_name_view",
       });
-      console.log(
-        "UPDATE BILL INFO FOR REQUEST:",
-        JSON.stringify(updateBillInfoForRequest, null, 2)
-      );
     }
   };
 
@@ -264,39 +340,6 @@ export const HomeContextProvider = ({ children }) => {
       );
     }
   };
-  // const settingPaymentDueDateForRequest = (digit) => {
-  //   const payment_due_date = assemblingMonthAndDayForBillsDueDate(digit);
-  //   setBillDayChosen({
-  //     day_selected: digit,
-  //     isActive: true,
-  //   });
-  //   // *******************************************************
-  //   // const billTimeStamp = creatingTimeStampForBill(day);
-
-  //   // *******************************************************
-  //   console.log("PAYMENT DUE DATE:", payment_due_date);
-  //   console.log("ACTION TO DO:", action_to_do);
-  //   if (action_to_do === "create_bill") {
-  //     setCreateBillInfoForRequest((prevState) => ({
-  //       ...prevState,
-  //       payment_date: payment_due_date,
-  //     }));
-  //     console.log(
-  //       "CREATE BILL INFO FOR REQUEST:",
-  //       JSON.stringify(createBillInfoForRequest, null, 2)
-  //     );
-  //   }
-  //   if (action_to_do === "update_bill") {
-  //     setUpdateBillInfoForRequest((prevState) => ({
-  //       ...prevState,
-  //       payment_date: payment_due_date,
-  //     }));
-  //     console.log(
-  //       "UPDATE BILL INFO FOR REQUEST:",
-  //       JSON.stringify(updateBillInfoForRequest, null, 2)
-  //     );
-  //   }
-  // };
 
   // ************** BILLS OPERATIONS ****************
   const creatingBillAtListByUserId = async (navigation) => {
@@ -309,11 +352,6 @@ export const HomeContextProvider = ({ children }) => {
       const response = await creatingBillRequest(createBillInfoForRequest);
       if (response) {
         setIsLoadingBillRequest(false);
-        console.log(
-          "BILL LIST CREATED RESPONSE AT CONTEXT:",
-          JSON.stringify(response.data, null, 2)
-        );
-        // setNewCategoryAdded(true);
         navigation.navigate("bill_confirmation_view");
       }
     } catch (error) {
@@ -376,10 +414,6 @@ export const HomeContextProvider = ({ children }) => {
       const response = await pausingBillFromBillsListRequest(user_id, bill_id);
       if (response) {
         setIsLoadingBillRequest(false);
-        console.log(
-          "BILL LIST UPDATED RESPONSE AT CONTEXT:",
-          JSON.stringify(response.data, null, 2)
-        );
         navigation.navigate("bill_confirmation_view");
       }
     } catch (error) {
@@ -408,11 +442,7 @@ export const HomeContextProvider = ({ children }) => {
     }
   };
 
-  const selectingBillFromBillsListByUserIdAndBillID = async (
-    user_id,
-    bill_id
-  ) => {
-    setIsLoadingBillRequest(true);
+  const billsSelectedAmountLogicOnDemand = async (user_id, bill_id) => {
     let isSelectedArray = [];
     try {
       const response = await selectingBillFromBillsListRequest(
@@ -443,18 +473,30 @@ export const HomeContextProvider = ({ children }) => {
           0
         );
         console.log(
-          "IS SELECTED ARRAY TOTAL AMOUNT:",
+          "IS SELECTED ARRAY TOTAL AMOUNT AT CONTEXT:",
           isSelectedBillsTotalAmount
         );
         setBillsSelectedTotalAmount(isSelectedBillsTotalAmount);
 
         // *****************************************
         setBillsByUser(bills_by_user);
-        setIsLoadingBillRequest(false);
-        // navigation.navigate("HomeView");
       }
     } catch (error) {
       console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
+  const selectingBillFromBillsListByUserIdAndBillID = async (
+    user_id,
+    bill_id
+  ) => {
+    setIsLoadingBillRequest(true);
+    try {
+      await billsSelectedAmountLogicOnDemand(user_id, bill_id);
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    } finally {
+      setIsLoadingBillRequest(false);
     }
   };
 
@@ -483,7 +525,6 @@ export const HomeContextProvider = ({ children }) => {
         billDayChosen,
         updatingBillListByUserId,
         isLoadingBillRequest,
-        fetchingBillsByUser,
         bills_list_by_user,
         creatingBillAtListByUserId,
         removingBillFromBillsListByUserIdAndBillID,
@@ -498,6 +539,10 @@ export const HomeContextProvider = ({ children }) => {
         activatingBillFromBillsListByUserIdAndBillID,
         selectingBillFromBillsListByUserIdAndBillID,
         billsSelectedTotalAmount,
+        fetchingBillsByUser,
+        setBillToActivate,
+        billToActivate,
+        // overSpentAmountInNegative,
       }}
     >
       {children}

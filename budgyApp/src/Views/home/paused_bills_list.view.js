@@ -38,6 +38,7 @@ export const PausedBillsListView = ({ navigation }) => {
     setActivatedBill,
     modalActive,
     activatingBillFromBillsListByUserIdAndBillID,
+    setBillToActivate,
   } = useContext(HomeContext);
   //   console.log(
   //     "BILLS LIST BY USER AT BILLS TO PAY LIST VIEW:",
@@ -58,8 +59,9 @@ export const PausedBillsListView = ({ navigation }) => {
     setActionToDo("UnPause_bill");
     setModalActive(true);
     setActivatedBill(true);
+    setBillToActivate(item.bill_id);
 
-    await activatingBillFromBillsListByUserIdAndBillID(user_id, item.bill_id);
+    // await activatingBillFromBillsListByUserIdAndBillID(user_id, item.bill_id);
   };
 
   const renderPausedBillsItem = ({ item }) => {

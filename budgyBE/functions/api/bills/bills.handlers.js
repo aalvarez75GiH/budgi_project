@@ -31,6 +31,7 @@ module.exports.pausingBillNodeFromBillsList = (
   const node = bills_by_user[index];
   if (node.bill_id === bill_id) {
     node.status = "Paused";
+    node.isSelected = false;
   }
   return bills_list_by_user_id;
 };
