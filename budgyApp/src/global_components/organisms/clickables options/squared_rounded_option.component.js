@@ -16,7 +16,7 @@ export const SquaredRoundedOptionComponent = ({ item, bill_id }) => {
     item;
   const { SVGIconComponent } = useSVGComponent(icon_name);
 
-  const { selectingBillFromBillsListByUserIdAndBillID, isLoadingBillRequest } =
+  const { selectingBillFromBillsListByUserIdAndBillID } =
     useContext(HomeContext);
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;

@@ -11,7 +11,6 @@ export const useHowYourMonthGoesLogic = () => {
   //   ***** DATA FROM AUTHENTICATION CONTEXT
   const { user } = useContext(AuthenticationContext);
   const { user_id } = user;
-  //   console.log("USER_ID:", user_id);
 
   //   ***** DATA FROM TRANSACTIONS CONTEXT
   const {
@@ -21,8 +20,6 @@ export const useHowYourMonthGoesLogic = () => {
 
   //   ***** DATA FROM CATEGORY DATA CONTEXT
   const { categoryData } = useContext(CategoryDataContext);
-  // console.log("CATEGORY DATA AT HOOK:", categoryData);
-  // const { total_amount_budgeted } = categoryData;
 
   //   ***** DATA FROM DATE OPERATIONS CONTEXT
   const { month_year, setMonthSelected, month_name } = useContext(
@@ -33,7 +30,8 @@ export const useHowYourMonthGoesLogic = () => {
   const { realIncomeTotalAmount } = useContext(RealIncomeContext);
 
   //   ***** DATA FROM HOME CONTEXT CONTEXT
-  const { billsSelectedTotalAmount } = useContext(HomeContext);
+  const { billsSelectedTotalAmount, setIsLoadingBillRequest } =
+    useContext(HomeContext);
 
   const [isSpinnerLoading, setIsSpinnerLoading] = useState(false);
   const [tile_selected, set_tile_selected] = useState("Spent vs budgeted");
@@ -60,47 +58,12 @@ export const useHowYourMonthGoesLogic = () => {
   const switchingOptions = (option) => {
     console.log("OPTION AT SWITCHING:", option);
     setIsSpinnerLoading(true);
+    setIsLoadingBillRequest(true);
     setTimeout(() => {
       setIsSpinnerLoading(false);
+      setIsLoadingBillRequest(false);
     }, 800);
     set_tile_selected(option);
-  };
-
-  //   ***** THIS FUNCTION DOES THE MATH TO GET PERCENTAGE COMPLETED AND OVER SPENT AMOUNTS FOR SPENT PLUS BILLS BAR CHART *****
-  const spentPlusBillsVsIncomeMathLogic = () => {
-    console.log(
-      "BILLS SELECTED TOTAL AMOUNT AT USE HOW MONTH GOES:",
-      billsSelectedTotalAmount
-    );
-    if (
-      realIncomeTotalAmountOnDemand >
-      totalTransactionsAmountOnDemand + billsSelectedTotalAmount
-    ) {
-      percentageCompleted =
-        ((totalTransactionsAmountOnDemand + billsSelectedTotalAmount) * 100) /
-        realIncomeTotalAmountOnDemand /
-        100;
-      overSpentAmountInNegative = 0;
-    }
-    if (
-      realIncomeTotalAmountOnDemand <
-      totalTransactionsAmountOnDemand + billsSelectedTotalAmount
-    ) {
-      overSpentAmountInNegative =
-        realIncomeTotalAmountOnDemand -
-        (totalTransactionsAmountOnDemand + billsSelectedTotalAmount);
-      overSpentAmountInPositive =
-        totalTransactionsAmountOnDemand +
-        billsSelectedTotalAmount -
-        realIncomeTotalAmountOnDemand;
-      //   console.log("TEST:", overSpentAmountInPositive);
-      percentageCompleted =
-        overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
-    }
-    return {
-      percentageCompleted,
-      overSpentAmountInNegative,
-    };
   };
 
   const movingForwardToMonthsPadView = (navigation) => {
@@ -152,23 +115,32 @@ export const useHowYourMonthGoesLogic = () => {
           overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
       }
     }
-    // if (tile_selected === "Spent + bills vs income") {
-    //   if (realIncomeTotalAmountOnDemand > totalTransactionsAmountOnDemand) {
-    //     percentageCompleted =
-    //       (totalTransactionsAmountOnDemand * 100) /
-    //       realIncomeTotalAmountOnDemand /
-    //       100;
-    //   }
-    //   if (realIncomeTotalAmountOnDemand < totalTransactionsAmountOnDemand) {
-    //     overSpentAmountInNegative =
-    //       realIncomeTotalAmountOnDemand - totalTransactionsAmountOnDemand;
-    //     overSpentAmountInPositive =
-    //       totalTransactionsAmountOnDemand - realIncomeTotalAmountOnDemand;
-    //     //   console.log("TEST:", overSpentAmountInPositive);
-    //     percentageCompleted =
-    //       overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
-    //   }
-    // }
+    if (tile_selected === "Spent + bills vs income") {
+      if (
+        realIncomeTotalAmountOnDemand >
+        totalTransactionsAmountOnDemand + billsSelectedTotalAmount
+      ) {
+        percentageCompleted =
+          ((totalTransactionsAmountOnDemand + billsSelectedTotalAmount) * 100) /
+          realIncomeTotalAmountOnDemand /
+          100;
+        overSpentAmountInNegative = 0;
+      }
+      if (
+        realIncomeTotalAmountOnDemand <
+        totalTransactionsAmountOnDemand + billsSelectedTotalAmount
+      ) {
+        overSpentAmountInNegative =
+          realIncomeTotalAmountOnDemand -
+          (totalTransactionsAmountOnDemand + billsSelectedTotalAmount);
+        overSpentAmountInPositive =
+          totalTransactionsAmountOnDemand +
+          billsSelectedTotalAmount -
+          realIncomeTotalAmountOnDemand;
+        percentageCompleted =
+          overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
+      }
+    }
 
     return {
       percentageCompleted,
@@ -179,6 +151,7 @@ export const useHowYourMonthGoesLogic = () => {
   return {
     amountsMathLogic,
     switchingOptions,
+    setIsSpinnerLoading,
     isSpinnerLoading,
     tile_selected,
     set_tile_selected,
@@ -195,6 +168,5 @@ export const useHowYourMonthGoesLogic = () => {
     month_name,
     month_year,
     user_id,
-    spentPlusBillsVsIncomeMathLogic,
   };
 };

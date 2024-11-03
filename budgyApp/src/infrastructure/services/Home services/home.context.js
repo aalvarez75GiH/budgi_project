@@ -13,14 +13,13 @@ import {
   creationBillNodeObject,
 } from "./home.initial_data";
 
-import { useHowYourMonthGoesLogic } from "../../../hooks/useHowYourMonthGoesLogic";
-
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
 // import { RealIncomeContext } from "../real_income/real_income.context";
 // import { FlatListComponent } from "react-native";
 
 export const HomeContext = createContext();
+// import { useHowYourMonthGoesLogic } from "../../../hooks/useHowYourMonthGoesLogic";
 
 export const HomeContextProvider = ({ children }) => {
   const { user } = useContext(AuthenticationContext);
@@ -31,7 +30,7 @@ export const HomeContextProvider = ({ children }) => {
 
   // const { realIncomeTotalAmountOnDemand } = useContext(RealIncomeContext);
 
-  // const { spentPlusBillsVsIncomeMathLogic } = useHowYourMonthGoesLogic();
+  // const { setIsSpinnerLoading } = useHowYourMonthGoesLogic();
   const [number, setNumber] = useState("0");
 
   const clean = () => {
@@ -116,42 +115,6 @@ export const HomeContextProvider = ({ children }) => {
       setIsLoadingBillRequest(false);
     }
   };
-
-  // const spentPlusBillsVsIncomeMathLogic = () => {
-  //   console.log(
-  //     "BILLS SELECTED TOTAL AMOUNT AT USE HOW MONTH GOES:",
-  //     billsSelectedTotalAmount
-  //   );
-  //   if (
-  //     realIncomeTotalAmountOnDemand >
-  //     totalTransactionsAmountOnDemand + billsSelectedTotalAmount
-  //   ) {
-  //     billsPaidPercentageCompleted =
-  //       ((totalTransactionsAmountOnDemand + billsSelectedTotalAmount) * 100) /
-  //       realIncomeTotalAmountOnDemand /
-  //       100;
-  //     overSpentAmountInNegative = 0;
-  //   }
-  //   if (
-  //     realIncomeTotalAmountOnDemand <
-  //     totalTransactionsAmountOnDemand + billsSelectedTotalAmount
-  //   ) {
-  //     overSpentAmountInNegative =
-  //       realIncomeTotalAmountOnDemand -
-  //       (totalTransactionsAmountOnDemand + billsSelectedTotalAmount);
-  //     overSpentAmountInPositive =
-  //       totalTransactionsAmountOnDemand +
-  //       billsSelectedTotalAmount -
-  //       realIncomeTotalAmountOnDemand;
-  //     //   console.log("TEST:", overSpentAmountInPositive);
-  //     billsPaidPercentageCompleted =
-  //       overSpentAmountInPositive / realIncomeTotalAmountOnDemand;
-  //   }
-  //   return {
-  //     billsPaidPercentageCompleted,
-  //     overSpentAmountInNegative,
-  //   };
-  // };
 
   const btnDelete = () => {
     let negative = "";
@@ -490,12 +453,14 @@ export const HomeContextProvider = ({ children }) => {
     user_id,
     bill_id
   ) => {
+    // setIsSpinnerLoading(true);
     setIsLoadingBillRequest(true);
     try {
       await billsSelectedAmountLogicOnDemand(user_id, bill_id);
     } catch (error) {
       console.log("THERE WAS AN ERROR:", error);
     } finally {
+      // setIsSpinnerLoading(false);
       setIsLoadingBillRequest(false);
     }
   };
@@ -525,6 +490,7 @@ export const HomeContextProvider = ({ children }) => {
         billDayChosen,
         updatingBillListByUserId,
         isLoadingBillRequest,
+        setIsLoadingBillRequest,
         bills_list_by_user,
         creatingBillAtListByUserId,
         removingBillFromBillsListByUserIdAndBillID,
@@ -542,7 +508,6 @@ export const HomeContextProvider = ({ children }) => {
         fetchingBillsByUser,
         setBillToActivate,
         billToActivate,
-        // overSpentAmountInNegative,
       }}
     >
       {children}

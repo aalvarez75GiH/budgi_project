@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { FlatList } from "react-native";
 
 import { Platform } from "react-native";
 
@@ -12,6 +13,11 @@ import { CenteredTextTileWithIcon } from "../../global_components/organisms/tile
 import { useHowYourMonthGoesLogic } from "../../hooks/useHowYourMonthGoesLogic";
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 import { SafeArea } from "../../global_components/safe-area.component";
+import { ControlledContainer } from "../../global_components/containers/controlled_container";
+import { Spacer } from "../../global_components/optimized.spacer.component";
+import { SquaredRoundedOptionComponent } from "../../global_components/organisms/clickables options/squared_rounded_option.component";
+
+import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 
 export const HowMonthIsGoingView = ({ navigation }) => {
   //   *****************************************************************************************************
@@ -37,7 +43,34 @@ export const HowMonthIsGoingView = ({ navigation }) => {
   } = useHowYourMonthGoesLogic();
   const { percentageCompleted, overSpentAmountInNegative } = amountsMathLogic();
 
+  const {
+    bills_by_user,
+    billsSelectedTotalAmount,
+    isLoadingBillRequest,
+    setIsLoadingBillRequest,
+  } = useContext(HomeContext);
+
+  const [sortedBills, setSortedBills] = useState([]);
+  const [
+    billsAmountPlusTransactionsAmount,
+    setBillsAmountPlusTransactionsAmount,
+  ] = useState(0);
+
   useEffect(() => {
+    const sortBillsByTimestamp = (bills_by_user) => {
+      return bills_by_user.sort(
+        (a, b) =>
+          a.payment_date_timeStamp._seconds - b.payment_date_timeStamp._seconds
+      );
+    };
+
+    const sortedBills = sortBillsByTimestamp(bills_by_user);
+    setSortedBills(sortedBills);
+
+    const billsAmountPlusTransactionsAmount =
+      totalTransactionsAmountOnDemand + billsSelectedTotalAmount;
+    setBillsAmountPlusTransactionsAmount(billsAmountPlusTransactionsAmount);
+
     return () => {
       const settingTransactionsTotalAmountAndTotalBudgeted = async () => {
         setMonthSelected(month_name);
@@ -56,15 +89,20 @@ export const HowMonthIsGoingView = ({ navigation }) => {
       };
       settingTransactionsTotalAmountAndTotalBudgeted();
     };
-  }, []);
-  console.log(
-    "TOTAL TRANSACTIONS AMOUNT AT 1:",
-    totalTransactionsAmountOnDemand
-  );
+  }, [bills_by_user]);
+
   console.log("REAL INCOME TOTAL AMOUNT AT 1:", realIncomeTotalAmountOnDemand);
   console.log("PERCENTAGE COMPLETED AT 1:", percentageCompleted);
   console.log("OVER SPENT AMOUNT IN NEGATIVE AT 1:", overSpentAmountInNegative);
   console.log("TILE SELECTED AT 1:", tile_selected);
+
+  const renderUnPaidBillItem = ({ item }) => {
+    const { status, bill_id } = item;
+    if (status === "Paused") {
+      return null;
+    }
+    return <SquaredRoundedOptionComponent item={item} bill_id={bill_id} />;
+  };
 
   if (totalAmountBudgeted === 0) {
     return (
@@ -113,7 +151,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         color={theme.colors.bg.p_FFFFFF}
         // color={"lightblue"}
         direction="row"
-        flexibility={Platform.OS === "ios" ? 0.42 : 0.37}
+        flexibility={Platform.OS === "ios" ? 0.35 : 0.37}
         justify={"center"}
         isBordered={false}
       >
@@ -139,13 +177,23 @@ export const HowMonthIsGoingView = ({ navigation }) => {
           />
         )}
         {tile_selected === "Spent + bills vs income" && (
+          // <CircularChartComponent
+          //   primaryAmount={totalTransactionsAmountOnDemand}
+          //   secondaryAmount={realIncomeTotalAmountOnDemand}
+          //   percentageCompleted={percentageCompleted}
+          //   secondaryLabel="Income: "
+          //   overSpentAmountInNegative={overSpentAmountInNegative}
+          //   isSpinnerLoading={isSpinnerLoading}
+          // />
           <CircularChartComponent
-            primaryAmount={totalTransactionsAmountOnDemand}
+            //   primaryAmount={totalTransactionsAmountOnDemand}
+            primaryAmount={billsAmountPlusTransactionsAmount}
             secondaryAmount={realIncomeTotalAmountOnDemand}
             percentageCompleted={percentageCompleted}
             secondaryLabel="Income: "
             overSpentAmountInNegative={overSpentAmountInNegative}
-            isSpinnerLoading={isSpinnerLoading}
+            // isSpinnerLoading={isSpinnerLoading}
+            isSpinnerLoading={isLoadingBillRequest}
           />
         )}
       </FlexibleContainer>
@@ -154,7 +202,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
         // color={"lightblue"}
         direction="column"
         // flexibility={0.185}
-        flexibility={Platform.OS === "ios" ? 0.185 : 0.285}
+        flexibility={Platform.OS === "ios" ? 0.25 : 0.285}
         justify={"center"}
         isBordered={false}
       >
@@ -181,19 +229,89 @@ export const HowMonthIsGoingView = ({ navigation }) => {
           active_icon={false}
           // action={() => navigation.navigate("Spent_plus_bills_vs_income")}
           // action={() => switchingOptions("Spent + bills vs income")}
-          action={() => {
-            const { percentageCompleted, overSpentAmountInNegative } =
-              spentPlusBillsVsIncomeMathLogic();
-            switchingOptions("Spent + bills vs income");
-            navigation.navigate("Spent_plus_bills_vs_income", {
-              totalTransactionsAmountOnDemand: totalTransactionsAmountOnDemand,
-              realIncomeTotalAmountOnDemand: realIncomeTotalAmountOnDemand,
-              percentageCompleted: percentageCompleted,
-              overSpentAmountInNegative: overSpentAmountInNegative,
-            });
-          }}
+          action={() => switchingOptions("Spent + bills vs income")}
           tile_selected={tile_selected}
         />
+      </FlexibleContainer>
+      <FlexibleContainer
+        color={theme.colors.ui.s_FFFFFF}
+        //color={"lightgreen"}
+        direction="column"
+        // flexibility={0.185}
+        flexibility={Platform.OS === "ios" ? 0.2 : 0.2}
+        justify={"center"}
+        isBordered={false}
+      >
+        {tile_selected === "Spent + bills vs income" && (
+          <ControlledContainer
+            width={"100%"}
+            height={"90%"}
+            justify="center"
+            alignment="center"
+            //   color={theme.colors.neutrals.e3_D6D6D6}
+            color={theme.colors.bg.p_FFFFFF}
+            //   color={"blue"}
+          >
+            {/* <ControlledContainer
+            width={"100%"}
+            height={"20%"}
+            justify="center"
+            alignment="center"
+            direction="row"
+            // color={"orange"}
+            color={theme.colors.bg.p_FFFFFF}
+          >
+            <Spacer position="left" size="large">
+              <Text text_variant="bold_text_16">
+                Select bills you have paid till today -
+              </Text>
+            </Spacer>
+            <Spacer position="left" size="small">
+              <Text text_variant="bold_text_16">{billCurrentDate}</Text>
+            </Spacer>
+          </ControlledContainer> */}
+            <Spacer position="top" size="medium" />
+            <ControlledContainer
+              color={theme.colors.bg.p_FFFFFF}
+              width={"100%"}
+              height={"80%"}
+              justify="center"
+              alignment="center"
+              direction="row"
+            >
+              <ControlledContainer
+                color={theme.colors.bg.p_FFFFFF}
+                //   color={"red"}
+                width={"5%"}
+                height={"80%"}
+                justify="center"
+                alignment="center"
+                direction="row"
+              />
+              <FlatList
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                data={sortedBills}
+                renderItem={renderUnPaidBillItem}
+                keyExtractor={(item, id) => {
+                  return item.bill_id;
+                }}
+              />
+            </ControlledContainer>
+
+            {/* <ControlledContainer
+            color={theme.colors.bg.p_FFFFFF}
+            // color={"lightblue"}
+            width={"100%"}
+            height={"20%"}
+            justify="center"
+            alignment="center"
+            direction="column"
+          >
+            <LinkButton caption={"Clear all bills"} action={() => null} />
+          </ControlledContainer> */}
+          </ControlledContainer>
+        )}
       </FlexibleContainer>
     </GeneralFlexContainer>
   );
