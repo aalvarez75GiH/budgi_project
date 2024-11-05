@@ -36,15 +36,14 @@ export const SquaredRoundedOptionComponent = ({ item, bill_id }) => {
 
   return (
     <ClickableControlledContainer
-      width={100}
-      height={100}
+      width={"100px"}
+      height={"100px"}
       justify="center"
       alignment="center"
       direction="column"
       color={
-        isSelected
-          ? theme.colors.buttons.s_142223C
-          : theme.colors.neutrals.e2_F5F5F5
+        isSelected ? theme.colors.buttons.s_142223C : theme.colors.ui.s_FFFFFF
+        // : theme.colors.neutrals.e2_F5F5F5
       }
       borderTopLeftRadius={20}
       borderBottomLeftRadius={20}
