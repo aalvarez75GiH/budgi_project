@@ -7,6 +7,7 @@ import {
   pausingBillFromBillsListRequest,
   activatingBillFromBillsListRequest,
   selectingBillFromBillsListRequest,
+  updatingBillListRequest,
 } from "./home.services";
 import {
   updateBillNodeObject,
@@ -15,11 +16,8 @@ import {
 
 import { AuthenticationContext } from "../authentication/authentication.context";
 import { DateOperationsContext } from "../date_operations/date_operations.context";
-// import { RealIncomeContext } from "../real_income/real_income.context";
-// import { FlatListComponent } from "react-native";
 
 export const HomeContext = createContext();
-// import { useHowYourMonthGoesLogic } from "../../../hooks/useHowYourMonthGoesLogic";
 
 export const HomeContextProvider = ({ children }) => {
   const { user } = useContext(AuthenticationContext);
@@ -28,9 +26,6 @@ export const HomeContextProvider = ({ children }) => {
   const { assemblingMonthAndDayForBillsDueDate, creatingTimeStampForBill } =
     useContext(DateOperationsContext);
 
-  // const { realIncomeTotalAmountOnDemand } = useContext(RealIncomeContext);
-
-  // const { setIsSpinnerLoading } = useHowYourMonthGoesLogic();
   const [number, setNumber] = useState("0");
 
   const clean = () => {
@@ -38,7 +33,15 @@ export const HomeContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    initialBillsByUserFetchAndRelatedOperations();
+    const initializations = async () => {
+      try {
+        await changingBillsPaymentDateToCurrentMonth();
+        await initialBillsByUserFetchAndRelatedOperations();
+      } catch (error) {
+        console.log("ERROR AT INITIAL BILLS BY USER FETCH:", error);
+      }
+    };
+    initializations();
   }, []);
 
   // ********* STATES *********
@@ -106,8 +109,10 @@ export const HomeContextProvider = ({ children }) => {
       );
       setBillsSelectedTotalAmount(isSelectedBillsTotalAmount);
       setBillsByUser(bills_by_user);
+
       setBillsListByUser(bills_list_by_user.data);
       setBillsPaused(bills_paused_by_user);
+      // await changingBillsPaymentDateToCurrentMonth();
       // console.log("BILLS PAUSED BY USER:", bills_paused_by_user);
     } catch (error) {
       console.log("ERROR FETCHING BILLS BY DEFAULT:", error);
@@ -115,6 +120,44 @@ export const HomeContextProvider = ({ children }) => {
       setIsLoadingBillRequest(false);
     }
   };
+
+  // ********************************************************************
+
+  const changingBillsPaymentDateToCurrentMonth = async () => {
+    const bills_list_by_user = await getBillsList_By_UserID_Request(user_id);
+    const { bills_by_user } = bills_list_by_user.data;
+
+    bills_by_user.map((bill) => {
+      const { payment_date } = bill;
+      const payment_date_splitted = payment_date.split(" ");
+      const payment_date_digit = payment_date_splitted[1];
+      console.log("PAYMENT DUE DATE SPLITTED:", payment_date_splitted);
+      const month_day_for_bills_due_date =
+        assemblingMonthAndDayForBillsDueDate(payment_date_digit);
+      console.log(
+        "PAYMENT DUE DATE:",
+        JSON.stringify(month_day_for_bills_due_date, null, 2)
+      );
+      bill.payment_date =
+        month_day_for_bills_due_date.month_day_for_bills_due_date;
+      bill.payment_date_timeStamp = month_day_for_bills_due_date.billTimeStamp;
+    });
+    console.log(
+      "BILLS BY USER AFTER CHANGING PAYMENT DATE:",
+      JSON.stringify(bills_by_user, null, 2)
+    );
+    console.log(
+      "BILL LIST BY USER AFTER CHANGING PAYMENT DATE:",
+      JSON.stringify(bills_list_by_user.data, null, 2)
+    );
+    try {
+      await updatingBillListRequest(bills_list_by_user.data);
+    } catch (error) {
+      console.log("THERE WAS AN ERROR:", error);
+    }
+  };
+
+  // ********************************************************************
 
   const btnDelete = () => {
     let negative = "";

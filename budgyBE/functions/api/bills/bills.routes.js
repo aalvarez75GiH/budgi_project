@@ -114,6 +114,42 @@ app.post("/postMultipleBills", (req, res) => {
 
 //** Update a Bills List's Bill node
 app.put("/updateBillListByUserId", (req, res) => {
+  const bills_list = req.body;
+
+  // const updateBillListByUserID = async (bill_list_toUpdate) => {
+  //   const { bills_list_id } = bill_list_toUpdate;
+  //   await db
+  //     .collection("bills_list")
+  //     .doc(bills_list_id)
+  //     .update(bill_list_toUpdate);
+  //   return bill_list_toUpdate;
+  // };
+
+  console.log("BILL TO UPDATE:", bills_list);
+
+  (async () => {
+    try {
+      const billsListUpdated = await billController.updateBillListByUserID(
+        bills_list
+      );
+
+      billsListUpdated
+        ? res.status(201).json(billsListUpdated)
+        : res.status(503).send({
+            status: "503",
+            msg: "ERROR 503 - BILLS LIST WAS NOT UPDATED - SERVER UNAVAILABLE OR NETWORK ERROR",
+          });
+    } catch (error) {
+      return res.status(500).send({
+        status: "Failed",
+        msg: error,
+      });
+    }
+  })();
+});
+
+//** Update a Bills List's Bill node
+app.put("/updateBillNodeByUserId", (req, res) => {
   const {
     user_id,
     bill_title,

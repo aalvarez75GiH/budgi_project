@@ -36,10 +36,21 @@ export const creatingBillRequest = async (createBillInfoForRequest) => {
       return error;
     });
 };
+export const updatingBillListRequest = async (billListToUpdate) => {
+  const { billsEndPoint } = environment;
+  return await axios
+    .put(`${billsEndPoint}/updateBillListByUserId`, billListToUpdate)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+};
 export const updatingBillRequest = async (updateBillInfoForRequest) => {
   const { billsEndPoint } = environment;
   return await axios
-    .put(`${billsEndPoint}/updateBillListByUserId`, updateBillInfoForRequest)
+    .put(`${billsEndPoint}/updateBillNodeByUserId`, updateBillInfoForRequest)
     .then((response) => {
       return response;
     })
