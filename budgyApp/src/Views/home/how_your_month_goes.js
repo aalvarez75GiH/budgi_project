@@ -9,12 +9,14 @@ import { theme } from "../../infrastructure/theme";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { CircularChartComponent } from "../../global_components/organisms/bar charts diagrams/circular_chart.component";
+import { BudgetsCircularChartComponent } from "../../global_components/organisms/bar charts diagrams/budgets_circular_chart.component";
 import { CenteredTextTileWithIcon } from "../../global_components/organisms/tiles/centered_text_with_icon_tile";
 import { useHowYourMonthGoesLogic } from "../../hooks/useHowYourMonthGoesLogic";
 import { EmptyInfoAlert } from "../../global_components/empty_info_alert";
 import { SafeArea } from "../../global_components/safe-area.component";
-import { SquaredRoundedOptionComponent } from "../../global_components/organisms/clickables options/squared_rounded_option.component";
 import { PayingBillsBottomSheet } from "../../global_components/bottom_sheets/paying_bills_bottom_sheet";
+import { ControlledContainer } from "../../global_components/containers/controlled_container";
+import { Text } from "../../infrastructure/typography/text.component";
 
 import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 
@@ -60,6 +62,7 @@ export const HowMonthIsGoingView = ({ navigation }) => {
     setBillsAmountPlusTransactionsAmount(billsAmountPlusTransactionsAmount);
 
     return () => {
+      // setModalActive(false);
       const settingTransactionsTotalAmountAndTotalBudgeted = async () => {
         setMonthSelected(month_name);
         const response =
@@ -78,19 +81,6 @@ export const HowMonthIsGoingView = ({ navigation }) => {
       settingTransactionsTotalAmountAndTotalBudgeted();
     };
   }, [bills_by_user]);
-
-  console.log("REAL INCOME TOTAL AMOUNT AT 1:", realIncomeTotalAmountOnDemand);
-  console.log("PERCENTAGE COMPLETED AT 1:", percentageCompleted);
-  console.log("OVER SPENT AMOUNT IN NEGATIVE AT 1:", overSpentAmountInNegative);
-  console.log("TILE SELECTED AT 1:", tile_selected);
-
-  const renderUnPaidBillItem = ({ item }) => {
-    const { status, bill_id } = item;
-    if (status === "Paused") {
-      return null;
-    }
-    return <SquaredRoundedOptionComponent item={item} bill_id={bill_id} />;
-  };
 
   if (totalAmountBudgeted === 0) {
     return (
@@ -124,57 +114,134 @@ export const HowMonthIsGoingView = ({ navigation }) => {
     <GestureHandlerRootView>
       <GeneralFlexContainer color={theme.colors.bg.p_FFFFFF}>
         <BottomSheetModalProvider>
-          <ExitHeaderWithMonthsOptionButtonComponent
-            navigation={navigation}
-            direction={"column"}
-            color={theme.colors.bg.p_FFFFFF}
-            // color={"#FAA"}
-            flexibility={0.12}
-            month_year_toRender={month_year_toRender}
-            month_year={month_year}
-            action={() => movingForwardToMonthsPadView(navigation)}
-            icon_left={"2%"}
-            icon_top={"10%"}
-          />
+          {modalActive && (
+            <ExitHeaderComponent
+              navigation={navigation}
+              direction={"column"}
+              color={theme.colors.bg.p_FFFFFF}
+              // color={"#FAA"}
+              flexibility={0.13}
+              justify={"center"}
+              icon_left={"80%"}
+              icon_top={"30%"}
+            />
+          )}
+          {!modalActive && (
+            <ExitHeaderWithMonthsOptionButtonComponent
+              navigation={navigation}
+              direction={"column"}
+              color={theme.colors.bg.p_FFFFFF}
+              // color={"#FAA"}
+              flexibility={0.12}
+              month_year_toRender={month_year_toRender}
+              month_year={month_year}
+              action={() => movingForwardToMonthsPadView(navigation)}
+              icon_left={"2%"}
+              icon_top={"10%"}
+            />
+          )}
 
           <FlexibleContainer
             color={theme.colors.bg.p_FFFFFF}
             // color={"lightblue"}
             direction="row"
             flexibility={Platform.OS === "ios" ? 0.35 : 0.37}
-            justify={"center"}
+            justify={
+              tile_selected === "Spent + bills vs income"
+                ? "space-between"
+                : "center"
+            }
             isBordered={false}
           >
             {tile_selected === "Spent vs budgeted" && (
-              <CircularChartComponent
+              <BudgetsCircularChartComponent
                 primaryAmount={totalTransactionsAmountOnDemand}
-                secondaryAmount={totalAmountBudgeted}
+                // secondaryAmount={totalAmountBudgeted}
+                secondaryAmount={
+                  overSpentAmountInNegative
+                    ? totalAmountBudgeted - totalTransactionsAmountOnDemand
+                    : totalAmountBudgeted
+                }
                 percentageCompleted={percentageCompleted}
-                secondaryLabel="Budgeted:"
-                overSpentAmountInNegative={overSpentAmountInNegative}
+                secondaryLabel={
+                  overSpentAmountInNegative ? "Over Spent: " : "Budgeted: "
+                }
+                // secondaryLabel="Budgeted:"
+                // overSpentAmountInNegative={overSpentAmountInNegative}
+                overSpentAmountInNegative={
+                  overSpentAmountInNegative === undefined
+                    ? 0
+                    : overSpentAmountInNegative
+                }
                 isSpinnerLoading={isSpinnerLoading}
+                thirdLabel="Over spent:"
               />
             )}
 
             {tile_selected === "Spent vs income" && (
-              <CircularChartComponent
+              <BudgetsCircularChartComponent
                 primaryAmount={totalTransactionsAmountOnDemand}
                 secondaryAmount={realIncomeTotalAmountOnDemand}
                 percentageCompleted={percentageCompleted}
-                secondaryLabel="Income: "
-                overSpentAmountInNegative={overSpentAmountInNegative}
+                // secondaryLabel="Income: "
+                secondaryLabel={
+                  overSpentAmountInNegative ? "Over Spent: " : "Income: "
+                }
+                overSpentAmountInNegative={
+                  overSpentAmountInNegative === undefined
+                    ? 0
+                    : overSpentAmountInNegative
+                }
                 isSpinnerLoading={isSpinnerLoading}
               />
             )}
             {tile_selected === "Spent + bills vs income" && (
-              <CircularChartComponent
-                primaryAmount={billsAmountPlusTransactionsAmount}
-                secondaryAmount={realIncomeTotalAmountOnDemand}
-                percentageCompleted={percentageCompleted}
-                secondaryLabel="Income: "
-                overSpentAmountInNegative={overSpentAmountInNegative}
-                isSpinnerLoading={isLoadingBillRequest}
-              />
+              <>
+                <ControlledContainer
+                  width={"20%"}
+                  height={"60%"}
+                  // color={"blue"}
+                  justify="center"
+                  alignment="center"
+                  direction="row"
+                ></ControlledContainer>
+                <BudgetsCircularChartComponent
+                  primaryAmount={billsAmountPlusTransactionsAmount}
+                  // secondaryAmount={realIncomeTotalAmountOnDemand}
+                  secondaryAmount={
+                    realIncomeTotalAmountOnDemand -
+                    (totalTransactionsAmountOnDemand + billsSelectedTotalAmount)
+                  }
+                  percentageCompleted={percentageCompleted}
+                  secondaryLabel={
+                    overSpentAmountInNegative ? "Over Spent: " : "Saved: "
+                  }
+                  // secondaryLabel="Income: "
+                  // overSpentAmountInNegative={overSpentAmountInNegative}
+                  overSpentAmountInNegative={
+                    overSpentAmountInNegative === undefined
+                      ? 0
+                      : overSpentAmountInNegative
+                  }
+                  isSpinnerLoading={isLoadingBillRequest}
+                />
+                <ControlledContainer
+                  width={"20%"}
+                  height={"60%"}
+                  // color={"blue"}
+                  justify="center"
+                  alignment="center"
+                  direction="column"
+                >
+                  <Text text_variant="bold_text_14">Income</Text>
+                  <Text text_variant="bold_text_12">
+                    {new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }).format(realIncomeTotalAmountOnDemand)}
+                  </Text>
+                </ControlledContainer>
+              </>
             )}
           </FlexibleContainer>
           <FlexibleContainer

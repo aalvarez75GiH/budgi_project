@@ -134,7 +134,7 @@ export const BudgetView = ({ navigation }) => {
     //   transactionsByMonthYear
     // );
     const donutChartGraphicNumbersWhenCategoryIsSelected = async () => {
-      if (!categorySelected || categorySelected.category_id == null) {
+      if (!categorySelected || categorySelected.category_id === null) {
         console.log(
           "categorySelected or categorySelected.category_id is null or undefined"
         );
@@ -149,6 +149,8 @@ export const BudgetView = ({ navigation }) => {
           firstCategoryDataExpenseCategories.overSpentAmountInPositive
         );
         return; // Exit the useEffect if the check fails
+      } else {
+        console.log("INITIAL CATEGORY SELECTED:", categorySelected);
       }
 
       packagingAndFilteringTransactionsAndAmountByCategoryBudget(
@@ -429,6 +431,16 @@ export const BudgetView = ({ navigation }) => {
                 alignment="center"
                 direction="row"
               ></ControlledContainer>
+              {/* <BudgetsCircularChartComponent
+                primaryAmount={200}
+                secondaryAmount={50}
+                percentageCompleted={0.5}
+                secondaryLabel={
+                  overSpentAmountInNegative < 0 ? "Over Spent: " : "Avail: "
+                }
+                overSpentAmountInNegative={1}
+                isSpinnerLoading={isLoading}
+              /> */}
               <BudgetsCircularChartComponent
                 primaryAmount={
                   categorySelected
@@ -442,7 +454,7 @@ export const BudgetView = ({ navigation }) => {
                 }
                 percentageCompleted={percentageCompleted}
                 secondaryLabel={
-                  overSpentAmountInNegative ? "Over Spent: " : "Avail: "
+                  overSpentAmountInNegative < 0 ? "Over Spent: " : "Avail: "
                 }
                 overSpentAmountInNegative={overSpentAmountInNegative}
                 isSpinnerLoading={isLoading}

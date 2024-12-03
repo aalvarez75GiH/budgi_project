@@ -20,7 +20,7 @@ export const PayingBillsBottomSheet = () => {
   console.log("MODAL ACTIVE AT ACTIVATING BILL BOTTOM SHEET:", modalActive);
 
   const bottomSheetModalRef = useRef(null);
-  const snapPoints = ["47%"];
+  const snapPoints = ["50%"];
 
   const [sortedBills, setSortedBills] = useState([]);
 

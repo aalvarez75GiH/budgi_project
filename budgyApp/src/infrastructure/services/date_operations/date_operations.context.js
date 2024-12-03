@@ -38,15 +38,15 @@ export const DateOperationsContextProvider = ({ children }) => {
   const [month_selected, setMonthSelected] = useState(
     month_selected ? month_selected : month_name
   );
-  console.log("MONTH YEAR TO RENDER AT DATE OPERATIONS:", month_year_toRender);
+  // console.log("MONTH YEAR TO RENDER AT DATE OPERATIONS:", month_year_toRender);
   //   ********* This function get month name and outcomes the acronym from month acronyms array
 
   const settingMonthYearForRequest = (month) => {
     const month_year_for_request = gettingAcronym(month);
-    console.log(
-      "MONTH YEAR FOR REQUEST AT DATE OPERATIONS:",
-      month_year_for_request
-    );
+    // console.log(
+    //   "MONTH YEAR FOR REQUEST AT DATE OPERATIONS:",
+    //   month_year_for_request
+    // );
     return month_year_for_request;
   };
 
@@ -98,19 +98,19 @@ export const DateOperationsContextProvider = ({ children }) => {
 
   const assemblingMonthAndDayForBillsDueDate = (digit) => {
     // do not accept double point
-    console.log("DIGIT AT ASSEMBLING:", digit);
-    console.log("MONTH NAME:", month_name);
+    // console.log("DIGIT AT ASSEMBLING:", digit);
+    // console.log("MONTH NAME:", month_name);
     const index = camel_month_acronyms.findIndex(
       (obj) => obj.month_name === month_name
     );
-    console.log(camel_month_acronyms[index].month_acronym);
+    // console.log(camel_month_acronyms[index].month_acronym);
     const month_day_for_bills_due_date = `${camel_month_acronyms[index].month_acronym} ${digit}`;
-    console.log("MONTH DAY FOR BILLS DUE DATE:", month_day_for_bills_due_date);
+    // console.log("MONTH DAY FOR BILLS DUE DATE:", month_day_for_bills_due_date);
     const billTimeStamp = creatingTimeStampForBill(
       month_day_for_bills_due_date
     );
 
-    console.log("BILL TIMESTAMP AT CONTEXT:", billTimeStamp);
+    // console.log("BILL TIMESTAMP AT CONTEXT:", billTimeStamp);
     const month_and_day_for_bills_due_date_info = {
       month_day_for_bills_due_date,
       billTimeStamp,
@@ -121,21 +121,21 @@ export const DateOperationsContextProvider = ({ children }) => {
   const creatingTimeStampForBill = (MonthDay) => {
     //  Parsing a date like 'Oct 20' to a Firestore Timestamp
     const [month, day] = MonthDay.split(" ");
-    console.log("MONTH, DAY:", [month, day]);
+    // console.log("MONTH, DAY:", [month, day]);
     // const year = new Date().getFullYear(); // Use the current year
-    console.log("YEAR:", year);
+    // console.log("YEAR:", year);
 
     const index = camel_month_acronyms.findIndex(
       (obj) => obj.month_acronym === month
     );
     const bill_month_number = camel_month_acronyms[index].month_number;
     const bill_month_number_parsed = parseInt(bill_month_number);
-    console.log("MONTH NUMBER PARSED:", bill_month_number_parsed);
+    // console.log("MONTH NUMBER PARSED:", bill_month_number_parsed);
 
     const date = new Date(year, bill_month_number_parsed, day);
     // const date = new Date(Date.UTC(year, bill_month_number_parsed, day));
     // const date = new Date(`${month} ${day}, ${year}`);
-    console.log("DATE:", date);
+    // console.log("DATE:", date);
     const seconds = Math.floor(date.getTime() / 1000);
     const nanoseconds = (date.getTime() % 1000) * 1e6;
 

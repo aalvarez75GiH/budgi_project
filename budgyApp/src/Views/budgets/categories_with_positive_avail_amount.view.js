@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 
 import { BackHeaderWithLabelComponent } from "../../global_components/organisms/headers/back_header_withLabel.component";

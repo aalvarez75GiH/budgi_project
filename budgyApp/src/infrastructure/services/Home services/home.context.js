@@ -85,10 +85,10 @@ export const HomeContextProvider = ({ children }) => {
     try {
       const bills_list_by_user = await getBillsList_By_UserID_Request(user_id);
       const { bills_by_user } = bills_list_by_user.data;
-      console.log(
-        "BILLS BY USER AT CONTEXT:",
-        JSON.stringify(bills_by_user, null, 2)
-      );
+      // console.log(
+      //   "BILLS BY USER AT CONTEXT:",
+      //   JSON.stringify(bills_by_user, null, 2)
+      // );
       bills_by_user.map((bill) => {
         if (bill.status === "Paused") {
           bills_paused_by_user.push(bill);
@@ -102,11 +102,11 @@ export const HomeContextProvider = ({ children }) => {
       const isSelectedBillsTotalAmount = isSelectedArray.reduce((acc, obj) => {
         return acc + obj.bill_amount;
       }, 0);
-      console.log("isSelectedArray:", JSON.stringify(isSelectedArray, null, 2)); // Log the isSelectedArray
-      console.log(
-        "IS SELECTED BILLS TOTAL AMOUNT AT CONTEXT:",
-        isSelectedBillsTotalAmount
-      );
+      // console.log("isSelectedArray:", JSON.stringify(isSelectedArray, null, 2)); // Log the isSelectedArray
+      // console.log(
+      //   "IS SELECTED BILLS TOTAL AMOUNT AT CONTEXT:",
+      //   isSelectedBillsTotalAmount
+      // );
       setBillsSelectedTotalAmount(isSelectedBillsTotalAmount);
       setBillsByUser(bills_by_user);
 
@@ -121,6 +121,7 @@ export const HomeContextProvider = ({ children }) => {
     }
   };
 
+  console.log(" SET MONDAL ACTIVE AT CONTEXT:", modalActive);
   // ********************************************************************
 
   const changingBillsPaymentDateToCurrentMonth = async () => {
@@ -131,25 +132,26 @@ export const HomeContextProvider = ({ children }) => {
       const { payment_date } = bill;
       const payment_date_splitted = payment_date.split(" ");
       const payment_date_digit = payment_date_splitted[1];
-      console.log("PAYMENT DUE DATE SPLITTED:", payment_date_splitted);
+      // console.log("PAYMENT DUE DATE SPLITTED:", payment_date_splitted);
       const month_day_for_bills_due_date =
         assemblingMonthAndDayForBillsDueDate(payment_date_digit);
-      console.log(
-        "PAYMENT DUE DATE:",
-        JSON.stringify(month_day_for_bills_due_date, null, 2)
-      );
+      // console.log(
+      //   "PAYMENT DUE DATE:",
+      //   JSON.stringify(month_day_for_bills_due_date, null, 2)
+      // );
       bill.payment_date =
         month_day_for_bills_due_date.month_day_for_bills_due_date;
       bill.payment_date_timeStamp = month_day_for_bills_due_date.billTimeStamp;
+      bill.isSelected = false;
     });
-    console.log(
-      "BILLS BY USER AFTER CHANGING PAYMENT DATE:",
-      JSON.stringify(bills_by_user, null, 2)
-    );
-    console.log(
-      "BILL LIST BY USER AFTER CHANGING PAYMENT DATE:",
-      JSON.stringify(bills_list_by_user.data, null, 2)
-    );
+    // console.log(
+    //   "BILLS BY USER AFTER CHANGING PAYMENT DATE:",
+    //   JSON.stringify(bills_by_user, null, 2)
+    // );
+    // console.log(
+    //   "BILL LIST BY USER AFTER CHANGING PAYMENT DATE:",
+    //   JSON.stringify(bills_list_by_user.data, null, 2)
+    // );
     try {
       await updatingBillListRequest(bills_list_by_user.data);
     } catch (error) {
@@ -250,10 +252,10 @@ export const HomeContextProvider = ({ children }) => {
           bill_title: newBillName,
           bill_short_name: newBillName,
         }));
-        console.log(
-          "UPDATE BILL INFO FOR REQUEST:",
-          JSON.stringify(updateBillInfoForRequest, null, 2)
-        );
+        // console.log(
+        //   "UPDATE BILL INFO FOR REQUEST:",
+        //   JSON.stringify(updateBillInfoForRequest, null, 2)
+        // );
         navigation.navigate("Enter_amount_view", {
           comingFrom: "update_bill_name_view",
         });
@@ -321,8 +323,8 @@ export const HomeContextProvider = ({ children }) => {
     // const billTimeStamp = creatingTimeStampForBill(day);
 
     // *******************************************************
-    console.log("PAYMENT DUE DATE:", month_day_for_bills_due_date);
-    console.log("ACTION TO DO:", action_to_do);
+    // console.log("PAYMENT DUE DATE:", month_day_for_bills_due_date);
+    // console.log("ACTION TO DO:", action_to_do);
     if (action_to_do === "create_bill") {
       setCreateBillInfoForRequest((prevState) => ({
         ...prevState,
@@ -350,10 +352,7 @@ export const HomeContextProvider = ({ children }) => {
   // ************** BILLS OPERATIONS ****************
   const creatingBillAtListByUserId = async (navigation) => {
     setIsLoadingBillRequest(true);
-    console.log(
-      "WE SHOULD BE CREATING THE BILL AT LIST BY USER ID:",
-      JSON.stringify(createBillInfoForRequest, null, 2)
-    );
+
     try {
       const response = await creatingBillRequest(createBillInfoForRequest);
       if (response) {
@@ -367,18 +366,15 @@ export const HomeContextProvider = ({ children }) => {
 
   const updatingBillListByUserId = async (navigation) => {
     setIsLoadingBillRequest(true);
-    console.log(
-      "WE SHOULD BE UPDATING THE BILL LIST BY USER ID:",
-      JSON.stringify(updateBillInfoForRequest, null, 2)
-    );
+
     try {
       const response = await updatingBillRequest(updateBillInfoForRequest);
       if (response) {
         setIsLoadingBillRequest(false);
-        console.log(
-          "BILL LIST UPDATED RESPONSE AT CONTEXT:",
-          JSON.stringify(response.data, null, 2)
-        );
+        // console.log(
+        //   "BILL LIST UPDATED RESPONSE AT CONTEXT:",
+        //   JSON.stringify(response.data, null, 2)
+        // );
         // setNewCategoryAdded(true);
         navigation.navigate("bill_confirmation_view");
       }
@@ -398,10 +394,10 @@ export const HomeContextProvider = ({ children }) => {
       const response = await removingBillFromBillsListRequest(user_id, bill_id);
       if (response) {
         setIsLoadingBillRequest(false);
-        console.log(
-          "BILL LIST UPDATED RESPONSE AT CONTEXT:",
-          JSON.stringify(response.data, null, 2)
-        );
+        // console.log(
+        //   "BILL LIST UPDATED RESPONSE AT CONTEXT:",
+        //   JSON.stringify(response.data, null, 2)
+        // );
         navigation.navigate("bill_confirmation_view");
       }
     } catch (error) {
@@ -456,10 +452,10 @@ export const HomeContextProvider = ({ children }) => {
         bill_id
       );
       if (response.status === 200) {
-        console.log(
-          "RESPONSE AT ACTION AT HOME CONTEXT:",
-          JSON.stringify(response.data, null, 2)
-        );
+        // console.log(
+        //   "RESPONSE AT ACTION AT HOME CONTEXT:",
+        //   JSON.stringify(response.data, null, 2)
+        // );
         const { bills_by_user } = response.data;
         // *****************************************
         bills_by_user.map((bill) => {
@@ -467,10 +463,10 @@ export const HomeContextProvider = ({ children }) => {
             isSelectedArray.push(bill);
           }
         });
-        console.log(
-          "IS SELECTED ARRAY:",
-          JSON.stringify(isSelectedArray, null, 2)
-        );
+        // console.log(
+        //   "IS SELECTED ARRAY:",
+        //   JSON.stringify(isSelectedArray, null, 2)
+        // );
 
         const isSelectedBillsTotalAmount = isSelectedArray.reduce(
           (acc, obj) => {
@@ -478,10 +474,10 @@ export const HomeContextProvider = ({ children }) => {
           },
           0
         );
-        console.log(
-          "IS SELECTED ARRAY TOTAL AMOUNT AT CONTEXT:",
-          isSelectedBillsTotalAmount
-        );
+        // console.log(
+        //   "IS SELECTED ARRAY TOTAL AMOUNT AT CONTEXT:",
+        //   isSelectedBillsTotalAmount
+        // );
         setBillsSelectedTotalAmount(isSelectedBillsTotalAmount);
 
         // *****************************************

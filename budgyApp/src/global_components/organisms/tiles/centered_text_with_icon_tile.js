@@ -16,8 +16,10 @@ export const CenteredTextTileWithIcon = ({
   action,
   tile_selected,
 }) => {
-  //   console.log("CAPTION: ", caption);
-  //   console.log("TILE SELECTED: ", tile_selected);
+  console.log("CAPTION: ", caption);
+  console.log("TILE SELECTED: ", tile_selected);
+  console.log("ICON NAME: ", icon_name);
+
   return (
     <TilesContainer
       onPress={action}

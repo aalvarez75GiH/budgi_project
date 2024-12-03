@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Platform } from "react-native";
 
 import { TwoIconsHeaderComponent } from "../../global_components/organisms/headers/two_icons.header";
@@ -11,20 +11,12 @@ import { InfoDetailsTile } from "../../global_components/organisms/tiles/info_de
 import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
 
-import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
 import { DateOperationsContext } from "../../infrastructure/services/date_operations/date_operations.context";
 import { CategoryDataContext } from "../../infrastructure/services/category_data/category_data.context";
 
 export const MoneyTransferConfirmationView = ({ navigation, route }) => {
-  //   const { comingFrom } = route.params;
-  // ****************LOGIC FROM HOOK ********
-
-  const {
-    categoryDataInfoForMoneyTransfer,
-    movingBackToHome,
-    isLoadingCategoryDataContext,
-    doingCategoriesMoneyTransfer,
-  } = useContext(CategoryDataContext);
+  const { categoryDataInfoForMoneyTransfer, movingBackToHome } =
+    useContext(CategoryDataContext);
   console.log(
     "CATEGORY DATA INFO FOR TRANSFER AT SUMMARY VIEW:",
     JSON.stringify(categoryDataInfoForMoneyTransfer, null, 2)
@@ -55,6 +47,7 @@ export const MoneyTransferConfirmationView = ({ navigation, route }) => {
         icon_left_left={"2%"}
         icon_top_right={"0%"}
         icon_left_right={"80%"}
+        icon_left_size={25}
       />
 
       <ControlledContainer

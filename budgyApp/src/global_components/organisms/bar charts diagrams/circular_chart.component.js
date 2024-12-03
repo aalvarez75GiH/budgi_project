@@ -14,6 +14,7 @@ export const CircularChartComponent = ({
   secondaryLabel,
   overSpentAmountInNegative,
   isSpinnerLoading,
+  thirdLabel,
 }) => {
   const radius = PixelRatio.roundToNearestPixel(130);
   return (
@@ -47,6 +48,7 @@ export const CircularChartComponent = ({
               color={theme.colors.bg.s_142223C}
               secondaryLabel={secondaryLabel}
               overSpentAmountInNegative={overSpentAmountInNegative}
+              // thirdLabel={""}
             />
           </ChartContainer>
           <ChartContainer radius={radius}>
@@ -64,6 +66,7 @@ export const CircularChartComponent = ({
               }
               secondaryLabel={secondaryLabel}
               overSpentAmountInNegative={overSpentAmountInNegative}
+              thirdLabel={thirdLabel}
             />
           </ChartContainer>
         </>

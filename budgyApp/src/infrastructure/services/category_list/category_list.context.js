@@ -59,9 +59,25 @@ export const CategoryListContextProvider = ({ children }) => {
   const [categoryActivated, setCategoryActivated] = useState(false);
   const [categorySuspended, setCategorySuspended] = useState(false);
   // const [action_to_do, setAction_to_do] = useState("");
-  const [categorySelected, setCategorySelected] = useState(
-    firstCategoryDataExpenseCategories
-  );
+  // const [categorySelected, setCategorySelected] = useState(
+  //   firstCategoryDataExpenseCategories
+  // );
+  const [categorySelected, setCategorySelected] = useState({
+    amount_avail: 62.81,
+    category_id: "d7fa7d3f-29aa-460a-b8ce-7233b8fcea52",
+    amount_spent: 200.18,
+    category_name: "Ants expenses",
+    icon_name: "AntsExpensesIcon",
+    limit_amount: 200,
+    overSpentAmountInNegative: -74.37,
+    overSpentAmountInPositive: 74.37,
+    percentageCompleted: 0.68,
+    short_name: "Ants exp.",
+    status: "active",
+    type: "Default",
+    updated: false,
+    updated_on: "2021-09-29T00:00:00.000Z",
+  });
   const [suspendedCategories, setSuspendedCategories] = useState([]);
 
   useEffect(() => {

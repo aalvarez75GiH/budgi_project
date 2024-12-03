@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 
 import { SafeArea } from "../../global_components/safe-area.component";
 import { BackHeaderWithLabelAndCancelButton } from "../../global_components/organisms/headers/back_header+label+cancel.header";
@@ -10,12 +10,12 @@ import { theme } from "../../infrastructure/theme";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { LinkButton } from "../../global_components/buttons/link_button";
-
 import { TextFormInputComponent } from "../../global_components/organisms/inputs/textFormInput.component";
 import { RegularCTAButton } from "../../global_components/buttons/cta_btn";
+import { Text } from "../../infrastructure/typography/text.component";
+import { ControlledContainer } from "../../global_components/containers/controlled_container";
 
 import { CategoryListContext } from "../../infrastructure/services/category_list/category_list.context";
-import { ControlledContainer } from "../../global_components/containers/controlled_container";
 import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 
 export const GeneralNewNameView = ({ navigation, route }) => {
@@ -223,6 +223,7 @@ export const GeneralNewNameView = ({ navigation, route }) => {
                 type={bill_type}
                 caption={"Bill name"}
               />
+
               {updateBillName.length > 0 && (
                 <LinkButton
                   caption="Clear"

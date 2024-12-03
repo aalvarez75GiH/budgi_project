@@ -78,7 +78,6 @@ export const TextFormInputComponent = ({
             }}
             underlineColor={theme.colors.neutrals.p_B7B7B7}
             activeUnderlineColor={theme.colors.neutrals.p_B7B7B7}
-            keyboardType={"text"}
             onFocus={() => null}
             disabled={type === "by_user" ? false : true}
             // textBreakStrategy="simple"

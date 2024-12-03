@@ -62,8 +62,8 @@ export const useHowYourMonthGoesLogic = () => {
     setTimeout(() => {
       setIsSpinnerLoading(false);
       setIsLoadingBillRequest(false);
+      set_tile_selected(option);
     }, 800);
-    set_tile_selected(option);
   };
 
   const movingForwardToMonthsPadView = (navigation) => {

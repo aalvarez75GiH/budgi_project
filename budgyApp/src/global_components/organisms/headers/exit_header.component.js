@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { FlexibleContainer } from "../../containers/flexible_container";
 import { SVGComponent } from "../../image_components/svg.component";
 import { SVG_Clickable_Component } from "../../image_components/svg_clickable.component";
+import { HomeContext } from "../../../infrastructure/services/Home services/home.context";
 
 export const ExitHeaderComponent = ({
   navigation,
@@ -13,7 +14,9 @@ export const ExitHeaderComponent = ({
   icon_top,
   icon_left,
 }) => {
+  const { setModalActive } = useContext(HomeContext);
   const closingMenu = () => {
+    setModalActive(false);
     navigation.goBack();
   };
 

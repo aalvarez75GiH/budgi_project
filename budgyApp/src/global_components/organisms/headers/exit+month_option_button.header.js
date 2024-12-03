@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { FlexibleContainer } from "../../containers/flexible_container";
 import { ControlledContainer } from "../../containers/controlled_container";
@@ -7,8 +7,6 @@ import { SVG_Clickable_Component } from "../../image_components/svg_clickable.co
 import { RoundedOptionButton } from "../../buttons/rounded_option_button";
 import { theme } from "../../../infrastructure/theme";
 import { Spacer } from "../../optimized.spacer.component";
-
-import { HomeContext } from "../../../infrastructure/services/Home services/home.context";
 
 export const ExitHeaderWithMonthsOptionButtonComponent = ({
   navigation,
@@ -21,9 +19,7 @@ export const ExitHeaderWithMonthsOptionButtonComponent = ({
   icon_left,
   icon_top,
 }) => {
-  const { setModalActive } = useContext(HomeContext);
   const closingMenu = () => {
-    setModalActive(false);
     navigation.goBack();
   };
 

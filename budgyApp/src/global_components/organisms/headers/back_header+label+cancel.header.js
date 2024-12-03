@@ -35,7 +35,7 @@ export const BackHeaderWithLabelAndCancelButton = ({
         <Text text_variant="bold_text_20">{caption}</Text>
       </HeaderLabelContainer>
       <ClickableControlledContainer
-        width={"20%"}
+        width={"22%"}
         height={"55px"}
         justify="center"
         alignment="center"

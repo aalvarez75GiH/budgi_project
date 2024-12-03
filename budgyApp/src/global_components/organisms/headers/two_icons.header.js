@@ -1,11 +1,9 @@
 import React from "react";
 
 import { FlexibleContainer } from "../../containers/flexible_container";
-import { SVGComponent } from "../../image_components/svg.component";
 import { SVG_Clickable_Component } from "../../image_components/svg_clickable.component";
 
 export const TwoIconsHeaderComponent = ({
-  navigation,
   color,
   flexibility,
   direction,

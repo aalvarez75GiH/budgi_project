@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 
 import { theme } from "../../infrastructure/theme";
 import { NumPadComponent } from "../../global_components/organisms/pads/num_pad";
@@ -12,8 +12,10 @@ import { FooterMenuContainer } from "../../global_components/organisms/menu-foot
 import { GeneralFlexContainer } from "../../global_components/containers/general_flex_container";
 import { useHomeLogic } from "../../hooks/useHomeLogic";
 
+import { HomeContext } from "../../infrastructure/services/Home services/home.context";
 export const Home = ({ navigation }) => {
   const { movingToSelectCategory, number } = useHomeLogic();
+  const { setModalActive } = useContext(HomeContext);
 
   return (
     <GeneralFlexContainer color={theme.colors.bg.s_142223C}>
@@ -79,15 +81,6 @@ export const Home = ({ navigation }) => {
           />
         )}
       </FlexibleContainer>
-      {/* <FlexibleContainer
-        direction={"row"}
-        // color={"yellow"}
-        color={theme.colors.bg.s_142223C}
-        flexibility={0.5}
-        justify={"center"}
-      >
-        <FooterMenuContainer color={theme.colors.brand.quaternary} />
-      </FlexibleContainer> */}
     </GeneralFlexContainer>
   );
 };

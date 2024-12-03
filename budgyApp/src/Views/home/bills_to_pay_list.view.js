@@ -1,12 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import {
-  FlatList,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList, TouchableWithoutFeedback } from "react-native";
 
-import { ExitHeaderComponent } from "../../global_components/organisms/headers/exit_header.component";
 import { FlexibleContainer } from "../../global_components/containers/flexible_container";
 import { theme } from "../../infrastructure/theme";
 import { Text } from "../../infrastructure/typography/text.component";
@@ -214,7 +208,7 @@ export const BillsToPayListView = ({ navigation }) => {
           showsVerticalScrollIndicator={false}
           data={bills_by_user}
           renderItem={renderBillItem}
-          keyExtractor={(item, id) => {
+          keyExtractor={(item) => {
             return item.bill_id;
           }}
         />
@@ -235,7 +229,7 @@ export const BillsToPayListView = ({ navigation }) => {
         />
         <ControlledContainer
           color={theme.colors.neutrals.e3_D6D6D6}
-          width={"50%"}
+          width={"40%"}
           height={"45px"}
           justify="center"
           alignment="flex-start"
@@ -244,12 +238,12 @@ export const BillsToPayListView = ({ navigation }) => {
         </ControlledContainer>
         <ControlledContainer
           color={theme.colors.neutrals.e3_D6D6D6}
-          width={"45%"}
+          // color={"red"}
+          width={"25%"}
           height={"45px"}
           justify="center"
-          alignment="flex-start"
+          alignment="center"
         >
-          {/* <Text text_variant="bold_text_16">{bills_total_amount}</Text> */}
           <Text text_variant="bold_text_16">
             {new Intl.NumberFormat("en-US", {
               style: "currency",
