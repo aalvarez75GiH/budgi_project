@@ -1,0 +1,52 @@
+export const colors = {
+  brand: {
+    primary: "#14223C",
+    secondary: "#FC9827",
+    tertiary: "#FFFFFF",
+    quaternary: "#1F345C",
+  },
+  ui: {
+    p_142223C: "#14223C",
+    s_FFFFFF: "#FFFFFF",
+    t_FC9827: "#FC9827",
+    q_B7B7B7: "#B7B7B7",
+    error_cancels: "#FA462D",
+    success: "#0DB21E",
+  },
+  bg: {
+    p_FFFFFF: "#FFFFFF",
+    s_142223C: "#14223C",
+    e_F4F4F4: "#F4F4F4",
+  },
+  neutrals: {
+    p_B7B7B7: "#B7B7B7",
+    s_898989: "#898989",
+    t_F9F9FA: "#F9F9FA",
+    q_E5E5E5: "#E5E5E5",
+    e1_F4F4F4: "#F4F4F4",
+    e2_F5F5F5: "#F5F5F5",
+    e3_D6D6D6: "#D6D6D6",
+  },
+  text: {
+    p_142223C: "#14223C",
+    s_FFFFFF: "#FFFFFF",
+    t_898989: "#898989",
+    disabled: "#B7B7B7",
+    error_cancels: "#FA462D",
+    success: "#0DB21E",
+  },
+  inputs: {
+    p_FFFFFF: "#FFFFFF",
+    title: "#898989",
+    text: "#14223C",
+    error_cancels: "#FA462D",
+  },
+  buttons: {
+    p_FC9827: "#FC9827",
+    s_142223C: "#14223C",
+    t_E5E5E5: "#E5E5E5",
+    error_cancels: "#FA462D",
+    e_F4F4F4: "#F4F4F4",
+    e2_5B6477: "#5B6477",
+  },
+};
